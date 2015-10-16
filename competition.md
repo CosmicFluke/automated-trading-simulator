@@ -1,4 +1,5 @@
-Ninja Trader 7 -
+Ninja Trader 7
+
     - Our Product will be targetted towards a beginner audience. 
       One that isn't completely comfortable with trading or knows how it works.
 
