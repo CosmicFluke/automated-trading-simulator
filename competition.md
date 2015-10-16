@@ -1,7 +1,7 @@
 Ninja Trader 7 -
     - Our Product will be targetted towards a beginner audience. 
       One that isn't completely comfortable with trading or knows how it works.
-      
+
     - Ninja Trader is very much targetted towards a very advanced user/trader.
       Upon first opening the tool, you're greeted with a bombardment of 4 windows, 3
       of which are graphs with red and green lines. A view most likely familiar to
@@ -13,7 +13,7 @@ Ninja Trader 7 -
 
     - I believe this tool is focused on the advanced users because it appeals to larger
       firms and traders who are experienced with how to trade and know all the terms
-      associated with the __buisness__. These larger firms invest a lot of money into
+      associated with the business. These larger firms invest a lot of money into
       good tools and are willing to pay big bucks for it.
 
     - In order to catch up small users an inexperienced users, they focus on directing
