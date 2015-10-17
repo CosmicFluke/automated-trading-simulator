@@ -1,6 +1,6 @@
 Ninja Trader 7
 
-    - Our Product will target beginner audience, who may not necessarily be comfortable 
+    - Our Product will target the beginner audience, who may not necessarily be comfortable 
       with trading or even understand how it works.
 
     - Ninja Trader targets very advanced users/traders.
