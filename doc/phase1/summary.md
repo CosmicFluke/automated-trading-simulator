@@ -1,21 +1,22 @@
 # Proposal for Algorithmic Trading Simulator
 
-## Objectives:
+## Objective:
 
- Our aim is to create an application which small clients and inexperienced traders can optimize their trading algorithms on. The application will have an UI that takes in a set of algorithms as user-input and run it against historical market data. Our application will make algorithmic trading easy for people with little to no experiences.
+Our aim is to create an application that provides a platform on which non-professional or inexperienced traders can optimize their trading algorithms. The application will have an UI that takes in a set of algorithms as user-input and run it against historical market data. Our application will make algorithmic trading easy for everyone.
 
 ## Key Personas
 
-###John the Economic student: 
-John has a strong business background and wants to try his hands at algorithmic trading, but before he puts his money on the line, he wants some evidence that his algorithm works. This can only be achieved by running it on historical data. After a long and exhaustive search on the internet, he was not able to find a good tool within a reasonable price range and learning curve to do this.
+### John the economic student: 
+John has a strong business background and taught himself the basics of algorithmic trading through books and online resources. He wants to try the strategies he learned, but before investing his savings, he wants some evidence that his algorithm works. This can  be achieved by testing his algorithms on historical data. However, after a long and exhaustive search on the Internet, he was not able to find a good tool within a reasonable price range and a easy enough learning curve to start with.
 
-###Momma Alice:
-Alice is mother to two twin boys and working part time as a day trader. Her husband works in sales and frequently engages in day trade as well. However, their income fluctuates due to the unpredictabilty of the market. Alice would like to bring in a more stable income in order to raise their children by improving their trading strategies. In order to do this, Alice must have a good tool to test her algorithms on historical market data.
+### Alice the mom:
+Alice is a mother of two boys and a part-time day trader. Her husband works in sales and frequently engages in day trading as well. However, trading takes a lot of time out of their busy lives, and they would really like to automate their rather defined set of strategy with a computer program. With this in mind, they are looking for a easy to use software that can let them try out how it would be like to automate their trades instead of having to watch the market themselves.
 
 ## Use cases
 
-1. As an economic student user, I want to use a free application before committing to a paid advanced tool to test my hypothesis on historical data. (Priority: high. Difficulty: med) 
-2. As a part-time user, I want to learn and build algorithmic trading so that I can become more advanced trader to earn higher and stable profits. (Priority: high. Difficulty: high) 
+1. As an economic student user, I want to use a free application before committing to a paid advanced tool to test my hypothesis on historical data. (Priority: high. Difficulty: med)
+
+2. As a part-time user, I want to learn and build algorithmic trading so that I can become more advanced trader to earn higher and stable profits. (Priority: high. Difficulty: high)
  
 ## Key Principals
 The application should be easy to use for someone who has a background in trading but minimal programming experience.
