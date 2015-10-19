@@ -95,7 +95,7 @@ Time Periods:
 
 **`loadResults`** - User specifies a filename and app displays the saved results of a test scenario run.  Usage: `loadResults [filename]`
 
-##Algorithm Modification Commands
+###Algorithm Modification Commands
 
 **`newRule`** - Create a new rule for this algorithm.
 * A rule consists of a set of conditions and a set of actions.
@@ -125,7 +125,7 @@ Alg Algo1 | newRule | Conditions > C1_
 
 **`saveAlgorithm`** - Saves the modifications to disk
 
-##Test Scenario Modification Commands
+###Test Scenario Modification Commands
 
 **`listAlgorithms`** - Displays a list of algorithm names with their parameters.
 
@@ -136,5 +136,5 @@ Usage: `addAlgorithm [name]`
 Usage: `addTime [Start YYYYMMDD] [End YYYYMMDD]`
 
 
-##Note
+###Note
 In addition to the command line UI, the executable will be able to take a text file with structured commands as input.  This will be extremely useful for testing.
