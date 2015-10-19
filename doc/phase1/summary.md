@@ -31,3 +31,7 @@ Maggie would like to bring in a more predictable income, with less day-to-day wo
   * The application will recommend default configurations for statistically reliable testing
 * Output should be easy to read for the purpose of gaining insight on the effectiveness of the algorithm
 * The software should allow algorithms to be created for all kinds of market actions that a trader would want to perform in a real-life trading situation.
+
+###UX
+* The application will run using a custom command line designed for ease of use.
+* Preliminary UX details can be found in the Markdown file UX.md
