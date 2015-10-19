@@ -30,7 +30,9 @@
 ```
 
 **`[Hh]elp`** - display commands available to user or help on a specific command
+
 **`[Bb]ack`** - go back to the previous menu level -- may be prompted to save changes
+
 **`[Ee]xit`** - quit the program -- may be prompted to save changes
 
 **`viewAlg`** - view an existing algorithm
