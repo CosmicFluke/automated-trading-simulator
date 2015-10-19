@@ -14,9 +14,11 @@ Maggie is mother of two boys and a part-time day trader. She holds an undergradu
 
 ## Scenarios
 ​
-1. Eduardo the wants to try his hand at algorithmic trading, but before investing his savings, he wants some evidence that his algorithm works. This can be achieved through back testing. After a long and exhaustive search on the Internet, he was not able to find a good tool within a reasonable price range and has a relatively shallow learning curve to start with. As a student user, he wants to use a free application before committing to a paid advanced tool to test his hypotheses on historical data. (Priority: high. Difficulty: med)
+1. Economics Student
+Eduardo the wants to try his hand at algorithmic trading, but before investing his savings, he wants some evidence that his algorithm works. This can be achieved through back testing. After a long and exhaustive search on the Internet, he was not able to find a good tool within a reasonable price range and has a relatively shallow learning curve to start with. As a student user, he wants to use a free application before committing to a paid advanced tool to test his hypotheses on historical data. (Priority: high. Difficulty: med)
 ​
-2. Maggie would like to bring in a more predictable income, with less day-to-day work, by improving her trading strategies. A friend told her about automated trading. She doesn't have the expertise, nor the time to learn about financial mathematics, but she'd like to try out some simple automated trading algorithms. To help mitigate the risk and test her methods, she's looking for an easy-to-learn tool that'll simulate results and help her learn to trade effectively using algorithms. (Priority: high. Difficulty: high) 
+2. Market Momma
+Maggie would like to bring in a more predictable income, with less day-to-day work, by improving her trading strategies. A friend told her about automated trading. She doesn't have the expertise, nor the time to learn about financial mathematics, but she'd like to try out some simple automated trading algorithms. To help mitigate the risk and test her methods, she's looking for an easy-to-learn tool that'll simulate results and help her learn to trade effectively using algorithms. (Priority: high. Difficulty: high) 
 
 ## Key Principles
 * Simple, easy-to-navigate terminal interface
