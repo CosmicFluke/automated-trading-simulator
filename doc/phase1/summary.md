@@ -14,11 +14,12 @@ Alice is a mother of two boys and a part-time day trader. Her husband works in s
 
 ## Use cases
 
-1. As an economic student user, I want to use a free application before committing to a paid advanced tool to test my hypothesis on historical data. (Priority: high. Difficulty: med)
+1. As an economic student user, I want to use a free, easy to learn application before committing to a paid advanced tool to test my hypothesis on historical data. (Priority: high. Difficulty: med)
 
-2. As a part-time user, I want to learn and build algorithmic trading so that I can become more advanced trader to earn higher and stable profits. (Priority: high. Difficulty: high)
+2. As a busy user, use a computer program to automate my trades. But before doing so, I want to test my strategies on historical data so I do not make serious mistakes with real money. I do not have experience with trading softwares, so I want something that is easy to use with a shallow learning curve. (Priority: high. Difficulty: high)
  
 ## Key Principals
-The application should be easy to use for someone who has a background in trading but minimal programming experience.
-We will give user the option to load the historical data of their choice of stock, upload their algorithms and run it against the historical data and to save and modify existing algorithms.
-Two major actions in the algorithms are 'buy when <condition>' and 'sell when <condition>
+1. The application should be easy to use for someone who has a background in trading but minimal programming experience.
+2. The application should allow the user to load the historical data of their choice of stock, upload their algorithms and run it against the historical data and to save and modify existing algorithms.
+3. Two major actions in the algorithms are 'buy when <condition>' and 'sell when <condition>'.
+4. The software should allow algorithms to be created for all kinds of market actions that a trader would want to perform in a real-life trading situation.
