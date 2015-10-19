@@ -50,10 +50,14 @@ Displaying Algorithm: SimpleBuyCheap
 
 Parameters: ITEM, BUYTHRESHOLD, MINBALANCE, NUMSHARES
 
-:: Rule ::
-Trigger: [ITEM] drops below [BUYTHRESHOLD=0]
-Conditions: Account balance is greater than [MINBALANCE=0]
-Action: Buy [NUMSHARES=1] units of [ITEM]
+:: Rule 1 ::
+
+Conditions: 
+ * [ITEM] drops below [BUYTHRESHOLD=0]
+ * Account balance is greater than [MINBALANCE=0]
+
+Actions:
+ * Buy [NUMSHARES=1] units of [ITEM]
 
 > _
 ```
