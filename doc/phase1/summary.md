@@ -9,7 +9,7 @@ This application will be a platform for non-professional traders to test and opt
 1. Eduardo the Economics Student: 
 Eduardo is a student of International Economics and Finance at Ryerson University. Due to his education, Eduardo has a strong understanding of market forces, and in addition he has taught himself the basics of algorithmic trading through books and online resources. He has also studied some financial mathematics, but hasn't applied it to his trading. He has spent some time building a small securities portfolio.
 
-1. Market Momma Maggie:
+2. Market Momma Maggie:
 Maggie is mother of two boys and a part-time day trader. She holds an undergraduate degree in psychology, where she gained some experience with statistical software SPSS, but generally she's not accustomed to highly technical software. Trading takes a lot of time out of her busy life, and she would really like to automate her rather defined set of strategy with a computer program so she can spend more time with her kids. With this in mind, she is looking for a easy to use software that can let her try out how it would be like to automate her trades instead of having to watch the market herself.
 
 ## Scenarios
