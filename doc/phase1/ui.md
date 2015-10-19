@@ -63,7 +63,8 @@ Usage: modifyAlg [name]
 Algo1 > _
 ```
 
-Modification commands include:
+Algorithm Modification commands include:
+
 **`newRule`** - Create a new rule for this algorithm.
 * A rule consists of a set of conditions and a set of actions.
 * Rules and actions are defined using the commands `newCondition` and `newAction`
@@ -72,7 +73,7 @@ Modification commands include:
   * The user will then be shown a list of actions, and prompted to select a set of actions using identifiers
 
 Example:
-'''
+```
 Algo1 > newRule
 Select conditions.  Enter IDs separated by spaces.
 C1 : [ITEM] price greater than [HIGHTHRESHOLD]
