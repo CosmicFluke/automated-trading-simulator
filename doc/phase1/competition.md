@@ -11,3 +11,13 @@
 * In order to help small users and inexperienced users catch up, Ninja Trader focus on directing them towards videos, yet still assume that users are knowledgeable of all the terms used to describe the market.
 
 * Our product will provide more direct assistance to small businesses and individual traders by orienting our user-centered design towards non-professionals.
+ 
+#RightEdge
+
+* The UI feels like a programming IDE. To get around would require a lot of knowledge about the system. Our UI aims to be simplistic and quick to start testing with simple algorithms.
+
+* Requires programming knowledge to implement algorithms. Uses C# which is not aimed at users who want to test a simple heuristic or algorithm. The variable names have no semantics and would require lookup to figure out what they are related. We plan on using simple "if this then that" format using a language with semantics.
+
+* Data is only available from certain sources. There is no import function to provide your own data. Our product will allow you to import from csv files to begin with and will be looking into integrating with online services.
+
+* RightEdge is aimed at microsecond transactions are a high frequency per day. Our product is aimed low frequency trading on a day to day or even week to week basis.

@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Console;
 import java.io.File;
+import java.lang.InterruptedException;
 
 public class dataDownloader{
 	
@@ -30,20 +31,21 @@ public class dataDownloader{
 						symbol.replace(".", "-");
 					}
 					Desktop.getDesktop().browse(new URI("http://real-chart.finance.yahoo.com/table.csv?s="+ 
-														symbol + 
-														"&d=9&e=18&f=2015&g=d&a=1&b=28&c=1996&ignore=.csv"));
+														symbol));
 					names[n] = symbol;
-					System.out.println(symbol);
+					System.out.println(i + ": " + symbol);
 					n++;
 					if(limit == i){
-						line = console.readLine("flow control:");
+						//line = console.readLine("flow control:");
+						Thread.sleep(10000); 
 						for (int j = 1; j <= n; j++){
 							File oldf = new File("/Users/billfeng/Downloads/table (" + j + ").csv");
 							File newf = new File("/Users/billfeng/Downloads/" + names[j - 1] + ".csv");
 							oldf.renameTo(newf);
 						}
-						limit += Integer.parseInt(line);
-						names = new String[Integer.parseInt(line)];
+						//limit += Integer.parseInt(line);
+						limit++;
+						//names = new String[Integer.parseInt(line)];
 						n = 0;
 					}
 					i++;
@@ -53,6 +55,8 @@ public class dataDownloader{
 				System.out.println(e);
 			}catch(URISyntaxException u){
 				System.out.println(u);
+			}catch(InterruptedException i){
+				System.out.println(i);
 			}
 			
 		}
