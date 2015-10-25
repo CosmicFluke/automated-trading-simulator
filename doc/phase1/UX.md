@@ -5,21 +5,21 @@
  ----------------      ---       --------------------
 | run executable | -- | > | --- | help <command=all> |
  ----------------      ---   |   --------------------
+                             |   ------------------
+                             -- | viewStrat <name> |
+                             |   ------------------
+                             |   --------------------      -----------------
+                             -- | modifyStrat <name> | -- | Strat [name] >  |
+                             |   --------------------      -----------------
+							 |   ----------------
+					 		 -- | viewExp <name> |
+					 		 |   ----------------
+					 		 |   ------------------      ----------------------
+					 		 -- | modifyExp <name> | -- | Experiment [name] >  |
+					 		 |   ------------------      ----------------------
                              |   ----------------
-                             -- | viewAlg <name> |
+                             -- | run <exp_name> |
                              |   ----------------
-                             |   ------------------      ---------------
-                             -- | modifyAlg <name> | -- | Alg [name] >  |
-                             |   ------------------      ---------------
-							 |   -----------------
-					 		 -- | viewTest <name> |
-					 		 |   -----------------
-					 		 |   -------------------      ----------------
-					 		 -- | modifyTest <name> | -- | Test [name] >  |
-					 		 |   -------------------      ----------------
-                             |   -----------------
-                             -- | run <test_name> |
-                             |   -----------------
 							 |   --------------------
 							 -- | loadResults <name> |
 							     --------------------
@@ -36,44 +36,44 @@
 
 ###Top-Level Commands
 
-**`viewAlg`** - view an existing algorithm.  If none is specified, displays a list of available algorithms.  Usage: `viewAlg [name]`
+**`viewStrat`** - view an existing trading strategy.  If none is specified, displays a list of available strategies.  Usage: `viewStrat [name]`
 ```
-> viewAlg SimpleBuyCheap
+> viewStrat SimpleBuyCheap
 
-Displaying Algorithm: SimpleBuyCheap
+Displaying Strategy: SimpleBuyCheap
 
-Parameters: ITEM, BUYTHRESHOLD, MINBALANCE, NUMSHARES
+Parameters: STOCK, BUYTHRESHOLD, MINBALANCE, NUMSHARES
 
 :: Rule 1 ::
 
 Conditions: 
- * [ITEM] drops below [BUYTHRESHOLD=0]
+ * [STOCK] drops below [BUYTHRESHOLD=0]
  * Account balance is greater than [MINBALANCE=0]
 
 Actions:
- * Buy [NUMSHARES=1] units of [ITEM]
+ * Buy [NUMSHARES=1] units of [STOCK]
 
 > _
 ```
 
-**`modifyAlg`** - Modify an existing algorithm, by name.  If algorithm doesn't exist, create one.  Usage: `modifyAlg [name]`
-* After specifying an algorithm to be modified, the prompt will change to `Alg [name] >`.
-* See "Algorithm Modification" heading for sub-commands
+**`modifyStrat`** - Modify an existing strategy, by name.  If strategy doesn't exist, create one.  Usage: `modifyStrat [name]`
+* After specifying an strategy to be modified, the prompt will change to `Strat [name] >`.
+* See "strategy Modification" heading for sub-commands
 ```
-> modifyAlg Algo1
-"Algo1" not found.  Creating new algorithm.
+> modifyStrat Strategy1
+"Strategy1" not found.  Creating new strategy.
 
-Alg Algo1 > _
+Strat Strategy1 > _
 ```
 
-**`viewTest`** - view an existing test scenario.  If none is specified, displays a list of available tests.  Usage: `viewTest [name]`
+**`viewExp`** - view an existing experiment .  If none is specified, displays a list of available experiments.  Usage: `viewExp [name]`
 ```
-> viewTest  BuyAppleCheap
+> viewExp  BuyAppleCheap
 
-Displaying Test Scenario: BuyAppleCheap
+Displaying Experiment: BuyAppleCheap
 
-Algorithms:
-SimpleBuyCheap ITEM=AAPL BUYTHRESHOLD=65 NUMSHARES=10
+Strategies:
+SimpleBuyCheap STOCK=AAPL BUYTHRESHOLD=65 NUMSHARES=10
 
 Time Periods:
 2011-01-01 to 2011-12-31
@@ -83,19 +83,19 @@ Time Periods:
 > _
 ```
 
-**`modifyTest`** -  Modify an existing test scenario, by name.  If that test scenario doesn't exist, create one.  Usage: `modifyTest [name]`
-* After specifying a test to be modified, the prompt will change to `Test [name] >`.
-* See "Test Scenario Modification" heading for sub-commands.
+**`modifyExp`** -  Modify an existing experiment , by name.  If that experiment  doesn't exist, create one.  Usage: `modifyExp [name]`
+* After specifying a experiment to be modified, the prompt will change to `Experiment [name] >`.
+* See "Experiment Modification" heading for sub-commands.
 
-**`run`** - Runs a selected test scenario.  Usage: `run [test_name]`
+**`run`** - Runs a selected experiment .  Usage: `run [experiment_name]`
 * After selecting run, will prompt user to specify a filename to save results before running.
-* Will tell the user that it is running the scenario and display a progress bar.
+* Will tell the user that it is running the  and display a progress bar.
 
-**`loadResults`** - User specifies a filename and app displays the saved results of a test scenario run.  Usage: `loadResults [filename]`
+**`loadResults`** - User specifies a filename and app displays the saved results of a completed experiment.  Usage: `loadResults [filename]`
 
-###Algorithm Modification Commands
+###Strategy Modification Commands
 
-**`newRule`** - Create a new rule for this algorithm.
+**`newRule`** - Create a new rule for this strategy.
 * A rule consists of a set of conditions and a set of actions.
 * Rules and actions are defined using the commands `newCondition` and `newAction`
 * After the command `newRule`:
@@ -104,16 +104,16 @@ Time Periods:
 
 Example:
 ```
-Alg Algo1 > newRule
+Strat Strategy1 > newRule
 Select conditions.  Enter IDs separated by spaces.
-C1 : [ITEM] price greater than [HIGHTHRESHOLD]
-C2 : [ITEM] price less than [LOWTHRESHOLD]
+C1 : [STOCK] price greater than [HIGHTHRESHOLD]
+C2 : [STOCK] price less than [LOWTHRESHOLD]
 
-Alg Algo1 | newRule | Conditions > C1_
+Strat Strategy1 | newRule | Conditions > C1_
 ```
 
 **`newCondition`** - Create a new trigger/condition.
-* User will be prompted to define a condition.  Each rule can have several conditions, which must all be true for an action to occur.  The trigger is typically related to the behaviour of a `ITEM` parameter (for whichever security (stock, bond, option, etc) is passed to the algorithm in a test scenario).
+* User will be prompted to define a condition.  Each rule can have several conditions, which must all be true for an action to occur.  The trigger is typically related to the behaviour of a `STOCK` parameter (for whichever stock is passed to the strategy in an experiment ).
   * User selects from a variety of possible market events (using market statistics, or indicators)
   
 **`newAction`** - Create a new action.
@@ -121,18 +121,20 @@ Alg Algo1 | newRule | Conditions > C1_
 
 **`removeRule` / `removeCondition` / `removeAction`** - Displays rules/conditions/actions and prompts user to specify an item to be removed
 
-**`saveAlgorithm`** - Saves the modifications to disk
+**`saveStrategy`** - Saves the modifications to disk
 
-###Test Scenario Modification Commands
+###Experiment Modification Commands
 
-**`listAlgorithms`** - Displays a list of algorithm names with their parameters.
+**`listStrats`** - Displays a list of strategy names with their parameters.
 
-**`addAlgorithm`** - Adds an algorithm to the test scenario.  Prompts user to specify values for each parameter requested by the algorithm.
-Usage: `addAlgorithm [name]`
+**`addStrategy`** - Adds a strategy to the experiment.  Prompts user to specify values for each parameter requested by the strategy.
+Usage: `addStrat [name]`
 
-**`addTime`** - Adds the specified time window to the test scenario.
+**`addTime`** - Adds the specified time window to the experiment.
 Usage: `addTime [Start YYYYMMDD] [End YYYYMMDD]`
+
+**`addRandomTimeSet [size] [length]`** -- Adds a randomly generated set of time windows: `size` windows, each `length` days long.
 
 
 ###Note
-In addition to the command line UI, the executable will be able to take a text file with structured commands as input.  This will be extremely useful for testing.
+In addition to the command line UI, the executable will be able to take a text file with structured commands as input.  This will be extremely useful for experimenting.
