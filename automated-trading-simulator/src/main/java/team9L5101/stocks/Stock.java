@@ -11,11 +11,18 @@ import java.util.Date;
  */
 public class Stock {
 
+    private String name;
+    private String filepath;
+
     public Stock(String name, String filepath) {
+        // TODO: implement!
 
     }
 
+    // TODO: docs
     public StockIterator iterator (InputStream file, Date start, Date end) {
+        // TODO: implement!
+        // Needs to create an iterator with the given start and end dates
         return null;
     }
 
