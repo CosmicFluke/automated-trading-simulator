@@ -16,19 +16,15 @@ public class StockDay extends StockEntry {
     private BigDecimal high;
     private BigDecimal low;
 
-    public StockDay(String name, Date date, BigDecimal open, BigDecimal close, BigDecimal high, BigDecimal low) {
+    public StockDay(String name, Date date, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close) {
         this.open = open;
-        this.close = close;
         this.high = high;
         this.low = low;
+        this.close = close;
     }
 
     public BigDecimal getOpen() {
         return this.open;
-    }
-
-    public BigDecimal getClose() {
-        return close;
     }
 
     public BigDecimal getHigh() {
@@ -39,8 +35,12 @@ public class StockDay extends StockEntry {
         return low;
     }
 
+    public BigDecimal getClose() {
+        return close;
+    }
+
     @Override
     public BigDecimal getSingleValue() {
-        return getClose();
+        return close;
     }
 }
