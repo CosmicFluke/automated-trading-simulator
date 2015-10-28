@@ -1,8 +1,8 @@
-package team9L5101.strategy;
-
-import team9L5101.stocks.StockEntry;
+package autotradingsim.strategy;
 
 import java.util.function.Predicate;
+
+import autotradingsim.stocks.StockEntry;
 
 /**
  * Created by Asher on 2015-10-25.

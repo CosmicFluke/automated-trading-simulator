@@ -1,4 +1,4 @@
-package team9L5101;
+package autotradingsim_test;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

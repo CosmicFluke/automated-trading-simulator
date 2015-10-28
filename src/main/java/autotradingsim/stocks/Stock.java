@@ -1,4 +1,4 @@
-package team9L5101.stocks;
+package autotradingsim.stocks;
 
 import java.io.InputStream;
 import java.util.Date;

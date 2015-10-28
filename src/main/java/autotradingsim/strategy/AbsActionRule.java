@@ -1,4 +1,4 @@
-package team9L5101.strategy;
+package autotradingsim.strategy;
 
 import java.math.BigDecimal;
 import java.util.List;

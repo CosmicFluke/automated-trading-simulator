@@ -1,6 +1,6 @@
-package team9L5101.strategy;
+package autotradingsim.strategy;
 
-import team9L5101.stocks.StockIterator;
+import autotradingsim.stocks.StockIterator;
 
 /**
  * Created by Asher on 2015-10-26.

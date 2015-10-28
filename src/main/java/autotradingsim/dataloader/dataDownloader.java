@@ -1,3 +1,5 @@
+package autotradingsim.dataloader;
+
 import java.awt.Desktop;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -50,6 +52,8 @@ public class dataDownloader{
 					}
 					i++;
 				}
+				br.close();
+				console.flush();
 					
 			}catch(IOException e){
 				System.out.println(e);

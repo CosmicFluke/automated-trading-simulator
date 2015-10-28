@@ -1,4 +1,4 @@
-package team9L5101.strategy;
+package autotradingsim.strategy;
 
 /**
  * Created by Asher on 2015-10-26.
