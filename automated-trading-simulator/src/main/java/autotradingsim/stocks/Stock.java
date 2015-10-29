@@ -20,7 +20,7 @@ public class Stock {
     }
 
     // TODO: docs
-    public StockIterator iterator (InputStream file, Date start, Date end) {
+    public StockLoader iterator (InputStream file, Date start, Date end) {
         // TODO: implement!
         // Needs to create an iterator with the given start and end dates
         return null;

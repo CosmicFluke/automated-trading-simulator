@@ -1,8 +1,6 @@
 package autotradingsim.stocks;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import java.util.Calendar;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -11,36 +9,46 @@ import java.util.List;
 public class StockDay extends StockEntry {
     // Stockwell Day?
 
-    private BigDecimal open;
-    private BigDecimal close;
-    private BigDecimal high;
-    private BigDecimal low;
+    private String symobol;
+    private Calendar date;
+    private Double open;
+    private Double close;
+    private Double high;
+    private Double low;
+    private Double volume;
 
-    public StockDay(String name, Date date, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close) {
+    public StockDay(String symbol, Calendar date, Double open, Double high, Double low, Double close, Double volume) {
+        this.symobol = symbol;
+        this.date = date;
         this.open = open;
         this.high = high;
         this.low = low;
         this.close = close;
+        this.volume = volume;
     }
 
-    public BigDecimal getOpen() {
+    public Double getOpen() {
         return this.open;
     }
 
-    public BigDecimal getHigh() {
+    public Double getHigh() {
         return high;
     }
 
-    public BigDecimal getLow() {
+    public Double getLow() {
         return low;
     }
 
-    public BigDecimal getClose() {
+    public Double getClose() {
         return close;
     }
 
+    public Double getVolume() {
+        return volume;
+    }
+
     @Override
-    public BigDecimal getSingleValue() {
+    public Double getSingleValue() {
         return close;
     }
 }
