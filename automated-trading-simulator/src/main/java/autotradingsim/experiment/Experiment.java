@@ -1,6 +1,8 @@
 package autotradingsim.experiment;
 
 import autotradingsim.stocks.*;
+import autotradingsim.strategy.Action;
+
 import java.util.ArrayList;
 
 /**
@@ -16,9 +18,11 @@ public class Experiment {
 
     StockLoader loader;
     ArrayList<Stock> samples;
+    ArrayList<Action> strategy;
     public Experiment(){
         this.loader = new StockLoader();
         this.samples = new ArrayList<>();
+        this.strategy = new ArrayList<>();
     }
 
     /**
@@ -40,4 +44,6 @@ public class Experiment {
             }
         }
     }
+
+
 }
