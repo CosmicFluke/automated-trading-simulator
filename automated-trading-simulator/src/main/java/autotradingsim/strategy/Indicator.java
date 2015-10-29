@@ -1,19 +1,17 @@
 package autotradingsim.strategy;
 
+import autotradingsim.stocks.StockDay;
+
 /**
  * Created by Asher on 2015-10-25.
+ * Contributors: Bill
  */
 public abstract class Indicator {
 
-    // TODO: docs
-    public abstract int getBufferSize();
+    public abstract  String getName();
 
-    // TODO: docs
-    public abstract Number getValue();
+    public abstract Double getValue();
 
-    // TODO: docs
-    public abstract void update();
-
-    // TODO: more methods?
+    public abstract void update(StockDay data);
 
 }

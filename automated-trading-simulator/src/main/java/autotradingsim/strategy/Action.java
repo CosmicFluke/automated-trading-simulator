@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Action {
 
     action a;
-    ArrayList<AbsCondition> conditions;
+    ArrayList<Condition> conditions;
     public Action(){
         this.a = null;
         this.conditions = new ArrayList<>();
@@ -22,7 +22,7 @@ public class Action {
         this.a = a;
     }
 
-    public void addCondition(AbsCondition condition){
+    public void addCondition(Condition condition){
         this.conditions.add(condition);
     }
 
