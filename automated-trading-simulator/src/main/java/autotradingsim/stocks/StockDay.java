@@ -7,6 +7,15 @@ import java.util.Calendar;
  * Contributors: Bill
  *
  * Used for daily stock data.
+ * Holds symbol, date, open, high, low, close, and volume data
+ *
+ * Public Methods:
+ *      getDate()
+ *      getOpen()
+ *      getHigh()
+ *      getLow()
+ *      getClose()
+ *      getVolume()
  */
 public class StockDay extends StockEntry {
 

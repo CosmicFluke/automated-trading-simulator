@@ -9,8 +9,8 @@ import java.util.ArrayList;
  *
  * Experiments apply Strategies to particular stocks over a set of time periods.
  *
- * addStock(String s)
- * Use a StockLoader to load a stock with symbol s, if it does not exist in the sample already.
+ * Public Methods:
+ *      addStock(String)
  */
 public class Experiment {
 
@@ -21,11 +21,15 @@ public class Experiment {
         this.samples = new ArrayList<>();
     }
 
-    // Use the StockLoader to load a stock with symbol s, if it does not exist in the sample already.
+    /**
+     * Use a StockLoader to load a stock with the given symbol, if it does not exist in the sample already
+     *
+     * @param symbol the symbol of a stock
+     */
     public void addStock(String symbol){
         boolean existing = false;
         for(int i = 0; i < samples.size(); i++){
-            if(samples.get(i).getSymbol() == symbol){
+            if(samples.get(i).getSymbol().equals(symbol)){
                 existing = true;
             }
         }

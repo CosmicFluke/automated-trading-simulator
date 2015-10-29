@@ -8,11 +8,11 @@ import java.util.ArrayList;
  * Created by Asher on 2015-10-25.
  * Contributors: Bill
  *
- * public methods:
+ * Public Methods:
  *      load(String, Calendar, Calendar)
  *      loadStock(String)
  *
- * private methods:
+ * Private Methods:
  *      exists(String)
  *      getName(String)
  *      getStockList()
@@ -27,10 +27,11 @@ public class StockLoader{
     }
 
     /**
+     * Load the data for a stock between a period of time
+     *
      * @param   symbol  the symbol of a stock
      * @param   start   a starting date
      * @param   end     an ending date
-     *
      * @return  array list of StockDay objects for the stock with the given symbol, from start date to end date
      *
      * NOTE:    1. Returns NULL if starting date is later than ending date
@@ -105,8 +106,9 @@ public class StockLoader{
     }
 
     /**
-     * @param   symbol  symbol of a stock
+     * Load the dat for an entire stock
      *
+     * @param   symbol  symbol of a stock
      * @return  Stock object for the stock with given symbol
      *
      * NOTE:    Returns null if the symbol does not exist
@@ -149,8 +151,9 @@ public class StockLoader{
     }
 
     /**
-     * @param   symbol symbol of a stock
+     * Check if a stock exists
      *
+     * @param   symbol symbol of a stock
      * @return  if a stock with the given symbol exists in stockListing
      */
     private boolean exists(String symbol){
@@ -163,8 +166,9 @@ public class StockLoader{
     }
 
     /**
-     * @param   symbol symbol of a stock
+     * Get the name of a stock for a given symbol
      *
+     * @param   symbol symbol of a stock
      * @return  the name of the stock with the given symbol
      */
     private String getName(String symbol){
@@ -176,7 +180,9 @@ public class StockLoader{
     }
 
     /**
-     * @return  array list of stock symbols with their corresponding stock names
+     * Load the list of stock symbols with their corresponding names
+     *
+     * @return  array list of string arrays
      */
     private ArrayList<String[]> getStockList(){
         ArrayList<String[]> result = new ArrayList<>();

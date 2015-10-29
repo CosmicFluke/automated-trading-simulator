@@ -9,6 +9,9 @@ import java.util.Calendar;
  *
  * Each instance of a Stock is associated with a single stock.
  * An instance of a Stock holds all the data there is for that stock on record.
+ *
+ * Public Methods:
+ *      getDay(Calendar)
  */
 public class Stock {
 
@@ -30,12 +33,21 @@ public class Stock {
         return this.name;
     }
 
+    /**
+     * Get the data for a given day in the data list of this stock
+     *
+     * @param   date a initialized date variable
+     * @return  a StockDay object for this stock on the given date
+     *
+     * NOTE:    Returns NULL if this stock does not have an entry for the given date
+     */
     public StockDay getDay(Calendar date){
-        int i = 0;
-        while(data.get(i).getDate().compareTo(date) != 0){
-            i++;
+        for(int i = 0; i < data.size(); i++){
+            if(data.get(i).getDate().compareTo(date) == 0){
+                return data.get(i);
+            }
         }
-        return data.get(i);
+        return null;
     }
 
 }
