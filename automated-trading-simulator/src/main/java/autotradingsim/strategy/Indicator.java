@@ -8,7 +8,9 @@ import autotradingsim.stocks.StockDay;
  */
 public abstract class Indicator {
 
-    public abstract  String getName();
+    public abstract String getName();
+
+    public abstract String getDescription();
 
     public abstract Double getValue();
 
