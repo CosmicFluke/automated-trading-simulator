@@ -6,4 +6,12 @@ package autotradingsim.experiment;
  * Experiments apply Strategies to particular stocks, for a set of time periods.
  */
 public class Experiment {
+
+    public Experiment(){
+
+    }
+
+    public void addStock(String symbol){
+
+    }
 }

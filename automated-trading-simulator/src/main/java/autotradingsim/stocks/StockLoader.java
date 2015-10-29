@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Asher on 2015-10-25.
+ * Contributors: Bill
  */
 public class StockLoader{
 

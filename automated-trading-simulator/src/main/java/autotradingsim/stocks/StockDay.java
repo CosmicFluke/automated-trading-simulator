@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 /**
  * Created by Asher on 2015-10-25.
+ * Contributors: Bill
  * Used for daily stock data.
  */
 public class StockDay extends StockEntry {
@@ -25,6 +26,10 @@ public class StockDay extends StockEntry {
         this.low = low;
         this.close = close;
         this.volume = volume;
+    }
+
+    public Calendar getDate(){
+        return this.date;
     }
 
     public Double getOpen() {
