@@ -1,7 +1,6 @@
 package autotradingsim.stocks;
 
-import java.io.InputStream;
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -11,19 +10,22 @@ import java.util.Date;
  */
 public class Stock {
 
+    private String symbol;
     private String name;
-    private String filepath;
+    private ArrayList<StockDay> data;
 
-    public Stock(String name, String filepath) {
-        // TODO: implement!
-
+    public Stock(String symbol, String name, ArrayList<StockDay> data) {
+        this.symbol = symbol;
+        this.name = name;
+        this.data = data;
     }
 
-    // TODO: docs
-    public StockLoader iterator (InputStream file, Date start, Date end) {
-        // TODO: implement!
-        // Needs to create an iterator with the given start and end dates
-        return null;
+    public String getSymbol(){
+        return this.symbol;
+    }
+
+    public String getName(){
+        return this.getName();
     }
 
 }

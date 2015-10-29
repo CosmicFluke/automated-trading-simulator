@@ -83,6 +83,39 @@ public class StockLoader{
         return result;
     }
 
+    // Same as the other load function, except it loads all the days for a stock
+    public ArrayList<StockDay> load(String symbol){
+        ArrayList<StockDay> result = new ArrayList<>();
+
+        try{
+            BufferedReader br = new BufferedReader(new FileReader("file/DATA/STOCKS/" + symbol + ".csv"));
+            br.readLine(); // Skip the header line
+
+            // Make variable holders
+            Calendar now = Calendar.getInstance();
+            String line;
+            String[] lineSplit, dateSplit;
+            Double open, high, low, close, volume; StockDay sd;// Make variable holders
+
+            while((line = br.readLine()) != null){
+                lineSplit = line.split(",");
+                dateSplit = lineSplit[0].split("-");
+                now.set(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
+                open = Double.parseDouble(lineSplit[1]);
+                high = Double.parseDouble(lineSplit[2]);
+                low = Double.parseDouble(lineSplit[3]);
+                close = Double.parseDouble(lineSplit[4]);
+                volume = Double.parseDouble(lineSplit[5]);
+                sd = new StockDay(symbol, now, open, high, low, close, volume);
+                result.add(0, sd);
+            }
+
+        }catch(IOException e){
+            System.out.println(e);
+        }
+        return result;
+    }
+
     private ArrayList<String[]> getStockList(){
         ArrayList<String[]> result = new ArrayList<>();
         try{
