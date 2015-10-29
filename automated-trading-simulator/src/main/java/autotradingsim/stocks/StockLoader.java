@@ -7,15 +7,23 @@ import java.util.ArrayList;
 /**
  * Created by Asher on 2015-10-25.
  * Contributors: Bill
+ *
+ * load(String s, Calendar start, Calendar end)
+ * Return an array list of StockDay objects for the stock with symbol s, with start date and end date.
+ *
+ * loadStock(String s)
+ * Return a Stock object holding the data for the stock with symbol s.
  */
 public class StockLoader{
 
 
     ArrayList<String[]> stockListing;
     public StockLoader() {
+        // StockLoader keeps a list of stock symbols matched with stock names
         this.stockListing = getStockList();
     }
 
+    // Loads a list of StockDay objects from start date to end date for the given stock symbol
     public ArrayList<StockDay> load(String symbol, Calendar start, Calendar end){
 
         // Starting date cannot be later than ending date
@@ -85,7 +93,7 @@ public class StockLoader{
     }
 
     // Same as the other load function, except it loads all the days for a stock
-    public ArrayList<StockDay> load(String symbol){
+    public Stock loadStock(String symbol){
         ArrayList<StockDay> result = new ArrayList<>();
 
         try{
@@ -114,9 +122,19 @@ public class StockLoader{
         }catch(IOException e){
             System.out.println(e);
         }
-        return result;
+        return new Stock(symbol, getName(symbol), result);
     }
 
+    // Find the name of the stock with the given symbol
+    private String getName(String symbol){
+        int i = 0;
+        while(stockListing.get(i)[0] != symbol){
+            i++;
+        }
+        return stockListing.get(i)[1];
+    }
+
+    // Load the list of stock symbols and names from file
     private ArrayList<String[]> getStockList(){
         ArrayList<String[]> result = new ArrayList<>();
         try{
