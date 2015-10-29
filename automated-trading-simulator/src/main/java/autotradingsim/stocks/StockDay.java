@@ -5,10 +5,10 @@ import java.util.Calendar;
 /**
  * Created by Asher on 2015-10-25.
  * Contributors: Bill
+ *
  * Used for daily stock data.
  */
 public class StockDay extends StockEntry {
-    // Stockwell Day?
 
     private String symobol;
     private Calendar date;

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Asher on 2015-10-25.
+ * Contributors: Bill
  *
  * Experiments apply Strategies to particular stocks over a set of time periods.
  *

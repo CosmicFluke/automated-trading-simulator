@@ -23,7 +23,18 @@ public class StockLoader{
         this.stockListing = getStockList();
     }
 
-    // Loads a list of StockDay objects from start date to end date for the given stock symbol
+    /**
+     * @param   symbol  the symbol of the stock to retrieve data from
+     * @param   start   the starting date of the desired chunk of data
+     * @param   end     the ending date of the desired chunk of data
+     *
+     * @return  array list of StockDay objects for stock with given symbol from starting date to ending date
+     *
+     * NOTE:
+     * 1. NULL is returned if starting date is later than ending date
+     * 2. If starting date is earlier than the earliest day on record, the missing days will be omitted
+     * 3. If ending date is later than the latest day on record, the missing days will be omitted
+     */
     public ArrayList<StockDay> load(String symbol, Calendar start, Calendar end){
 
         // Starting date cannot be later than ending date
@@ -92,8 +103,20 @@ public class StockLoader{
         return result;
     }
 
-    // Same as the other load function, except it loads all the days for a stock
+    /**
+     * @param   symbol  symbol of the stock to retrieve data for
+     *
+     * @return  Stock object for the stock with given symbol
+     *
+     * NOTE:
+     * Returns null if the symbol does not exist
+     */
     public Stock loadStock(String symbol){
+
+        if(exists(symbol) == false){
+            return null;
+        }
+
         ArrayList<StockDay> result = new ArrayList<>();
 
         try{
@@ -125,7 +148,25 @@ public class StockLoader{
         return new Stock(symbol, getName(symbol), result);
     }
 
-    // Find the name of the stock with the given symbol
+    /**
+     * @param   symbol symbol of a stock
+     *
+     * @return  if stock with the given symbol exists in stockListing
+     */
+    private boolean exists(String symbol){
+        for(int i = 0; i < stockListing.size(); i++){
+            if(stockListing.get(i)[0] == symbol){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param   symbol symbol of a stock
+     *
+     * @return  the name of the stock for the corresponding symbol
+     */
     private String getName(String symbol){
         int i = 0;
         while(stockListing.get(i)[0] != symbol){
@@ -134,7 +175,9 @@ public class StockLoader{
         return stockListing.get(i)[1];
     }
 
-    // Load the list of stock symbols and names from file
+    /**
+     * @return  array list of stock symbols with their corresponding stock names
+     */
     private ArrayList<String[]> getStockList(){
         ArrayList<String[]> result = new ArrayList<>();
         try{
