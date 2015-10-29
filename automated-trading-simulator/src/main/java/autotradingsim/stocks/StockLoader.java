@@ -8,11 +8,13 @@ import java.util.ArrayList;
  * Created by Asher on 2015-10-25.
  * Contributors: Bill
  *
- * load(String s, Calendar start, Calendar end)
- * Return an array list of StockDay objects for the stock with symbol s, with start date and end date.
+ * public methods:
+ *      load(String, Calendar, Calendar)
+ *      loadStock(String)
  *
- * loadStock(String s)
- * Return a Stock object holding the data for the stock with symbol s.
+ * private methods:
+ *      exists(String)
+ *      getName(String)
  */
 public class StockLoader{
 
@@ -24,20 +26,18 @@ public class StockLoader{
     }
 
     /**
-     * @param   symbol  the symbol of the stock to retrieve data from
-     * @param   start   the starting date of the desired chunk of data
-     * @param   end     the ending date of the desired chunk of data
+     * @param   symbol  the symbol of a stock
+     * @param   start   a starting date
+     * @param   end     an ending date
      *
-     * @return  array list of StockDay objects for stock with given symbol from starting date to ending date
+     * @return  array list of StockDay objects for the stock with the given symbol, from start date to end date
      *
-     * NOTE:
-     * 1. NULL is returned if starting date is later than ending date
-     * 2. If starting date is earlier than the earliest day on record, the missing days will be omitted
-     * 3. If ending date is later than the latest day on record, the missing days will be omitted
+     * NOTE:    1. Returns NULL if starting date is later than ending date
+     *          2. If start date is earlier than the earliest day on record, the missing days will be omitted
+     *          3. If end date is later than the latest day on record, the missing days will be omitted
      */
     public ArrayList<StockDay> load(String symbol, Calendar start, Calendar end){
 
-        // Starting date cannot be later than ending date
         if(start.compareTo(end) > 0){
             return null;
         }
@@ -104,12 +104,11 @@ public class StockLoader{
     }
 
     /**
-     * @param   symbol  symbol of the stock to retrieve data for
+     * @param   symbol  symbol of a stock
      *
      * @return  Stock object for the stock with given symbol
      *
-     * NOTE:
-     * Returns null if the symbol does not exist
+     * NOTE:    Returns null if the symbol does not exist
      */
     public Stock loadStock(String symbol){
 
@@ -151,7 +150,7 @@ public class StockLoader{
     /**
      * @param   symbol symbol of a stock
      *
-     * @return  if stock with the given symbol exists in stockListing
+     * @return  if a stock with the given symbol exists in stockListing
      */
     private boolean exists(String symbol){
         for(int i = 0; i < stockListing.size(); i++){
@@ -165,7 +164,7 @@ public class StockLoader{
     /**
      * @param   symbol symbol of a stock
      *
-     * @return  the name of the stock for the corresponding symbol
+     * @return  the name of the stock with the given symbol
      */
     private String getName(String symbol){
         int i = 0;
