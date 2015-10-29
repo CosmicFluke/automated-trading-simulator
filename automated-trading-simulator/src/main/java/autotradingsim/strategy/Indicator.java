@@ -6,14 +6,31 @@ import autotradingsim.stocks.StockDay;
  * Created by Asher on 2015-10-25.
  * Contributors: Bill
  */
-public abstract class Indicator {
+public class Indicator {
 
-    public abstract String getName();
+    private String name;
+    private String description;
+    private double value;
+    public Indicator(String name, String description, double init){
+        this.name = name;
+        this.description = description;
+        this.value = init;
+    }
 
-    public abstract String getDescription();
+    public String getName(){
+        return this.name;
+    }
 
-    public abstract Double getValue();
+    public String getDescription(){
+        return this.description;
+    }
 
-    public abstract void update(StockDay data);
+    public Double getValue(){
+        return this.value;
+    }
+
+    public void setValue(double value){
+        this.value = value;
+    }
 
 }
