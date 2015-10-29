@@ -15,6 +15,7 @@ import java.util.ArrayList;
  * private methods:
  *      exists(String)
  *      getName(String)
+ *      getStockList()
  */
 public class StockLoader{
 
