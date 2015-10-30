@@ -10,7 +10,7 @@ import autotradingsim.stocks.StockEntry;
  *
  * Functional class that can compare an Indicator against some Predicate
  */
-public abstract class Condition implements Predicate {
+public interface ICondition {
 
-    public abstract boolean check();
+    public boolean check();
 }

@@ -1,13 +1,10 @@
 package autotradingsim.strategy;
 
+import java.util.Iterator;
 
 /**
- * Created by Asher on 2015-10-25.
- * Contributors: Bill
+ * Created by Asher on 2015-10-30.
  */
-public abstract class Strategy {
+public abstract class Strategy implements IRuleSet {
 
-    public abstract void addAction();
-
-    public abstract void deleteAction(Action action);
 }
