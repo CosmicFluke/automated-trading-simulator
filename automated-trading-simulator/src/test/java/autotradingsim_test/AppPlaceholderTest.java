@@ -4,6 +4,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import autotradingsim.AppPlaceholder;
+
 /**
  * Unit test for simple AppPlaceholder.
  */
@@ -34,5 +36,12 @@ public class AppPlaceholderTest
     public void testApp()
     {
         assertTrue( true );
+    }
+    
+    public void testOutput()
+    {
+    	new AppPlaceholder();
+    	String[] input = null;
+    	AppPlaceholder.main(input);
     }
 }
