@@ -18,34 +18,48 @@ import java.io.InputStreamReader;
 public class SimTerminal {
 
 	static BufferedReader br;
-	static String locale="Enter command: ";
+	static String runningExperiment="";
 	public static void run()
 	{
-		String line ="";
+
+		String output="";
+		String input ="";
 		br = new BufferedReader(new InputStreamReader(System.in));
-		while(!line.equals("exit")){
+		while(input!=null){
 			try {
-				System.out.print(locale);
+				output="";
+				if(runningExperiment!="")System.out.print(runningExperiment+" ");
 				System.out.print("$>");
-				line =br.readLine();
-				String[] args = line.split("\\s+");
-				
+				input =br.readLine();
+				String[] args = input.split("\\s+");
 				switch(args[0].toLowerCase()){
 					case "h":
 					case "help" :{
-						System.out.println("you asked for help");
-					} break;
-					case "exit" :break;
+						output="You asked for help!";
+					}break;
+					case "exit" :{
+						runningExperiment="";
+					}break;
 					case "modify": { //if file args[1] not found in local dir
 									//create new file named args[1]
 						if(args.length!=2){ //should be modify [experiment name]
-							System.out.println("incorrect number of arguments");
+							output="Incorrect number of arguments!";
 						}else{
-							locale=args[1];
+							runningExperiment=args[1];
 						}
-					}
-
+					}break;
+					case "run": {
+						if(runningExperiment.isEmpty()){
+							output="You have no experiments open right now.";
+						}else{
+							output="So you want to run " +runningExperiment;
+						}
+					}break;
 				}
+				if(!output.isEmpty()){
+					System.out.print(""+output+" \n");
+				}
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
