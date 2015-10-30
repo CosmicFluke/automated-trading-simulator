@@ -3,7 +3,7 @@ package autotradingsim.strategy;
 /**
  * Created by Asher on 2015-10-30.
  *
- * Provides a unique ID value for each strategy.
+ * Provides a unique ID value for each rule.  Don't need this for current phase, but potentially useful later.
  *
  */
 public class RuleID {
