@@ -57,6 +57,11 @@ public class SimTerminal {
 							output="So you want to run " +runningExperiment;
 						}
 					}break;
+					case "": output="";
+					break;
+					default :{
+						output="That is not a command.";
+					}
 				}
 				if(!output.isEmpty()){
 					System.out.print(""+output+" \n");
