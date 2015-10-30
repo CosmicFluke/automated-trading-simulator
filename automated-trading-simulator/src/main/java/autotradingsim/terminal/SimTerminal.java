@@ -9,22 +9,43 @@ import java.io.InputStreamReader;
  */
 public class SimTerminal {
 
-	BufferedReader br;
-	
-	public void run()
+	static BufferedReader br;
+	static String locale="Enter command: ";
+	public static void run()
 	{
-		boolean running = true;
+		String line ="";
 		br = new BufferedReader(new InputStreamReader(System.in));
-		while(running){
-			System.out.print("\n>");
-			
+		while(!line.equals("exit")){
 			try {
-				running = (br.readLine() != null);
+				System.out.print(locale);
+				System.out.print("$>");
+				line =br.readLine();
+				String[] args = line.split("\\s+");
+				
+				switch(args[0].toLowerCase()){
+					case "h":
+					case "help" :{
+						System.out.println("you asked for help");
+					} break;
+					case "exit" :break;
+					case "modify": { //if file args[1] not found in local dir
+									//create new file named args[1]
+						if(args.length!=2){
+							System.out.println("incorrect number of arguments");
+						}else{
+							locale=args[1];
+						}
+					}
+
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			
 		}
+	}
+	public static void main(String[] args){
+		run();
 	}
 
 }
