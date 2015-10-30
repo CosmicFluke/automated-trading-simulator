@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class Experiment {
 
     StockLoader loader;
-    ArrayList<Stock> samples;
+    ArrayList<IStock> samples;
     ArrayList<Strategy> strategies;
     public Experiment(){
         this.loader = new StockLoader();
@@ -26,7 +26,7 @@ public class Experiment {
     }
 
     /**
-     * Use a StockLoader to load a stock with the given symbol, if it does not exist in the sample already
+     * Use a StockLoader to fetchStockDateRange a stock with the given symbol, if it does not exist in the sample already
      *
      * @param symbol the symbol of a stock
      */
@@ -38,7 +38,7 @@ public class Experiment {
             }
         }
         if(!existing) {
-            Stock temp = loader.loadStock(symbol);
+            IStock temp = loader.fetchStock(symbol);
             if (temp != null) {
                 samples.add(temp);
             }
