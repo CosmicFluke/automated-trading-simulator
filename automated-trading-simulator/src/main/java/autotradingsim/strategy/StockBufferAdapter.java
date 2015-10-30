@@ -1,10 +1,12 @@
 package autotradingsim.strategy;
 
-import autotradingsim.stocks.StockIterator;
+import autotradingsim.stocks.StockEntry;
+
+import java.util.Calendar;
+import java.util.Iterator;
 
 /**
- * Created by Asher on 2015-10-26.
- * Creates a buffer of StockEntry objects to provide as input to Indicators
+ * Created by Asher on 2015-10-30.
  */
-public class StockBufferAdapter {
+public abstract class StockBufferAdapter implements IBufferAdapter {
 }
