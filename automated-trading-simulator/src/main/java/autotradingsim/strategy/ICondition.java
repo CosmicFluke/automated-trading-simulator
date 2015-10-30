@@ -12,5 +12,5 @@ import autotradingsim.stocks.StockEntry;
  */
 public interface ICondition {
 
-    public boolean check();
+    public boolean checkCondition();
 }

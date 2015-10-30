@@ -1,6 +1,8 @@
 package autotradingsim.strategy;
 
-import java.util.Iterator;
+import autotradingsim.stocks.Stock;
+
+import java.util.Map;
 
 /**
  * Created by Asher on 2015-10-30.

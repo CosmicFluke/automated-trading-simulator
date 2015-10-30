@@ -10,12 +10,12 @@ import java.util.Iterator;
  * objects to fulfill that responsibility.  Rules are blind to Stocks.</p>
  *
  */
-public abstract class IRule {
+public interface IRule {
 
     /**
      * Produces the decision-making object.
      * @return A decision maker.
      */
-    public abstract IDecisionMaker getDecisionMaker();
+    IDecisionMaker getDecisionMaker();
 
 }

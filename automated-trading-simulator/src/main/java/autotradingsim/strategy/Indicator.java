@@ -2,19 +2,31 @@ package autotradingsim.strategy;
 
 import autotradingsim.stocks.StockDay;
 
+import java.math.BigDecimal;
+
 /**
- * Created by Asher on 2015-10-25.
- * Contributors: Bill
+ * Created by Asher on 2015-10-25.<br>
+ *
+ * <p>"Market Indicators are datasets that contain meta data about the health of various markets or groups
+ * of related stocks."<b> - StockCharts.com</b></p>
+ *
+ * TODO: Hold off on implementing this for the time being.
+ *
  */
-public class Indicator {
+public abstract class Indicator implements IMeasurement, IBufferObserver {
 
     private String name;
     private String description;
-    private double value;
-    public Indicator(String name, String description, double init){
+    private Number value;
+
+    public Indicator(String name, String description){
         this.name = name;
         this.description = description;
-        this.value = init;
+    }
+
+    public Indicator(String name) {
+        this.name = name;
+        this.description = "";
     }
 
     public String getName(){
@@ -25,12 +37,10 @@ public class Indicator {
         return this.description;
     }
 
-    public Double getValue(){
+    public Number getValue(){
         return this.value;
     }
 
-    public void setValue(double value){
-        this.value = value;
-    }
+    public void attachBuffer(IBufferAdapter buffer) { }
 
 }

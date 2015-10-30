@@ -1,7 +1,6 @@
 package autotradingsim.experiment;
 
 import autotradingsim.stocks.*;
-import autotradingsim.strategy.Action;
 import autotradingsim.strategy.Strategy;
 
 import java.util.ArrayList;
