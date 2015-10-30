@@ -4,7 +4,18 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import autotradingsim.AppPlaceholder;
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileDescriptor;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+
+import autotradingsim.autoTradingSim;
 
 /**
  * Unit test for simple AppPlaceholder.
@@ -30,18 +41,23 @@ public class AppPlaceholderTest
         return new TestSuite( AppPlaceholderTest.class );
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
     
-    public void testOutput()
+    public void testBasicOutput()
     {
-    	new AppPlaceholder();
+    	OutputStream OutputText = new ByteArrayOutputStream();
+    	System.setOut(new PrintStream(OutputText));
+    	
+    	String Input = "\n";
+    	
+    	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
+    	System.setIn(stringStream);
+    	
     	String[] input = null;
-    	AppPlaceholder.main(input);
+    	autoTradingSim.main(input);
+    	
+    	assertEquals(OutputText.toString(), "\n>\n>");
+    	
+    	System.setIn(null);
+    	System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
     }
 }
