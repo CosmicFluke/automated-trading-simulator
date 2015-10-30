@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * <p>"Market Indicators are datasets that contain meta data about the health of various markets or groups
  * of related stocks."<b> - StockCharts.com</b></p>
  *
- * TODO: Hold off on implementing this for the time being.
+ * TODO: Hold off on implementing this for the time being.  I'm not quite sure what to do with it.
  *
  */
 public abstract class Indicator implements IMeasurement, IBufferObserver {
