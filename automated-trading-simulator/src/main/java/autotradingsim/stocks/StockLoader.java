@@ -5,17 +5,20 @@ import java.util.Calendar;
 import java.util.ArrayList;
 
 /**
- * Created by Asher on 2015-10-25.
- * Contributors: Bill
+ * Created by Asher on 2015-10-25.<br>
+ * Contributors: Bill<br>
  *
- * Public Methods:
- *      load(String, Calendar, Calendar)
- *      loadStock(String)
  *
- * Private Methods:
- *      exists(String)
- *      getName(String)
- *      getStockList()
+ * <p>Public Methods:<br><ul>
+ *      <li>fetchStockDateRange(String, Calendar, Calendar)</li>
+ *      <li>fetchStock(String)</li>
+ *      </ul>
+ *
+ * Private Methods:<br><ul>
+ *      <li>exists(String)</li>
+ *      <li>getName(String)</li>
+ *      <li>buildStockList()</li>
+ *      </ul></p>
  */
 public class StockLoader{
 
@@ -23,7 +26,7 @@ public class StockLoader{
     ArrayList<String[]> stockListing;
     public StockLoader() {
         // StockLoader keeps a list of stock symbols matched with stock names
-        this.stockListing = getStockList();
+        this.stockListing = buildStockList();
     }
 
     /**
@@ -38,7 +41,7 @@ public class StockLoader{
      *          2. If start date is earlier than the earliest day on record, the missing days will be omitted
      *          3. If end date is later than the latest day on record, the missing days will be omitted
      */
-    public ArrayList<StockDay> load(String symbol, Calendar start, Calendar end){
+    public ArrayList<StockDay> fetchStockDateRange(String symbol, Calendar start, Calendar end){
 
         if(start.compareTo(end) > 0){
             return null;
@@ -113,7 +116,7 @@ public class StockLoader{
      *
      * NOTE:    Returns null if the symbol does not exist
      */
-    public Stock loadStock(String symbol){
+    public IStock fetchStock(String symbol){
 
         if(exists(symbol) == false){
             return null;
@@ -184,7 +187,7 @@ public class StockLoader{
      *
      * @return  array list of string arrays
      */
-    private ArrayList<String[]> getStockList(){
+    private ArrayList<String[]> buildStockList(){
         ArrayList<String[]> result = new ArrayList<>();
         try{
             BufferedReader br = new BufferedReader(new FileReader("file/DATA/S&P-500-symbol-name-list.csv"));

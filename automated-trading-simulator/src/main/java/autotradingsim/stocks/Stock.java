@@ -1,5 +1,8 @@
 package autotradingsim.stocks;
 
+import autotradingsim.strategy.IBufferAdapter;
+import autotradingsim.strategy.StockDayBufferAdapter;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -13,7 +16,7 @@ import java.util.Calendar;
  * Public Methods:
  *      getDay(Calendar)
  */
-public class Stock {
+public class Stock implements IStock {
 
     private String symbol;
     private String name;
@@ -25,22 +28,17 @@ public class Stock {
         this.data = data;
     }
 
+    @Override
     public String getSymbol(){
         return this.symbol;
     }
 
+    @Override
     public String getName(){
         return this.name;
     }
 
-    /**
-     * Get the data for a given day in the data list of this stock
-     *
-     * @param   date a initialized date variable
-     * @return  a StockDay object for this stock on the given date
-     *
-     * NOTE:    Returns NULL if this stock does not have an entry for the given date
-     */
+    @Override
     public StockDay getDay(Calendar date){
         for(int i = 0; i < data.size(); i++){
             if(data.get(i).getDate().compareTo(date) == 0){
@@ -50,4 +48,20 @@ public class Stock {
         return null;
     }
 
+    @Override
+    public Calendar getStartDate() {
+        // TODO: implement
+        return null;
+    }
+
+    @Override
+    public Calendar getEndDate() {
+        // TODO: implement
+        return null;
+    }
+
+    @Override
+    public IBufferAdapter getNewBuffer(Calendar date, int size) {
+        return new StockDayBufferAdapter(this, date, size);
+    }
 }

@@ -1,6 +1,9 @@
 package autotradingsim.stocks;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -19,8 +22,16 @@ import java.util.Calendar;
  */
 public class StockDay extends StockEntry {
 
-    private String symobol;
+    public enum Values {
+        OPEN, CLOSE, HIGH, LOW, VOLUME
+    }
+
+    private String symbol;
     private Calendar date;
+
+    // Experimental BigDecimal Map
+    private Map<Values, BigDecimal> values;
+
     private Double open;
     private Double close;
     private Double high;
@@ -28,13 +39,27 @@ public class StockDay extends StockEntry {
     private Double volume;
 
     public StockDay(String symbol, Calendar date, Double open, Double high, Double low, Double close, Double volume) {
-        this.symobol = symbol;
+        this.symbol = symbol;
         this.date = date;
         this.open = open;
         this.high = high;
         this.low = low;
         this.close = close;
         this.volume = volume;
+
+        // Experimental BigDecimal Map
+        values = new HashMap<>();
+        values.put(Values.OPEN, new BigDecimal(open));
+        values.put(Values.CLOSE, new BigDecimal(close));
+        values.put(Values.HIGH, new BigDecimal(high));
+        values.put(Values.LOW, new BigDecimal(low));
+        values.put(Values.VOLUME, new BigDecimal(volume));
+
+    }
+
+    // BigDecimal getter
+    public BigDecimal getValue(Values which) {
+        return values.get(which);
     }
 
     public Calendar getDate(){
