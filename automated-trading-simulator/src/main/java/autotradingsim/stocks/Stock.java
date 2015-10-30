@@ -62,6 +62,10 @@ public class Stock implements IStock {
 
     @Override
     public IBufferAdapter getNewBuffer(Calendar date, int size) {
+        return getNewDayBuffer(date, size);
+    }
+
+    public StockDayBufferAdapter getNewDayBuffer(Calendar date, int size) {
         return new StockDayBufferAdapter(this, date, size);
     }
 }
