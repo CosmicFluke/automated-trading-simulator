@@ -14,10 +14,12 @@ public interface IBufferAdapter<E extends StockEntry> {
 
     void updateTo(Calendar date);
 
+    void updateNext();
+
+    boolean isEmpty();
+
     E getLastEntry();
 
-    Iterator<E> getIteratorRange(Calendar start, Calendar end);
-
-    Iterator<E> getIteratorAll();
+    Iterator<E> getIterator();
 
 }

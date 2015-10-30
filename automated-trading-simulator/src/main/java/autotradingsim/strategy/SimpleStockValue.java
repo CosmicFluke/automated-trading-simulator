@@ -1,5 +1,6 @@
 package autotradingsim.strategy;
 
+import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
 
@@ -15,13 +16,31 @@ import java.util.function.Function;
  */
 public class SimpleStockValue implements IMeasurement {
 
-    private static String name = "Simple Stock Value";
-    private static String desc = "Daily closing value of a stock";
+    private static final String name = "Simple Stock Value";
+    private static final String desc = "Daily closing value of a stock";
+    private static final int bufferSize = 1;
+
+    private Stock stock;
 
     /**
      * The function!
      */
-    private static Function<StockDay, BigDecimal> function = (StockDay day) -> (new BigDecimal(day.getClose()));
+    private static Function<StockDayBufferAdapter, BigDecimal> function =
+            (StockDayBufferAdapter stockBuffer) -> (stockBuffer.getLastEntry().getValue(StockDay.Values.CLOSE));
+
+
+    public SimpleStockValue () {
+        this.stock = null;
+    }
+
+    /**
+     * Sets the stock to be used to calculate the value of this measurement.<br>
+     * See {@link IMeasurement#getValue(Calendar)}
+     * @param stock
+     */
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
 
     @Override
     public String getName() {
@@ -34,7 +53,27 @@ public class SimpleStockValue implements IMeasurement {
     }
 
     @Override
-    public Number getValue(Stock stock, Calendar date) {
-        return function.apply(stock.getDay(date));
+    public BigDecimal getValue(Calendar date) throws DataNotProvidedException {
+        if (this.stock == null) {
+            throw new DataNotProvidedException();
+        }
+        Calendar prevDate = ((Calendar) date.clone());
+        prevDate.add(Calendar.DATE, -1);
+        return function.apply(this.stock.getNewDayBuffer(date, 1));
+    }
+
+    @Override
+    public Function<StockDayBufferAdapter, BigDecimal> getFunction() {
+        return function;
+    }
+
+    public int getBufferSize() {
+        return bufferSize;
+    }
+
+
+    @Override
+    public Class getType() {
+        return BigDecimal.class;
     }
 }

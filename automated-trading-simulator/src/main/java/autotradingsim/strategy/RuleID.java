@@ -8,14 +8,25 @@ package autotradingsim.strategy;
  */
 public class RuleID {
 
-    private long id;
+    private int id;
 
-    public RuleID(Strategy strat) {
-        this.id = strat.hashCode();
+    public RuleID(IRule rule) {
+        this.id = rule.hashCode();
     }
 
-    public long getID() {
+    public int getID() {
         return this.id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return (o instanceof RuleID) && (((RuleID) o).getID() == this.getID());
+    }
+
+    @Override
+    public int hashCode() {
+        return (new Long(this.id)).hashCode();
+    }
+
 
 }
