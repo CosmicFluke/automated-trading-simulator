@@ -1,6 +1,6 @@
 package autotradingsim.strategy;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Created by Asher on 2015-10-29.
@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public interface IDecision {
 
-    public Date getDate();
+    public Calendar getDate();
     public IAction.ActionType getActionType();
     public int getQuantity();
     public String getStockSymbol();

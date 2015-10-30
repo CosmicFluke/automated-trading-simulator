@@ -1,6 +1,7 @@
 package autotradingsim.strategy;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Asher on 2015-10-30.<br>
@@ -17,5 +18,13 @@ public interface IRule {
      * @return A decision maker.
      */
     IDecisionMaker getDecisionMaker();
+
+    List<ICondition> getConditions();
+
+    List<IAction> getActions();
+
+    String getDescription();
+
+    RuleID getRuleID();
 
 }

@@ -1,8 +1,8 @@
 package autotradingsim.strategy;
 
-import autotradingsim.stocks.Stock;
-
+import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.function.Function;
 
 /**
  * Created by Asher on 2015-10-30.
@@ -16,6 +16,17 @@ public interface IMeasurement {
 
     String getName();
     String getDescription();
+    int getBufferSize();
 
-    Number getValue(Stock stock, Calendar date);
+    /**
+     * Gets the value associated with this measurement for a given date.
+     * @param date
+     * @return
+     */
+    BigDecimal getValue(Calendar date);
+
+    Function<? extends IBufferAdapter, BigDecimal> getFunction();
+
+    Class getType();
+
 }

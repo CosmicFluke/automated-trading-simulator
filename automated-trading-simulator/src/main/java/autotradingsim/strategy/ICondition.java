@@ -1,8 +1,6 @@
 package autotradingsim.strategy;
 
-import java.util.function.Predicate;
-
-import autotradingsim.stocks.StockEntry;
+import java.util.Calendar;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -12,5 +10,5 @@ import autotradingsim.stocks.StockEntry;
  */
 public interface ICondition {
 
-    public boolean checkCondition();
+    boolean evaluate(Calendar date);
 }

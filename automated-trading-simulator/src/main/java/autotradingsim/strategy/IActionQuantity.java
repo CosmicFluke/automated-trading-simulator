@@ -1,5 +1,7 @@
 package autotradingsim.strategy;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Asher on 2015-10-30.</br>
  *
@@ -7,4 +9,11 @@ package autotradingsim.strategy;
  *
  */
 public interface IActionQuantity {
+
+    default int getValue() {
+        return 0;
+    }
+
+    int getValue(BigDecimal balance);
+
 }

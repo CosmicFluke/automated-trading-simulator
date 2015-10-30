@@ -1,8 +1,9 @@
 package autotradingsim.strategy;
 
-import autotradingsim.stocks.Stock;
+import autotradingsim.stocks.IStock;
 
-import java.util.Date;
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -26,12 +27,13 @@ public interface IDecisionMaker {
       * @param id Unique ID of the rule to which Stock will be assigned.
      * @param stock The Stock to assign to the given rule.
      */
-    public void assignStock(RuleID id, Stock stock);
+    public void assignStock(RuleID id, IStock stock);
 
     /**
-     * Once stocks are assigned, this can be used to get an {@link IDecision IDecision} for a given date.
+     * Once stocks are assigned, this can be used to get an iterator that provides a list of
+     * {@link IDecision IDecisions} for a given date.
      * @return A decision for this DecisionMaker.
      */
-    public IDecision getDecision(Date date);
+    public Iterator<IDecision> getDecisions(Calendar date);
 
 }

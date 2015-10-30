@@ -1,8 +1,8 @@
 package autotradingsim.strategy;
 
-import autotradingsim.stocks.StockDay;
 
-import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.function.Function;
 
 /**
  * Created by Asher on 2015-10-25.<br>
@@ -17,7 +17,7 @@ public abstract class Indicator implements IMeasurement, IBufferObserver {
 
     private String name;
     private String description;
-    private Number value;
+    private Function<Calendar, Number> function;
 
     public Indicator(String name, String description){
         this.name = name;
@@ -37,8 +37,8 @@ public abstract class Indicator implements IMeasurement, IBufferObserver {
         return this.description;
     }
 
-    public Number getValue(){
-        return this.value;
+    public Number getValue(Calendar date){
+        return this.function.apply(date);
     }
 
     public void attachBuffer(IBufferAdapter buffer) { }
