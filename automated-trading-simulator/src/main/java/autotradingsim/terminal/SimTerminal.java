@@ -3,7 +3,15 @@ package autotradingsim.terminal;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+/**
+ * Created by unknown.
+ * Contributors: Shirley, Tomek
+ *
+ * Experiments apply Strategies to particular stocks over a set of time periods.
+ *
+ * Public Methods:
+ *      addStock(String)
+ */
 /*
  * All Terminal/CLI classes go in this package.
  */
@@ -30,7 +38,7 @@ public class SimTerminal {
 					case "exit" :break;
 					case "modify": { //if file args[1] not found in local dir
 									//create new file named args[1]
-						if(args.length!=2){
+						if(args.length!=2){ //should be modify [experiment name]
 							System.out.println("incorrect number of arguments");
 						}else{
 							locale=args[1];
