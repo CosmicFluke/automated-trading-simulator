@@ -9,8 +9,10 @@ import java.io.InputStreamReader;
  *
  * Experiments apply Strategies to particular stocks over a set of time periods.
  *
- * Public Methods:
- *      addStock(String)
+ * commands: 
+ * modify [arg]
+ * run
+ * exit			
  */
 /*
  * All Terminal/CLI classes go in this package.
