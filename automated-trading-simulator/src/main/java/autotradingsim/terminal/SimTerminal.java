@@ -20,17 +20,22 @@ import java.io.InputStreamReader;
 public class SimTerminal {
 
 	static BufferedReader br;
-	static String runningExperiment="";
+	
+	public enum level{
+		experiment, strategy, top
+	}
+	static level currentlevel=level.top;
 	public static void run()
 	{
-
+		String name="";
 		String output="";
 		String input ="";
+		
 		br = new BufferedReader(new InputStreamReader(System.in));
 		while(input!=null){
 			output="";
-			if(runningExperiment!=""){
-				System.out.print(runningExperiment+" ");
+			if(currentlevel!=level.top){
+				System.out.print(currentlevel+" "+name);
 			}
 			System.out.print("$>");
 			
@@ -47,21 +52,39 @@ public class SimTerminal {
 					output="You asked for help!";
 				}break;
 				case "exit" :{
-					runningExperiment="";
+					currentlevel=level.top;
+					name="";
 				}break;
-				case "modify": { //if file args[1] not found in local dir
+				case "modifyex": { //if file args[1] not found in local dir
 								//create new file named args[1]
-					if(args.length!=2){ //should be modify [experiment name]
-						output="Incorrect number of arguments!";
+					if(currentlevel!=level.top){
+						output="You must exit "+currentlevel+" "+name+" first";
 					}else{
-						runningExperiment=args[1];
+						if(args.length!=2){ //should be modify [experiment name]
+							output="Incorrect number of arguments!";
+						}else{
+							currentlevel=level.experiment;
+							name=args[1];
+						}
+					}
+				}break;
+				case "modifystrat":{
+					if(currentlevel!=level.top){
+						output="You must exit "+currentlevel+" "+name+" first";
+					}else{
+						if(args.length!=2){
+							output="Incorrect number of arguments!";
+						}else{
+							currentlevel=level.strategy;
+							name=args[1];
+						}
 					}
 				}break;
 				case "run": {
-					if(runningExperiment.isEmpty()){
-						output="You have no experiments open right now.";
+					if(currentlevel!=level.experiment){
+						output="You have no experiment open right now.";
 					}else{
-						output="So you want to run " +runningExperiment;
+						output="So you want to run " +name;
 					}
 				}break;
 				case "": output="";
