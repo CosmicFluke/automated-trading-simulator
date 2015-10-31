@@ -7,22 +7,27 @@ import java.util.ArrayList;
 
 /**
  * Created by Asher on 2015-10-25.
- * Contributors: Bill
- *
+ * Contributors: Bill, Shirley
+ * 
  * Experiments apply Strategies to particular stocks over a set of time periods.
  *
  * Public Methods:
  *      addStock(String)
+ * 
+ * Modifications on 2015-10-30
+ * -changes to experiment constructor to include name
  */
 public class Experiment {
 
     StockLoader loader;
     ArrayList<IStock> samples;
     ArrayList<Strategy> strategies;
-    public Experiment(){
+    String ExperimentName;
+    public Experiment(String name){
         this.loader = new StockLoader();
         this.samples = new ArrayList<>();
         this.strategies = new ArrayList<>();
+        this.ExperimentName=name;
     }
 
     /**
