@@ -29,21 +29,30 @@ public class SimTerminal {
 			switch(args[0].toLowerCase()){
 				case "h":
 				case "help" :
-					HandleHelp();
+					HandleHelp(args);
 					break;
 
+				case "viewstrat":
+					HandleViewStrategy();
+					break;
+					
+				case "modifystrat":
+					HandleModifyStrategy(args);
+					break;	
+					
+				case "viewexp":
+					HandleViewExperiment();
+					break;
+					
 				case "modifyex":
 					HandleModifyExperiment(args);
 					break;
-				
-				case "modifystrat":
-					HandleModifyStrategy(args);
-					break;
-					
+
 				case "run":
-					handleRun();
+					handleRun(args);
 					break;
 
+				case "e":
 				case "exit" :
 					running = false;
 					break;
@@ -53,7 +62,7 @@ public class SimTerminal {
 
 				default :
 					System.out.println("Please enter a valid command.");
-					HandleHelp();
+					ListCommands();
 			}
 		} while(running);
 	}
@@ -73,38 +82,90 @@ public class SimTerminal {
 		String[] args = input.split("\\s+");
 		return args;
 	}
+	
+	private void HandleViewExperiment() {
+		
+	}
+
+	private void HandleViewStrategy() {
+		
+	}
+
+	private void ListCommands() {
+		System.out.println("Valid commands include:\r\n"
+				+ "help [<command>]\r\n"
+				+ "viewStrat <name>\r\n"
+				+ "modifyStrat <name>\r\n"
+				+ "viewExp <name>\r\n"
+				+ "modifyExp <name>\r\n"
+				+ "run <experiment_name>");
+	}
 
 	private void HandleModifyExperiment(String[] args) {
-	/*
-		if(currentlevel!=level.top){
-			output="You must exit "+currentlevel+" "+name+" first";
-		}else{
-			if(args.length!=2){ //should be modify [experiment name]
-				output="Incorrect number of arguments!";
-			}else{
-				currentlevel=level.experiment;
-				name=args[1];
-			}
-		}
-		*/
 	}
 
 	private void HandleModifyStrategy(String[] args) {
-		/*
-			if(args.length!=2){
-				System.out.println("Incorrect number of arguments!");
-			}else{
-				currentlevel=level.strategy;
-				name=args[1];
-			}
-		*/
 	}
 
-	private void handleRun() {
+	private void handleRun(String[] args) {
+		if(args.length == 1){
+			System.out.println("Running default experiment");
+			return;
+		}
 	}
 	
-	private void HandleHelp() {
-		System.out.println("Help invoked");
-	}
+	private void HandleHelp(String[] args) {
+		if(args.length == 1){
+			System.out.println("Welcome to the auto stock trading simulator!");
+		}
+		else{
+			String helpString = "";
+			switch(args[1].toLowerCase()){
+				case "viewstrat":
+					helpString = "View an existing trading strategy. "
+							+ "If none is specified, displays a list of "
+							+ "available strategies. Usage: viewStrat [name]";
+					break;
+					
+				case "modifystrat":
+					helpString = "Modify an existing strategy, by name. "
+							+ "If strategy doesn't exist, one is created by that name. "
+							+ "After specifying an strategy to be modified, the prompt "
+							+ "will change to Strat [name] >. See help strategyModification "
+							+ "for sub-commands.\r\n"
+							+ "Usage: modifyStrat [name]";
+					break;	
+					
+				case "viewexp":
+					helpString = "viewExp - view an existing experiment. If none is specified, "
+							+ "displays a list of available experiments. Usage: viewExp [name]";
+					break;
+					
+				case "modifyex":
+					helpString = "Modify an existing experiment by name. If that experiment doesn't exist, "
+							+ "create one under given name. After specifying a experiment to be modified, "
+							+ "the prompt will change to Experiment [name] >. See help experimentModification"
+							+ " for sub-commands.\r\n"
+							+ "Usage: modifyExp [name]";
+					break;
 	
+				case "run":
+					helpString = "run - Runs a selected experiment. "
+							+ "Usage: run [experiment_name]";
+					break;
+
+				case "experimentModification":
+				case "strategyModification":
+					helpString = "help for modifications not yet implemented";
+					break;
+					
+				default:
+					helpString = "Did not understand " + args[1] +
+								" as a valid input. Needs to be one of viewstrat, modifystrat"
+								+ ", viewexp, modifyex, run, experimentModification, or strategyModification";
+					break;
+			}
+			System.out.println(helpString);
+		}
+	}
 }
