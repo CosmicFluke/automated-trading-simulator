@@ -1,6 +1,8 @@
 package autotradingsim.engine;
 
 import java.util.ArrayList;
+import java.util.Formatter;
+import java.util.Locale;
 
 import autotradingsim.experiment.Experiment;
 
@@ -21,7 +23,13 @@ public class TradingEngine {
 		Experiment query= findExperiment(experimentName);
 		if(query == null)
 			query = findExperiment("default");
-		return query.getName();
+		
+		StringBuilder stringbuilder = new StringBuilder();
+		Formatter formatter = new Formatter(stringbuilder, Locale.US);
+		formatter.format("Name: %s", query.getName());
+		
+		formatter.close();
+		return stringbuilder.toString();
 	}
 
 	private Experiment findExperiment(String name) {
