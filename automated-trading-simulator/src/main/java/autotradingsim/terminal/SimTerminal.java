@@ -167,9 +167,12 @@ public class SimTerminal {
 						TradingEngine.viewStrategy(currentExperiment,args);
 					}if(args.length==2 & args[1].equals("-a")){
 						TradingEngine.viewStrategy(args);
-					}
+					}break;
+				case "save":
+					TradingEngine.saveEx(currentExperiment);
 				case "addrandomtimeset":
 					//Adds a randomly generated set of time windows: size windows, each length days long.
+					TradingEngine.addtimeset();
 				default :
 					System.out.println("Please enter a valid command.");
 					ListCommands("experiment");
@@ -187,7 +190,8 @@ public class SimTerminal {
 				case "exit": 
 					running=false;
 					break;
-				case "addrule":
+				case "newrule":
+					TradingEngine.newrule(stratname);
 					//prompt user to select conditions and actions from list
 				case "h":
 				case "help":
@@ -195,13 +199,15 @@ public class SimTerminal {
 					break;
 				case "newcond":
 					//define new condition
-					TradingEngine.addCond(args);
+					TradingEngine.addCond(args[1]);
 				case "newaction":
 					//define amount to buy and sell
-					TradingEngine.addAction(args);
+					TradingEngine.addAction(args[1]);
 				case "removecond":
 					//remove a condition from list
+					TradingEngine.removeCond(args[1]);
 				case "save":
+					TradingEngine.saveStrat(stratname);
 				default :
 					System.out.println("Please enter a valid command.");
 					ListCommands("strategy");
