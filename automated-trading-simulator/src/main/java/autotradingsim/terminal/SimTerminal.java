@@ -60,7 +60,9 @@ public class SimTerminal {
 					}
 					break;		
 				case "viewex":
-					TradingEngine.viewExperiment(args[1]);
+					if(checkArgNum(args,2)){
+						TradingEngine.viewExperiment(args[1]);
+					}
 					break;
 				case "modifyex":
 					if(checkArgNum(args, 2)){
@@ -160,8 +162,10 @@ public class SimTerminal {
 				case "addstrat":
 					//add existing strategies
 					TradingEngine.addStrategy(currentExperiment, args);
+					break;
 				case "addtime":
 					TradingEngine.addExpTime(currentExperiment,args);
+					break;
 					//add time period [Start YYYYMMDD] [End YYYYMMDD]
 				case "liststrat":
 					//liststrat [-a] display all or current strategies
@@ -169,14 +173,17 @@ public class SimTerminal {
 						TradingEngine.viewStrategy(currentExperiment,args);
 					}if(args.length==2 & args[1].equals("-a")){
 						TradingEngine.viewStrategy(args);
-					}break;
+					}
+					break;
 				case "save":
 					TradingEngine.saveEx(currentExperiment);
+					break;
 				case "addrandomtimeset":
 					//Adds a randomly generated set of time windows: size windows, each length days long.
 					if(checkArgNum(args, 3)){
 						TradingEngine.addtimeset(currentExperiment, args[1], args[2]);
 					}
+					break;
 				default :
 					System.out.println("Please enter a valid command.");
 					ListCommands("experiment");
@@ -204,17 +211,22 @@ public class SimTerminal {
 				case "newcond":
 					//define new condition
 					TradingEngine.addCond(args[1]);
+					break;
 				case "newaction":
 					//define amount to buy and sell
 					TradingEngine.addAction(args[1]);
+					break;
 				case "removecond":
 					//remove a condition from list
 					TradingEngine.removeCond(args[1]);
+					break;
 				case "save":
 					TradingEngine.saveStrat(stratname);
+					break;
 				default :
 					System.out.println("Please enter a valid command.");
 					ListCommands("strategy");
+					
 			}
 		}while(running);
 	}
