@@ -49,5 +49,9 @@ public class Experiment {
             }
         }
     }
+    
+    public String getName(){
+    	return this.ExperimentName;
+    }
 
 }

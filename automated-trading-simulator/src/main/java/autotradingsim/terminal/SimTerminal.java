@@ -3,6 +3,8 @@ package autotradingsim.terminal;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import autotradingsim.engine.TradingEngine;
 /*
  * Experiments apply Strategies to particular stocks over a set of time periods.
  *
@@ -22,6 +24,12 @@ import java.io.InputStreamReader;
  */
 public class SimTerminal {
 
+	private TradingEngine engine;
+	
+	public SimTerminal(){
+		engine = new TradingEngine();
+	}
+	
 	public void run()
 	{
 		boolean running = true;
