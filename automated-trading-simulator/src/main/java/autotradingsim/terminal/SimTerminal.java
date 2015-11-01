@@ -3,9 +3,9 @@ package autotradingsim.terminal;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+import java.util.Calendar;
 import autotradingsim.engine.TradingEngine;
-/*
+/*12
  * Experiments apply Strategies to particular stocks over a set of time periods.
  *
  * commands: 
@@ -18,16 +18,22 @@ import autotradingsim.engine.TradingEngine;
  * handleModifyStrategy (String[] args)
  * ListCommands: added lists for experiment and strategy level
  * 
+ *All Terminal/CLI classes go in this package.
  */
-/*
- * All Terminal/CLI classes go in this package.
- */
+
 public class SimTerminal {
 
 	private TradingEngine engine;
 	
 	public SimTerminal(){
 		engine = new TradingEngine();
+	}
+	public boolean checkArgNum(String[]args, int correctnum){
+		if(args.length!=correctnum){
+			System.out.println("invalid number of arguments for "+args[0]);
+			return false;
+		}
+		return true;
 	}
 	
 	public void run()
@@ -45,30 +51,30 @@ public class SimTerminal {
 				case "help" :
 					HandleHelp(args);
 					break;
-
 				case "viewstrat":
-					HandleViewStrategy();
+					TradingEngine.viewStrategy(args);
 					break;
-					
 				case "modifystrat":
-					HandleModifyStrategy(args);
-					break;	
-					
+					if(checkArgNum(args, 2)){
+						HandleModifyStrategy(args);
+					}
+					break;		
 				case "viewex":
-					HandleViewExperiment();
+					TradingEngine.viewExperiment(args[1]);
 					break;
-					
 				case "modifyex":
-					HandleModifyExperiment(args);
+					if(checkArgNum(args, 2)){
+						HandleModifyExperiment(args);
+					}
 					break;
-
 				case "run":
-					handleRun(args);
+						handleRun(args);
 					break;
-
 				case "e":
 				case "exit" :
-					running = false;
+					if(checkArgNum(args, 1)){
+						running = false;
+					}
 					break;
 
 				case "":
@@ -97,13 +103,6 @@ public class SimTerminal {
 		return args;
 	}
 	
-	private void HandleViewExperiment() {
-		
-	}
-
-	private void HandleViewStrategy() {
-		
-	}
 
 	private void ListCommands(String operationtype) {
 		if(operationtype.isEmpty()){
@@ -142,21 +141,33 @@ public class SimTerminal {
 	 * Start a new loop for creation/modification of experiments.
 	 * Throws IllegalArgumentExceptions
 	 */
-	private void HandleModifyExperiment(String[] args) {
+	private void HandleModifyExperiment(String[] exargs) {
+		String currentExperiment=exargs[1];
 		boolean running=true;
 		do{
-			String[] exargs=getUserInput();
+			String[] args=getUserInput();
 			switch(exargs[0].toLowerCase()){
 				case "e":
 				case "exit": 
 					running=false;
 					break;
+				case "h":
+				case "help":
+					HandleHelp(args);
+					break;
 				case "addstrat":
 					//add existing strategies
+					TradingEngine.addStrategy(currentExperiment, args);
 				case "addtime":
+					TradingEngine.addExpTime(currentExperiment,args);
 					//add time period [Start YYYYMMDD] [End YYYYMMDD]
 				case "liststrat":
-					//print list of strategies
+					//liststrat [-a] display all or current strategies
+					if(args.length==1){
+						TradingEngine.viewStrategy(currentExperiment,args);
+					}if(args.length==2 & args[1].equals("-a")){
+						TradingEngine.viewStrategy(args);
+					}
 				case "addrandomtimeset":
 					//Adds a randomly generated set of time windows: size windows, each length days long.
 				default :
@@ -166,21 +177,28 @@ public class SimTerminal {
 		}while(running);
 	}
 
-	private void HandleModifyStrategy(String[] args) {
+	private void HandleModifyStrategy(String[] stratargs) {
+		String stratname=stratargs[1];
 		boolean running=true;
 		do{
-			String[] exargs=getUserInput();
-			switch(exargs[0].toLowerCase()){
+			String[] args=getUserInput();
+			switch(args[0].toLowerCase()){
 				case "e":
 				case "exit": 
 					running=false;
 					break;
 				case "addrule":
 					//prompt user to select conditions and actions from list
+				case "h":
+				case "help":
+					HandleHelp(args);
+					break;
 				case "newcond":
 					//define new condition
+					TradingEngine.addCond(args);
 				case "newaction":
 					//define amount to buy and sell
+					TradingEngine.addAction(args);
 				case "removecond":
 					//remove a condition from list
 				case "save":
@@ -201,6 +219,7 @@ public class SimTerminal {
 	private void HandleHelp(String[] args) {
 		if(args.length == 1){
 			System.out.println("Welcome to the auto stock trading simulator!");
+			System.out.println("What do you need help with? Try: help <arg>");
 		}
 		else{
 			String helpString = "";
