@@ -13,7 +13,7 @@ import autotradingsim.engine.TradingEngine;
  * run
  * exit	
  * 
- * implemented: 
+ * implemented interface: 
  * handleModifyExperiment(String[] args)
  * handleModifyStrategy (String[] args)
  * ListCommands: added lists for experiment and strategy level
@@ -68,7 +68,9 @@ public class SimTerminal {
 					}
 					break;
 				case "run":
-						handleRun(args);
+					if(checkArgNum(args,2)){
+						handleRun(args[1]);
+					}
 					break;
 				case "e":
 				case "exit" :
@@ -172,7 +174,9 @@ public class SimTerminal {
 					TradingEngine.saveEx(currentExperiment);
 				case "addrandomtimeset":
 					//Adds a randomly generated set of time windows: size windows, each length days long.
-					TradingEngine.addtimeset();
+					if(checkArgNum(args, 3)){
+						TradingEngine.addtimeset(currentExperiment, args[1], args[2]);
+					}
 				default :
 					System.out.println("Please enter a valid command.");
 					ListCommands("experiment");
@@ -215,11 +219,10 @@ public class SimTerminal {
 		}while(running);
 	}
 
-	private void handleRun(String[] args) {
-		if(args.length == 1){
+	private void handleRun(String experimentname) {
+
 			System.out.println("Running default experiment");
 			return;
-		}
 	}
 	
 	private void HandleHelp(String[] args) {

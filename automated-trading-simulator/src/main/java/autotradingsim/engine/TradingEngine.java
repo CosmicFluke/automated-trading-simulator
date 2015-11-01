@@ -98,7 +98,7 @@ public class TradingEngine {
 		
 	}
 
-	public static void addtimeset() {
+	public static void addtimeset(String currentExperiment, String size, String len) {
 		// TODO Auto-generated method stub
 		
 	}
