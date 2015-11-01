@@ -9,7 +9,13 @@ import java.io.InputStreamReader;
  * commands: 
  * modify [arg]
  * run
- * exit			
+ * exit	
+ * 
+ * implemented: 
+ * handleModifyExperiment(String[] args)
+ * handleModifyStrategy (String[] args)
+ * ListCommands: added lists for experiment and strategy level
+ * 
  */
 /*
  * All Terminal/CLI classes go in this package.
@@ -40,7 +46,7 @@ public class SimTerminal {
 					HandleModifyStrategy(args);
 					break;	
 					
-				case "viewexp":
+				case "viewex":
 					HandleViewExperiment();
 					break;
 					
@@ -62,7 +68,7 @@ public class SimTerminal {
 
 				default :
 					System.out.println("Please enter a valid command.");
-					ListCommands();
+					ListCommands("");
 			}
 		} while(running);
 	}
@@ -91,20 +97,90 @@ public class SimTerminal {
 		
 	}
 
-	private void ListCommands() {
-		System.out.println("Valid commands include:\r\n"
-				+ "help [<command>]\r\n"
-				+ "viewStrat <name>\r\n"
-				+ "modifyStrat <name>\r\n"
-				+ "viewExp <name>\r\n"
-				+ "modifyExp <name>\r\n"
-				+ "run <experiment_name>");
+	private void ListCommands(String operationtype) {
+		if(operationtype.isEmpty()){
+			System.out.println("Valid commands include:\r\n"
+					+ "help [<command>]\r\n"
+					+ "viewStrat <name>\r\n"
+					+ "modifyStrat <name>\r\n"
+					+ "viewExp <name>\r\n"
+					+ "modifyExp <name>\r\n"
+					+ "run <experiment_name>");
+		}
+		if(operationtype.equals("experiment")){
+			System.out.println("Valid commands in experiment include:\r\n"
+					+ "e/exit \r\n"
+					+ "liststrat\r\n"
+					+ "addstrat <name>\r\n"
+					+ "addtime [Start YYYYMMDD] [End YYYYMMDD]\r\n"
+					+ "addrandomtimeset [size] [length]\r\n"
+					+ "save\r\n"
+					+ "run");
+		}
+		if(operationtype.equals("strategy")){
+			System.out.println("Valid commands in experiment include:\r\n"
+					+ "e/exit \r\n"
+					+ "newrule\r\n"
+					+ "newcond \r\n"
+					+ "newaction \r\n"
+					+ "removerule\r\n"
+					+ "removecond\r\n"
+					+ "removeaction\r\n"
+					+ "save");
+		}
 	}
-
+	/**
+	 * @param args
+	 * Start a new loop for creation/modification of experiments.
+	 * Throws IllegalArgumentExceptions
+	 */
 	private void HandleModifyExperiment(String[] args) {
+		boolean running=true;
+		do{
+			String[] exargs=getUserInput();
+			switch(exargs[0].toLowerCase()){
+				case "e":
+				case "exit": 
+					running=false;
+					break;
+				case "addstrat":
+					//add existing strategies
+				case "addtime":
+					//add time period [Start YYYYMMDD] [End YYYYMMDD]
+				case "liststrat":
+					//print list of strategies
+				case "addrandomtimeset":
+					//Adds a randomly generated set of time windows: size windows, each length days long.
+				default :
+					System.out.println("Please enter a valid command.");
+					ListCommands("experiment");
+			}
+		}while(running);
 	}
 
 	private void HandleModifyStrategy(String[] args) {
+		boolean running=true;
+		do{
+			String[] exargs=getUserInput();
+			switch(exargs[0].toLowerCase()){
+				case "e":
+				case "exit": 
+					running=false;
+					break;
+				case "addrule":
+					//prompt user to select conditions and actions from list
+				case "newcond":
+					//define new condition
+				case "newaction":
+					//define amount to buy and sell
+				case "removecond":
+					//remove a condition from list
+				case "save":
+				default :
+					System.out.println("Please enter a valid command.");
+					ListCommands("strategy");
+			}
+		}while(running);
 	}
 
 	private void handleRun(String[] args) {
