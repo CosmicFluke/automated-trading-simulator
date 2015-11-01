@@ -6,6 +6,7 @@ import autotradingsim.experiment.Experiment;
 import autotradingsim.strategy.Strategy;
 import autotradingsim.strategy.Condition;
 import autotradingsim.strategy.Action;
+
 public class TradingEngine {
 
 	static ArrayList<Experiment> experiments;
