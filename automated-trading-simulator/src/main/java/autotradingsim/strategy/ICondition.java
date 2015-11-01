@@ -18,6 +18,11 @@ public interface ICondition {
         GT, LT, GEQ, LEQ, EQ, NEQ
     }
 
+    /**
+     * Creates a Predicate function which compares to values in a Pair using a given comparator.
+     * @param comp Comparison operator
+     * @return New Predicate built with given comparison operator
+     */
     default Predicate<Pair<BigDecimal, BigDecimal>> makeComparator(Comparator comp) {
         switch (comp) {
             case GT:

@@ -8,6 +8,12 @@ import java.util.function.Predicate;
 
 /**
  * Created by Asher on 2015-10-30.
+ *
+ * <p>Very basic implementation of ICondition, using:<br>
+ * <ul><li>{@link SimpleStockValue} as its {@link IMeasurement}</li>
+ *     <li>A fixed value to compare the IMeasurement against</li>
+ * </ul></p>
+ *
  */
 public class SimpleCondition implements ICondition {
 

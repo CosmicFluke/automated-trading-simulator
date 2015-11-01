@@ -12,7 +12,7 @@ import java.util.function.Function;
  * whether it be a stock, a set of stocks, or some other data set.</p>
  *
  */
-public interface IMeasurement {
+public interface IMeasurement extends IFunctionBuilder{
 
     String getName();
     String getDescription();
@@ -25,8 +25,7 @@ public interface IMeasurement {
      */
     Number getValue(Calendar date);
 
+    @Override
     Function<? extends IBufferAdapter, BigDecimal> getFunction();
-
-    Class getType();
 
 }

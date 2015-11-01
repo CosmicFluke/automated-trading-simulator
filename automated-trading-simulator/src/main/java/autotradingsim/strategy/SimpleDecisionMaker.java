@@ -6,6 +6,9 @@ import java.util.*;
 
 /**
  * Created by Asher on 2015-10-30.
+ *
+ * Basic implementation of IDecisionMaker.  Will be useful for early testing and a sample beginner strategy.
+ *
  */
 public class SimpleDecisionMaker implements IDecisionMaker {
 
@@ -34,9 +37,9 @@ public class SimpleDecisionMaker implements IDecisionMaker {
     }
 
     @Override
-    public void assignStock(RuleID id, IStock IStock) throws RuleDoesNotExistException {
+    public void assignStock(RuleID id, IStock stock) throws RuleDoesNotExistException {
         if (this.rule.getRuleID().equals(id)) {
-            this.stock = IStock;
+            this.stock = stock;
         }
         else throw new RuleDoesNotExistException();
     }

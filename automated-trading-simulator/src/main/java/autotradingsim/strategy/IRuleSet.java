@@ -4,7 +4,7 @@ package autotradingsim.strategy;
 import java.util.Iterator;
 
 /**
- * A data type that stores a list of rules.
+ * A data type that stores a collection of rules.
  */
 public interface IRuleSet {
 

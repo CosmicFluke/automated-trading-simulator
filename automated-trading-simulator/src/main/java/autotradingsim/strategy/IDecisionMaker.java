@@ -9,7 +9,8 @@ import java.util.Map;
 /**
  * Created by Asher on 2015-10-29.
  *
- *
+ * IDecisionMakers make decisions for a given data set at a given time.  They produce collections of IDecision objects,
+ * which tell collaborators which actions to take.
  *
  */
 public interface IDecisionMaker {
@@ -19,7 +20,7 @@ public interface IDecisionMaker {
      *
      * @return Map where keys are rule IDs and values are string descriptions of the corresponding strategies
      */
-    public Map<RuleID, String> getRules();
+    Map<RuleID, String> getRules();
 
     /**
      * Assign a stock to the rule corresponding to the given rule ID.  Use {@link #getRules() getRules} for a map
@@ -27,13 +28,13 @@ public interface IDecisionMaker {
       * @param id Unique ID of the rule to which Stock will be assigned.
      * @param stock The Stock to assign to the given rule.
      */
-    public void assignStock(RuleID id, IStock stock);
+    void assignStock(RuleID id, IStock stock);
 
     /**
      * Once stocks are assigned, this can be used to get an iterator that provides a list of
      * {@link IDecision IDecisions} for a given date.
      * @return A decision for this DecisionMaker.
      */
-    public Iterator<IDecision> getDecisions(Calendar date);
+    Iterator<IDecision> getDecisions(Calendar date);
 
 }
