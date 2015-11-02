@@ -163,7 +163,7 @@ public class StockLoader{
      * @param   symbol symbol of a stock
      * @return  if a stock with the given symbol exists in stockListing
      */
-    private boolean exists(String symbol){
+    public boolean exists(String symbol){
         for(int i = 0; i < stockListing.size(); i++){
             if(stockListing.get(i)[0] == symbol){
                 return true;

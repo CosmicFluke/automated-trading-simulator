@@ -1,7 +1,7 @@
 package autotradingsim.experiment;
 
-import autotradingsim.stocks.Stock;
-import autotradingsim.strategy.Strategy;
+import autotradingsim.stocks.IStock;
+import autotradingsim.strategy.IStrategy;
 
 /**
  * Created by Bill Feng on 15-11-01.
@@ -11,11 +11,11 @@ public interface IExperiment {
 
     String getName();
 
-    void addStock(String symbol);
+    boolean addStock(String symbol);
 
-    Stock getStock(String symbol);
+    IStock getStock(String symbol);
 
-    void addStrategy(String name);
+    boolean addStrategy(int id);
 
-    Strategy getStrategy(String name);
+    IStrategy getStrategy(int id);
 }

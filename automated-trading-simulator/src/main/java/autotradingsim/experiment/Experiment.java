@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class Experiment implements IExperiment {
 
     StockLoader loader;
-    ArrayList<IStock> stocks;
+    ArrayList<String> stocks;
     ArrayList<Strategy> strategies;
     String name;
     public Experiment(String name){
@@ -41,33 +41,32 @@ public class Experiment implements IExperiment {
      * @param symbol the symbol of a stock
      */
     @Override
-    public void addStock(String symbol){
-        boolean existing = false;
-        for(int i = 0; i < stocks.size(); i++){
-            if(stocks.get(i).getSymbol().equals(symbol)){
-                existing = true;
-            }
-        }
-        if(!existing) {
-            IStock temp = loader.fetchStock(symbol);
-            if (temp != null) {
-                stocks.add(temp);
-            }
+    public boolean addStock(String symbol){
+        if(loader.exists(symbol)) {
+            stocks.add(symbol);
+            return true;
+        }else{
+            return false;
         }
     }
 
     @Override
-    public Stock getStock(String symbol) {
-        return null;
+    public IStock getStock(String symbol) {
+        return loader.fetchStock(symbol);
     }
 
     @Override
-    public void addStrategy(String name){
-
+    public boolean addStrategy(int id){
+        if("Strategy exists"){
+            strategies.add(Strategy);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
-    public Strategy getStrategy(String name){
-        return null;
+    public IStrategy getStrategy(int id){
+        return strategy;
     }
 }
