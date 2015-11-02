@@ -45,14 +45,30 @@ Decided to create interfaces for each of the following
     * save
 
 ##Update Meetings
+<<<<<<< Updated upstream
+
+ * Meetings were conducted online
 
 =======
- * Meetings were conducted online
+>>>>>>> Stashed changes
+ Location: Online-Slack 
+ Time: October 27th 2015
+ Participants: Asher, Bill, Shirley, Tomek
+ 
  * Changes made to UI:
-   * 
+   * launch new shells for modifyexperiment and modifystrategy rather than restricting commands
+   * user select conditions and actions from a list rather than entering it themselves
  * Changes made to the top-level classes
- * 
+ 	*instead of having one engine class store states and make api calls based on user input, engine is split up into application and command handler
+ 	* application stores states while command handler makes api calls based on user commands
  
 ##Burndown Chart
 
 ##Review & Retrospective
+* work that isn't done:
+ * user defined indicators
+ * user defined conditions
+ * multiple conditions applied to a rule
+ * set time periods for experiment
+ * generate random time set
+ * indicators 
