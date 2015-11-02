@@ -18,4 +18,6 @@ public interface IExperiment {
     boolean addStrategy(int id);
 
     IStrategy getStrategy(int id);
+
+    boolean runExperiment(TimeSet ts);
 }
