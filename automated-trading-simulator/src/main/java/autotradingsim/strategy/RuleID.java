@@ -28,5 +28,4 @@ public class RuleID {
         return (new Long(this.id)).hashCode();
     }
 
-
 }

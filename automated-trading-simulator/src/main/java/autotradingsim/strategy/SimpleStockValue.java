@@ -56,9 +56,9 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
         if (this.stock == null) {
             throw new DataNotProvidedException();
         }
-        Calendar prevDate = ((Calendar) date.clone());
-        prevDate.add(Calendar.DATE, -1);
-        return function.apply(this.stock.getNewDayBuffer(date, 1));
+        // Calendar prevDate = ((Calendar) date.clone());
+        // prevDate.add(Calendar.DATE, -1);
+        return function.apply(this.stock.getNewDayBuffer(date, this.getBufferSize()));
     }
 
     @Override

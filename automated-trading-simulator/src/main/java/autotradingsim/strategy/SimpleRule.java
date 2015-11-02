@@ -40,6 +40,12 @@ public class SimpleRule implements IRule {
     }
 
     @Override
+    public String getSummary() {
+        // TODO: implement!
+        return null;
+    }
+
+    @Override
     public IDecisionMaker getDecisionMaker() {
         return new SimpleDecisionMaker(this);
     }
