@@ -1,4 +1,5 @@
 package autotradingsim.terminal;
+import autotradingsim.engine.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class SimTerminal {
 					HandleHelp(args);
 					break;
 				case "viewstrat":
-					//CommandHandler.viewStrategy(args);
+					CommandHandler.viewStrategy(args);
 					break;
 				case "modifystrat":
 					if(checkArgNum(args, 2)){
@@ -59,7 +60,7 @@ public class SimTerminal {
 					break;		
 				case "viewex":
 					if(checkArgNum(args,2)){
-						//CommandHandler.viewExperiment(args[1]);
+						CommandHandler.viewExperiment(args[1]);
 					}
 					break;
 				case "modifyex":
@@ -161,7 +162,7 @@ public class SimTerminal {
 					break;
 				case "addstrat":
 					//add existing strategies
-					//CommandHandler.addStrategy(currentExperiment, args);
+					CommandHandler.addStrategy(currentExperiment, args[1]);
 					break;
 				case "addtime":
 					//CommandHandler.addExpTime(currentExperiment,args);
@@ -181,7 +182,7 @@ public class SimTerminal {
 				case "addrandomtimeset":
 					//Adds a randomly generated set of time windows: size windows, each length days long.
 					if(checkArgNum(args, 3)){
-						//CommandHandler.addtimeset(currentExperiment, args[1], args[2]);
+						CommandHandler.addtimeset(currentExperiment, args[1], args[2]);
 					}
 					break;
 				default :
@@ -221,7 +222,7 @@ public class SimTerminal {
 					//CommandHandler.removeCond(args[1]);
 					break;
 				case "save":
-					//CommandHandler.saveStrat(stratname);
+					CommandHandler.saveStrat(stratname);
 					break;
 				default :
 					System.out.println("Please enter a valid command.");
