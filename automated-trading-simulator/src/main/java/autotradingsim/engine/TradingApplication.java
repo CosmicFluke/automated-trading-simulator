@@ -16,8 +16,8 @@ import autotradingsim.experiment.*;
 import autotradingsim.strategy.*;
 
 public class TradingApplication {
-	public static ArrayList<IStrategy> strategies;
-	public static ArrayList<IExperiment> experiments;
+	public ArrayList<IStrategy> strategies = new ArrayList<>();
+	public ArrayList<IExperiment> experiments;
 	
 	private static TradingApplication instance=null;
 	
@@ -90,15 +90,26 @@ public class TradingApplication {
 			}
 		}
 	}
-	public static Strategy getStrategy(String strategyName){
+	public IStrategy getStrategy(String stratname){
 	
 		for (IStrategy strat: strategies){
+			if(strat.getName().equals(stratname)){
+				return strat;
+			}
+		}
+		return null;	
+	}
+	public IStrategy getStrategy(int stratid){
 		
+		for (IStrategy strat: strategies){
+			if(strat.getID()==stratid){
+				return strat;
+			}
 		}
 		return null;	
 	}
 	
-	public static void saveStrategy (IStrategy strategy){
+	public void saveStrategy (SimpleStrategy strategy){
 		if(!strategies.contains(strategy)){
 			strategies.add(strategy);
 		}
