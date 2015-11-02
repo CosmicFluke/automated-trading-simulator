@@ -69,4 +69,8 @@ public class Experiment implements IExperiment {
     public IStrategy getStrategy(int id){
         return strategy;
     }
+
+    public boolean runExperiment(int id){
+        return false;
+    }
 }
