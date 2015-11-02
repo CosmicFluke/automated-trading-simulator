@@ -180,7 +180,7 @@ public class StockLoader{
      */
     private String getName(String symbol){
         int i = 0;
-        while(stockListing.get(i)[0] != symbol){
+        while(!stockListing.get(i)[0].equals(symbol)){
             i++;
         }
         return stockListing.get(i)[1];
