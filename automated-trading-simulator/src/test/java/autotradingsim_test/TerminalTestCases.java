@@ -71,7 +71,7 @@ public class TerminalTestCases
     	String[] input = null;
     	autoTradingSim.main(input);
     	
-    	assertEquals("$>Welcome to the auto stock trading simulator!\r\n$>", OutputText.toString());
+    	assertEquals("Welcome to the auto stock trading simulator!\r\n> ", OutputText.toString());
     	
     	System.setIn(null);
     	System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
@@ -90,7 +90,7 @@ public class TerminalTestCases
     	String[] input = null;
     	autoTradingSim.main(input);
     	
-    	assertEquals("$>Welcome to the auto stock trading simulator!\r\n$>", OutputText.toString());
+    	assertEquals("> Welcome to the auto stock trading simulator!\r\n> ", OutputText.toString());
     	
     	System.setIn(null);
     	System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
@@ -109,7 +109,7 @@ public class TerminalTestCases
     	String[] input = null;
     	autoTradingSim.main(input);
     	
-    	assertEquals("$>Welcome to the auto stock trading simulator!\r\n$>", OutputText.toString());
+    	assertEquals("Welcome to the auto stock trading simulator!\r\n> ", OutputText.toString());
     	
     	System.setIn(null);
     	System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
@@ -128,7 +128,7 @@ public class TerminalTestCases
     	String[] input = null;
     	autoTradingSim.main(input);
     	
-    	String expected = "$>Please enter a valid command.\r\n"
+    	String expected = "Please enter a valid command.\r\n"
     			+ "Valid commands include:\r\n"
     			+ "help [<command>]\r\n"
     			+ "viewStrat <name>\r\n"
@@ -136,7 +136,7 @@ public class TerminalTestCases
     			+ "viewExp <name>\r\n"
     			+ "modifyExp <name>\r\n"
     			+ "run <experiment_name>\r\n"
-    			+ "$>";
+    			+ "> ";
     	
     	assertEquals(expected, OutputText.toString());
     	
@@ -157,11 +157,11 @@ public class TerminalTestCases
     	String[] input = null;
     	autoTradingSim.main(input);
     	
-    	String expected = "$>"
+    	String expected = "> "
     			+ "Did not understand invalid as a valid input. "
     			+ "Needs to be one of viewstrat, modifystrat, viewexp, modifyex, run, experimentModification, "
     			+ "or strategyModification\r\n"
-    			+ "$>";
+    			+ "> ";
     	
     	assertEquals(expected, OutputText.toString());
     	
@@ -182,10 +182,10 @@ public class TerminalTestCases
     	String[] input = null;
     	autoTradingSim.main(input);
     	
-    	String expected = "$>"
+    	String expected = "> "
     			+ "View an existing trading strategy. If none is specified, "
     			+ "displays a list of available strategies. Usage: viewStrat [name]\r\n"
-    			+ "$>";
+    			+ "> ";
     	
     	assertEquals(expected, OutputText.toString());
     	
@@ -206,11 +206,11 @@ public class TerminalTestCases
     	String[] input = null;
     	autoTradingSim.main(input);
     	
-    	String expected = "$>"
+    	String expected = "> "
     			+ "viewExp - view an existing experiment. "
     			+ "If none is specified, displays a list of available experiments. "
     			+ "Usage: viewExp [name]\r\n"
-    			+ "$>";
+    			+ "> ";
     	
     	assertEquals(expected, OutputText.toString());
     	
@@ -231,14 +231,14 @@ public class TerminalTestCases
     	String[] input = null;
     	autoTradingSim.main(input);
     	
-    	String expected = "$>"
+    	String expected = "> "
     			+ "Modify an existing experiment by name. "
     			+ "If that experiment doesn't exist, create one under given name. "
     			+ "After specifying a experiment to be modified, the prompt will "
     			+ "change to Experiment [name] >. "
     			+ "See help experimentModification for sub-commands.\r\n"
     			+ "Usage: modifyExp [name]\r\n"
-    			+ "$>";
+    			+ "> ";
     	
     	assertEquals(expected, OutputText.toString());
     	
@@ -259,13 +259,13 @@ public class TerminalTestCases
     	String[] input = null;
     	autoTradingSim.main(input);
     	
-    	String expected = "$>"
+    	String expected = "> "
     			+ "Modify an existing strategy, by name. "
     			+ "If strategy doesn't exist, one is created by that name. "
     			+ "After specifying an strategy to be modified, the prompt will change to Strat [name] >. "
     			+ "See help strategyModification for sub-commands.\r\n"
     			+ "Usage: modifyStrat [name]\r\n"
-    			+ "$>";
+    			+ "> ";
     	
     	assertEquals(expected, OutputText.toString());
     	
@@ -286,10 +286,10 @@ public class TerminalTestCases
     	String[] input = null;
     	autoTradingSim.main(input);
     	
-    	String expected = "$>"
+    	String expected = "> "
     			+ "run - Runs a selected experiment. "
     			+ "Usage: run [experiment_name]\r\n"
-    			+ "$>";
+    			+ "> ";
     	
     	assertEquals(expected, OutputText.toString());
     	
