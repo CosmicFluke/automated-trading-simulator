@@ -64,6 +64,9 @@ Decided to create interfaces for each of the following
  
 ##Burndown Chart
 
+![alt tag](https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/groupburndownchart.jpg)
+![alt tag](https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/asher_chart.png)
+
 ##Review & Retrospective
 * work that isn't done:
  * user defined indicators
