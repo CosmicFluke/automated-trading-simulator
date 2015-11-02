@@ -1,5 +1,7 @@
 package autotradingsim.strategy;
 
+import autotradingsim.stocks.StockDay;
+import autotradingsim.stocks.StockEntry;
 import autotradingsim.util.Pair;
 
 import java.math.BigDecimal;
@@ -18,7 +20,7 @@ import java.util.function.Predicate;
 public class SimpleCondition implements ICondition {
 
     private SimpleStockValue measurement;
-    private Predicate<StockDayBufferAdapter> compare;
+    private Predicate<IBufferAdapter<? extends StockEntry>> compare;
     private Predicate<Pair<BigDecimal,BigDecimal>> comparison;
 
     public SimpleCondition (Comparator comp, BigDecimal value) {
@@ -27,7 +29,7 @@ public class SimpleCondition implements ICondition {
 
         // Want to use comp to check measurement against value
         this.comparison = makeComparator(comp);
-        this.compare = (StockDayBufferAdapter buf) ->
+        this.compare = (IBufferAdapter<? extends StockEntry> buf) ->
             (comparison.test(new Pair<>(measurement.getFunction().apply(buf), value)));
 
     }
@@ -36,12 +38,12 @@ public class SimpleCondition implements ICondition {
     public boolean evaluate(Calendar date) {
 
         //Run comparison on value of measurement against constant value
-        //
+        // TODO: is this necessary?
         return false;
     }
 
     @Override
-    public Predicate<StockDayBufferAdapter> getFunction() {
+    public Predicate<IBufferAdapter<? extends StockEntry>> getFunction() {
         return this.compare;
     }
 

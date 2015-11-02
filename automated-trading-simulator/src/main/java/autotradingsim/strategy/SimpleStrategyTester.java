@@ -24,6 +24,10 @@ public class SimpleStrategyTester extends StrategyTester {
         }
     }
 
+    protected Map<RuleID, IDecisionMaker> getMap() {
+        return new HashMap<>(this.ruleIDtoDecisionMaker);
+    }
+
     @Override
     public void setAll(IStock stock) {
         this.stock = stock;
@@ -33,8 +37,8 @@ public class SimpleStrategyTester extends StrategyTester {
     }
 
     @Override
-    public Set<IDecision> testDate(Calendar date) {
-        Set<IDecision> decisions = new TreeSet<>();
+    public List<IDecision> testDate(Calendar date) {
+        List<IDecision> decisions = new LinkedList<>();
         for (IDecisionMaker maker : ruleIDtoDecisionMaker.values()) {
             Iterator<IDecision> decisionIter = maker.getDecisions(date);
             while (decisionIter.hasNext()) {

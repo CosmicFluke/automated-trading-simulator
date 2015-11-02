@@ -1,5 +1,7 @@
 package autotradingsim.strategy;
 
+import autotradingsim.stocks.StockEntry;
+
 import java.util.Calendar;
 import java.util.function.Predicate;
 
@@ -16,7 +18,7 @@ public class Condition implements ICondition {
 	}
 
 	@Override
-	public Predicate<? extends IBufferAdapter> getFunction() {
+	public Predicate<IBufferAdapter<? extends StockEntry>> getFunction() {
 		// TODO Auto-generated method stub
 		return null;
 	}

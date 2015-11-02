@@ -3,6 +3,7 @@ package autotradingsim.strategy;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
+import autotradingsim.stocks.StockEntry;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -25,8 +26,8 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
     /**
      * The function!
      */
-    private static Function<StockDayBufferAdapter, BigDecimal> function =
-            (StockDayBufferAdapter stockBuffer) -> (stockBuffer.getLastEntry() != null ? stockBuffer.getLastEntry().getValue(StockDay.Values.CLOSE) : null);
+    private static Function<IBufferAdapter<? extends StockEntry>, BigDecimal> function =
+            (IBufferAdapter<? extends StockEntry> stockBuffer) -> (stockBuffer.getLastEntry() != null ? ((StockDay) stockBuffer.getLastEntry()).getValue(StockDay.Values.CLOSE) : null);
 
 
     public SimpleStockValue () {
@@ -63,7 +64,7 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
     }
 
     @Override
-    public Function<StockDayBufferAdapter, BigDecimal> getFunction() {
+    public Function<IBufferAdapter<? extends StockEntry>, BigDecimal> getFunction() {
         return function;
     }
 

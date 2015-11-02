@@ -1,5 +1,6 @@
 package autotradingsim.experiment;
 
+import autotradingsim.engine.TradingApplication;
 import autotradingsim.stocks.*;
 import autotradingsim.strategy.*;
 
@@ -7,10 +8,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -60,7 +58,7 @@ public class Experiment implements IExperiment {
      */
     @Override
     public boolean addStock(String symbol){
-        if(loader.exists(symbol)) {
+        if(loader.exists(symbol)) { //check existing might not be needed if trading application can check first
             stocks.add(symbol);
             return true;
         }else{
@@ -75,7 +73,7 @@ public class Experiment implements IExperiment {
 
     @Override
     public boolean addStrategy(int id){
-        if(false){ //"if Strategy exists"
+        if(TradingApplication.getInstance().getStrategy(id) != null){  //check existing might not be needed if trading application can check first
             strategies.add(id);
             return true;
         }else{
@@ -85,7 +83,7 @@ public class Experiment implements IExperiment {
 
     @Override
     public IStrategy getStrategy(int id){
-        return null; // return strategy with the id
+        return TradingApplication.getInstance().getStrategy(id); // return strategy with the id
     }
 
     /**
@@ -103,7 +101,7 @@ public class Experiment implements IExperiment {
             StrategyTester st;
             IStock stock;
             Calendar currentDate;
-            Set<IDecision> decisions;
+            List<IDecision> decisions;
             int duration;
             IDecision decision;
 
@@ -174,7 +172,7 @@ public class Experiment implements IExperiment {
             StrategyTester st;
             IStock stock;
             Calendar currentDate;
-            Set<IDecision> decisions;
+            List<IDecision> decisions;
             int duration;
             IDecision decision;
 

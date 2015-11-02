@@ -217,6 +217,7 @@ public class SimTerminal {
 					running=false;
 					break;
 				case "newrule":
+
 					engine.printconditions();
 					String choice=getUserInput()[0];
 					while(!Character.isDigit(choice.toCharArray()[0])){
