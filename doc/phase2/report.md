@@ -1,6 +1,6 @@
 ##Initial Planning
 ##Decisions made during the meeting:
-Decided to create interfaces for each of the following
+Decided to create java packages for each of the following
 * User interface:
  * based on command line
  * user create experiments,strategies,rules, conditions and actions
