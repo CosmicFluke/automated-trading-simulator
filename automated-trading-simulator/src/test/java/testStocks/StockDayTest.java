@@ -20,7 +20,7 @@ public class StockDayTest{
 	private final Double close = 50.31;
 	private final Double volume = 20000.00;
 	private Calendar date2 = Calendar.getInstance();
-	
+	/*
 	@Before
 	public void setUp() {
 		this.dayStock = new StockDay(this.symbol, this.date, this.open, this.high, this.low, this.close, this.volume);
@@ -73,4 +73,5 @@ public class StockDayTest{
     }
     
     **/
+
 }
