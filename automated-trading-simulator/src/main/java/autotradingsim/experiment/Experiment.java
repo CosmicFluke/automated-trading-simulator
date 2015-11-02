@@ -26,11 +26,11 @@ import java.util.Set;
  */
 public class Experiment implements IExperiment {
 
-    StockLoader loader;
-    String name;
-    ArrayList<String> stocks;
-    ArrayList<Integer> strategies;
-    ArrayList<int[]> trials;
+    private StockLoader loader;
+    private String name;
+    private ArrayList<String> stocks;
+    private ArrayList<Integer> strategies;
+    private ArrayList<int[]> trials;
 
     /**
      *
@@ -47,6 +47,10 @@ public class Experiment implements IExperiment {
     @Override
     public String getName(){
         return this.name;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 
     /**
@@ -93,7 +97,7 @@ public class Experiment implements IExperiment {
     public boolean runExperiment(TimeSet ts){
         try{
             // Create the file writer with the given file ID as the name
-            BufferedWriter bw = new BufferedWriter(new FileWriter("file/DATA/RESULTS/exp" + name + ".atsr"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/" + name + ".txt"));
 
             IStrategy strategy;
             StrategyTester st;
@@ -156,7 +160,75 @@ public class Experiment implements IExperiment {
 
         }catch(IOException e){
             System.out.println(e);
+            return false;
         }
-        return false;
+        return true;
+    }
+
+    public boolean runExperiment(){
+        try{
+            // Create the file writer with the given file ID as the name
+            BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/" + name + ".txt"));
+
+            IStrategy strategy;
+            StrategyTester st;
+            IStock stock;
+            Calendar currentDate;
+            Set<IDecision> decisions;
+            int duration;
+            IDecision decision;
+
+            BigDecimal balance;
+            int shares;
+
+            // Go through all the trials, test each one. Output a chunk of results to file for each trial
+            for(int i  = 0; i < trials.size(); i++){
+                strategy = getStrategy(strategies.get(trials.get(i)[0]));
+                stock = getStock(stocks.get(trials.get(i)[1]));
+                st = strategy.getNewTester();
+                st.setAll(stock);
+
+                currentDate = stock.getStartDate();
+                bw.write(name);
+                bw.newLine();
+                bw.write(stock.getSymbol());
+                bw.newLine();
+                bw.write(currentDate.YEAR+"-"+currentDate.MONTH+"-"+currentDate.DATE);
+                bw.newLine();
+
+                balance = new BigDecimal(0);
+                shares = 0;
+
+                // Iterate through all the days in the time snippet
+                while(currentDate.compareTo(stock.getEndDate()) <= 0){
+                    decisions = st.testDate(currentDate);
+                    Iterator itr = decisions.iterator();
+
+                    bw.write(balance.toString());
+                    bw.write("," + shares);
+
+                    while(itr.hasNext()){
+                        decision = (IDecision)itr.next();
+                        if(decision.getActionType() == IAction.ActionType.BUY){
+                            shares += decision.getQuantity();
+                            balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                        }else if(decision.getActionType() == IAction.ActionType.SELL){
+                            shares -= decision.getQuantity();
+                            balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                        }
+
+                        bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity());
+                    }
+                    bw.newLine();
+                    currentDate.add(currentDate.DATE, 1);
+                }
+                bw.newLine();
+            }
+
+        }catch(IOException e){
+            System.out.println(e);
+            return false;
+        }
+        return true;
     }
 }
