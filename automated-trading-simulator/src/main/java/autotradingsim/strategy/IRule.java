@@ -14,17 +14,32 @@ import java.util.List;
 public interface IRule {
 
     /**
-     * Produces the decision-making object.
+     * Produces the decision-making object.<br>
+     * (The {@link StrategyTester} should use this to get decisions for specific stocks on specific dates)<br>
      * @return A decision maker.
      */
     IDecisionMaker getDecisionMaker();
 
     List<ICondition> getConditions();
 
+    /**
+     *
+     * @return
+     */
     List<IAction> getActions();
 
+    /**
+     * Provides a user-defined description for this rule
+     * @return User-defined description
+     */
     String getDescription();
 
     RuleID getRuleID();
+
+    /**
+     * A formalized summary of each of the conditions and actions included in this rule
+     * @return
+     */
+    String getSummary();
 
 }

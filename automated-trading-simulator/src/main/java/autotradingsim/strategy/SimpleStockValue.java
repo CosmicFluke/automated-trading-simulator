@@ -1,6 +1,5 @@
 package autotradingsim.strategy;
 
-import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
 
@@ -11,10 +10,10 @@ import java.util.function.Function;
 /**
  * Created by Asher on 2015-10-30.
  *
- * IMeasurement which always uses a stock's daily closing value.
+ * IMeasurement implementation which always uses a stock's daily closing value.
  *
  */
-public class SimpleStockValue implements IMeasurement {
+public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
 
     private static final String name = "Simple Stock Value";
     private static final String desc = "Daily closing value of a stock";
@@ -57,9 +56,9 @@ public class SimpleStockValue implements IMeasurement {
         if (this.stock == null) {
             throw new DataNotProvidedException();
         }
-        Calendar prevDate = ((Calendar) date.clone());
-        prevDate.add(Calendar.DATE, -1);
-        return function.apply(this.stock.getNewDayBuffer(date, 1));
+        // Calendar prevDate = ((Calendar) date.clone());
+        // prevDate.add(Calendar.DATE, -1);
+        return function.apply(this.stock.getNewDayBuffer(date, this.getBufferSize()));
     }
 
     @Override
@@ -71,9 +70,4 @@ public class SimpleStockValue implements IMeasurement {
         return bufferSize;
     }
 
-
-    @Override
-    public Class getType() {
-        return BigDecimal.class;
-    }
 }
