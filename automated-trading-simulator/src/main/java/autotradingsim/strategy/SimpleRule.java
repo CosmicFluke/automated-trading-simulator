@@ -15,6 +15,7 @@ public class SimpleRule implements IRule {
 
     private IAction action;
     private ICondition condition;
+    private RuleID id;
 
     private String description;
 
@@ -22,6 +23,7 @@ public class SimpleRule implements IRule {
         this.action = action;
         this.condition = condition;
         this.description = defaultDescription;
+        this.id = new RuleID(this);
     }
 
     public SimpleRule (ICondition condition, IAction action, String description) {
@@ -36,7 +38,7 @@ public class SimpleRule implements IRule {
 
     @Override
     public RuleID getRuleID() {
-        return new RuleID(this);
+        return this.id;
     }
 
     @Override

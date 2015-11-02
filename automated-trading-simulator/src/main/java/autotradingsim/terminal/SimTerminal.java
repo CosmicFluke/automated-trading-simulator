@@ -1,11 +1,12 @@
 package autotradingsim.terminal;
+import autotradingsim.engine.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Calendar;
-import autotradingsim.engine.TradingEngine;
-/*12
+import autotradingsim.engine.CommandHandler;
+/** 12
  * Experiments apply Strategies to particular stocks over a set of time periods.
  *
  * commands: 
@@ -23,10 +24,10 @@ import autotradingsim.engine.TradingEngine;
 
 public class SimTerminal {
 
-	private TradingEngine engine;
+	private CommandHandler engine;
 	
 	public SimTerminal(){
-		engine = new TradingEngine();
+		engine = new CommandHandler();
 	}
 	public boolean checkArgNum(String[]args, int correctnum){
 		if(args.length!=correctnum){
@@ -35,33 +36,46 @@ public class SimTerminal {
 		}
 		return true;
 	}
+
+    public static void main(String[] args){
+        SimTerminal st = new SimTerminal();
+        System.out.println("Welcome to Automated Trading Simulator!");
+        System.out.println("Type 'help' to see a list of commands.");
+        st.run();
+    }
 	
 	public void run()
 	{
 		boolean running = true;
-		do {
-			System.out.print("$>");
-			
+		do {			
 			String[] args = getUserInput();
 			if(args == null)
 				return;
 
 			switch(args[0].toLowerCase()){
-				case "h":
 				case "help" :
 					HandleHelp(args);
 					break;
 				case "viewstrat":
-					TradingEngine.viewStrategy(args);
+					if(args.length==1){
+						engine.viewStrategy("");
+					}
+					if(args.length==2){
+						engine.viewStrategy(args[1]);
+					}
 					break;
 				case "modifystrat":
-					if(checkArgNum(args, 2)){
+					if(args.length==2){
 						HandleModifyStrategy(args);
 					}
+					if(args.length==1){
+						engine.createDefaultStrategy();
+					}
+					
 					break;		
 				case "viewex":
 					if(checkArgNum(args,2)){
-						TradingEngine.viewExperiment(args[1]);
+						//engine.viewExperiment(args[1]);
 					}
 					break;
 				case "modifyex":
@@ -74,7 +88,6 @@ public class SimTerminal {
 						handleRun(args[1]);
 					}
 					break;
-				case "e":
 				case "exit" :
 					if(checkArgNum(args, 1)){
 						running = false;
@@ -91,10 +104,11 @@ public class SimTerminal {
 		} while(running);
 	}
 
-	private String[] getUserInput() {
+	public String[] getUserInput() {
 		String input;
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
+			System.out.print("> ");
 			input =	br.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -141,12 +155,13 @@ public class SimTerminal {
 		}
 	}
 	/**
-	 * @param args
+	 * @param exargs
 	 * Start a new loop for creation/modification of experiments.
 	 * Throws IllegalArgumentExceptions
 	 */
 	private void HandleModifyExperiment(String[] exargs) {
 		String currentExperiment=exargs[1];
+		System.out.print(currentExperiment);
 		boolean running=true;
 		do{
 			String[] args=getUserInput();
@@ -161,27 +176,27 @@ public class SimTerminal {
 					break;
 				case "addstrat":
 					//add existing strategies
-					TradingEngine.addStrategy(currentExperiment, args);
+					//engine.addStrategy(currentExperiment, args[1]);
 					break;
 				case "addtime":
-					TradingEngine.addExpTime(currentExperiment,args);
+					//CommandHandler.addExpTime(currentExperiment,args);
 					break;
 					//add time period [Start YYYYMMDD] [End YYYYMMDD]
 				case "liststrat":
 					//liststrat [-a] display all or current strategies
 					if(args.length==1){
-						TradingEngine.viewStrategy(currentExperiment,args);
+						//CommandHandler.viewStrategy(currentExperiment,args);
 					}if(args.length==2 & args[1].equals("-a")){
-						TradingEngine.viewStrategy(args);
+						//CommandHandler.viewStrategy(args);
 					}
 					break;
 				case "save":
-					TradingEngine.saveEx(currentExperiment);
+					//CommandHandler.saveEx(currentExperiment);
 					break;
 				case "addrandomtimeset":
 					//Adds a randomly generated set of time windows: size windows, each length days long.
 					if(checkArgNum(args, 3)){
-						TradingEngine.addtimeset(currentExperiment, args[1], args[2]);
+						engine.addtimeset(currentExperiment, args[1], args[2]);
 					}
 					break;
 				default :
@@ -202,7 +217,19 @@ public class SimTerminal {
 					running=false;
 					break;
 				case "newrule":
-					TradingEngine.newrule(stratname);
+
+					engine.printconditions();
+					String choice=getUserInput()[0];
+					while(!Character.isDigit(choice.toCharArray()[0])){
+						System.out.println("please enter 1 or 2");
+						choice=getUserInput()[0];
+					}
+					int select=Integer.parseInt(choice);
+					System.out.print("Set value: ");
+					choice=getUserInput()[0];
+					int val=Integer.parseInt(choice);
+					engine.addnewrule(stratname, select, val);
+					//engine.newrule(stratname);
 					//prompt user to select conditions and actions from list
 				case "h":
 				case "help":
@@ -210,18 +237,18 @@ public class SimTerminal {
 					break;
 				case "newcond":
 					//define new condition
-					TradingEngine.addCond(args[1]);
+					//CommandHandler.addCond(args[1]);
 					break;
 				case "newaction":
 					//define amount to buy and sell
-					TradingEngine.addAction(args[1]);
+					//CommandHandler.addAction(args[1]);
 					break;
 				case "removecond":
 					//remove a condition from list
-					TradingEngine.removeCond(args[1]);
+					//CommandHandler.removeCond(args[1]);
 					break;
 				case "save":
-					TradingEngine.saveStrat(stratname);
+					engine.saveStrat(stratname);
 					break;
 				default :
 					System.out.println("Please enter a valid command.");
@@ -239,10 +266,8 @@ public class SimTerminal {
 	
 	private void HandleHelp(String[] args) {
 		if(args.length == 1){
-			System.out.println("Welcome to the auto stock trading simulator!");
-			System.out.println("What do you need help with? Try: help <arg>");
-		}
-		else{
+			System.out.println("What do you need help with? Try: help viewstrat, modifystrat, viewexp, modifyexp, run.");
+		}else{
 			String helpString = "";
 			switch(args[1].toLowerCase()){
 				case "viewstrat":
@@ -265,7 +290,7 @@ public class SimTerminal {
 							+ "displays a list of available experiments. Usage: viewExp [name]";
 					break;
 					
-				case "modifyex":
+				case "modifyexp":
 					helpString = "Modify an existing experiment by name. If that experiment doesn't exist, "
 							+ "create one under given name. After specifying a experiment to be modified, "
 							+ "the prompt will change to Experiment [name] >. See help experimentModification"
@@ -277,16 +302,11 @@ public class SimTerminal {
 					helpString = "run - Runs a selected experiment. "
 							+ "Usage: run [experiment_name]";
 					break;
-
-				case "experimentModification":
-				case "strategyModification":
-					helpString = "help for modifications not yet implemented";
-					break;
 					
 				default:
 					helpString = "Did not understand " + args[1] +
 								" as a valid input. Needs to be one of viewstrat, modifystrat"
-								+ ", viewexp, modifyex, run, experimentModification, or strategyModification";
+								+ ", viewexp, modifyex, run";
 					break;
 			}
 			System.out.println(helpString);

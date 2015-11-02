@@ -50,14 +50,12 @@ public class Stock implements IStock {
 
     @Override
     public Calendar getStartDate() {
-        // TODO: implement
-        return null;
+        return data.get(0).getDate();
     }
 
     @Override
     public Calendar getEndDate() {
-        // TODO: implement
-        return null;
+        return data.get(data.size() - 1).getDate();
     }
 
     @Override

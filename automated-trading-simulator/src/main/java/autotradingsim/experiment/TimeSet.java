@@ -11,6 +11,7 @@ import java.util.*;
 public class TimeSet implements Iterator {
 
     private List<Calendar> startDates;
+    private int duration;
 
     /**
      *
@@ -22,6 +23,7 @@ public class TimeSet implements Iterator {
         Each start date should allow for a period trialDuration days long within the given range
         Periods should overlap as little as possible
          */
+        this.duration = trialDuration;
     }
 
     public Calendar next() {
@@ -32,6 +34,10 @@ public class TimeSet implements Iterator {
     public boolean hasNext(){
         // TODO: implement
         return false;
+    }
+
+    public int getDuration(){
+        return this.duration;
     }
 
 }

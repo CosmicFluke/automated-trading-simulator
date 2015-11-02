@@ -1,9 +1,14 @@
 package autotradingsim.experiment;
 
+import autotradingsim.engine.TradingApplication;
 import autotradingsim.stocks.*;
-import autotradingsim.strategy.Strategy;
+import autotradingsim.strategy.*;
 
-import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -19,20 +24,31 @@ import java.util.ArrayList;
  */
 public class Experiment implements IExperiment {
 
-    StockLoader loader;
-    ArrayList<String> stocks;
-    ArrayList<Strategy> strategies;
-    String name;
+    private StockLoader loader;
+    private String name;
+    private ArrayList<String> stocks;
+    private ArrayList<Integer> strategies;
+    private ArrayList<int[]> trials;
+
+    /**
+     *
+     * @param name name of the experiment
+     */
     public Experiment(String name){
         this.loader = new StockLoader();
-        this.stocks = new ArrayList<>();
-        this.strategies = new ArrayList<>();
         this.name = name;
+        this.stocks = new ArrayList<>();
+        this.strategies = new ArrayList<Integer>();
+        this.trials = new ArrayList<>();
     }
 
     @Override
     public String getName(){
         return this.name;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 
     /**
@@ -42,7 +58,7 @@ public class Experiment implements IExperiment {
      */
     @Override
     public boolean addStock(String symbol){
-        if(loader.exists(symbol)) {
+        if(loader.exists(symbol)) { //check existing might not be needed if trading application can check first
             stocks.add(symbol);
             return true;
         }else{
@@ -57,8 +73,8 @@ public class Experiment implements IExperiment {
 
     @Override
     public boolean addStrategy(int id){
-        if("Strategy exists"){
-            strategies.add(Strategy);
+        if(TradingApplication.getInstance().getStrategy(id) != null){  //check existing might not be needed if trading application can check first
+            strategies.add(id);
             return true;
         }else{
             return false;
@@ -67,10 +83,150 @@ public class Experiment implements IExperiment {
 
     @Override
     public IStrategy getStrategy(int id){
-        return strategy;
+        return TradingApplication.getInstance().getStrategy(id); // return strategy with the id
     }
 
-    public boolean runExperiment(int id){
-        return false;
+    /**
+     *
+     * @param ts a time set
+     * @return whether the experiment was ran successfully
+     */
+    @Override
+    public boolean runExperiment(TimeSet ts){
+        try{
+            // Create the file writer with the given file ID as the name
+            BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/" + name + ".txt"));
+
+            IStrategy strategy;
+            StrategyTester st;
+            IStock stock;
+            Calendar currentDate;
+            List<IDecision> decisions;
+            int duration;
+            IDecision decision;
+
+            BigDecimal balance;
+            int shares;
+
+            // Go through all the trials, test each one. Output a chunk of results to file for each trial
+            for(int i  = 0; i < trials.size(); i++){
+                strategy = getStrategy(strategies.get(trials.get(i)[0]));
+                stock = getStock(stocks.get(trials.get(i)[1]));
+                st = strategy.getNewTester();
+                st.setAll(stock);
+                duration = ts.getDuration();
+
+                // Run once for every time snippet in the time set
+                while(ts.hasNext()){
+                    currentDate = ts.next();
+                    bw.write(name);
+                    bw.newLine();
+                    bw.write(stock.getSymbol());
+                    bw.newLine();
+                    bw.write(currentDate.YEAR+"-"+currentDate.MONTH+"-"+currentDate.DATE);
+                    bw.newLine();
+
+                    balance = new BigDecimal(0);
+                    shares = 0;
+
+                    // Iterate through all the days in the time snippet
+                    for(int j = 0; j < duration; j++) {
+                        decisions = st.testDate(currentDate);
+                        Iterator itr = decisions.iterator();
+
+                        bw.write(balance.toString());
+                        bw.write("," + shares);
+
+                        while(itr.hasNext()){
+                            decision = (IDecision)itr.next();
+                            if(decision.getActionType() == IAction.ActionType.BUY){
+                                shares += decision.getQuantity();
+                                balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                            }else if(decision.getActionType() == IAction.ActionType.SELL){
+                                shares -= decision.getQuantity();
+                                balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                            }
+
+                            bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity());
+                        }
+                        bw.newLine();
+                        currentDate.add(currentDate.DATE, 1);
+                    }
+                    bw.newLine();
+                }
+            }
+
+        }catch(IOException e){
+            System.out.println(e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean runExperiment(){
+        try{
+            // Create the file writer with the given file ID as the name
+            BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/" + name + ".txt"));
+
+            IStrategy strategy;
+            StrategyTester st;
+            IStock stock;
+            Calendar currentDate;
+            List<IDecision> decisions;
+            int duration;
+            IDecision decision;
+
+            BigDecimal balance;
+            int shares;
+
+            // Go through all the trials, test each one. Output a chunk of results to file for each trial
+            for(int i  = 0; i < trials.size(); i++){
+                strategy = getStrategy(strategies.get(trials.get(i)[0]));
+                stock = getStock(stocks.get(trials.get(i)[1]));
+                st = strategy.getNewTester();
+                st.setAll(stock);
+
+                currentDate = stock.getStartDate();
+                bw.write(name);
+                bw.newLine();
+                bw.write(stock.getSymbol());
+                bw.newLine();
+                bw.write(currentDate.YEAR+"-"+currentDate.MONTH+"-"+currentDate.DATE);
+                bw.newLine();
+
+                balance = new BigDecimal(0);
+                shares = 0;
+
+                // Iterate through all the days in the time snippet
+                while(currentDate.compareTo(stock.getEndDate()) <= 0){
+                    decisions = st.testDate(currentDate);
+                    Iterator itr = decisions.iterator();
+
+                    bw.write(balance.toString());
+                    bw.write("," + shares);
+
+                    while(itr.hasNext()){
+                        decision = (IDecision)itr.next();
+                        if(decision.getActionType() == IAction.ActionType.BUY){
+                            shares += decision.getQuantity();
+                            balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                        }else if(decision.getActionType() == IAction.ActionType.SELL){
+                            shares -= decision.getQuantity();
+                            balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                        }
+
+                        bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity());
+                    }
+                    bw.newLine();
+                    currentDate.add(currentDate.DATE, 1);
+                }
+                bw.newLine();
+            }
+
+        }catch(IOException e){
+            System.out.println(e);
+            return false;
+        }
+        return true;
     }
 }

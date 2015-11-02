@@ -1,7 +1,9 @@
 package autotradingsim.strategy;
 
+import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
+import autotradingsim.stocks.StockEntry;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -19,13 +21,13 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
     private static final String desc = "Daily closing value of a stock";
     private static final int bufferSize = 1;
 
-    private Stock stock;
+    private IStock stock;
 
     /**
      * The function!
      */
-    private static Function<StockDayBufferAdapter, BigDecimal> function =
-            (StockDayBufferAdapter stockBuffer) -> (stockBuffer.getLastEntry().getValue(StockDay.Values.CLOSE));
+    private static Function<IBufferAdapter<? extends StockEntry>, BigDecimal> function =
+            (IBufferAdapter<? extends StockEntry> stockBuffer) -> (stockBuffer.getLastEntry() != null ? ((StockDay) stockBuffer.getLastEntry()).getValue(StockDay.Values.CLOSE) : null);
 
 
     public SimpleStockValue () {
@@ -37,7 +39,7 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
      * See {@link IMeasurement#getValue(Calendar)}
      * @param stock
      */
-    public void setStock(Stock stock) {
+    public void setStock(IStock stock) {
         this.stock = stock;
     }
 
@@ -58,11 +60,11 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
         }
         // Calendar prevDate = ((Calendar) date.clone());
         // prevDate.add(Calendar.DATE, -1);
-        return function.apply(this.stock.getNewDayBuffer(date, this.getBufferSize()));
+        return function.apply(((Stock) this.stock).getNewDayBuffer(date, this.getBufferSize()));
     }
 
     @Override
-    public Function<StockDayBufferAdapter, BigDecimal> getFunction() {
+    public Function<IBufferAdapter<? extends StockEntry>, BigDecimal> getFunction() {
         return function;
     }
 
