@@ -19,29 +19,9 @@ public class SimpleDecisionMaker implements IDecisionMaker {
         this.rule = rule;
     }
 
-    /**
-     * For this Simple Decision Maker, there is only one rule and only one stock, so this method alone may be used
-     * to assign a stock instead of {@link IDecisionMaker}'s {@link #assignStock(RuleID, IStock)} and
-     * {@link #getRules()}.
-     * @param stock
-     */
-    public void assignStockSimple(IStock stock) {
+    @Override
+    public void assignStock(IStock stock) {
         this.stock = stock;
-    }
-
-    @Override
-    public Map<RuleID, String> getRules() {
-        Map<RuleID, String> rules = new HashMap<>();
-        rules.put(rule.getRuleID(), rule.getDescription());
-        return rules;
-    }
-
-    @Override
-    public void assignStock(RuleID id, IStock stock) throws RuleDoesNotExistException {
-        if (this.rule.getRuleID().equals(id)) {
-            this.stock = stock;
-        }
-        else throw new RuleDoesNotExistException();
     }
 
     @Override
