@@ -1,9 +1,5 @@
 package autotradingsim.engine;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormat;
@@ -36,8 +32,8 @@ public class TradingApplication {
 		return instance;
 	}
 	public void displayResults(String filename) throws IOException, ParseException{
-		InputStream reader = getClass().getResourceAsStream(filename);
-		Scanner filereader = new Scanner(reader);
+		File file = new File(filename);
+		Scanner filereader = new Scanner(file);
 		while((filereader.hasNextLine())){
 			String stratname=filereader.nextLine();
 			String symbol=filereader.nextLine();
