@@ -49,3 +49,9 @@ Decided to create interfaces for each of the following
 ##Burndown Chart
 
 ##Review & Retrospective
+* work that isn't done:
+ * user defined indicators
+ * user defined conditions
+ * multiple conditions applied to a rule
+ * set time periods for experiment
+ * generate random time set
