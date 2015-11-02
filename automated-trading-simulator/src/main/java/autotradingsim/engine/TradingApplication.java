@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -49,11 +50,11 @@ public class TradingApplication {
 			Calendar cal=Calendar.getInstance();
 			cal.setTime((Date) format.parse(datestring));
 			datestring=format.format(cal.getTime());
-			System.out.println("Strategy: "+stratname+"|Stock: "+symbol+"|date: "+datestring);
+			System.out.println("Strategy: "+stratname+" | Stock: "+symbol+" | Starting date: "+datestring);
 			String line = null;
 			while(filereader.hasNextLine()){
-				line=filereader.nextLine();
-				if(line.equals("")|line==null){
+				line = filereader.nextLine();
+				if(line.equals("") || line == null){
 					break;
 				}
 					String[] dailydata=line.split(",");
@@ -65,7 +66,12 @@ public class TradingApplication {
 					
 					if(actions.length!=0){
 						System.out.print(datestring);
-						System.out.println(" action:"+actions[0]);
+						System.out.print(" action: ");
+						System.out.print(actions[0]);
+						for(int i = 1; i < actions.length; i++){
+							System.out.print(", " + actions[i]);
+						}
+						System.out.println("");
 					}else{
 						System.out.println(datestring);
 					}
@@ -77,12 +83,12 @@ public class TradingApplication {
 			BigDecimal startingcapital = balancelist.get(0).add(new BigDecimal(holdinglist.get(0)));
 			BigDecimal closingbalance = balancelist.get(balancelist.size()-1).add(new BigDecimal(holdinglist.get(balancelist.size()-1)));
 			BigDecimal earnings = closingbalance.subtract((startingcapital));
-			BigDecimal annualreturn = earnings.divide(new BigDecimal(actionlist.size())).multiply(new BigDecimal(365));
+			BigDecimal percentEarning = earnings.multiply(new BigDecimal(100)).divide(startingcapital, 2, RoundingMode.HALF_UP);
 			System.out.println("Starting Capital: "+startingcapital);
 			System.out.println("Closing Balance: "+closingbalance);
 			System.out.println("Earnings: "+earnings);
-			System.out.println("Annual Return: "+annualreturn);
-			System.out.println("---------------------------------");
+			System.out.println("Percent Earning: " + percentEarning + "%");
+			System.out.println("------------------------------------------------------------");
 			if(line==null){
 				break;
 			}
