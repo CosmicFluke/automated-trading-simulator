@@ -1,5 +1,6 @@
 package autotradingsim.strategy;
 
+import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
 
@@ -19,7 +20,7 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
     private static final String desc = "Daily closing value of a stock";
     private static final int bufferSize = 1;
 
-    private Stock stock;
+    private IStock stock;
 
     /**
      * The function!
@@ -37,7 +38,7 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
      * See {@link IMeasurement#getValue(Calendar)}
      * @param stock
      */
-    public void setStock(Stock stock) {
+    public void setStock(IStock stock) {
         this.stock = stock;
     }
 
@@ -58,7 +59,7 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
         }
         // Calendar prevDate = ((Calendar) date.clone());
         // prevDate.add(Calendar.DATE, -1);
-        return function.apply(this.stock.getNewDayBuffer(date, this.getBufferSize()));
+        return function.apply(((Stock) this.stock).getNewDayBuffer(date, this.getBufferSize()));
     }
 
     @Override
