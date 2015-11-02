@@ -1,10 +1,7 @@
 package autotradingsim.experiment;
 
 import autotradingsim.stocks.*;
-import autotradingsim.strategy.IDecision;
-import autotradingsim.strategy.IStrategy;
-import autotradingsim.strategy.Strategy;
-import autotradingsim.strategy.StrategyTester;
+import autotradingsim.strategy.*;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -117,8 +114,6 @@ public class Experiment implements IExperiment {
                 st.setAll(stock);
                 duration = ts.getDuration();
 
-                balance = new BigDecimal(0.0);
-
                 // Run once for every time snippet in the time set
                 while(ts.hasNext()){
                     currentDate = ts.next();
@@ -128,16 +123,34 @@ public class Experiment implements IExperiment {
                     bw.newLine();
                     bw.write(currentDate.YEAR+"-"+currentDate.MONTH+"-"+currentDate.DATE);
                     bw.newLine();
+
+                    balance = new BigDecimal(0);
+                    shares = 0;
+
+                    // Iterate through all the days in the time snippet
                     for(int j = 0; j < duration; j++) {
-                        // Iterate through all the days in the time snippet
                         decisions = st.testDate(currentDate);
                         Iterator itr = decisions.iterator();
+
+                        bw.write(balance.toString());
+                        bw.write("," + shares);
+
                         while(itr.hasNext()){
                             decision = (IDecision)itr.next();
-                        }
+                            if(decision.getActionType() == IAction.ActionType.BUY){
+                                shares += decision.getQuantity();
+                                balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                            }else if(decision.getActionType() == IAction.ActionType.SELL){
+                                shares -= decision.getQuantity();
+                                balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                            }
 
+                            bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity());
+                        }
+                        bw.newLine();
                         currentDate.add(currentDate.DATE, 1);
                     }
+                    bw.newLine();
                 }
             }
 
