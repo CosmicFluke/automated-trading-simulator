@@ -217,7 +217,7 @@ public class SimTerminal {
 					running=false;
 					break;
 				case "newrule":
-					engine.newrule(stratname);
+					//engine.newrule(stratname);
 					//prompt user to select conditions and actions from list
 				case "h":
 				case "help":

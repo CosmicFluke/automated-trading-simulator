@@ -1,7 +1,9 @@
 package experiment;
 
+import autotradingsim.engine.TradingApplication;
 import autotradingsim.experiment.Experiment;
 import autotradingsim.experiment.TimeSet;
+import autotradingsim.strategy.SimpleStrategy;
 import autotradingsim.strategy.Strategy;
 import org.junit.Test;
 
@@ -41,21 +43,26 @@ public class experimentTest {
     @Test
     public void testExperimentAddStrategy(){
         Experiment test5 = new Experiment("experiment5");
-        assertEquals(test5.addStrategy(123), true);
+        SimpleStrategy s = new SimpleStrategy();
+        TradingApplication.getInstance().saveStrategy(s);
+        assertEquals(test5.addStrategy(s.getID()), true);
     }
 
     @Test
     public void testAddNonExistingStrategy(){
         Experiment test6 = new Experiment("experiment6");
         assertEquals(test6.addStrategy(234),false);
-
     }
+
     @Test
     public void testRunExperiment1(){
         Experiment test7 = new Experiment("experiment7");
         test7.addStock("AAPL");
         test7.addStock("MSFT");
-        test7.addStrategy(1);
+
+        SimpleStrategy s = new SimpleStrategy();
+        int id = s.getID();
+        test7.addStrategy(id);
 
         test7.runExperiment();
     }

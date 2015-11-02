@@ -1,5 +1,6 @@
 package autotradingsim.experiment;
 
+import autotradingsim.engine.TradingApplication;
 import autotradingsim.stocks.*;
 import autotradingsim.strategy.*;
 
@@ -60,7 +61,7 @@ public class Experiment implements IExperiment {
      */
     @Override
     public boolean addStock(String symbol){
-        if(loader.exists(symbol)) {
+        if(loader.exists(symbol)) { //check existing might not be needed if trading application can check first
             stocks.add(symbol);
             return true;
         }else{
@@ -75,7 +76,7 @@ public class Experiment implements IExperiment {
 
     @Override
     public boolean addStrategy(int id){
-        if(false){ //"if Strategy exists"
+        if(TradingApplication.getInstance().getStrategy(id) != null){  //check existing might not be needed if trading application can check first
             strategies.add(id);
             return true;
         }else{
@@ -85,7 +86,7 @@ public class Experiment implements IExperiment {
 
     @Override
     public IStrategy getStrategy(int id){
-        return null; // return strategy with the id
+        return TradingApplication.getInstance().getStrategy(id); // return strategy with the id
     }
 
     /**
