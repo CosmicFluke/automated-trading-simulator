@@ -12,7 +12,7 @@ public class CommandHandler {
 	public CommandHandler() {
 		// TODO Auto-generated constructor stub
 	}
-	public TradingApplication appEngine=TradingApplication.getInstance();
+	public TradingApplication appEngine = TradingApplication.getInstance();
 	
 	protected void createStrategy(){
 		appEngine.saveStrategy(null);

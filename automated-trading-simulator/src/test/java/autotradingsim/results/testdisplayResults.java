@@ -1,7 +1,7 @@
 /**
  * 
  */
-package testTradingApplication;
+package autotradingsim.results;
 
 import static org.junit.Assert.*;
 

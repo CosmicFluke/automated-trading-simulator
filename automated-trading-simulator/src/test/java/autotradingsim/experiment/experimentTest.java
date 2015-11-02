@@ -1,4 +1,4 @@
-package experiment;
+package autotradingsim.experiment;
 
 import autotradingsim.engine.TradingApplication;
 import autotradingsim.experiment.Experiment;

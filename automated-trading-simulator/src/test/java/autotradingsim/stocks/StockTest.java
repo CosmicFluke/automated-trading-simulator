@@ -1,4 +1,4 @@
-package testStocks;
+package autotradingsim.stocks;
 
 import org.junit.Before;
 import junit.framework.Test;
