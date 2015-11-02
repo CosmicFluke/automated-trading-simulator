@@ -1,9 +1,19 @@
 package autotradingsim.experiment;
 
 import autotradingsim.stocks.*;
+import autotradingsim.strategy.IDecision;
+import autotradingsim.strategy.IStrategy;
 import autotradingsim.strategy.Strategy;
+import autotradingsim.strategy.StrategyTester;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -20,14 +30,21 @@ import java.util.ArrayList;
 public class Experiment implements IExperiment {
 
     StockLoader loader;
-    ArrayList<String> stocks;
-    ArrayList<Strategy> strategies;
     String name;
+    ArrayList<String> stocks;
+    ArrayList<Integer> strategies;
+    ArrayList<int[]> trials;
+
+    /**
+     *
+     * @param name name of the experiment
+     */
     public Experiment(String name){
         this.loader = new StockLoader();
-        this.stocks = new ArrayList<>();
-        this.strategies = new ArrayList<>();
         this.name = name;
+        this.stocks = new ArrayList<>();
+        this.strategies = new ArrayList<Integer>();
+        this.trials = new ArrayList<>();
     }
 
     @Override
@@ -57,8 +74,8 @@ public class Experiment implements IExperiment {
 
     @Override
     public boolean addStrategy(int id){
-        if("Strategy exists"){
-            strategies.add(Strategy);
+        if(false){ //"if Strategy exists"
+            strategies.add(id);
             return true;
         }else{
             return false;
@@ -67,10 +84,66 @@ public class Experiment implements IExperiment {
 
     @Override
     public IStrategy getStrategy(int id){
-        return strategy;
+        return null; // return strategy with the id
     }
 
-    public boolean runExperiment(int id){
+    /**
+     *
+     * @param ts a time set
+     * @return whether experiment was ran successfully
+     */
+    @Override
+    public boolean runExperiment(TimeSet ts){
+        try{
+            // Create the file writer with the given file ID as the name
+            BufferedWriter bw = new BufferedWriter(new FileWriter("file/DATA/RESULTS/exp" + name + ".atsr"));
+
+            IStrategy strategy;
+            StrategyTester st;
+            IStock stock;
+            Calendar currentDate;
+            Set<IDecision> decisions;
+            int duration;
+            IDecision decision;
+
+            BigDecimal balance;
+            int shares;
+
+            // Go through all the trials, test each one. Output a chunk of results to file for each trial
+            for(int i  = 0; i < trials.size(); i++){
+                strategy = getStrategy(strategies.get(trials.get(i)[0]));
+                stock = getStock(stocks.get(trials.get(i)[1]));
+                st = strategy.getNewTester();
+                st.setAll(stock);
+                duration = ts.getDuration();
+
+                balance = new BigDecimal(0.0);
+
+                // Run once for every time snippet in the time set
+                while(ts.hasNext()){
+                    currentDate = ts.next();
+                    bw.write(name);
+                    bw.newLine();
+                    bw.write(stock.getSymbol());
+                    bw.newLine();
+                    bw.write(currentDate.YEAR+"-"+currentDate.MONTH+"-"+currentDate.DATE);
+                    bw.newLine();
+                    for(int j = 0; j < duration; j++) {
+                        // Iterate through all the days in the time snippet
+                        decisions = st.testDate(currentDate);
+                        Iterator itr = decisions.iterator();
+                        while(itr.hasNext()){
+                            decision = (IDecision)itr.next();
+                        }
+
+                        currentDate.add(currentDate.DATE, 1);
+                    }
+                }
+            }
+
+        }catch(IOException e){
+            System.out.println(e);
+        }
         return false;
     }
 }
