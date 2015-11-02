@@ -2,6 +2,7 @@ package autotradingsim.strategy;
 
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.StockDay;
+import autotradingsim.stocks.StockEntry;
 
 import java.util.*;
 
@@ -40,10 +41,14 @@ public class StockDayBufferAdapter implements IBufferAdapter<StockDay> {
     @Override
     public void updateNext() {
         currentDate.add(Calendar.DATE, 1);
+        StockDay next = this.stock.getDay(currentDate);
+        if (next == null) {
+            return;
+        }
         if (buffer.size() >= this.size) {
             buffer.removeFirst();
         }
-        buffer.addLast(this.stock.getDay(currentDate));
+        buffer.addLast(next);
     }
 
     public boolean isEmpty() {
@@ -58,6 +63,7 @@ public class StockDayBufferAdapter implements IBufferAdapter<StockDay> {
     private void initializeBuffer(Calendar date) {
         buffer.clear();
         this.currentDate = (Calendar) date.clone();
+        date = (Calendar) date.clone();
         for (int i=0; i < this.size; i++) {
             StockDay day = stock.getDay(date);
             if (day != null) {

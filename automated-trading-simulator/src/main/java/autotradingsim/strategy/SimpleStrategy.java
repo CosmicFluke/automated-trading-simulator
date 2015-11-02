@@ -15,13 +15,66 @@ import java.util.Set;
 public class SimpleStrategy implements IStrategy {
 
     private IRule rule;
-    private static String name = "Built-in Strategy 1 (Read-Only)";
-    private static String description = "Simple read-only strategy that buys when a stock price is less than 100";
+    private String name;
+    private String description;
+    private static String defaultName = "BuiltInStrategy1";
+    private static String defaultDescription = "Simple read-only strategy that buys when a stock price is less than 100";
 
+    /**
+     * Uses default values to build basic SimpleStrategy
+     */
     public SimpleStrategy () {
-        this.rule = new SimpleRule(
-                new SimpleCondition(ICondition.Comparator.LEQ, new BigDecimal(100)),
-                new SimpleAction(IAction.ActionType.BUY, 10));
+        this(defaultName, defaultDescription,
+                ICondition.Comparator.LEQ, new BigDecimal(100),
+                IAction.ActionType.BUY, 10);
+    }
+
+    /**
+     * Custom values for new SimpleStrategy
+     * @param name
+     * @param description
+     * @param comp The comparator to be used in the single simple condition
+     * @param operand The numerical operand to the comparison in the simple condition
+     * @param action The action to take if the condition is met
+     * @param quantity The quantity argument to the action
+     */
+    public SimpleStrategy (String name, String description,
+                           ICondition.Comparator comp, BigDecimal operand,
+                           IAction.ActionType action, int quantity) {
+        setName(name);
+        this.description = description;
+        this.rule = new SimpleRule(new SimpleCondition(comp, operand), new SimpleAction(action, quantity));
+    }
+
+    private void setName(String name) {
+
+        if (name == null) {
+            throw new NullPointerException("Username was null");
+        }
+
+        if (name.length() > 32) {
+            throw new IllegalArgumentException("Username exceeded length of 32");
+        }
+
+        if (name.matches(".*\\W+.*")) {
+            throw new IllegalArgumentException("Username contains illegal characters");
+        }
+
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("Username is an empty string");
+        }
+
+        if (name.matches("[ _]*")){
+            throw new IllegalArgumentException("Username contains only whitespace");
+        }
+
+        this.name = name;
+
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override
@@ -68,6 +121,6 @@ public class SimpleStrategy implements IStrategy {
 
     @Override
     public int getID() {
-        return name.hashCode();
+        return this.name.hashCode();
     }
 }

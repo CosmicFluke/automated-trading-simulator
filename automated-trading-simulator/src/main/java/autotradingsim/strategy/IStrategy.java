@@ -38,6 +38,12 @@ public interface IStrategy {
     String getRuleDescription(RuleID rule);
     String getRuleSummary(RuleID rule);
 
+    /**
+     * Gets this IStrategy's name.  Names must be under 16 characters and can only use letters and numbers.
+     * @return
+     */
+    String getName();
+
     IDecisionMaker getRuleDecisionMaker(RuleID rule);
 
     /**
