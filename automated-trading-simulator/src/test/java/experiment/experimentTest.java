@@ -62,8 +62,9 @@ public class experimentTest {
 
         SimpleStrategy s = new SimpleStrategy();
         int id = s.getID();
+        TradingApplication.getInstance().saveStrategy(s);
 
-        test7.addTrial(id,"AAPL");
+        test7.addTrial(id, "AAPL");
         test7.addTrial(id,"MSFT");
 
         test7.addStrategy(id);

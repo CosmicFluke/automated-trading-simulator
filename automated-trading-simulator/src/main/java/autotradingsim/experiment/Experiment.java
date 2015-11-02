@@ -214,32 +214,33 @@ public class Experiment implements IExperiment {
                 currentDate = stock.getStartDate();
                 bw.write(name); bw.newLine();
                 bw.write(stock.getSymbol()); bw.newLine();
-                bw.write(currentDate.YEAR+"-"+currentDate.MONTH+"-"+currentDate.DATE); bw.newLine();
+                bw.write(currentDate.get(Calendar.YEAR)+"-"+currentDate.get(Calendar.MONTH)+"-"+currentDate.get(Calendar.DATE)); bw.newLine();
 
                 balance = new BigDecimal(10000);
                 shares = 0;
 
-                while(currentDate.compareTo(stock.getEndDate()) <= 0){
+                while(currentDate.before(stock.getEndDate())){
                     decisions = st.testDate(currentDate);
                     Iterator itr = decisions.iterator();
 
-                    bw.write(balance.toString());
+                    bw.write(currentDate.get(Calendar.YEAR)+"-"+currentDate.get(Calendar.MONTH)+"-"+currentDate.get(Calendar.DATE));
+                    bw.write("," + balance.toString());
                     bw.write("," + shares);
 
                     while(itr.hasNext()){
                         decision = (IDecision)itr.next();
                         if(decision.getActionType() == IAction.ActionType.BUY){
                             shares += decision.getQuantity();
-                            balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                            balance = balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
                         }else if(decision.getActionType() == IAction.ActionType.SELL){
                             shares -= decision.getQuantity();
-                            balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                            balance = balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
                         }
 
                         bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity());
                     }
                     bw.newLine();
-                    currentDate.add(currentDate.DATE, 1);
+                    currentDate.add(Calendar.DATE, 1);
                 }
                 bw.newLine();
             }
