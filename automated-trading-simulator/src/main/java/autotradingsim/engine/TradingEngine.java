@@ -3,13 +3,14 @@ package autotradingsim.engine;
 import java.util.ArrayList;
 
 import autotradingsim.experiment.Experiment;
+import autotradingsim.experiment.IExperiment;
 import autotradingsim.strategy.Strategy;
 import autotradingsim.strategy.Condition;
 import autotradingsim.strategy.Action;
 
 public class TradingEngine {
 
-	static ArrayList<Experiment> experiments;
+	static ArrayList<IExperiment> experiments;
 	static ArrayList<Strategy> strategies;
 	static ArrayList<Condition> conditions;
 	static ArrayList<Action> actions;
@@ -19,12 +20,12 @@ public class TradingEngine {
 	}
 	
 	private void defineDefaults(){
-		Experiment defaultExp = new Experiment("default");
+		IExperiment defaultExp = new Experiment("default");
 		defaultExp.addStock("APPL");
 	}
 
 	public static String viewExperiment(String experimentName){
-		Experiment query= findExperiment(experimentName);
+		IExperiment query= findExperiment(experimentName);
 		if(query == null)
 			query = findExperiment("default");
 		return query.getName();
@@ -37,8 +38,8 @@ public class TradingEngine {
 		}
 	}
 
-	private static Experiment findExperiment(String name) {
-		for(Experiment curr: experiments){
+	private static IExperiment findExperiment(String name) {
+		for(IExperiment curr: experiments){
 			if(curr.getName().equals(name))
 				return curr;
 		}
