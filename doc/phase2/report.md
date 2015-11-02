@@ -45,12 +45,7 @@ Decided to create interfaces for each of the following
     * save
 
 ##Update Meetings
-<<<<<<< Updated upstream
 
- * Meetings were conducted online
-
-=======
->>>>>>> Stashed changes
  Location: Online-Slack 
  Time: October 27th 2015
  Participants: Asher, Bill, Shirley, Tomek
