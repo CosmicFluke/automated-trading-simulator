@@ -33,35 +33,35 @@ public class TradingApplication {
 	}
 	public void displayResults(String filename) throws IOException, ParseException{
 		File file = new File(filename);
-		Scanner filereader = new Scanner(file);
-		while((filereader.hasNextLine())){
-			String stratname=filereader.nextLine();
-			String symbol=filereader.nextLine();
-			String datestring=filereader.nextLine();
-			List<String[]> actionlist = new ArrayList<String[]>();
-			List<BigDecimal> balancelist = new ArrayList<BigDecimal>();
-			List<Integer> holdinglist = new ArrayList<Integer>();
+		Scanner fileReader = new Scanner(file);
+		while((fileReader.hasNextLine())){
+			String strategyName=fileReader.nextLine();
+			String symbol=fileReader.nextLine();
+			String dateString=fileReader.nextLine();
+			List<String[]> actionList = new ArrayList<String[]>();
+			List<BigDecimal> balanceList = new ArrayList<BigDecimal>();
+			List<Integer> holdingList = new ArrayList<Integer>();
 			//print result header
 			DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
 			Calendar cal=Calendar.getInstance();
-			cal.setTime((Date) format.parse(datestring));
-			datestring=format.format(cal.getTime());
-			System.out.println("Strategy: "+stratname+" | Stock: "+symbol+" | Starting date: "+datestring);
+			cal.setTime((Date) format.parse(dateString));
+			dateString=format.format(cal.getTime());
+			System.out.println("Strategy: "+strategyName+" | Stock: "+symbol+" | Starting date: "+dateString);
 			String line = null;
-			while(filereader.hasNextLine()){
-				line = filereader.nextLine();
+			while(fileReader.hasNextLine()){
+				line = fileReader.nextLine();
 				if(line.equals("") || line == null){
 					break;
 				}
-					String[] dailydata=line.split(",");
-					balancelist.add(new BigDecimal(dailydata[0]));
-					holdinglist.add(Integer.parseInt(dailydata[1]));
-					String[] actions = new String[dailydata.length-2];
-					System.arraycopy(dailydata,2, actions, 0, dailydata.length-2);
-					actionlist.add(actions);
+					String[] dailyData=line.split(",");
+					balanceList.add(new BigDecimal(dailyData[0]));
+					holdingList.add(Integer.parseInt(dailyData[1]));
+					String[] actions = new String[dailyData.length-2];
+					System.arraycopy(dailyData,2, actions, 0, dailyData.length-2);
+					actionList.add(actions);
 					
 					if(actions.length!=0){
-						System.out.print(datestring);
+						System.out.print(dateString);
 						System.out.print(" action: ");
 						System.out.print(actions[0]);
 						for(int i = 1; i < actions.length; i++){
@@ -69,19 +69,19 @@ public class TradingApplication {
 						}
 						System.out.println("");
 					}else{
-						System.out.println(datestring);
+						System.out.println(dateString);
 					}
 					//increment date by 1
-					cal.setTime((Date) format.parse(datestring));
+					cal.setTime((Date) format.parse(dateString));
 					cal.add(Calendar.DATE, 1);
-					datestring=format.format(cal.getTime());
+					dateString=format.format(cal.getTime());
 			}
-			BigDecimal startingcapital = balancelist.get(0).add(new BigDecimal(holdinglist.get(0)));
-			BigDecimal closingbalance = balancelist.get(balancelist.size()-1).add(new BigDecimal(holdinglist.get(balancelist.size()-1)));
-			BigDecimal earnings = closingbalance.subtract((startingcapital));
-			BigDecimal percentEarning = earnings.multiply(new BigDecimal(100)).divide(startingcapital, 2, RoundingMode.HALF_UP);
-			System.out.println("Starting Capital: "+startingcapital);
-			System.out.println("Closing Balance: "+closingbalance);
+			BigDecimal startingCapital = balanceList.get(0).add(new BigDecimal(holdingList.get(0)));
+			BigDecimal closingBalance = balanceList.get(balanceList.size()-1).add(new BigDecimal(holdingList.get(balanceList.size()-1)));
+			BigDecimal earnings = closingBalance.subtract((startingCapital));
+			BigDecimal percentEarning = earnings.multiply(new BigDecimal(100)).divide(startingCapital, 2, RoundingMode.HALF_UP);
+			System.out.println("Starting Capital: "+startingCapital);
+			System.out.println("Closing Balance: "+closingBalance);
 			System.out.println("Earnings: "+earnings);
 			System.out.println("Percent Earning: " + percentEarning + "%");
 			System.out.println("------------------------------------------------------------");
@@ -90,7 +90,7 @@ public class TradingApplication {
 			}
 		}
 	}
-	public static Strategy getStrategy(String stratname){
+	public static Strategy getStrategy(String strategyName){
 	
 		for (IStrategy strat: strategies){
 		
