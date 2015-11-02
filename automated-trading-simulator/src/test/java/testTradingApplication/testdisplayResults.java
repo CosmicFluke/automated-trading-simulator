@@ -55,7 +55,7 @@ public class testdisplayResults {
 
 	@Test
 	public void test() throws IOException, ParseException {
-		testapp.displayResults("test1.txt");
+		testapp.displayResults(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/test1.txt");
 	}
 
 }
