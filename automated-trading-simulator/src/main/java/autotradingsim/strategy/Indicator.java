@@ -1,6 +1,7 @@
 package autotradingsim.strategy;
 
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.function.Function;
 
@@ -17,7 +18,7 @@ public abstract class Indicator implements IMeasurement, IBufferObserver {
 
     private String name;
     private String description;
-    private Function<Calendar, Number> function;
+    private Function<Calendar, BigDecimal> function;
 
     public Indicator(String name, String description){
         this.name = name;
@@ -37,7 +38,7 @@ public abstract class Indicator implements IMeasurement, IBufferObserver {
         return this.description;
     }
 
-    public Number getValue(Calendar date){
+    public BigDecimal getValue(Calendar date){
         return this.function.apply(date);
     }
 
