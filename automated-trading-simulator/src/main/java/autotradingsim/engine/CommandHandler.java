@@ -24,8 +24,11 @@ public class CommandHandler {
 
 	public void viewStrategy(String stratname) {
 		// TODO Auto-generated method stub
+		System.out.println("List of Strategies:");
 		if(stratname.isEmpty()){
-			System.out.println("Strategy List");
+			for(IStrategy i: appEngine.strategies){
+				System.out.println(i.getName());
+			}
 		}else{
 			IStrategy strat=null;
 			Set<RuleID> rules;
