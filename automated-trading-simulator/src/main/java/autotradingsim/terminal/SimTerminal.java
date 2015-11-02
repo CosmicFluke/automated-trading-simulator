@@ -39,9 +39,7 @@ public class SimTerminal {
 	public void run()
 	{
 		boolean running = true;
-		do {
-			System.out.print("$>");
-			
+		do {			
 			String[] args = getUserInput();
 			if(args == null)
 				return;
@@ -95,6 +93,7 @@ public class SimTerminal {
 		String input;
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
+			System.out.print("$>");
 			input =	br.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -147,6 +146,7 @@ public class SimTerminal {
 	 */
 	private void HandleModifyExperiment(String[] exargs) {
 		String currentExperiment=exargs[1];
+		System.out.print(currentExperiment);
 		boolean running=true;
 		do{
 			String[] args=getUserInput();
