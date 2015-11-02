@@ -1,4 +1,4 @@
-#Initial Planning
+##Initial Planning
 ##Decisions made during the meeting:
   *User interface:
     *based on command line
@@ -21,16 +21,10 @@
     
 ##Turned product backlog into a list of classes.
 
-#Sprint Backlog
--experiment
-  -strategy
-  -rules
-    -conditions
-      -indicators
-    -actions
+##Sprint Backlog
 
-#Update Meetings
+##Update Meetings
 
-#Burndown Chart
+##Burndown Chart
 
-#Review & Retrospective
+##Review & Retrospective
