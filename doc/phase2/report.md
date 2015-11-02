@@ -1,6 +1,6 @@
 ##Initial Planning
 ##Decisions made during the meeting:
-  *User interface:
+  ###*User interface:
     *based on command line
     *user create rules that will be added to a strategy
     *strategies will then be added to experiment
