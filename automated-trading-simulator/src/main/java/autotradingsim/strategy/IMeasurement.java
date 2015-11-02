@@ -23,7 +23,7 @@ public interface IMeasurement extends IFunctionBuilder{
      * @param date
      * @return
      */
-    Number getValue(Calendar date);
+    BigDecimal getValue(Calendar date);
 
     @Override
     Function<? extends IBufferAdapter, BigDecimal> getFunction();

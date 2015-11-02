@@ -26,7 +26,7 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
      * The function!
      */
     private static Function<StockDayBufferAdapter, BigDecimal> function =
-            (StockDayBufferAdapter stockBuffer) -> (stockBuffer.getLastEntry().getValue(StockDay.Values.CLOSE));
+            (StockDayBufferAdapter stockBuffer) -> (stockBuffer.getLastEntry() != null ? stockBuffer.getLastEntry().getValue(StockDay.Values.CLOSE) : null);
 
 
     public SimpleStockValue () {

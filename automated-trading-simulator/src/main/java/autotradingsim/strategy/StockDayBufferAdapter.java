@@ -26,6 +26,9 @@ public class StockDayBufferAdapter implements IBufferAdapter<StockDay> {
 
     @Override
     public StockDay getLastEntry() {
+        if (buffer.isEmpty()) {
+            return null;
+        }
         return buffer.getLast();
     }
 
