@@ -27,14 +27,29 @@ public interface IStrategy {
      */
     void deleteRule(RuleID rule);
 
+
+    /**
+     * User-entered string that uniquely identifies this strategy.
+     * Any two strategies with the same name should have the same ID (see {@link #getID()})
+     * @param rule
+     * @return
+     */
     String getRuleName(RuleID rule);
     String getRuleDescription(RuleID rule);
     String getRuleSummary(RuleID rule);
+
+    IDecisionMaker getRuleDecisionMaker(RuleID rule);
 
     /**
      * Provides a new {@link StrategyTester} instance linked to this strategy. (Use this to run experiments with this strategy)
      * @return
      */
     StrategyTester getNewTester();
+
+    /**
+     * Provides a unique ID number associated with this strategy.  Any two IStrategy instances with the same name should have the same ID.
+     * @return
+     */
+    int getID();
 
 }

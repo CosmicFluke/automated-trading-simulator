@@ -9,26 +9,17 @@ import java.util.Map;
 /**
  * Created by Asher on 2015-10-29.
  *
- * IDecisionMakers make decisions for a given data set at a given time.  They produce collections of IDecision objects,
- * which tell collaborators which actions to take.
+ * IDecisionMakers make decisions by applying a rule to a given data set at a given time.  They produce
+ * collections of IDecision objects, which tell collaborators which actions to take.
  *
  */
 public interface IDecisionMaker {
 
     /**
-     * This map can be used when deciding which stocks to assign to which rules.
-     *
-     * @return Map where keys are rule IDs and values are string descriptions of the corresponding strategies
-     */
-    Map<RuleID, String> getRules();
-
-    /**
-     * Assign a stock to the rule corresponding to the given rule ID.  Use {@link #getRules() getRules} for a map
-     * containing the rules associated with this IDecisionMaker.
-      * @param id Unique ID of the rule to which Stock will be assigned.
+     * Assign a stock to the rule.
      * @param stock The Stock to assign to the given rule.
      */
-    void assignStock(RuleID id, IStock stock);
+    void assignStock(IStock stock);
 
     /**
      * Once stocks are assigned, this can be used to get an iterator that provides a list of
