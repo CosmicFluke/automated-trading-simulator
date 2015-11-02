@@ -52,7 +52,7 @@ public class SimTerminal {
 					HandleHelp(args);
 					break;
 				case "viewstrat":
-					CommandHandler.viewStrategy(args);
+					//CommandHandler.viewStrategy(args);
 					break;
 				case "modifystrat":
 					if(checkArgNum(args, 2)){
@@ -61,7 +61,7 @@ public class SimTerminal {
 					break;		
 				case "viewex":
 					if(checkArgNum(args,2)){
-						CommandHandler.viewExperiment(args[1]);
+						//CommandHandler.viewExperiment(args[1]);
 					}
 					break;
 				case "modifyex":
@@ -141,7 +141,7 @@ public class SimTerminal {
 		}
 	}
 	/**
-	 * @param args
+	 * @param exargs
 	 * Start a new loop for creation/modification of experiments.
 	 * Throws IllegalArgumentExceptions
 	 */
@@ -161,27 +161,27 @@ public class SimTerminal {
 					break;
 				case "addstrat":
 					//add existing strategies
-					CommandHandler.addStrategy(currentExperiment, args);
+					//CommandHandler.addStrategy(currentExperiment, args);
 					break;
 				case "addtime":
-					CommandHandler.addExpTime(currentExperiment,args);
+					//CommandHandler.addExpTime(currentExperiment,args);
 					break;
 					//add time period [Start YYYYMMDD] [End YYYYMMDD]
 				case "liststrat":
 					//liststrat [-a] display all or current strategies
 					if(args.length==1){
-						CommandHandler.viewStrategy(currentExperiment,args);
+						//CommandHandler.viewStrategy(currentExperiment,args);
 					}if(args.length==2 & args[1].equals("-a")){
-						CommandHandler.viewStrategy(args);
+						//CommandHandler.viewStrategy(args);
 					}
 					break;
 				case "save":
-					CommandHandler.saveEx(currentExperiment);
+					//CommandHandler.saveEx(currentExperiment);
 					break;
 				case "addrandomtimeset":
 					//Adds a randomly generated set of time windows: size windows, each length days long.
 					if(checkArgNum(args, 3)){
-						CommandHandler.addtimeset(currentExperiment, args[1], args[2]);
+						//CommandHandler.addtimeset(currentExperiment, args[1], args[2]);
 					}
 					break;
 				default :
@@ -202,7 +202,7 @@ public class SimTerminal {
 					running=false;
 					break;
 				case "newrule":
-					CommandHandler.newrule(stratname);
+					//CommandHandler.newrule(stratname);
 					//prompt user to select conditions and actions from list
 				case "h":
 				case "help":
@@ -210,18 +210,18 @@ public class SimTerminal {
 					break;
 				case "newcond":
 					//define new condition
-					CommandHandler.addCond(args[1]);
+					//CommandHandler.addCond(args[1]);
 					break;
 				case "newaction":
 					//define amount to buy and sell
-					CommandHandler.addAction(args[1]);
+					//CommandHandler.addAction(args[1]);
 					break;
 				case "removecond":
 					//remove a condition from list
-					CommandHandler.removeCond(args[1]);
+					//CommandHandler.removeCond(args[1]);
 					break;
 				case "save":
-					CommandHandler.saveStrat(stratname);
+					//CommandHandler.saveStrat(stratname);
 					break;
 				default :
 					System.out.println("Please enter a valid command.");

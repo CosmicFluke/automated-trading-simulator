@@ -1,12 +1,12 @@
 package autotradingsim.stocks;
 
-import javafx.util.converter.BigDecimalStringConverter;
+import com.sun.xml.internal.ws.api.ResourceLoader;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Asher on 2015-10-25.<br>
@@ -56,11 +56,11 @@ public class StockLoader{
 
         try{
             // Create buffered reader
-            BufferedReader br = new BufferedReader(new FileReader("file/DATA/STOCKS/" + symbol + ".csv"));
+            BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/STOCKS/" + symbol + ".csv"));
             br.readLine(); // Skip the header line
 
             // Make variable holders
-            Calendar now = Calendar.getInstance();
+            Calendar now;
             String line;
             String[] lineSplit, dateSplit;
 
@@ -68,7 +68,7 @@ public class StockLoader{
             line = br.readLine();
             lineSplit = line.split(",");
             dateSplit = lineSplit[0].split("-");
-            now.set(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
+            now = new GregorianCalendar(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
 
             // Find the starting line by comparing to ending date
             while(now.compareTo(end) > 0){
@@ -80,7 +80,7 @@ public class StockLoader{
 
                 lineSplit = line.split(",");
                 dateSplit = lineSplit[0].split("-");
-                now.set(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
+                now = new GregorianCalendar(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
             }
 
             // Loop through the time period from end to start, and generate the list of StockDays
@@ -102,7 +102,7 @@ public class StockLoader{
                 }else{
                     lineSplit = line.split(",");
                     dateSplit = lineSplit[0].split("-");
-                    now.set(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
+                    now = new GregorianCalendar(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
                 }
             }
 
@@ -122,18 +122,18 @@ public class StockLoader{
      */
     public IStock fetchStock(String symbol){
 
-        if(exists(symbol)){
+        if(!exists(symbol)){
             return null;
         }
 
         ArrayList<StockDay> result = new ArrayList<>();
 
         try{
-            BufferedReader br = new BufferedReader(new FileReader("file/DATA/STOCKS/" + symbol + ".csv"));
+            BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/STOCKS/" + symbol + ".csv"));
             br.readLine(); // Skip the header line
 
             // Make variable holders
-            Calendar now = Calendar.getInstance();
+            Calendar now;
             String line;
             String[] lineSplit, dateSplit;
             BigDecimal open, high, low, close; int volume; StockDay sd;// Make variable holders
@@ -141,7 +141,7 @@ public class StockLoader{
             while((line = br.readLine()) != null){
                 lineSplit = line.split(",");
                 dateSplit = lineSplit[0].split("-");
-                now.set(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
+                now = new GregorianCalendar(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
                 open = new BigDecimal(lineSplit[1]);
                 high = new BigDecimal(lineSplit[2]);
                 low = new BigDecimal(lineSplit[3]);
@@ -165,7 +165,7 @@ public class StockLoader{
      */
     public boolean exists(String symbol){
         for(int i = 0; i < stockListing.size(); i++){
-            if(stockListing.get(i)[0] == symbol){
+            if(stockListing.get(i)[0].equalsIgnoreCase(symbol)){
                 return true;
             }
         }
@@ -179,11 +179,12 @@ public class StockLoader{
      * @return  the name of the stock with the given symbol
      */
     private String getName(String symbol){
-        int i = 0;
-        while(!stockListing.get(i)[0].equals(symbol)){
-            i++;
+        for(int i = 0; i < stockListing.size(); i++){
+            if(stockListing.get(i)[0].equalsIgnoreCase(symbol)){
+                return stockListing.get(i)[1];
+            }
         }
-        return stockListing.get(i)[1];
+        return null;
     }
 
     /**
@@ -194,7 +195,7 @@ public class StockLoader{
     private ArrayList<String[]> buildStockList(){
         ArrayList<String[]> result = new ArrayList<>();
         try{
-            BufferedReader br = new BufferedReader(new FileReader("file/DATA/S&P-500-symbol-name-list.csv"));
+            BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/S&P-500-symbol-name-list.csv"));
             br.readLine();
             String line, holder[];
             while((line = br.readLine()) != null){
