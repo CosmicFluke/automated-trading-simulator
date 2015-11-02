@@ -63,8 +63,8 @@ Decided to create interfaces for each of the following
  	* application stores states while command handler makes api calls based on user commands
  
 ##Burndown Chart
-![alt tag](burndown\groupburndownchart.jpg)
-![alt tag](burndown\asher_chart.png)
+![alt tag](\burndown\groupburndownchart.jpg)
+![alt tag](\burndown\asher_chart.png)
 ##Review & Retrospective
 * work that isn't done:
  * user defined indicators
