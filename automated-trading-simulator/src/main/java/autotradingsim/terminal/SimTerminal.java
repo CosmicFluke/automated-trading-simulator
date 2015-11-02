@@ -217,7 +217,6 @@ public class SimTerminal {
 					running=false;
 					break;
 				case "newrule":
-
 					engine.printconditions();
 					String choice=getUserInput()[0];
 					while(!Character.isDigit(choice.toCharArray()[0])){
@@ -229,7 +228,6 @@ public class SimTerminal {
 					choice=getUserInput()[0];
 					int val=Integer.parseInt(choice);
 					engine.addnewrule(stratname, select, val);
-					//engine.newrule(stratname);
 					//prompt user to select conditions and actions from list
 				case "h":
 				case "help":
