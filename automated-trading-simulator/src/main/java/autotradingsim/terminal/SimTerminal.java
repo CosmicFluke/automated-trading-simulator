@@ -161,9 +161,9 @@ public class SimTerminal {
 	 */
 	private void HandleModifyExperiment(String[] exargs) {
 		String currentExperiment=exargs[1];
-		System.out.print(currentExperiment);
 		boolean running=true;
 		do{
+			System.out.print(currentExperiment);
 			String[] args=getUserInput();
 			switch(exargs[0].toLowerCase()){
 				case "e":
@@ -208,8 +208,10 @@ public class SimTerminal {
 
 	private void HandleModifyStrategy(String[] stratargs) {
 		String stratname=stratargs[1];
+		
 		boolean running=true;
 		do{
+			System.out.print(stratargs[1]);
 			String[] args=getUserInput();
 			switch(args[0].toLowerCase()){
 				case "e":
@@ -217,18 +219,41 @@ public class SimTerminal {
 					running=false;
 					break;
 				case "newrule":
-
+					//get user input for condition
 					engine.printconditions();
 					String choice=getUserInput()[0];
-					while(!Character.isDigit(choice.toCharArray()[0])){
+					while(!Character.isDigit(choice.toCharArray()[0])
+							||(Integer.parseInt(choice)!=1 && Integer.parseInt(choice)!=2)){
 						System.out.println("please enter 1 or 2");
 						choice=getUserInput()[0];
 					}
 					int select=Integer.parseInt(choice);
-					System.out.print("Set value: ");
+					System.out.print("Set value for x: ");
 					choice=getUserInput()[0];
+					while(!Character.isDigit(choice.toCharArray()[0])){
+						System.out.print("enter a number: ");
+						choice=getUserInput()[0];
+					}
 					int val=Integer.parseInt(choice);
-					engine.addnewrule(stratname, select, val);
+					
+					//get user input for actions
+					engine.printactions();
+					String achoice=getUserInput()[0];
+					while(!Character.isDigit(achoice.toCharArray()[0])
+							||(Integer.parseInt(achoice)!=1 && Integer.parseInt(achoice)!=2)){
+						System.out.println("please enter 1 or 2");
+						achoice=getUserInput()[0];
+					}
+					int aselect=Integer.parseInt(achoice);
+					System.out.print("Set value for y: ");
+					achoice=getUserInput()[0];
+					while(!Character.isDigit(achoice.toCharArray()[0])){
+						System.out.print("enter a number: ");
+						achoice=getUserInput()[0];
+					}
+					int aval=Integer.parseInt(achoice);
+					engine.addNewSimpleStrategy(stratname, select, val, aselect, aval);
+					break;
 					//engine.newrule(stratname);
 					//prompt user to select conditions and actions from list
 				case "h":
@@ -248,7 +273,10 @@ public class SimTerminal {
 					//CommandHandler.removeCond(args[1]);
 					break;
 				case "save":
-					engine.saveStrat(stratname);
+					engine.saveCurrentStrategy();
+					System.out.println("Strategy: "+stratname+" is saved");
+					System.out.println("now exiting back to main menu");
+					running=false;
 					break;
 				default :
 					System.out.println("Please enter a valid command.");
