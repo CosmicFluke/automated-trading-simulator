@@ -71,12 +71,12 @@ public class SimTerminal {
 					}
 					
 					break;		
-				case "viewex":
+				case "viewexp":
 					if(checkArgNum(args,2)){
 						//engine.viewExperiment(args[1]);
 					}
 					break;
-				case "modifyex":
+				case "modifyexp":
 					if(checkArgNum(args, 2)){
 						HandleModifyExperiment(args);
 					}
@@ -183,9 +183,11 @@ public class SimTerminal {
 				case "liststrat":
 					//liststrat [-a] display all or current strategies
 					if(args.length == 1){
-						//CommandHandler.viewStrategy(currentExperiment,args);
+						engine.viewStrategy("");
 					}if(args.length == 2 && args[1].equals("-a")){
-						//CommandHandler.viewStrategy(args);
+						engine.viewStrategy("");
+					} else if (false/*something?*/) {
+					    // do something
 					}
 					break;
 				case "save":

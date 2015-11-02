@@ -27,7 +27,7 @@ public class SimpleCondition implements ICondition {
         // Using SimpleStockValue as Measurement
         this.measurement = new SimpleStockValue();
 
-        // Want to use comp to check measurement against value
+        // Want to use comparison function to check measurement against value
         this.comparison = makeComparator(comp);
         this.compare = (IBufferAdapter<? extends StockEntry> buf) ->
             (comparison.test(new Pair<>(measurement.getFunction().apply(buf), value)));
