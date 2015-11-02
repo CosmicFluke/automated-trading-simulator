@@ -20,20 +20,20 @@ Decided to create interfaces for each of the following
 
 ##Sprint Backlog
 * backend:
- * dataloader: load, parse and store market data
- * stock: data for each stock
- * stockday: daily data for stock
+ * dataloader: load, parse and store market data (L-size)
+ * stock: data for each stock                    (M-size)
+ * stockday: daily data for stock                (S-size)
 
 * application layer:
- * simpleRule
- * simpleStrategy
- * simpleExperiment
+ * simpleRule                                    (M-size)
+ * simpleStrategy                                (M-size)
+ * simpleExperiment                              (L-size)
  
 * frontend: 
- * top-level terminal:
+ * top-level terminal:                           (M-size)
   * create experiment
   * create strategy
- * sub-level terminal
+ * sub-level terminal                            (L-size)
   * create/modify experiemnt:
    * add strategies
    * set time periods for experiment
@@ -45,9 +45,10 @@ Decided to create interfaces for each of the following
    * save
 
 ##Update Meetings
-
+ * Meetings were conducted online
+ * 
 ##Burndown Chart
-
+ 
 ##Review & Retrospective
 * work that isn't done:
  * user defined indicators
