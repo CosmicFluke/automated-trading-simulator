@@ -69,6 +69,8 @@ Decided to create interfaces for each of the following
 <img src="https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/asher_chart.png" width="450">
 <img src="https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/Tomasz_chart.jpg" width="450">
 <img src="https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/bill.png" width="450">
+<img src="https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/shirley.jpg" width="450">
+<img src="https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/ujash.png" width="450">
 
 
 ##Review & Retrospective
