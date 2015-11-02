@@ -86,6 +86,31 @@ public class Experiment implements IExperiment {
         return TradingApplication.getInstance().getStrategy(id); // return strategy with the id
     }
 
+    public void addTrial(int id, String symbol){
+        int i = strategies.size();
+        int j = stocks.size();
+        for(int k = 0; k < i; k++){
+            if(strategies.get(k) == id){
+                i = k;
+                break;
+            }
+        }
+        if(i == strategies.size()){
+            strategies.add(id);
+        }
+        for(int k = 0; k < j; k++){
+            if(stocks.get(k).equalsIgnoreCase(symbol)){
+                j = k;
+                break;
+            }
+        }
+        if(j == stocks.size()){
+            stocks.add(symbol);
+        }
+        int[] hi = {i, j};
+        trials.add(hi);
+    }
+
     /**
      *
      * @param ts a time set
@@ -180,24 +205,20 @@ public class Experiment implements IExperiment {
             int shares;
 
             // Go through all the trials, test each one. Output a chunk of results to file for each trial
-            for(int i  = 0; i < trials.size(); i++){
-                strategy = getStrategy(strategies.get(trials.get(i)[0]));
-                stock = getStock(stocks.get(trials.get(i)[1]));
+            for(int[] trial: trials){
+                strategy = getStrategy(strategies.get(trial[0]));
+                stock = getStock(stocks.get(trial[1]));
                 st = strategy.getNewTester();
                 st.setAll(stock);
 
                 currentDate = stock.getStartDate();
-                bw.write(name);
-                bw.newLine();
-                bw.write(stock.getSymbol());
-                bw.newLine();
-                bw.write(currentDate.YEAR+"-"+currentDate.MONTH+"-"+currentDate.DATE);
-                bw.newLine();
+                bw.write(name); bw.newLine();
+                bw.write(stock.getSymbol()); bw.newLine();
+                bw.write(currentDate.YEAR+"-"+currentDate.MONTH+"-"+currentDate.DATE); bw.newLine();
 
-                balance = new BigDecimal(0);
+                balance = new BigDecimal(10000);
                 shares = 0;
 
-                // Iterate through all the days in the time snippet
                 while(currentDate.compareTo(stock.getEndDate()) <= 0){
                     decisions = st.testDate(currentDate);
                     Iterator itr = decisions.iterator();
