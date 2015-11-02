@@ -8,10 +8,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -104,7 +101,7 @@ public class Experiment implements IExperiment {
             StrategyTester st;
             IStock stock;
             Calendar currentDate;
-            Set<IDecision> decisions;
+            List<IDecision> decisions;
             int duration;
             IDecision decision;
 
@@ -175,7 +172,7 @@ public class Experiment implements IExperiment {
             StrategyTester st;
             IStock stock;
             Calendar currentDate;
-            Set<IDecision> decisions;
+            List<IDecision> decisions;
             int duration;
             IDecision decision;
 

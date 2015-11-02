@@ -3,6 +3,7 @@ package autotradingsim.strategy;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
+import autotradingsim.stocks.StockEntry;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,7 +59,7 @@ public class SimpleConditionTest {
     public void testGetFunction() throws Exception {
         ICondition condition = new SimpleCondition(ICondition.Comparator.LEQ, three);
 
-        Predicate<StockDayBufferAdapter> p = (Predicate<StockDayBufferAdapter>) condition.getFunction();
+        Predicate<IBufferAdapter<? extends StockEntry>> p = (Predicate<IBufferAdapter<? extends StockEntry>>) condition.getFunction();
 
         StockDayBufferAdapter adapter = (StockDayBufferAdapter) stock.getNewBuffer(testDate, 1);
 
