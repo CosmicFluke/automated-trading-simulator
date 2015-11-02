@@ -25,6 +25,11 @@ public class SimpleStrategy implements IStrategy {
     }
 
     @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
     public Set<RuleID> getRules() {
         Set<RuleID> rules = new HashSet<>();
         rules.add(rule.getRuleID());

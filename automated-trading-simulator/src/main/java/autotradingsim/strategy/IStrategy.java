@@ -38,6 +38,12 @@ public interface IStrategy {
     String getRuleDescription(RuleID rule);
     String getRuleSummary(RuleID rule);
 
+    /**
+     * Gets this IStrategy's name
+     * @return
+     */
+    String getName();
+
     IDecisionMaker getRuleDecisionMaker(RuleID rule);
 
     /**
