@@ -1,6 +1,10 @@
 package autotradingsim.stocks;
 
+import javafx.util.converter.BigDecimalStringConverter;
+
 import java.io.*;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.ArrayList;
 
@@ -80,15 +84,15 @@ public class StockLoader{
             }
 
             // Loop through the time period from end to start, and generate the list of StockDays
-            Double open, high, low, close, volume; StockDay sd;// Make variable holders
+            BigDecimal open, high, low, close; int volume; StockDay sd;// Make variable holders
             while(now.compareTo(start) >= 0){
 
                 // Create a StockDay object from the current iteration and add it to the result list
-                open = Double.parseDouble(lineSplit[1]);
-                high = Double.parseDouble(lineSplit[2]);
-                low = Double.parseDouble(lineSplit[3]);
-                close = Double.parseDouble(lineSplit[4]);
-                volume = Double.parseDouble(lineSplit[5]);
+                open = new BigDecimal(lineSplit[1]);
+                high = new BigDecimal(lineSplit[2]);
+                low = new BigDecimal(lineSplit[3]);
+                close = new BigDecimal(lineSplit[4]);
+                volume = Integer.parseInt(lineSplit[5]);
                 sd = new StockDay(symbol, now, open, high, low, close, volume);
                 result.add(0, sd);
 
@@ -118,7 +122,7 @@ public class StockLoader{
      */
     public IStock fetchStock(String symbol){
 
-        if(exists(symbol) == false){
+        if(exists(symbol)){
             return null;
         }
 
@@ -132,17 +136,17 @@ public class StockLoader{
             Calendar now = Calendar.getInstance();
             String line;
             String[] lineSplit, dateSplit;
-            Double open, high, low, close, volume; StockDay sd;// Make variable holders
+            BigDecimal open, high, low, close; int volume; StockDay sd;// Make variable holders
 
             while((line = br.readLine()) != null){
                 lineSplit = line.split(",");
                 dateSplit = lineSplit[0].split("-");
                 now.set(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
-                open = Double.parseDouble(lineSplit[1]);
-                high = Double.parseDouble(lineSplit[2]);
-                low = Double.parseDouble(lineSplit[3]);
-                close = Double.parseDouble(lineSplit[4]);
-                volume = Double.parseDouble(lineSplit[5]);
+                open = new BigDecimal(lineSplit[1]);
+                high = new BigDecimal(lineSplit[2]);
+                low = new BigDecimal(lineSplit[3]);
+                close = new BigDecimal(lineSplit[4]);
+                volume = Integer.parseInt(lineSplit[5]);
                 sd = new StockDay(symbol, now, open, high, low, close, volume);
                 result.add(0, sd);
             }

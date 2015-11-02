@@ -23,38 +23,28 @@ import java.util.Map;
 public class StockDay extends StockEntry {
 
     public enum Values {
-        OPEN, CLOSE, HIGH, LOW, VOLUME
+        OPEN, CLOSE, HIGH, LOW
     }
 
     private String symbol;
     private Calendar date;
+    private int volume;
 
     // Experimental BigDecimal Map
     private Map<Values, BigDecimal> values;
 
-    private Double open;
-    private Double close;
-    private Double high;
-    private Double low;
-    private Double volume;
-
-    public StockDay(String symbol, Calendar date, Double open, Double high, Double low, Double close, Double volume) {
+    public StockDay(String symbol, Calendar date, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close, int volume) {
         this.symbol = symbol;
         this.date = date;
-        this.open = open;
-        this.high = high;
-        this.low = low;
-        this.close = close;
-        this.volume = volume;
 
         // Experimental BigDecimal Map
         values = new HashMap<>();
-        values.put(Values.OPEN, new BigDecimal(open));
-        values.put(Values.CLOSE, new BigDecimal(close));
-        values.put(Values.HIGH, new BigDecimal(high));
-        values.put(Values.LOW, new BigDecimal(low));
-        values.put(Values.VOLUME, new BigDecimal(volume));
+        values.put(Values.OPEN, open);
+        values.put(Values.CLOSE, close);
+        values.put(Values.HIGH, high);
+        values.put(Values.LOW, low);
 
+        this.volume = volume;
     }
 
     // BigDecimal getter
@@ -62,32 +52,20 @@ public class StockDay extends StockEntry {
         return values.get(which);
     }
 
+    public String getSymbol(){
+        return this.symbol;
+    }
+
     public Calendar getDate(){
         return this.date;
     }
 
-    public Double getOpen() {
-        return this.open;
-    }
-
-    public Double getHigh() {
-        return high;
-    }
-
-    public Double getLow() {
-        return low;
-    }
-
-    public Double getClose() {
-        return close;
-    }
-
-    public Double getVolume() {
-        return volume;
+    public int getVolume(){
+        return this.volume;
     }
 
     @Override
-    public Double getSingleValue() {
-        return close;
+    public BigDecimal getValue() {
+        return values.get(Values.CLOSE);
     }
 }
