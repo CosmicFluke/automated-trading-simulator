@@ -212,11 +212,11 @@ public class Experiment implements IExperiment {
                 st.setAll(stock);
 
                 currentDate = stock.getStartDate();
-                bw.write(name); bw.newLine();
+                bw.write(strategy.getName()); bw.newLine();
                 bw.write(stock.getSymbol()); bw.newLine();
                 bw.write(currentDate.get(Calendar.YEAR)+"-"+currentDate.get(Calendar.MONTH)+"-"+currentDate.get(Calendar.DATE)); bw.newLine();
 
-                balance = new BigDecimal(10000);
+                balance = new BigDecimal(100000);
                 shares = 0;
 
                 while(currentDate.before(stock.getEndDate())){
