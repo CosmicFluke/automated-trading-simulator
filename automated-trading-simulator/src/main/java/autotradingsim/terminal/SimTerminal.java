@@ -57,16 +57,25 @@ public class SimTerminal {
 					HandleHelp(args);
 					break;
 				case "viewstrat":
-					CommandHandler.viewStrategy(args);
+					if(args.length==1){
+						engine.viewStrategy("");
+					}
+					if(args.length==2){
+						engine.viewStrategy(args[1]);
+					}
 					break;
 				case "modifystrat":
-					if(checkArgNum(args, 2)){
+					if(args.length==2){
 						HandleModifyStrategy(args);
 					}
+					if(args.length==1){
+						engine.createDefaultStrategy();
+					}
+					
 					break;		
 				case "viewex":
 					if(checkArgNum(args,2)){
-						CommandHandler.viewExperiment(args[1]);
+						//engine.viewExperiment(args[1]);
 					}
 					break;
 				case "modifyex":
@@ -99,7 +108,7 @@ public class SimTerminal {
 		String input;
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
-			System.out.print("$>");
+			System.out.print("> ");
 			input =	br.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -167,7 +176,7 @@ public class SimTerminal {
 					break;
 				case "addstrat":
 					//add existing strategies
-					CommandHandler.addStrategy(currentExperiment, args[1]);
+					//engine.addStrategy(currentExperiment, args[1]);
 					break;
 				case "addtime":
 					//CommandHandler.addExpTime(currentExperiment,args);
@@ -187,7 +196,7 @@ public class SimTerminal {
 				case "addrandomtimeset":
 					//Adds a randomly generated set of time windows: size windows, each length days long.
 					if(checkArgNum(args, 3)){
-						CommandHandler.addtimeset(currentExperiment, args[1], args[2]);
+						engine.addtimeset(currentExperiment, args[1], args[2]);
 					}
 					break;
 				default :
@@ -208,7 +217,7 @@ public class SimTerminal {
 					running=false;
 					break;
 				case "newrule":
-					//CommandHandler.newrule(stratname);
+					engine.newrule(stratname);
 					//prompt user to select conditions and actions from list
 				case "h":
 				case "help":
@@ -227,7 +236,7 @@ public class SimTerminal {
 					//CommandHandler.removeCond(args[1]);
 					break;
 				case "save":
-					CommandHandler.saveStrat(stratname);
+					engine.saveStrat(stratname);
 					break;
 				default :
 					System.out.println("Please enter a valid command.");
