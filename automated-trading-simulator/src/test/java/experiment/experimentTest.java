@@ -62,6 +62,10 @@ public class experimentTest {
 
         SimpleStrategy s = new SimpleStrategy();
         int id = s.getID();
+
+        test7.addTrial(id,"AAPL");
+        test7.addTrial(id,"MSFT");
+
         test7.addStrategy(id);
 
         test7.runExperiment();
