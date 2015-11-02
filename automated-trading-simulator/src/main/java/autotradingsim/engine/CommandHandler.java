@@ -30,10 +30,10 @@ public class CommandHandler {
 				System.out.println(i.getName());
 			}
 		}else{
-			IStrategy strat=null;
+			IStrategy strat = null;
 			Set<RuleID> rules;
-			if((strat=appEngine.getStrategy(stratname))!=null){
-				rules=strat.getRules();
+			if((strat = appEngine.getStrategy(stratname)) != null){
+				rules = strat.getRules();
 				System.out.println(strat.getName());
 				for (RuleID r:rules){
 					System.out.println(strat.getRuleName(r));
@@ -57,7 +57,7 @@ public class CommandHandler {
 
 	public void createDefaultStrategy() {
 		// TODO Auto-generated method stub
-		SimpleStrategy newstrat=new SimpleStrategy();
+		SimpleStrategy newstrat = new SimpleStrategy();
 		appEngine.saveStrategy(newstrat);
 		System.out.println("Default strategy "+appEngine.getStrategy(newstrat.getName()).getName()+" created");
 		System.out.println("This is a read-only strategy. Returning to Main menu.");

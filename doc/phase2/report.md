@@ -1,6 +1,6 @@
 ##Initial Planning
 ##Decisions made during the meeting:
-Decided to create java packages for each of the following
+Decided to create interfaces for each of the following
 * User interface:
   * based on command line
   * user create experiments,strategies,rules, conditions and actions
@@ -20,6 +20,7 @@ Decided to create java packages for each of the following
 
 ##Sprint Backlog
 * backend:
+
   * dataloader: load, parse and store market data (L-size)
   * stock: data for each stock                    (M-size)
   * stockday: daily data for stock                (S-size)
@@ -44,6 +45,8 @@ Decided to create java packages for each of the following
     * save
 
 ##Update Meetings
+
+=======
  * Meetings were conducted online
  * Changes made to UI:
    * 
@@ -51,11 +54,5 @@ Decided to create java packages for each of the following
  * 
  
 ##Burndown Chart
- 
+
 ##Review & Retrospective
-* work that isn't done:
- * user defined indicators
- * user defined conditions
- * multiple conditions applied to a rule
- * set time periods for experiment
- * generate random time set
