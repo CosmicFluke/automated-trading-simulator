@@ -34,12 +34,8 @@ public class CommandHandler {
 					System.out.println(strat.getRuleDescription(r));
 					System.out.println(strat.getRuleSummary(r));
 				}
-				
-				
 			}
-			
 		}
-		
 	}
 
 	protected static void viewExperiment(String string) {
@@ -62,8 +58,7 @@ public class CommandHandler {
 		SimpleStrategy newstrat=new SimpleStrategy();
 		appEngine.saveStrategy(newstrat);
 		System.out.println("Default strategy "+appEngine.getStrategy(newstrat.getName()).getName()+" created");
+		System.out.println("This is a read-only strategy. Returning to Main menu.");
 		
-	}
-	
-	
+	}	
 }

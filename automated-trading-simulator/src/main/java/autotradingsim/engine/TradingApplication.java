@@ -99,6 +99,15 @@ public class TradingApplication {
 		}
 		return null;	
 	}
+	public IStrategy getStrategy(int stratid){
+		
+		for (IStrategy strat: strategies){
+			if(strat.getID()==stratid){
+				return strat;
+			}
+		}
+		return null;	
+	}
 	
 	public void saveStrategy (SimpleStrategy strategy){
 		if(!strategies.contains(strategy)){
