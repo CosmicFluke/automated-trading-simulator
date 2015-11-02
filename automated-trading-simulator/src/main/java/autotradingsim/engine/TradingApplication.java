@@ -4,10 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -40,21 +42,50 @@ public class TradingApplication {
 			String symbol=filereader.nextLine();
 			String datestring=filereader.nextLine();
 			List<String[]> actionlist = new ArrayList<String[]>();
-			List<Integer> balancelist = new ArrayList<Integer>();
+			List<BigDecimal> balancelist = new ArrayList<BigDecimal>();
 			List<Integer> holdinglist = new ArrayList<Integer>();
 			//print result header
-			DateFormat format = new SimpleDateFormat("dd-mm-yyyy", Locale.ENGLISH);
-			Date date = format.parse(datestring);
-			System.out.println("Strategy: "+stratname+"|Stock: "+symbol+"|date: "+date);
+			DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+			Calendar cal=Calendar.getInstance();
+			cal.setTime((Date) format.parse(datestring));
+			datestring=format.format(cal.getTime());
+			System.out.println("Strategy: "+stratname+"|Stock: "+symbol+"|date: "+datestring);
+			String line = null;
 			while(filereader.hasNextLine()){
-				String[] dailydata=filereader.nextLine().split(",");
-				balancelist.add(Integer.parseInt(dailydata[0]));
-				holdinglist.add(Integer.parseInt(dailydata[1]));
-				String[] actions = new String[dailydata.length-2];
-				System.arraycopy(dailydata,2, actions, 0, dailydata.length-2);
-				actionlist.add(actions);
+				line=filereader.nextLine();
+				if(line.equals("")|line==null){
+					break;
+				}
+					String[] dailydata=line.split(",");
+					balancelist.add(new BigDecimal(dailydata[0]));
+					holdinglist.add(Integer.parseInt(dailydata[1]));
+					String[] actions = new String[dailydata.length-2];
+					System.arraycopy(dailydata,2, actions, 0, dailydata.length-2);
+					actionlist.add(actions);
+					
+					if(actions.length!=0){
+						System.out.print(datestring);
+						System.out.println(" action:"+actions[0]);
+					}else{
+						System.out.println(datestring);
+					}
+					//increment date by 1
+					cal.setTime((Date) format.parse(datestring));
+					cal.add(Calendar.DATE, 1);
+					datestring=format.format(cal.getTime());
 			}
-			
+			BigDecimal startingcapital = balancelist.get(0).add(new BigDecimal(holdinglist.get(0)));
+			BigDecimal closingbalance = balancelist.get(balancelist.size()-1).add(new BigDecimal(holdinglist.get(balancelist.size()-1)));
+			BigDecimal earnings = closingbalance.subtract((startingcapital));
+			BigDecimal annualreturn = earnings.divide(new BigDecimal(actionlist.size())).multiply(new BigDecimal(365));
+			System.out.println("Starting Capital: "+startingcapital);
+			System.out.println("Closing Balance: "+closingbalance);
+			System.out.println("Earnings: "+earnings);
+			System.out.println("Annual Return: "+annualreturn);
+			System.out.println("---------------------------------");
+			if(line==null){
+				break;
+			}
 		}
 	}
 	public static Strategy getStrategy(String stratname){
