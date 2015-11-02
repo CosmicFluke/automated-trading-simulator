@@ -65,9 +65,9 @@ Decided to create interfaces for each of the following
 ##Burndown Chart
 
 ![alt tag](https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/groupburndownchart.jpg)
-![alt tag](https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/asher_chart.png){width:250px; height:100px;}
-![alt tag](https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/Tomasz_chart.jpg){width:250px; height:250px}
-![alt tag](https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/bill.png){width:250px; height:250px}
+![alt tag](https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/asher_chart.png =300x200)
+![alt tag](https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/Tomasz_chart.jpg)
+![alt tag](https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/bill.png)
 
 ##Review & Retrospective
 * work that isn't done:
