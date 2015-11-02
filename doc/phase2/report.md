@@ -72,10 +72,17 @@ Decided to create interfaces for each of the following
 
 
 ##Review & Retrospective
-* work that isn't done:
- * user defined indicators
- * user defined conditions
- * multiple conditions applied to a rule
- * set time periods for experiment
- * generate random time set
- * indicators 
+From the beginning, this was a challenging endeavour.  Our group had great difficulty organizing meetings, and so we met in smaller groups.  
+Only three members attended our sprint meeting.  We did not meet again until the end of the sprint, though there was some chatter and discussion on Slack through the week.
+However, in this meeting we laid the groundwork for the backend architecture of our application.  Because of the complexity of the problem, 
+one member of the group took the initiative to create a document describing the overall organization of packages and classes, as well as their 
+interactions/collaborations.  Once this was completed, it was easier for some of the other members to contribute work and begin chipping away at the code base.
+
+ - The user interface was not realized in this phase
+   - A lack of communication combined with very little forethought about oganization made it difficult for anyone to contribute to this area
+ - Only the simplest implementation of the API was realized.  Most of the intended functionality of the system isn't there yet.
+ - Javadocs were sparse at best, making it difficult for anyone to use code written by another person
+ - Communication about APIs was insufficient for the kind of collaboration needed on a package of this complexity
+
+The decision to let Asher develop the architecture plan worked well. It got the ball rolling when the group was feeling stuck about how to proceed.  
+In addition, spending some time planning out the big picture helped avoid potential pitfalls later in the sprint.
