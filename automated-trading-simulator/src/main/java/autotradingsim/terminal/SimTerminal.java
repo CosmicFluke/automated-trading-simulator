@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Calendar;
 import autotradingsim.engine.CommandHandler;
-/*12
+/** 12
  * Experiments apply Strategies to particular stocks over a set of time periods.
  *
  * commands: 
@@ -35,6 +35,13 @@ public class SimTerminal {
 		}
 		return true;
 	}
+
+    public static void main(String[] args){
+        SimTerminal st = new SimTerminal();
+        System.out.println("Welcome to Automated Trading Simulator!");
+        System.out.println("Type 'help' to see a list of commands.");
+        st.run();
+    }
 	
 	public void run()
 	{
@@ -45,7 +52,6 @@ public class SimTerminal {
 				return;
 
 			switch(args[0].toLowerCase()){
-				case "h":
 				case "help" :
 					HandleHelp(args);
 					break;
@@ -72,7 +78,6 @@ public class SimTerminal {
 						handleRun(args[1]);
 					}
 					break;
-				case "e":
 				case "exit" :
 					if(checkArgNum(args, 1)){
 						running = false;
@@ -239,10 +244,8 @@ public class SimTerminal {
 	
 	private void HandleHelp(String[] args) {
 		if(args.length == 1){
-			System.out.println("Welcome to the auto stock trading simulator!");
-			System.out.println("What do you need help with? Try: help <arg>");
-		}
-		else{
+			System.out.println("What do you need help with? Try: help viewstrat, modifystrat, viewexp, modifyexp, run.");
+		}else{
 			String helpString = "";
 			switch(args[1].toLowerCase()){
 				case "viewstrat":
@@ -265,7 +268,7 @@ public class SimTerminal {
 							+ "displays a list of available experiments. Usage: viewExp [name]";
 					break;
 					
-				case "modifyex":
+				case "modifyexp":
 					helpString = "Modify an existing experiment by name. If that experiment doesn't exist, "
 							+ "create one under given name. After specifying a experiment to be modified, "
 							+ "the prompt will change to Experiment [name] >. See help experimentModification"
@@ -277,16 +280,11 @@ public class SimTerminal {
 					helpString = "run - Runs a selected experiment. "
 							+ "Usage: run [experiment_name]";
 					break;
-
-				case "experimentModification":
-				case "strategyModification":
-					helpString = "help for modifications not yet implemented";
-					break;
 					
 				default:
 					helpString = "Did not understand " + args[1] +
 								" as a valid input. Needs to be one of viewstrat, modifystrat"
-								+ ", viewexp, modifyex, run, experimentModification, or strategyModification";
+								+ ", viewexp, modifyex, run";
 					break;
 			}
 			System.out.println(helpString);
