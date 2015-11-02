@@ -5,4 +5,6 @@ package autotradingsim.strategy;
  */
 public abstract class Strategy implements IStrategy {
 
+    // NOTHING TO SEE HERE
+
 }
