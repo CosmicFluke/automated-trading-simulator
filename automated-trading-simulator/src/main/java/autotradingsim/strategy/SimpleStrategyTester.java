@@ -15,8 +15,12 @@ public class SimpleStrategyTester extends StrategyTester {
 
     public SimpleStrategyTester(IStrategy strategy) {
         super(strategy);
+        ruleIDtoDecisionMaker = new HashMap<>();
         for (RuleID id : strategy.getRules()) {
-            ruleIDtoDecisionMaker.put(id, strategy.getRuleDecisionMaker(id));
+            IDecisionMaker maker = strategy.getRuleDecisionMaker(id);
+            if (maker != null) {
+                ruleIDtoDecisionMaker.put(id, maker);
+            } else System.out.print("Null pointer error in SimpleStrategyTester");
         }
     }
 
