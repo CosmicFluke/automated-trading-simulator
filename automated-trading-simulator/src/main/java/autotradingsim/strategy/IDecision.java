@@ -11,9 +11,9 @@ import java.util.Calendar;
  */
 public interface IDecision {
 
-    public Calendar getDate();
-    public IAction.ActionType getActionType();
-    public int getQuantity();
-    public String getStockSymbol();
+    Calendar getDate();
+    IAction.ActionType getActionType();
+    int getQuantity();
+    String getStockSymbol();
 
 }

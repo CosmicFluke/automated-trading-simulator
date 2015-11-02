@@ -32,6 +32,6 @@ public abstract class StrategyTester {
      * @param date
      * @return
      */
-    public abstract Set<IDecision> testDate(Calendar date);
+    public abstract List<IDecision> testDate(Calendar date);
 
 }
