@@ -1,9 +1,10 @@
 package autotradingsim.engine;
 import autotradingsim.strategy.*;
 
+import java.util.ArrayList;
 import java.util.Set;
-
 import autotradingsim.experiment.*;
+import autotradingsim.terminal.*;
 public class CommandHandler {
 
 	public CommandHandler() {
@@ -15,7 +16,7 @@ public class CommandHandler {
 		appEngine.saveStrategy(null);
 	}
 	
-	public void addStrategy(String exp, String strat){
+	public void addStrategy(String exp, int stratid){
 		
 	}
 
@@ -33,6 +34,7 @@ public class CommandHandler {
 					System.out.println(strat.getRuleName(r));
 					System.out.println(strat.getRuleDescription(r));
 					System.out.println(strat.getRuleSummary(r));
+					//System.out.println(strat.getRuleDecisionMaker(r));
 				}
 			}
 		}
@@ -60,5 +62,17 @@ public class CommandHandler {
 		System.out.println("Default strategy "+appEngine.getStrategy(newstrat.getName()).getName()+" created");
 		System.out.println("This is a read-only strategy. Returning to Main menu.");
 		
+	}
+	public void printconditions(){
+		ArrayList<ICondition> conditions = new ArrayList<>();
+		System.out.println("Choose from the following conditions");
+		System.out.println("1. stock value is greater than x");
+		System.out.println("2. stock value is smaller than x");
+		
+	}
+	public void addnewrule(String stratname, int selection, int value) {
+		// TODO Auto-generated method stub
+		
+
 	}	
 }

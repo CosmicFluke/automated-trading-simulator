@@ -104,7 +104,7 @@ public class SimTerminal {
 		} while(running);
 	}
 
-	private String[] getUserInput() {
+	public String[] getUserInput() {
 		String input;
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
@@ -217,7 +217,18 @@ public class SimTerminal {
 					running=false;
 					break;
 				case "newrule":
-					engine.newrule(stratname);
+					engine.printconditions();
+					String choice=getUserInput()[0];
+					while(!Character.isDigit(choice.toCharArray()[0])){
+						System.out.println("please enter 1 or 2");
+						choice=getUserInput()[0];
+					}
+					int select=Integer.parseInt(choice);
+					System.out.print("Set value: ");
+					choice=getUserInput()[0];
+					int val=Integer.parseInt(choice);
+					engine.addnewrule(stratname, select, val);
+					//engine.newrule(stratname);
 					//prompt user to select conditions and actions from list
 				case "h":
 				case "help":
