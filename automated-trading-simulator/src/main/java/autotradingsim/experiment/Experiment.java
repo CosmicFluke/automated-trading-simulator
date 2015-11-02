@@ -97,7 +97,7 @@ public class Experiment implements IExperiment {
     public boolean runExperiment(TimeSet ts){
         try{
             // Create the file writer with the given file ID as the name
-            BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/exp" + name + ".txt"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/" + name + ".txt"));
 
             IStrategy strategy;
             StrategyTester st;
@@ -168,7 +168,7 @@ public class Experiment implements IExperiment {
     public boolean runExperiment(){
         try{
             // Create the file writer with the given file ID as the name
-            BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/exp" + name + ".txt"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/" + name + ".txt"));
 
             IStrategy strategy;
             StrategyTester st;
