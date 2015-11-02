@@ -24,17 +24,16 @@ Decided to create java packages for each of the following
  * stock: data for each stock                    (M-size)
  * stockday: daily data for stock                (S-size)
 
-* application layer:
- * simpleRule                                    (M-size)
- * simpleStrategy                                (M-size)
- * simpleExperiment                              (L-size)
+* top-level classes:
+ * command handler                               (L-size)
+ * application                                   (L-size)
  
 * frontend: 
- * top-level terminal:                           (M-size)
+ * top-level terminal/UI:                           (M-size)
   * create experiment
   * create strategy
- * sub-level terminal                            (L-size)
-  * create/modify experiemnt:
+ * sub-level terminal/UI:                           (L-size)
+  * create/modify experiment:
    * add strategies
    * set time periods for experiment
    * save experiment
