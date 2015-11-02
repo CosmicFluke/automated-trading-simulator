@@ -39,7 +39,7 @@ public interface IStrategy {
     String getRuleSummary(RuleID rule);
 
     /**
-     * Gets this IStrategy's name
+     * Gets this IStrategy's name.  Names must be under 16 characters and can only use letters and numbers.
      * @return
      */
     String getName();

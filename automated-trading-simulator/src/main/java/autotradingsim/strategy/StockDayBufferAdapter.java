@@ -41,10 +41,14 @@ public class StockDayBufferAdapter implements IBufferAdapter<StockDay> {
     @Override
     public void updateNext() {
         currentDate.add(Calendar.DATE, 1);
+        StockDay next = this.stock.getDay(currentDate);
+        if (next == null) {
+            return;
+        }
         if (buffer.size() >= this.size) {
             buffer.removeFirst();
         }
-        buffer.addLast(this.stock.getDay(currentDate));
+        buffer.addLast(next);
     }
 
     public boolean isEmpty() {
