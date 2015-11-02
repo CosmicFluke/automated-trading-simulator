@@ -19,26 +19,31 @@ Decided to create interfaces for each of the following
   * changes in market data over time
 
 ##Sprint Backlog
+* Architecture (M-size)
 * backend:
-
   * dataloader: load, parse and store market data (L-size)
   * stock: data for each stock                    (M-size)
   * stockday: daily data for stock                (S-size)
-
+  * Experiment: stores strategies, runs experiment(L-size)
+  * Strategy: stores rules						  (L-size)
+  * Rule: made of condition and action			  (M-size)
+  * Condition: checks market data				  (L-size)
+  * action: buy, sell, short, cover				  (S-size)
+  * decisionmaker: decides whether to apply action(M-size)
+  * indicators: calculations wr market variables  (L-size)							
 * top-level classes:
   * command handler                               (L-size)
   * application                                   (L-size)
- 
 * frontend: 
- * top-level terminal/UI:                           (M-size)
+ * top-level terminal/UI:                         (M-size)
    * create experiment
    * create strategy
- * sub-level terminal/UI:                           (L-size)
-  * create/modify experiment:
+ * sub-level terminal/UI:                           
+  * create/modify experiment:					  (L-size)
     * add strategies
     * set time periods for experiment
     * save experiment
-  * create/modify strategy:
+  * create/modify strategy: 					  (L-size)
     * add rules
     * add conditions
     * add actions
@@ -58,6 +63,10 @@ Decided to create interfaces for each of the following
  	* application stores states while command handler makes api calls based on user commands
  
 ##Burndown Chart
+
+![alt tag](https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/groupburndownchart.jpg)
+![alt tag](https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/asher_chart.png){size:250}
+![alt tag](https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase2/burndown/Tomasz_chart.jpg)
 
 ##Review & Retrospective
 * work that isn't done:
