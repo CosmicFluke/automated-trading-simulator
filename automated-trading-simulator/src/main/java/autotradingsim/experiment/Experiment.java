@@ -87,7 +87,7 @@ public class Experiment implements IExperiment {
     /**
      *
      * @param ts a time set
-     * @return whether experiment was ran successfully
+     * @return whether the experiment was ran successfully
      */
     @Override
     public boolean runExperiment(TimeSet ts){
