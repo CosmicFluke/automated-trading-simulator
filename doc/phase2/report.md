@@ -43,7 +43,6 @@ Decided to create interfaces for each of the following
    * add conditions
    * add actions
    * save
-
 ##Update Meetings
  * Meetings were conducted online
  * 
