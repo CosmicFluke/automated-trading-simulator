@@ -19,33 +19,56 @@ Decided to create interfaces for each of the following
   * changes in market data over time
 
 ##Sprint Backlog
+* Architecture (M-size)
 * backend:
- * dataloader: load, parse and store market data
- * stock: data for each stock
- * stockday: daily data for stock
-
-* application layer:
- * simpleRule
- * simpleStrategy
- * simpleExperiment
- 
+  * dataloader: load, parse and store market data (L-size)
+  * stock: data for each stock                    (M-size)
+  * stockday: daily data for stock                (S-size)
+  * Experiment: stores strategies, runs experiment(L-size)
+  * Strategy: stores rules						  (L-size)
+  * Rule: made of condition and action			  (M-size)
+  * Condition: checks market data				  (L-size)
+  * action: buy, sell, short, cover				  (S-size)
+  * decisionmaker: decides whether to apply action(M-size)
+  * indicators: calculations wr market variables  (L-size)							
+* top-level classes:
+  * command handler                               (L-size)
+  * application                                   (L-size)
 * frontend: 
- * top-level terminal:
-  * create experiment
-  * create strategy
- * sub-level terminal
-  * create/modify experiemnt:
-   * add strategies
-   * set time periods for experiment
-   * save experiment
-  * create/modify strategy:
-   * add rules
-   * add conditions
-   * add actions
-   * save
+ * top-level terminal/UI:                         (M-size)
+   * create experiment
+   * create strategy
+ * sub-level terminal/UI:                           
+  * create/modify experiment:					  (L-size)
+    * add strategies
+    * set time periods for experiment
+    * save experiment
+  * create/modify strategy: 					  (L-size)
+    * add rules
+    * add conditions
+    * add actions
+    * save
 
 ##Update Meetings
 
+ Location: Online-Slack 
+ Time: October 27th 2015
+ Participants: Asher, Bill, Shirley, Tomek
+ 
+ * Changes made to UI:
+   * launch new shells for modifyexperiment and modifystrategy rather than restricting commands
+   * user select conditions and actions from a list rather than entering it themselves
+ * Changes made to the top-level classes
+ 	*instead of having one engine class store states and make api calls based on user input, engine is split up into application and command handler
+ 	* application stores states while command handler makes api calls based on user commands
+ 
 ##Burndown Chart
 
 ##Review & Retrospective
+* work that isn't done:
+ * user defined indicators
+ * user defined conditions
+ * multiple conditions applied to a rule
+ * set time periods for experiment
+ * generate random time set
+ * indicators 

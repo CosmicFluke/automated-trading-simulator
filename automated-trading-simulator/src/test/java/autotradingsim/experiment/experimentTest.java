@@ -1,4 +1,4 @@
-package experiment;
+package autotradingsim.experiment;
 
 import autotradingsim.engine.TradingApplication;
 import autotradingsim.experiment.Experiment;
@@ -62,6 +62,11 @@ public class experimentTest {
 
         SimpleStrategy s = new SimpleStrategy();
         int id = s.getID();
+        TradingApplication.getInstance().saveStrategy(s);
+
+        test7.addTrial(id, "AAPL");
+        test7.addTrial(id,"MSFT");
+
         test7.addStrategy(id);
 
         test7.runExperiment();

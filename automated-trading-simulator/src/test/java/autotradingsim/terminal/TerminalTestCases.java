@@ -1,4 +1,4 @@
-package autotradingsim_test;
+package autotradingsim.terminal;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -1,10 +1,8 @@
 package autotradingsim.terminal;
-import autotradingsim.engine.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Calendar;
 import autotradingsim.engine.CommandHandler;
 /** 12
  * Experiments apply Strategies to particular stocks over a set of time periods.
@@ -57,28 +55,28 @@ public class SimTerminal {
 					HandleHelp(args);
 					break;
 				case "viewstrat":
-					if(args.length==1){
+					if(args.length == 1){
 						engine.viewStrategy("");
 					}
-					if(args.length==2){
+					if(args.length == 2){
 						engine.viewStrategy(args[1]);
 					}
 					break;
 				case "modifystrat":
-					if(args.length==2){
+					if(args.length == 2){
 						HandleModifyStrategy(args);
 					}
-					if(args.length==1){
+					if(args.length == 1){
 						engine.createDefaultStrategy();
 					}
 					
 					break;		
-				case "viewex":
+				case "viewexp":
 					if(checkArgNum(args,2)){
 						//engine.viewExperiment(args[1]);
 					}
 					break;
-				case "modifyex":
+				case "modifyexp":
 					if(checkArgNum(args, 2)){
 						HandleModifyExperiment(args);
 					}
@@ -160,15 +158,15 @@ public class SimTerminal {
 	 * Throws IllegalArgumentExceptions
 	 */
 	private void HandleModifyExperiment(String[] exargs) {
-		String currentExperiment=exargs[1];
-		System.out.print(currentExperiment);
+		String currentExperiment = exargs[1];
 		boolean running=true;
 		do{
-			String[] args=getUserInput();
+			System.out.print(currentExperiment);
+			String[] args = getUserInput();
 			switch(exargs[0].toLowerCase()){
 				case "e":
 				case "exit": 
-					running=false;
+					running = false;
 					break;
 				case "h":
 				case "help":
@@ -184,10 +182,12 @@ public class SimTerminal {
 					//add time period [Start YYYYMMDD] [End YYYYMMDD]
 				case "liststrat":
 					//liststrat [-a] display all or current strategies
-					if(args.length==1){
-						//CommandHandler.viewStrategy(currentExperiment,args);
-					}if(args.length==2 & args[1].equals("-a")){
-						//CommandHandler.viewStrategy(args);
+					if(args.length == 1){
+						engine.viewStrategy("");
+					}if(args.length == 2 && args[1].equals("-a")){
+						engine.viewStrategy("");
+					} else if (false/*something?*/) {
+					    // do something
 					}
 					break;
 				case "save":
@@ -207,10 +207,12 @@ public class SimTerminal {
 	}
 
 	private void HandleModifyStrategy(String[] stratargs) {
-		String stratname=stratargs[1];
-		boolean running=true;
+		String stratname = stratargs[1];
+		
+		boolean running = true;
 		do{
-			String[] args=getUserInput();
+			System.out.print(stratargs[1]);
+			String[] args = getUserInput();
 			switch(args[0].toLowerCase()){
 				case "e":
 				case "exit": 
@@ -218,19 +220,42 @@ public class SimTerminal {
 					break;
 				case "newrule":
 
+					//get user input for condition
 					engine.printconditions();
-					String choice=getUserInput()[0];
-					while(!Character.isDigit(choice.toCharArray()[0])){
+					String choice = getUserInput()[0];
+					while(!Character.isDigit(choice.toCharArray()[0])
+							||((Integer.parseInt(choice) != 1) && (Integer.parseInt(choice) != 2))){
 						System.out.println("please enter 1 or 2");
-						choice=getUserInput()[0];
+						choice = getUserInput()[0];
 					}
-					int select=Integer.parseInt(choice);
-					System.out.print("Set value: ");
-					choice=getUserInput()[0];
-					int val=Integer.parseInt(choice);
-					engine.addnewrule(stratname, select, val);
-					//engine.newrule(stratname);
-					//prompt user to select conditions and actions from list
+					int select = Integer.parseInt(choice);
+					System.out.print("Set value for x: ");
+					choice = getUserInput()[0];
+					while(!Character.isDigit(choice.toCharArray()[0])){
+						System.out.print("enter a number: ");
+						choice = getUserInput()[0];
+					}
+					int val = Integer.parseInt(choice);
+					
+					//get user input for actions
+					engine.printactions();
+					String achoice=getUserInput()[0];
+					while(!Character.isDigit(achoice.toCharArray()[0])
+							||(Integer.parseInt(achoice)!=1 && Integer.parseInt(achoice) != 2)){
+						System.out.println("please enter 1 or 2");
+						achoice=getUserInput()[0];
+					}
+					int aselect = Integer.parseInt(achoice);
+					System.out.print("Set value for y: ");
+					achoice = getUserInput()[0];
+					while(!Character.isDigit(achoice.toCharArray()[0])){
+						System.out.print("enter a number: ");
+						achoice = getUserInput()[0];
+					}
+					int aval = Integer.parseInt(achoice);
+					engine.addNewSimpleStrategy(stratname, select, val, aselect, aval);
+					break;
+
 				case "h":
 				case "help":
 					HandleHelp(args);
@@ -248,14 +273,17 @@ public class SimTerminal {
 					//CommandHandler.removeCond(args[1]);
 					break;
 				case "save":
-					engine.saveStrat(stratname);
+					engine.saveCurrentStrategy();
+					System.out.println("Strategy: " + stratname + " is saved");
+					System.out.println("now exiting back to main menu");
+					running = false;
 					break;
 				default :
 					System.out.println("Please enter a valid command.");
 					ListCommands("strategy");
 					
 			}
-		}while(running);
+		} while(running);
 	}
 
 	private void handleRun(String experimentname) {
