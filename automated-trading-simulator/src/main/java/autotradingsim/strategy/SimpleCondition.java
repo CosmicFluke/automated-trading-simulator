@@ -35,11 +35,8 @@ public class SimpleCondition implements ICondition {
     }
 
     @Override
-    public boolean evaluate(Calendar date) {
-
-        //Run comparison on value of measurement against constant value
-        // TODO: is this necessary?
-        return false;
+    public int getBufferSize() {
+        return this.measurement.getBufferSize();
     }
 
     @Override
