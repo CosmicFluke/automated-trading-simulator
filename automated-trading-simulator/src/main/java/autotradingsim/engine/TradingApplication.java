@@ -21,16 +21,13 @@ public class TradingApplication {
 	
 	private static TradingApplication instance=null;
 	
-	protected TradingApplication() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	public static TradingApplication getInstance(){
 		if (instance==null){
 			instance=new TradingApplication();
 		}
 		return instance;
 	}
+	
 	public void displayResults(String filename) throws IOException, ParseException{
 		File file = new File(filename);
 		Scanner fileReader = new Scanner(file);
@@ -97,7 +94,7 @@ public class TradingApplication {
 				return strat;
 			}
 		}
-		return null;	
+		return null;
 	}
 	public IStrategy getStrategy(int stratid){
 		
