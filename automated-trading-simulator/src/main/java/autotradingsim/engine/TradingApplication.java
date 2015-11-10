@@ -121,11 +121,11 @@ public class TradingApplication {
 		return strategies.get(stratid);	
 	}
 	
-	public boolean saveStrategy (SimpleStrategy strategy){
-		if(strategies.containsKey(strategy.hashCode())){
+	public boolean saveStrategy (IStrategy newstrat){
+		if(strategies.containsKey(newstrat.hashCode())){
 			return false;
 		}else{
-		strategies.put(strategy.getName().hashCode(), strategy);
+		strategies.put(newstrat.getName().hashCode(), newstrat);
 			return true;
 		}
 	}

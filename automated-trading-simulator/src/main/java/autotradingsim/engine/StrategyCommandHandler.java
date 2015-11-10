@@ -16,30 +16,23 @@ public class StrategyCommandHandler {
 		// TODO Auto-generated constructor stub
 		 appEngine = TradingApplication.getInstance();
 	}
-	public void createDefaultStrategy() {
+	public IStrategy createDefaultStrategy() {
 		// TODO Auto-generated method stub
-		SimpleStrategy newstrat = new SimpleStrategy();
+		IStrategy newstrat = new SimpleStrategy();
 		appEngine.saveStrategy(newstrat);
-		System.out.println("Default strategy "+appEngine.getStrategy(newstrat.getName()).getName()+" created");
-		System.out.println("This is a read-only strategy. Returning to Main menu.");
-		
+		return newstrat;
 	}
 
-	public void addNewSimpleStrategy(String stratname, int cselection, int cvalue, int aselection, int avalue) {
-		currentStrategy = 
-				new SimpleStrategy(
-						stratname, "",
-						(cselection == 1) ? Comparator.GT : Comparator.LT, new BigDecimal(cvalue),
-						(aselection == 1) ? IAction.ActionType.BUY : IAction.ActionType.SELL, avalue);
+	public IStrategy addNewSimpleStrategy(String stratname, int cselection, int cvalue, int aselection, int avalue) {
+		
+		return (new SimpleStrategy(stratname, "",(cselection == 1) ? Comparator.GT : Comparator.LT,
+				new BigDecimal(cvalue),(aselection == 1) ? IAction.ActionType.BUY : IAction.ActionType.SELL, avalue));
+	
 	}
-	public void saveCurrentStrategy(){
-		appEngine.saveStrategy((SimpleStrategy) currentStrategy);
-	}
+
 	public IStrategy viewStrategy(String stratname) {
 		// TODO Auto-generated method stub
-		IStrategy retStrat=null;
-		retStrat=appEngine.getStrategy(stratname.hashCode());
-		return retStrat;
+		return(appEngine.getStrategy(stratname.hashCode()));
 	}
 
 }
