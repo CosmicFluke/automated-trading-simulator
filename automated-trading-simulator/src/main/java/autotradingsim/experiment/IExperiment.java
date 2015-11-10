@@ -12,7 +12,6 @@ public interface IExperiment {
     String getName();
 
     boolean addStock(String symbol);
-    IStock getStock(String symbol);
     boolean addStrategy(String name);
 
     IStrategy getStrategy(String name);
