@@ -1,6 +1,7 @@
 package autotradingsim.strategy;
 
 import autotradingsim.stocks.IStock;
+import sun.rmi.runtime.Log;
 
 import java.util.*;
 
@@ -11,16 +12,19 @@ import java.util.*;
 public class SimpleStrategyTester extends StrategyTester {
 
     private Map<RuleID, IDecisionMaker> ruleIDtoDecisionMaker;
-    private IStock stock;
 
     public SimpleStrategyTester(IStrategy strategy) {
         super(strategy);
+
+        // Load and store a decision maker for each rule in the strategy
         ruleIDtoDecisionMaker = new HashMap<>();
         for (RuleID id : strategy.getRules()) {
             IDecisionMaker maker = strategy.getRuleDecisionMaker(id);
             if (maker != null) {
                 ruleIDtoDecisionMaker.put(id, maker);
-            } else System.out.print("Null pointer error in SimpleStrategyTester");
+            } else
+                System.out.format("SimpleStrategyTester: IDecisionMaker for rule %d in strategy %d was null pointer",
+                        id.getID(), strategy.getID());
         }
     }
 
@@ -30,7 +34,6 @@ public class SimpleStrategyTester extends StrategyTester {
 
     @Override
     public void setAll(IStock stock) {
-        this.stock = stock;
         for (IDecisionMaker maker : ruleIDtoDecisionMaker.values()) {
             maker.assignStock(stock);
         }

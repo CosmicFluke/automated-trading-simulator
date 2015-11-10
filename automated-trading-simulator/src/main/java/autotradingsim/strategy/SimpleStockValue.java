@@ -4,6 +4,7 @@ import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
 import autotradingsim.stocks.StockEntry;
+import autotradingsim.strategy.exceptions.DataNotProvidedException;
 
 import java.math.BigDecimal;
 import java.util.Calendar;

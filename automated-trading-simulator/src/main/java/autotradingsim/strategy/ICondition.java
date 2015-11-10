@@ -43,8 +43,7 @@ public interface ICondition {
         }
     }
 
-
-    boolean evaluate(Calendar date);
+    int getBufferSize();
 
     Predicate<IBufferAdapter<? extends StockEntry>> getFunction();
 
