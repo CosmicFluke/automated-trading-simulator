@@ -54,13 +54,7 @@ public class TradingApplication {
 			cal.setTime((Date) format.parse(dateString));
 			dateString=format.format(cal.getTime());
 			System.out.println("Strategy: "+strategyName+" | Stock: "+symbol+" | Starting date: "+dateString);
-			
-			/* Using LocalDateTime 
-			String timeString = "00:00:00";
-			LocalDateTime cal = LocalDateTime.parse(dateString+"T"+timeString);
-			System.out.println(cal.toString());
-			*/
-			
+	
 			String line = null;
 			while(fileReader.hasNextLine()){
 				line = fileReader.nextLine();
