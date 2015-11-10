@@ -137,8 +137,8 @@ public class Experiment implements IExperiment {
 
             // Go through all the trials, test each one. Output a chunk of results to file for each trial
             for(int i  = 0; i < trials.size(); i++){
-                strategy = getStrategy(strategies.get(trials.get(i)[0]));
-                stock = getStock(stocks.get(trials.get(i)[1]));
+                strategy = TradingApplication.getInstance().getStrategy(strategies.get(trials.get(i)[0]));
+                stock = TradingApplication.getInstance().getStock(stocks.get(trials.get(i)[1]));
                 st = strategy.getNewTester();
                 st.setAll(stock);
                 duration = ts.getDuration();
@@ -208,8 +208,8 @@ public class Experiment implements IExperiment {
 
             // Go through all the trials, test each one. Output a chunk of results to file for each trial
             for(int[] trial: trials){
-                strategy = getStrategy(strategies.get(trial[0]));
-                stock = getStock(stocks.get(trial[1]));
+                strategy = TradingApplication.getInstance().getStrategy(strategies.get(trial[0]));
+                stock = TradingApplication.getInstance().getStock(stocks.get(trial[1]));
                 st = strategy.getNewTester();
                 st.setAll(stock);
 
