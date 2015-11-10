@@ -39,12 +39,17 @@ public class TradingApplication {
 		return instance;
 	}
 	
-	public void saveExperiment(IExperiment experiment){
-		experiments.put(experiment.getName().hashCode(), experiment);		
+	public boolean saveExperiment(IExperiment experiment){
+		if(experiments.containsKey(experiment.getName())){
+			return false;
+		}else{
+			experiments.put(experiment.getName().hashCode(), experiment);
+			return true;
+		}
 	}
 	
-	public void getExperiment(int expID){
-		experiments.get(expID);
+	public Experiment getExperiment(int expID){
+		return (Experiment) experiments.get(expID);
 	}
 	
 	public void displayResults(String filename) throws IOException, ParseException{
@@ -116,8 +121,13 @@ public class TradingApplication {
 		return strategies.get(stratid);	
 	}
 	
-	public void saveStrategy (SimpleStrategy strategy){
-		strategies.put(strategy.getName().hashCode(), strategy);
+	public boolean saveStrategy (IStrategy newstrat){
+		if(strategies.containsKey(newstrat.hashCode())){
+			return false;
+		}else{
+		strategies.put(newstrat.getName().hashCode(), newstrat);
+			return true;
+		}
 	}
 	
 	/**
