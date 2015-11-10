@@ -24,6 +24,7 @@ public class TradingApplication {
 	public ArrayList<IStrategy> strategies = new ArrayList<>();
 	public ArrayList<IExperiment> experiments;
 	private HashMap<String,IStock> stocks = new HashMap<>();
+
 	private static TradingApplication instance=null;
 	
 	protected TradingApplication() {
