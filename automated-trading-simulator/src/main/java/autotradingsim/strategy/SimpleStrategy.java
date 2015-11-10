@@ -119,8 +119,4 @@ public class SimpleStrategy implements IStrategy {
         return new SimpleStrategyTester((IStrategy) this);
     }
 
-    @Override
-    public int getID() {
-        return this.name.hashCode();
-    }
 }

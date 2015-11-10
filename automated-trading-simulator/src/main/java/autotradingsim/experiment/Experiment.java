@@ -24,10 +24,11 @@ import java.util.*;
  */
 public class Experiment implements IExperiment {
 
+    // TODO: move loader to TradingApplication
     private StockLoader loader;
     private String name;
     private ArrayList<String> stocks;
-    private ArrayList<Integer> strategies;
+    private ArrayList<String> strategies;
     private ArrayList<int[]> trials;
 
     /**
@@ -38,7 +39,7 @@ public class Experiment implements IExperiment {
         this.loader = new StockLoader();
         this.name = name;
         this.stocks = new ArrayList<>();
-        this.strategies = new ArrayList<Integer>();
+        this.strategies = new ArrayList<String>();
         this.trials = new ArrayList<>();
     }
 
@@ -66,15 +67,16 @@ public class Experiment implements IExperiment {
         }
     }
 
+    // TODo: move getStock to TradingApplication
     @Override
     public IStock getStock(String symbol) {
         return loader.fetchStock(symbol);
     }
 
     @Override
-    public boolean addStrategy(int id){
-        if(TradingApplication.getInstance().getStrategy(id) != null){  //check existing might not be needed if trading application can check first
-            strategies.add(id);
+    public boolean addStrategy(String name){
+        if(TradingApplication.getInstance().getStrategy(name) != null){  //check existing might not be needed if trading application can check first
+            strategies.add(name);
             return true;
         }else{
             return false;
@@ -82,15 +84,15 @@ public class Experiment implements IExperiment {
     }
 
     @Override
-    public IStrategy getStrategy(int id){
-        return TradingApplication.getInstance().getStrategy(id); // return strategy with the id
+    public IStrategy getStrategy(String name){
+        return TradingApplication.getInstance().getStrategy(name); // return strategy with the id
     }
 
-    public void addTrial(int id, String symbol){
+    public void addTrial(String id, String symbol){
         int i = strategies.size();
         int j = stocks.size();
         for(int k = 0; k < i; k++){
-            if(strategies.get(k) == id){
+            if(strategies.get(k).equals(id)){
                 i = k;
                 break;
             }

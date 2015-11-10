@@ -113,7 +113,7 @@ public class StockLoader{
     }
 
     /**
-     * Load the dat for an entire stock
+     * Load the data for an entire stock
      *
      * @param   symbol  symbol of a stock
      * @return  Stock object for the stock with given symbol
