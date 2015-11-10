@@ -26,13 +26,13 @@ public class CommandHandler {
 		// TODO Auto-generated method stub
 		System.out.println("List of Strategies:");
 		if(stratname.isEmpty()){
-			for(IStrategy i: appEngine.strategies){
+			for(IStrategy i: appEngine.strategies.values()){
 				System.out.println(i.getName());
 			}
 		}else{
 			IStrategy strat = null;
 			Set<RuleID> rules;
-			if((strat = appEngine.getStrategy(stratname)) != null){
+			if((strat = appEngine.getStrategy(stratname.hashCode())) != null){
 				rules = strat.getRules();
 				System.out.println(strat.getName());
 				for (RuleID r:rules){
