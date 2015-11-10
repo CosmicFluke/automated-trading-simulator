@@ -21,8 +21,8 @@ import autotradingsim.strategy.*;
 
 public class TradingApplication {
 	private StockLoader loader;
-	public ArrayList<IStrategy> strategies = new ArrayList<>();
-	public ArrayList<IExperiment> experiments;
+	public HashMap<Integer, IStrategy> strategies = new HashMap();
+	public HashMap<Integer, IExperiment> experiments = new HashMap();
 	private HashMap<String,IStock> stocks = new HashMap<>();
 
 	private static TradingApplication instance=null;
@@ -38,6 +38,15 @@ public class TradingApplication {
 		}
 		return instance;
 	}
+	
+	public void saveExperiment(IExperiment experiment){
+		experiments.put(experiment.getName().hashCode(), experiment);		
+	}
+	
+	public void getExperiment(int expID){
+		experiments.get(expID);
+	}
+	
 	public void displayResults(String filename) throws IOException, ParseException{
 		File file = new File(filename);
 		Scanner fileReader = new Scanner(file);
@@ -99,29 +108,16 @@ public class TradingApplication {
 		}
 		fileReader.close();
 	}
-	public IStrategy getStrategy(String stratname){
 	
-		for (IStrategy strat: strategies){
-			if(strat.getName().equals(stratname)){
-				return strat;
-			}
-		}
-		return null;	
+	public IStrategy getStrategy(String stratname){
+		return null;
 	}
 	public IStrategy getStrategy(int stratid){
-		
-		for (IStrategy strat: strategies){
-			if(strat.getID()==stratid){
-				return strat;
-			}
-		}
-		return null;	
+		return strategies.get(stratid);	
 	}
 	
 	public void saveStrategy (SimpleStrategy strategy){
-		if(!strategies.contains(strategy)){
-			strategies.add(strategy);
-		}
+		strategies.put(strategy.getName().hashCode(), strategy);
 	}
 	
 	/**
