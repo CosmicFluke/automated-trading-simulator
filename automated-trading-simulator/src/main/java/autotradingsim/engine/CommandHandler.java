@@ -18,12 +18,6 @@ public class CommandHandler {
 	public void addStrategy(String exp, int stratid){
 		
 	}
-
-	public void viewAllStrategies() {
-		System.out.println("List of Strategies:");
-		for(IStrategy strategy: appEngine.strategies)
-			System.out.println(strategy.getName());
-	}
 	
 	public void viewStrategy(String stratname) {
 		System.out.println("List of Strategies:");

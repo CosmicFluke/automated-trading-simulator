@@ -8,24 +8,47 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.Iterator;
 
 import autotradingsim.experiment.*;
+import autotradingsim.stocks.IStock;
+import autotradingsim.stocks.StockLoader;
 import autotradingsim.strategy.*;
 
 public class TradingApplication {
-	public ArrayList<IStrategy> strategies = new ArrayList<>();
-	public ArrayList<IExperiment> experiments;
-	
+	private StockLoader loader;
+	public HashMap<Integer, IStrategy> strategies = new HashMap();
+	public HashMap<Integer, IExperiment> experiments = new HashMap();
+	private HashMap<String,IStock> stocks = new HashMap<>();
+
 	private static TradingApplication instance=null;
 	
+	protected TradingApplication() {
+		this.loader = new StockLoader();
+	}
+
 	public static TradingApplication getInstance(){
 		if (instance==null){
 			instance=new TradingApplication();
 		}
 		return instance;
+	}
+	
+	public boolean saveExperiment(IExperiment experiment){
+		if(experiments.containsKey(experiment.getName())){
+			return false;
+		}else{
+			experiments.put(experiment.getName().hashCode(), experiment);
+			return true;
+		}
+	}
+	
+	public Experiment getExperiment(int expID){
+		return (Experiment) experiments.get(expID);
 	}
 	
 	public void displayResults(String filename) throws IOException, ParseException{
@@ -44,6 +67,7 @@ public class TradingApplication {
 			cal.setTime((Date) format.parse(dateString));
 			dateString=format.format(cal.getTime());
 			System.out.println("Strategy: "+strategyName+" | Stock: "+symbol+" | Starting date: "+dateString);
+	
 			String line = null;
 			while(fileReader.hasNextLine()){
 				line = fileReader.nextLine();
@@ -86,30 +110,66 @@ public class TradingApplication {
 				break;
 			}
 		}
+		fileReader.close();
 	}
-	public IStrategy getStrategy(String stratname){
 	
-		for (IStrategy strat: strategies){
-			if(strat.getName().equals(stratname)){
-				return strat;
-			}
-		}
+	public IStrategy getStrategy(String stratname){
 		return null;
 	}
 	public IStrategy getStrategy(int stratid){
-		
-		for (IStrategy strat: strategies){
-			if(strat.getID()==stratid){
-				return strat;
-			}
-		}
-		return null;	
+		return strategies.get(stratid);	
 	}
 	
-	public void saveStrategy (SimpleStrategy strategy){
-		if(!strategies.contains(strategy)){
-			strategies.add(strategy);
+	public boolean saveStrategy (IStrategy newstrat){
+		if(strategies.containsKey(newstrat.hashCode())){
+			return false;
+		}else{
+		strategies.put(newstrat.getName().hashCode(), newstrat);
+			return true;
 		}
+	}
+	
+	/**
+	 * Loads a Stock to memory.
+	 * @param symbol: String representing the stock symbol to be loaded.
+	 */
+	private void loadStock(String symbol){
+		if (this.existsStock(symbol)){
+			stocks.put(symbol, this.loader.fetchStock(symbol));
+		}
+	}
+	
+	/**
+	 * Retrive a Stock from application. This is a lazy loading method, 
+	 * will only retrive a Stock when asked for.
+	 * @param symbol:
+	 * @return
+	 */
+	public IStock getStock(String symbol) {
+		if (stocks.containsKey(symbol)){
+			return this.stocks.get(symbol);
+		} else {
+			this.loadStock(symbol);
+			return this.stocks.get(symbol);
+		}
+    }
+	
+	/**
+	 * Check if a Stock symbol is available in data.
+	 * @param symbol: String of a stock symbol, not case sensitive.
+	 * @return true if stock exists in data, false otherwise.
+	 */
+	public boolean existsStock(String symbol) {
+        return loader.exists(symbol);
+    }
+	
+	/**
+	 * Get an iterator of loaded stock symbols.
+	 * @return Iterator<String> of stock symbols that are loaded.
+	 */
+	public Iterator<String> getStockSymbols(){
+		// TODO Change this so we can get a list of all possible stocks.
+		return this.stocks.keySet().iterator();
 	}
 	
 	public static void main(String[] args) {
@@ -117,5 +177,4 @@ public class TradingApplication {
 
 		
 	}
-
 }

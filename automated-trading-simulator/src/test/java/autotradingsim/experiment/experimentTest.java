@@ -45,13 +45,13 @@ public class experimentTest {
         Experiment test5 = new Experiment("experiment5");
         SimpleStrategy s = new SimpleStrategy();
         TradingApplication.getInstance().saveStrategy(s);
-        assertEquals(test5.addStrategy(s.getID()), true);
+        assertEquals(test5.addStrategy(s.getName()), true);
     }
 
     @Test
     public void testAddNonExistingStrategy(){
         Experiment test6 = new Experiment("experiment6");
-        assertEquals(test6.addStrategy(234),false);
+        assertEquals(test6.addStrategy("nameA"),false);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class experimentTest {
         test7.addStock("MSFT");
 
         SimpleStrategy s = new SimpleStrategy();
-        int id = s.getID();
+        String id = s.getName();
         TradingApplication.getInstance().saveStrategy(s);
 
         test7.addTrial(id, "AAPL");

@@ -14,7 +14,7 @@ import java.util.function.Function;
  * TODO: Hold off on implementing this for the time being.  I'm not quite sure what to do with it.
  *
  */
-public abstract class Indicator implements IMeasurement, IBufferObserver {
+public abstract class Indicator implements IMeasurement {
 
     private String name;
     private String description;

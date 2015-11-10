@@ -64,7 +64,6 @@ public class StockDay extends StockEntry {
         return this.volume;
     }
 
-    @Override
     public BigDecimal getValue() {
         return values.get(Values.CLOSE);
     }

@@ -16,6 +16,11 @@ public interface IMeasurement extends IFunctionBuilder{
 
     String getName();
     String getDescription();
+
+    /**
+     * Provides the minimum buffer size needed to accommodate this IMeasurement
+     * @return
+     */
     int getBufferSize();
 
     /**
@@ -25,6 +30,11 @@ public interface IMeasurement extends IFunctionBuilder{
      */
     BigDecimal getValue(Calendar date);
 
+    /**
+     * <p>Gets the function that calculates this IMeasurement's value for a given IBufferAdapter.
+     * The IBufferAdapter must be at least as big as the return value of {@link #getBufferSize()}</p>
+     * @return a function that will calculate this IMeasurement's value for a given Buffer
+     */
     @Override
     Function<? extends IBufferAdapter, BigDecimal> getFunction();
 

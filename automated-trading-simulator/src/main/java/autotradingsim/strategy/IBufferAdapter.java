@@ -8,7 +8,7 @@ import java.util.Iterator;
 /**
  * Created by Asher on 2015-10-30.
  *
- * TODO: Potentially observable class -- would need to implement an observer pattern with IBufferObserver
+ * TODO: Potentially observable class
  */
 public interface IBufferAdapter<E extends StockEntry> {
 
