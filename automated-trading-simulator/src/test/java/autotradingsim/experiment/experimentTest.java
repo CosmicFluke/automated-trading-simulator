@@ -1,11 +1,12 @@
 package autotradingsim.experiment;
 
-import autotradingsim.engine.TradingApplication;
 import autotradingsim.experiment.Experiment;
 import autotradingsim.experiment.TimeSet;
 import autotradingsim.strategy.SimpleStrategy;
 import autotradingsim.strategy.Strategy;
 import org.junit.Test;
+
+import application.TradingApplication;
 
 import static org.junit.Assert.*;
 

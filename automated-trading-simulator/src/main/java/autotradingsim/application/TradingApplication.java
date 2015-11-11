@@ -1,4 +1,4 @@
-package autotradingsim.engine;
+package autotradingsim.application;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -25,7 +25,7 @@ public class TradingApplication {
 	public HashMap<Integer, IExperiment> experiments = new HashMap();
 	private HashMap<String,IStock> stocks = new HashMap<>();
 
-	private static TradingApplication instance=null;
+	private static TradingApplication instance = null;
 	
 	protected TradingApplication() {
 		this.loader = new StockLoader();
@@ -39,21 +39,26 @@ public class TradingApplication {
 		return instance;
 	}
 	
-	public void saveExperiment(IExperiment experiment){
-		experiments.put(experiment.getName().hashCode(), experiment);		
+	public boolean saveExperiment(IExperiment experiment){
+		if(experiments.containsKey(experiment.getName())){
+			return false;
+		}else{
+			experiments.put(experiment.getName().hashCode(), experiment);
+			return true;
+		}
 	}
 	
-	public void getExperiment(int expID){
-		experiments.get(expID);
+	public Experiment getExperiment(int expID){
+		return (Experiment) experiments.get(expID);
 	}
 	
 	public void displayResults(String filename) throws IOException, ParseException{
 		File file = new File(filename);
 		Scanner fileReader = new Scanner(file);
 		while((fileReader.hasNextLine())){
-			String strategyName=fileReader.nextLine();
-			String symbol=fileReader.nextLine();
-			String dateString=fileReader.nextLine();
+			String strategyName = fileReader.nextLine();
+			String symbol = fileReader.nextLine();
+			String dateString = fileReader.nextLine();
 			List<String[]> actionList = new ArrayList<String[]>();
 			List<BigDecimal> balanceList = new ArrayList<BigDecimal>();
 			List<Integer> holdingList = new ArrayList<Integer>();
@@ -61,7 +66,7 @@ public class TradingApplication {
 			DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
 			Calendar cal=Calendar.getInstance();
 			cal.setTime((Date) format.parse(dateString));
-			dateString=format.format(cal.getTime());
+			dateString = format.format(cal.getTime());
 			System.out.println("Strategy: "+strategyName+" | Stock: "+symbol+" | Starting date: "+dateString);
 	
 			String line = null;
@@ -116,8 +121,13 @@ public class TradingApplication {
 		return strategies.get(stratid);	
 	}
 	
-	public void saveStrategy (SimpleStrategy strategy){
-		strategies.put(strategy.getName().hashCode(), strategy);
+	public boolean saveStrategy (IStrategy newstrat){
+		if(strategies.containsKey(newstrat.hashCode())){
+			return false;
+		}else{
+		strategies.put(newstrat.getName().hashCode(), newstrat);
+			return true;
+		}
 	}
 	
 	/**

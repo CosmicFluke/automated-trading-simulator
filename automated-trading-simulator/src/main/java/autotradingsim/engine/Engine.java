@@ -1,4 +1,5 @@
 package autotradingsim.engine;
+import autotradingsim.application.*;
 import autotradingsim.strategy.*;
 import autotradingsim.strategy.ICondition.Comparator;
 
@@ -7,11 +8,8 @@ import java.util.ArrayList;
 import java.util.Set;
 import autotradingsim.experiment.*;
 import autotradingsim.terminal.*;
-public class CommandHandler {
+public class Engine {
 
-	public CommandHandler() {
-		// TODO Auto-generated constructor stub
-	}
 	public TradingApplication appEngine = TradingApplication.getInstance();
 	
 	protected void createStrategy(){
@@ -21,29 +19,21 @@ public class CommandHandler {
 	public void addStrategy(String exp, int stratid){
 		
 	}
-
+	
 	public void viewStrategy(String stratname) {
-		// TODO Auto-generated method stub
 		System.out.println("List of Strategies:");
-		if(stratname.isEmpty()){
-			for(IStrategy i: appEngine.strategies.values()){
-				System.out.println(i.getName());
-			}
-		}else{
-			IStrategy strat = null;
-			Set<RuleID> rules;
-			if((strat = appEngine.getStrategy(stratname.hashCode())) != null){
-				rules = strat.getRules();
-				System.out.println(strat.getName());
-				for (RuleID r:rules){
-					System.out.println(strat.getRuleName(r));
-					System.out.println(strat.getRuleDescription(r));
-					System.out.println(strat.getRuleSummary(r));
-					//System.out.println(strat.getRuleDecisionMaker(r));
-				}
+		IStrategy strat = null;
+		if((strat = appEngine.getStrategy(stratname)) != null){
+			System.out.println(strat.getName());
+			for (RuleID r : strat.getRules()){
+				System.out.println(strat.getRuleName(r));
+				System.out.println(strat.getRuleDescription(r));
+				System.out.println(strat.getRuleSummary(r));
+				//System.out.println(strat.getRuleDecisionMaker(r));
 			}
 		}
 	}
+	
 
 	protected static void viewExperiment(String string) {
 		// TODO Auto-generated method stub

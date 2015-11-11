@@ -3,10 +3,9 @@ package autotradingsim.terminal;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import autotradingsim.engine.CommandHandler;
-/**
+import autotradingsim.engine.Engine;
+/** 12
  * DEPRECATED CLASS
- *
  * Experiments apply Strategies to particular stocks over a set of time periods.
  *
  * commands: 
@@ -24,11 +23,12 @@ import autotradingsim.engine.CommandHandler;
 
 public class TerminalUI {
 
-	private CommandHandler engine;
-	
+	private Engine engine;
+
 	public TerminalUI(){
-		engine = new CommandHandler();
+		engine = new Engine();
 	}
+
 	public boolean checkArgNum(String[]args, int correctnum){
 		if(args.length!=correctnum){
 			System.out.println("invalid number of arguments for "+args[0]);
@@ -210,7 +210,7 @@ public class TerminalUI {
 
 	private void HandleModifyStrategy(String[] stratargs) {
 		String stratname = stratargs[1];
-		
+
 		boolean running = true;
 		do{
 			System.out.print(stratargs[1]);
@@ -283,7 +283,7 @@ public class TerminalUI {
 				default :
 					System.out.println("Please enter a valid command.");
 					ListCommands("strategy");
-					
+
 			}
 		} while(running);
 	}

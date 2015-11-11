@@ -1,6 +1,5 @@
 package autotradingsim.experiment;
 
-import autotradingsim.engine.TradingApplication;
 import autotradingsim.stocks.*;
 import autotradingsim.strategy.*;
 
@@ -9,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
+
+import application.TradingApplication;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -24,8 +25,6 @@ import java.util.*;
  */
 public class Experiment implements IExperiment {
 
-    // TODO: move loader to TradingApplication
-    private StockLoader loader;
     private String name;
     private ArrayList<String> stocks;
     private ArrayList<String> strategies;
@@ -36,7 +35,6 @@ public class Experiment implements IExperiment {
      * @param name name of the experiment
      */
     public Experiment(String name){
-        this.loader = new StockLoader();
         this.name = name;
         this.stocks = new ArrayList<>();
         this.strategies = new ArrayList<String>();
@@ -59,18 +57,12 @@ public class Experiment implements IExperiment {
      */
     @Override
     public boolean addStock(String symbol){
-        if(loader.exists(symbol)) { //check existing might not be needed if trading application can check first
+        if(TradingApplication.getInstance().existsStock(symbol)) { //check existing might not be needed if trading application can check first
             stocks.add(symbol);
             return true;
         }else{
             return false;
         }
-    }
-
-    // TODo: move getStock to TradingApplication
-    @Override
-    public IStock getStock(String symbol) {
-        return loader.fetchStock(symbol);
     }
 
     @Override
@@ -137,8 +129,8 @@ public class Experiment implements IExperiment {
 
             // Go through all the trials, test each one. Output a chunk of results to file for each trial
             for(int i  = 0; i < trials.size(); i++){
-                strategy = getStrategy(strategies.get(trials.get(i)[0]));
-                stock = getStock(stocks.get(trials.get(i)[1]));
+                strategy = TradingApplication.getInstance().getStrategy(strategies.get(trials.get(i)[0]));
+                stock = TradingApplication.getInstance().getStock(stocks.get(trials.get(i)[1]));
                 st = strategy.getNewTester();
                 st.setAll(stock);
                 duration = ts.getDuration();
@@ -208,8 +200,8 @@ public class Experiment implements IExperiment {
 
             // Go through all the trials, test each one. Output a chunk of results to file for each trial
             for(int[] trial: trials){
-                strategy = getStrategy(strategies.get(trial[0]));
-                stock = getStock(stocks.get(trial[1]));
+                strategy = TradingApplication.getInstance().getStrategy(strategies.get(trial[0]));
+                stock = TradingApplication.getInstance().getStock(stocks.get(trial[1]));
                 st = strategy.getNewTester();
                 st.setAll(stock);
 
