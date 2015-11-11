@@ -1,5 +1,8 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.simpleimpl;
 
+import autotradingsim.strategy.IAction;
+import autotradingsim.strategy.ICondition;
+import autotradingsim.strategy.simpleimpl.SimpleAction;
 import junit.framework.TestCase;
 
 /**

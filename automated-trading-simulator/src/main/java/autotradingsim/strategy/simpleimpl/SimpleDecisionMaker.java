@@ -1,7 +1,7 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.simpleimpl;
 
 import autotradingsim.stocks.IStock;
-import autotradingsim.stocks.StockDay;
+import autotradingsim.strategy.*;
 
 import java.util.*;
 

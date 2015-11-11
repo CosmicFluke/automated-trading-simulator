@@ -1,5 +1,7 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.simpleimpl;
 
+import autotradingsim.strategy.IAction;
+import autotradingsim.strategy.simpleimpl.SimpleAction;
 import org.junit.Test;
 
 import java.math.BigDecimal;

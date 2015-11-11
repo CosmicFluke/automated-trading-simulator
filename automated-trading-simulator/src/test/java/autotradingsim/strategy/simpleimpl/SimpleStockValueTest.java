@@ -1,16 +1,16 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.simpleimpl;
 
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
-import autotradingsim.stocks.StockLoader;
+import autotradingsim.strategy.IMeasurement;
+import autotradingsim.strategy.simpleimpl.SimpleStockValue;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import static org.junit.Assert.*;
 

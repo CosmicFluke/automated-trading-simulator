@@ -20,11 +20,11 @@ import autotradingsim.engine.CommandHandler;
  *All Terminal/CLI classes go in this package.
  */
 
-public class SimTerminal {
+public class TerminalUI {
 
 	private CommandHandler engine;
 	
-	public SimTerminal(){
+	public TerminalUI(){
 		engine = new CommandHandler();
 	}
 	public boolean checkArgNum(String[]args, int correctnum){
@@ -36,7 +36,7 @@ public class SimTerminal {
 	}
 
     public static void main(String[] args){
-        SimTerminal st = new SimTerminal();
+        TerminalUI st = new TerminalUI();
         System.out.println("Welcome to Automated Trading Simulator!");
         System.out.println("Type 'help' to see a list of commands.");
         st.run();
