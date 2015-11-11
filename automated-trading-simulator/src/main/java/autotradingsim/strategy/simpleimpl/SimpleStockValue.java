@@ -1,9 +1,12 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.simpleimpl;
 
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
 import autotradingsim.stocks.StockEntry;
+import autotradingsim.strategy.IBufferAdapter;
+import autotradingsim.strategy.IFunctionBuilder;
+import autotradingsim.strategy.IMeasurement;
 import autotradingsim.strategy.exceptions.DataNotProvidedException;
 
 import java.math.BigDecimal;

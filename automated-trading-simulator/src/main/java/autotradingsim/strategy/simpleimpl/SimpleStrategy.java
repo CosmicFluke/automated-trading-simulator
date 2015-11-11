@@ -1,5 +1,6 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.simpleimpl;
 
+import autotradingsim.strategy.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.math.BigDecimal;

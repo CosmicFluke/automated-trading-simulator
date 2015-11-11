@@ -1,4 +1,6 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.simpleimpl;
+
+import autotradingsim.strategy.*;
 
 import java.util.ArrayList;
 import java.util.List;

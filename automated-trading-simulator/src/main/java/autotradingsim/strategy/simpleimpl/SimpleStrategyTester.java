@@ -1,7 +1,7 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.simpleimpl;
 
 import autotradingsim.stocks.IStock;
-import sun.rmi.runtime.Log;
+import autotradingsim.strategy.*;
 
 import java.util.*;
 
@@ -23,8 +23,8 @@ public class SimpleStrategyTester extends StrategyTester {
             if (maker != null) {
                 ruleIDtoDecisionMaker.put(id, maker);
             } else
-                System.out.format("SimpleStrategyTester: IDecisionMaker for rule %d in strategy %d was null pointer",
-                        id.getID(), strategy.getID());
+                System.out.format("SimpleStrategyTester: IDecisionMaker for rule %d in strategy \"%d\" was null pointer",
+                        id.getID(), strategy.getName());
         }
     }
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import autotradingsim.engine.Engine;
 /** 12
+ * DEPRECATED CLASS
  * Experiments apply Strategies to particular stocks over a set of time periods.
  *
  * commands: 
@@ -20,13 +21,14 @@ import autotradingsim.engine.Engine;
  *All Terminal/CLI classes go in this package.
  */
 
-public class SimTerminal {
+public class TerminalUI {
 
 	private Engine engine;
-	
-	public SimTerminal(){
+
+	public TerminalUI(){
 		engine = new Engine();
 	}
+
 	public boolean checkArgNum(String[]args, int correctnum){
 		if(args.length!=correctnum){
 			System.out.println("invalid number of arguments for "+args[0]);
@@ -36,7 +38,7 @@ public class SimTerminal {
 	}
 
     public static void main(String[] args){
-        SimTerminal st = new SimTerminal();
+        TerminalUI st = new TerminalUI();
         System.out.println("Welcome to Automated Trading Simulator!");
         System.out.println("Type 'help' to see a list of commands.");
         st.run();
