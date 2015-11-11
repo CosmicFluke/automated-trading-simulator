@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import autotradingsim.experiment.*;
 import autotradingsim.terminal.*;
-public class CommandHandler {
+public class Engine {
 
 	public TradingApplication appEngine = TradingApplication.getInstance();
 	

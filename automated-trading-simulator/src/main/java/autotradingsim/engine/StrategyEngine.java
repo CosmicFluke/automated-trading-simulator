@@ -8,11 +8,11 @@ import autotradingsim.strategy.IStrategy;
 import autotradingsim.strategy.SimpleStrategy;
 import autotradingsim.strategy.ICondition.Comparator;
 
-public class StrategyCommandHandler {
+public class StrategyEngine {
 	public TradingApplication appEngine;
 	public IStrategy currentStrategy;
 	
-	public StrategyCommandHandler() {
+	public StrategyEngine() {
 		// TODO Auto-generated constructor stub
 		 appEngine = TradingApplication.getInstance();
 	}
