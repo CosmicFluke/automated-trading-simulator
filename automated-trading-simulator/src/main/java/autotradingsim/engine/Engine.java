@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Set;
 import autotradingsim.experiment.*;
+import autotradingsim.strategy.simpleimpl.*;
 import autotradingsim.terminal.*;
 public class Engine {
 
