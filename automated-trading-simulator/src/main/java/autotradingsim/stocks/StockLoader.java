@@ -16,10 +16,10 @@ import java.util.GregorianCalendar;
  * <p>Public Methods:<br><ul>
  *      <li>fetchStockDateRange(String, Calendar, Calendar)</li>
  *      <li>fetchStock(String)</li>
+ *      <li>exists(String)</li>
  *      </ul>
  *
  * Private Methods:<br><ul>
- *      <li>exists(String)</li>
  *      <li>getName(String)</li>
  *      <li>buildStockList()</li>
  *      </ul></p>
@@ -75,6 +75,7 @@ public class StockLoader{
 
                 // If we hit EOF before finding the ending date, return null
                 if ((line = br.readLine()) == null){
+                	br.close();
                     return null;
                 }
 
@@ -98,6 +99,7 @@ public class StockLoader{
 
                 // Read the next line. If EOF, return current list of added StockDays
                 if((line = br.readLine()) == null){
+                	br.close();
                     return result;
                 }else{
                     lineSplit = line.split(",");
@@ -105,7 +107,7 @@ public class StockLoader{
                     now = new GregorianCalendar(Integer.parseInt(dateSplit[0]), Integer.parseInt(dateSplit[1]), Integer.parseInt(dateSplit[2]));
                 }
             }
-
+            br.close();
         }catch(IOException e){
             System.out.println(e);
         }
@@ -113,7 +115,7 @@ public class StockLoader{
     }
 
     /**
-     * Load the dat for an entire stock
+     * Load the data for an entire stock
      *
      * @param   symbol  symbol of a stock
      * @return  Stock object for the stock with given symbol
@@ -150,7 +152,7 @@ public class StockLoader{
                 sd = new StockDay(symbol, now, open, high, low, close, volume);
                 result.add(0, sd);
             }
-
+            br.close();
         }catch(IOException e){
             System.out.println(e);
         }
@@ -202,6 +204,7 @@ public class StockLoader{
                 holder = line.split(",");
                 result.add(holder);
             }
+            br.close();
         }catch(IOException e){
             System.out.println(e);
         }

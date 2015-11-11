@@ -1,5 +1,6 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.simpleimpl;
 
+import autotradingsim.strategy.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.math.BigDecimal;
@@ -119,8 +120,4 @@ public class SimpleStrategy implements IStrategy {
         return new SimpleStrategyTester((IStrategy) this);
     }
 
-    @Override
-    public int getID() {
-        return this.name.hashCode();
-    }
 }

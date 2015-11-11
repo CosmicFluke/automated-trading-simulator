@@ -1,9 +1,13 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.simpleimpl;
 
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
 import autotradingsim.stocks.StockEntry;
+import autotradingsim.strategy.IBufferAdapter;
+import autotradingsim.strategy.ICondition;
+import autotradingsim.strategy.StockDayBufferAdapter;
+import autotradingsim.strategy.simpleimpl.SimpleCondition;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

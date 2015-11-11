@@ -1,0 +1,154 @@
+package autotradingsim.application;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import autotradingsim.experiment.*;
+import autotradingsim.stocks.IStock;
+import autotradingsim.stocks.StockLoader;
+import autotradingsim.strategy.*;
+
+public class TradingApplication implements ITradingApplication {
+	private StockLoader loader;
+	private HashMap<Integer, IStrategy> strategies;
+	private HashMap<Integer, IExperiment> experiments;
+	private HashMap<String, IStock> stocks;
+
+	private static TradingApplication instance = null;
+	
+	/**
+	 * Create a new Application, instantiate all objects.
+	 * Later on, look for a previous application object and load from it
+	 */
+	private TradingApplication() {
+		if(instance != null)
+			return;
+		
+		this.loader = new StockLoader();
+		this.strategies = new HashMap<Integer, IStrategy>();
+		this.experiments = new HashMap<Integer, IExperiment>();
+		this.stocks = new HashMap<String, IStock>();
+		
+		instance = this;
+	}
+	
+	/**
+	 * return the only instance of trading application
+	 * If none found at time of invokation, create it
+	 * 
+	 * @return trading application instance.
+	 */
+	public static TradingApplication getInstance(){
+		if (instance==null){
+			instance=new TradingApplication();
+		}
+		return instance;
+	}
+	
+	/**
+	 * Add an experiment by name into the application
+	 * Name given and name found in experiment don't need
+	 * to match, but after being loaded, must use name found
+	 * in IExperiment class
+	 * 
+	 * @param experimentName name under which to store experiment
+	 * @param experiment Experiment object which will be stored
+	 * @return true if experiment added into Application successfully
+	 */
+	@Override
+	public boolean setExperiment(String experimentName, IExperiment experiment){
+		if(experiments.containsKey(experiment.getName())){
+			return false;
+		}else{
+			experiments.put(experiment.getName().hashCode(), experiment);
+			return true;
+		}
+	}
+	
+
+	/**
+	 * Return experiment object associated with given name
+	 * 
+	 * @param experimentName ID associated with experiment
+	 * @return experiment object found with ID. Null if no experiment by name found
+	 */
+	@Override
+	public IExperiment getExperiment(String experimentName){
+		return null; //(Experiment) experiments.get(expID);
+	}
+
+	/**
+	 * Add a strategy by name into the application
+	 * StrategyName should match with name found under newStrat object
+	 * 
+	 * @param StrategyName name under to which to store experiment
+	 * @param newStrat IStrategy object which is to be added to application
+	 * @return true if strategy added successfully into application
+	 */
+	@Override
+	public boolean setStrategy(String stratName, IStrategy strat){
+		return false; //strategies.get(stratid);
+	}
+	
+
+	/**
+	 * Retrieves a strategy by it's given name
+	 * 
+	 * @param stratname strategy name which was used to store strategy
+	 * @return strategy with the associated name or null on none found
+	 */
+	@Override
+	public IStrategy getStrategy(String stratName){
+		return null;
+	}
+	
+
+	/**
+	 * Loads a Stock to memory.
+	 * 
+	 * @param symbol: String representing the stock symbol to be loaded.
+	 */
+	private void loadStock(String symbol){
+		if (this.stockExists(symbol)){
+			stocks.put(symbol, this.loader.fetchStock(symbol));
+		}
+	}
+
+	/**
+	 * Retrieve a Stock from application.
+	 *
+	 * @param symbol: official name of the stock
+	 * @return Stock object associated with stock
+	 */
+	@Override
+	public IStock getStock(String symbol) {
+		if (stocks.containsKey(symbol)){
+			return this.stocks.get(symbol);
+		} else {
+			this.loadStock(symbol);
+			return this.stocks.get(symbol);
+		}
+    }
+	
+
+	/**
+	 * Check if a Stock symbol is available in data.
+	 * 
+	 * @param symbol: String of a stock symbol, not case sensitive.
+	 * @return true if stock exists in data, false otherwise.
+	 */
+	@Override
+	public boolean stockExists(String symbol) {
+        return loader.exists(symbol);
+    }
+	
+
+	/**
+	 * Get an iterator of loaded stock symbols.
+	 * 
+	 * @return Iterator<String> of stock symbols available.
+	 */
+	@Override
+	public Iterator<String> getStockSymbols(){
+		return this.stocks.keySet().iterator();
+	}
+}

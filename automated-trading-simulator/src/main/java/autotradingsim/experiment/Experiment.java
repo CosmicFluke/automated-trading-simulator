@@ -1,6 +1,5 @@
 package autotradingsim.experiment;
 
-import autotradingsim.engine.TradingApplication;
 import autotradingsim.stocks.*;
 import autotradingsim.strategy.*;
 
@@ -9,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
+
+import application.TradingApplication;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -24,10 +25,9 @@ import java.util.*;
  */
 public class Experiment implements IExperiment {
 
-    private StockLoader loader;
     private String name;
     private ArrayList<String> stocks;
-    private ArrayList<Integer> strategies;
+    private ArrayList<String> strategies;
     private ArrayList<int[]> trials;
 
     /**
@@ -35,10 +35,9 @@ public class Experiment implements IExperiment {
      * @param name name of the experiment
      */
     public Experiment(String name){
-        this.loader = new StockLoader();
         this.name = name;
         this.stocks = new ArrayList<>();
-        this.strategies = new ArrayList<Integer>();
+        this.strategies = new ArrayList<String>();
         this.trials = new ArrayList<>();
     }
 
@@ -58,7 +57,7 @@ public class Experiment implements IExperiment {
      */
     @Override
     public boolean addStock(String symbol){
-        if(loader.exists(symbol)) { //check existing might not be needed if trading application can check first
+        if(TradingApplication.getInstance().existsStock(symbol)) { //check existing might not be needed if trading application can check first
             stocks.add(symbol);
             return true;
         }else{
@@ -67,14 +66,9 @@ public class Experiment implements IExperiment {
     }
 
     @Override
-    public IStock getStock(String symbol) {
-        return loader.fetchStock(symbol);
-    }
-
-    @Override
-    public boolean addStrategy(int id){
-        if(TradingApplication.getInstance().getStrategy(id) != null){  //check existing might not be needed if trading application can check first
-            strategies.add(id);
+    public boolean addStrategy(String name){
+        if(TradingApplication.getInstance().getStrategy(name) != null){  //check existing might not be needed if trading application can check first
+            strategies.add(name);
             return true;
         }else{
             return false;
@@ -82,15 +76,15 @@ public class Experiment implements IExperiment {
     }
 
     @Override
-    public IStrategy getStrategy(int id){
-        return TradingApplication.getInstance().getStrategy(id); // return strategy with the id
+    public IStrategy getStrategy(String name){
+        return TradingApplication.getInstance().getStrategy(name); // return strategy with the id
     }
 
-    public void addTrial(int id, String symbol){
+    public void addTrial(String id, String symbol){
         int i = strategies.size();
         int j = stocks.size();
         for(int k = 0; k < i; k++){
-            if(strategies.get(k) == id){
+            if(strategies.get(k).equals(id)){
                 i = k;
                 break;
             }
@@ -135,8 +129,8 @@ public class Experiment implements IExperiment {
 
             // Go through all the trials, test each one. Output a chunk of results to file for each trial
             for(int i  = 0; i < trials.size(); i++){
-                strategy = getStrategy(strategies.get(trials.get(i)[0]));
-                stock = getStock(stocks.get(trials.get(i)[1]));
+                strategy = TradingApplication.getInstance().getStrategy(strategies.get(trials.get(i)[0]));
+                stock = TradingApplication.getInstance().getStock(stocks.get(trials.get(i)[1]));
                 st = strategy.getNewTester();
                 st.setAll(stock);
                 duration = ts.getDuration();
@@ -206,8 +200,8 @@ public class Experiment implements IExperiment {
 
             // Go through all the trials, test each one. Output a chunk of results to file for each trial
             for(int[] trial: trials){
-                strategy = getStrategy(strategies.get(trial[0]));
-                stock = getStock(stocks.get(trial[1]));
+                strategy = TradingApplication.getInstance().getStrategy(strategies.get(trial[0]));
+                stock = TradingApplication.getInstance().getStock(stocks.get(trial[1]));
                 st = strategy.getNewTester();
                 st.setAll(stock);
 

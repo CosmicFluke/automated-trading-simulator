@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 import autotradingsim.stocks.StockDay;
@@ -14,18 +15,19 @@ public class StockDayTest{
 	private StockDay dayStock2;
 	private final String symbol = "APPL";
 	private final Calendar date = Calendar.getInstance();
-	private final Double open = 50.01;
-	private final Double high = 50.51;
-	private final Double low = 49.01;
-	private final Double close = 50.31;
-	private final Double volume = 20000.00;
+	private final BigDecimal open = new BigDecimal(50.01);
+	private final BigDecimal high = new BigDecimal(50.51);
+	private final BigDecimal low = new BigDecimal(49.80);
+	private final BigDecimal close = new BigDecimal(50.25);
+	private final int volume = 20000;
 	private Calendar date2 = Calendar.getInstance();
-	/*
+	
 	@Before
 	public void setUp() {
 		this.dayStock = new StockDay(this.symbol, this.date, this.open, this.high, this.low, this.close, this.volume);
 		this.dayStock2 = new StockDay(this.symbol, this.date2, this.open, this.high, this.low, this.close, this.volume);
 	}
+	
 	
 	@Test
 	public void verifyDate(){
@@ -39,23 +41,13 @@ public class StockDayTest{
 	}
 	
 	@Test
-    public void verifyOpen() {
-		assertEquals(this.dayStock.getOpen(),this.open);
-    }
-
-    @Test
-    public void verifyHigh() {
-    	assertEquals(this.dayStock.getHigh(),this.high);
-    }
-
-    @Test
-    public void verifyLow() {
-    	assertEquals(this.dayStock.getLow(),this.low);
+    public void verifySymbol() {
+		assertEquals(this.dayStock.getSymbol(),this.symbol);
     }
 
     @Test
     public void verifyClose() {
-    	assertEquals(this.dayStock.getClose(),this.close);
+    	assertEquals(0,this.dayStock.getValue().compareTo(this.close));
     }
 
     @Test

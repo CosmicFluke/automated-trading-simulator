@@ -1,11 +1,12 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.simpleimpl;
 
-import autotradingsim.stocks.StockDay;
 import autotradingsim.stocks.StockEntry;
+import autotradingsim.strategy.IBufferAdapter;
+import autotradingsim.strategy.ICondition;
+import autotradingsim.strategy.IMeasurement;
 import autotradingsim.util.Pair;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.function.Predicate;
 
 /**
@@ -35,11 +36,8 @@ public class SimpleCondition implements ICondition {
     }
 
     @Override
-    public boolean evaluate(Calendar date) {
-
-        //Run comparison on value of measurement against constant value
-        // TODO: is this necessary?
-        return false;
+    public int getBufferSize() {
+        return this.measurement.getBufferSize();
     }
 
     @Override

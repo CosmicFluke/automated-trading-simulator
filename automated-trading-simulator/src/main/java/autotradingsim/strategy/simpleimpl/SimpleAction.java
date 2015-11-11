@@ -1,4 +1,8 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.simpleimpl;
+
+import autotradingsim.strategy.ConstantActionQuantity;
+import autotradingsim.strategy.IAction;
+import autotradingsim.strategy.IActionQuantity;
 
 /**
  * Created by Asher on 2015-10-30.

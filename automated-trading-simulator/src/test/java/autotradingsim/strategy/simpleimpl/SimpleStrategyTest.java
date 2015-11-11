@@ -1,8 +1,10 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.simpleimpl;
 
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
+import autotradingsim.strategy.*;
+import autotradingsim.strategy.simpleimpl.SimpleStrategy;
 import org.junit.Before;
 import org.junit.Test;
 

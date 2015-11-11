@@ -3,8 +3,9 @@ package autotradingsim.terminal;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import autotradingsim.engine.CommandHandler;
+import autotradingsim.engine.Engine;
 /** 12
+ * DEPRECATED CLASS
  * Experiments apply Strategies to particular stocks over a set of time periods.
  *
  * commands: 
@@ -20,13 +21,14 @@ import autotradingsim.engine.CommandHandler;
  *All Terminal/CLI classes go in this package.
  */
 
-public class SimTerminal {
+public class TerminalUI {
 
-	private CommandHandler engine;
-	
-	public SimTerminal(){
-		engine = new CommandHandler();
+	private Engine engine;
+
+	public TerminalUI(){
+		engine = new Engine();
 	}
+
 	public boolean checkArgNum(String[]args, int correctnum){
 		if(args.length!=correctnum){
 			System.out.println("invalid number of arguments for "+args[0]);
@@ -36,7 +38,7 @@ public class SimTerminal {
 	}
 
     public static void main(String[] args){
-        SimTerminal st = new SimTerminal();
+        TerminalUI st = new TerminalUI();
         System.out.println("Welcome to Automated Trading Simulator!");
         System.out.println("Type 'help' to see a list of commands.");
         st.run();
@@ -208,7 +210,7 @@ public class SimTerminal {
 
 	private void HandleModifyStrategy(String[] stratargs) {
 		String stratname = stratargs[1];
-		
+
 		boolean running = true;
 		do{
 			System.out.print(stratargs[1]);
@@ -221,7 +223,7 @@ public class SimTerminal {
 				case "newrule":
 
 					//get user input for condition
-					engine.printconditions();
+					printconditions();
 					String choice = getUserInput()[0];
 					while(!Character.isDigit(choice.toCharArray()[0])
 							||((Integer.parseInt(choice) != 1) && (Integer.parseInt(choice) != 2))){
@@ -238,7 +240,7 @@ public class SimTerminal {
 					int val = Integer.parseInt(choice);
 					
 					//get user input for actions
-					engine.printactions();
+					printactions();
 					String achoice=getUserInput()[0];
 					while(!Character.isDigit(achoice.toCharArray()[0])
 							||(Integer.parseInt(achoice)!=1 && Integer.parseInt(achoice) != 2)){
@@ -281,7 +283,7 @@ public class SimTerminal {
 				default :
 					System.out.println("Please enter a valid command.");
 					ListCommands("strategy");
-					
+
 			}
 		} while(running);
 	}
@@ -340,4 +342,16 @@ public class SimTerminal {
 			System.out.println(helpString);
 		}
 	}
+	public void printconditions(){
+		System.out.println("Choose from the following conditions");
+		System.out.println("1. stock value is greater than x");
+		System.out.println("2. stock value is smaller than x");	
+	}
+	
+	public void printactions(){
+		System.out.println("Choose from the following actions");
+		System.out.println("1. buy y amount");
+		System.out.println("2. sell y amount");	
+	}
+	
 }
