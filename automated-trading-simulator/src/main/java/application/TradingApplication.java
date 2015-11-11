@@ -29,9 +29,8 @@ public class TradingApplication {
 	
 	protected TradingApplication() {
 		this.loader = new StockLoader();
-		// TODO Auto-generated constructor stub
 	}
-	
+
 	public static TradingApplication getInstance(){
 		if (instance==null){
 			instance=new TradingApplication();

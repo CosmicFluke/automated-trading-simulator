@@ -208,7 +208,7 @@ public class SimTerminal {
 
 	private void HandleModifyStrategy(String[] stratargs) {
 		String stratname = stratargs[1];
-		
+
 		boolean running = true;
 		do{
 			System.out.print(stratargs[1]);
@@ -281,7 +281,7 @@ public class SimTerminal {
 				default :
 					System.out.println("Please enter a valid command.");
 					ListCommands("strategy");
-					
+
 			}
 		} while(running);
 	}
