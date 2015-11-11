@@ -113,8 +113,8 @@ public class SimpleStrategyTest {
 
     @Test
     public void testGetID() throws Exception {
-        assertNotEquals(stratDefault.getID(), stratCustom.getID());
-        assertEquals(stratDefault.getID(), (new SimpleStrategy()).getID());
+        assertNotEquals(stratDefault.getName(), stratCustom.getName());
+        assertEquals(stratDefault.getName(), (new SimpleStrategy()).getName());
 
     }
 }
