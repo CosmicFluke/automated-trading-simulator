@@ -6,7 +6,7 @@ import java.util.Set;
 import autotradingsim.application.TradingApplication;
 import autotradingsim.strategy.IAction;
 import autotradingsim.strategy.IStrategy;
-import autotradingsim.strategy.SimpleStrategy;
+import autotradingsim.strategy.simpleimpl.*;
 import autotradingsim.strategy.Strategy;
 import autotradingsim.strategy.ICondition.Comparator;
 
@@ -26,10 +26,13 @@ public class StrategyEngine {
 	}
 
 	public IStrategy addNewSimpleStrategy(String stratname, int cselection, int cvalue, int aselection, int avalue) {
+		if(appEngine.saveStrategy(new SimpleStrategy(stratname, "",(cselection == 1) ? Comparator.GT : Comparator.LT,
+				new BigDecimal(cvalue),(aselection == 1) ? IAction.ActionType.BUY : IAction.ActionType.SELL, avalue))){
+			return appEngine.getStrategy(stratname.hashCode());
+		}else{
+			return null;
+		}
 		
-		return (new SimpleStrategy(stratname, "",(cselection == 1) ? Comparator.GT : Comparator.LT,
-				new BigDecimal(cvalue),(aselection == 1) ? IAction.ActionType.BUY : IAction.ActionType.SELL, avalue));
-	
 	}
 
 	public IStrategy viewStrategy(String stratname) {
