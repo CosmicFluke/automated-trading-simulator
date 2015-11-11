@@ -8,7 +8,7 @@ package autotradingsim.strategy;
  */
 public abstract class Rule implements IRule {
 
-    RuleID id;
+    private RuleID id;
 
     public Rule (){
         this.id = new RuleID(this);

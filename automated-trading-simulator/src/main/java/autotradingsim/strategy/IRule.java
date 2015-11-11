@@ -11,7 +11,7 @@ import java.util.List;
  *
  */
 public interface IRule {
-
+    
     /**
      * Produces the decision-making object.<br>
      * (The {@link StrategyTester} should use this to get decisions for specific stocks on specific dates)<br>

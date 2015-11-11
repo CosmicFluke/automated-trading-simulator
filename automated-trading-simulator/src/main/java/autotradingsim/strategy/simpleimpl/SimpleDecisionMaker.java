@@ -18,11 +18,17 @@ public class SimpleDecisionMaker implements IDecisionMaker {
 
     public SimpleDecisionMaker (SimpleRule rule) {
         this.rule = rule;
+        this.stock = null;
     }
 
     @Override
     public void assignStock(IStock stock) {
         this.stock = stock;
+    }
+
+    @Override
+    public boolean hasStockAssigned() {
+        return stock == null;
     }
 
     @Override
