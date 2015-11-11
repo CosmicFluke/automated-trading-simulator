@@ -1,9 +1,6 @@
-/**
- * 
- */
 package autotradingsim.results;
 
-import static org.junit.Assert.*;
+import autotradingsim.application.TradingApplication;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -14,13 +11,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import application.TradingApplication;
-
 /**
  * @author Shirley
  *
  */
-public class testdisplayResults {
+public class TestDisplayResults {
 
 	/**
 	 * @throws java.lang.Exception
