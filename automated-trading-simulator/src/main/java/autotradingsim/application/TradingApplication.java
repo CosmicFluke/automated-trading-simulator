@@ -38,8 +38,8 @@ public class TradingApplication implements ITradingApplication {
 	 * @return trading application instance.
 	 */
 	public static TradingApplication getInstance(){
-		if (instance==null){
-			instance=new TradingApplication();
+		if (instance == null){
+			instance = new TradingApplication();
 		}
 		return instance;
 	}
@@ -56,10 +56,10 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public boolean setExperiment(String experimentName, IExperiment experiment){
-		if(experiments.containsKey(experiment.getName())){
+		if(experiments.containsKey(experimentName.hashCode())){
 			return false;
 		}else{
-			experiments.put(experiment.getName().hashCode(), experiment);
+			experiments.put(experimentName.hashCode(), experiment);
 			return true;
 		}
 	}
@@ -73,7 +73,7 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public IExperiment getExperiment(String experimentName){
-		return null; //(Experiment) experiments.get(expID);
+		return experiments.get(experimentName.hashCode());
 	}
 
 	/**
@@ -86,7 +86,11 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public boolean setStrategy(String stratName, IStrategy strat){
-		return false; //strategies.get(stratid);
+		if(strategies.containsKey(stratName.hashCode())) {
+			return false;
+		}
+		strategies.put(stratName.hashCode(), strat);
+		return true;
 	}
 	
 
@@ -98,7 +102,7 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public IStrategy getStrategy(String stratName){
-		return null;
+		return strategies.get(stratName.hashCode());
 	}
 	
 
