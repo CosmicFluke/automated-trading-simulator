@@ -2,11 +2,11 @@ package autotradingsim.engine;
 
 import autotradingsim.experiment.Experiment;
 
-public class ExperimentCommandHandler {
+public class ExperimentEngine {
 
 	public static TradingApplication appEngine;
 	public static Experiment currExperiment;
-	public ExperimentCommandHandler() {
+	public ExperimentEngine() {
 		// TODO Auto-generated constructor stub
 		 appEngine = TradingApplication.getInstance();
 	}
