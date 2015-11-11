@@ -223,7 +223,7 @@ public class TerminalUI {
 				case "newrule":
 
 					//get user input for condition
-					engine.printconditions();
+					printconditions();
 					String choice = getUserInput()[0];
 					while(!Character.isDigit(choice.toCharArray()[0])
 							||((Integer.parseInt(choice) != 1) && (Integer.parseInt(choice) != 2))){
@@ -240,7 +240,7 @@ public class TerminalUI {
 					int val = Integer.parseInt(choice);
 					
 					//get user input for actions
-					engine.printactions();
+					printactions();
 					String achoice=getUserInput()[0];
 					while(!Character.isDigit(achoice.toCharArray()[0])
 							||(Integer.parseInt(achoice)!=1 && Integer.parseInt(achoice) != 2)){
@@ -342,4 +342,16 @@ public class TerminalUI {
 			System.out.println(helpString);
 		}
 	}
+	public void printconditions(){
+		System.out.println("Choose from the following conditions");
+		System.out.println("1. stock value is greater than x");
+		System.out.println("2. stock value is smaller than x");	
+	}
+	
+	public void printactions(){
+		System.out.println("Choose from the following actions");
+		System.out.println("1. buy y amount");
+		System.out.println("2. sell y amount");	
+	}
+	
 }

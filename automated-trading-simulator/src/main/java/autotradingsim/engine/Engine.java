@@ -21,6 +21,22 @@ public class Engine {
 		
 	}
 	
+	
+	/**
+	 * List every available strategy which belongs to the engine
+	 */
+	public void ListStrategyNames() {
+		System.out.println("List of Strategies:");
+		for(IStrategy strategy : appEngine.strategies.values())
+			System.out.println(strategy.getName());
+	}
+	
+	
+	/**
+	 * Given a strategy name, print to system.out
+	 * Name, and then print every rule which belongs to it
+	 * @param stratname name of strategy to view
+	 */
 	public void viewStrategy(String stratname) {
 		System.out.println("List of Strategies:");
 		IStrategy strat = null;
@@ -52,18 +68,6 @@ public class Engine {
 		appEngine.saveStrategy(newstrat);
 		System.out.println("Default strategy "+appEngine.getStrategy(newstrat.getName()).getName()+" created");
 		System.out.println("This is a read-only strategy. Returning to Main menu.");
-	}
-	
-	public void printconditions(){
-		System.out.println("Choose from the following conditions");
-		System.out.println("1. stock value is greater than x");
-		System.out.println("2. stock value is smaller than x");	
-	}
-	
-	public void printactions(){
-		System.out.println("Choose from the following actions");
-		System.out.println("1. buy y amount");
-		System.out.println("2. sell y amount");	
 	}
 	
 	/**
