@@ -1,14 +1,12 @@
 package autotradingsim.engine;
+
 import autotradingsim.application.*;
 import autotradingsim.strategy.*;
 import autotradingsim.strategy.ICondition.Comparator;
+import autotradingsim.strategy.simpleimpl.SimpleStrategy;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Set;
-import autotradingsim.experiment.*;
-import autotradingsim.strategy.simpleimpl.*;
-import autotradingsim.terminal.*;
+
 public class Engine {
 
 	public TradingApplication appEngine = TradingApplication.getInstance();

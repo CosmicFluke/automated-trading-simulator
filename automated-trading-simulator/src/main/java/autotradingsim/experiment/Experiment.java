@@ -1,5 +1,6 @@
 package autotradingsim.experiment;
 
+import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.*;
 import autotradingsim.strategy.*;
 
@@ -8,8 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
-
-import application.TradingApplication;
 
 /**
  * Created by Asher on 2015-10-25.
