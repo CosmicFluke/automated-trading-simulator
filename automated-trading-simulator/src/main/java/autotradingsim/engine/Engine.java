@@ -6,8 +6,6 @@ import autotradingsim.strategy.ICondition.Comparator;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Set;
-
-import application.TradingApplication;
 import autotradingsim.experiment.*;
 import autotradingsim.terminal.*;
 public class Engine {
