@@ -1,5 +1,6 @@
 package autotradingsim.engine;
 import autotradingsim.strategy.*;
+
 import autotradingsim.strategy.ICondition.Comparator;
 
 import java.math.BigDecimal;
@@ -50,8 +51,8 @@ public class Engine {
 		appEngine.saveStrategy(newstrat);
 		System.out.println("Default strategy "+appEngine.getStrategy(newstrat.getName()).getName()+" created");
 		System.out.println("This is a read-only strategy. Returning to Main menu.");
-		
 	}
+	
 	public void printconditions(){
 		System.out.println("Choose from the following conditions");
 		System.out.println("1. stock value is greater than x");
