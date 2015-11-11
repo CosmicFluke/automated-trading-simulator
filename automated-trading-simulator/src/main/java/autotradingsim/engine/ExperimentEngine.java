@@ -1,6 +1,6 @@
 package autotradingsim.engine;
 
-import application.TradingApplication;
+import autotradingsim.application.TradingApplication;
 import autotradingsim.experiment.Experiment;
 
 public class ExperimentEngine {
