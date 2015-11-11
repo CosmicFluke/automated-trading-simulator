@@ -25,7 +25,7 @@ public interface IStrategy {
      * Delete a rule from this strategy
      * @param rule ID of the rule to be deleted.
      */
-    void deleteRule(RuleID rule);
+    IRule removeRule(RuleID rule);
 
 
     /**

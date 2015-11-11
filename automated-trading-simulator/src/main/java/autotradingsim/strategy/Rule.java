@@ -8,7 +8,20 @@ package autotradingsim.strategy;
  */
 public abstract class Rule implements IRule {
 
+    RuleID id;
+
+    public Rule (){
+        this.id = new RuleID(this);
+    }
+
+    @Override
+    public RuleID getID(){
+        return this.id;
+    }
+
     public abstract void addAction(IAction action);
     public abstract void addCondition(ICondition condition);
+    public abstract void removeAction(IAction action);
+    public abstract void removeCondition(IAction condition);
 
 }

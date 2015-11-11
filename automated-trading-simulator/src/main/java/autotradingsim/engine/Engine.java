@@ -23,6 +23,7 @@ import autotradingsim.strategy.simpleimpl.*;
 import autotradingsim.terminal.*;
 public class Engine {
 
+<<<<<<< HEAD
 	public TradingApplication appEngine = TradingApplication.getInstance();
 	
 	protected void createStrategy(){
@@ -174,5 +175,15 @@ public class Engine {
 		}
 		fileReader.close();
 	}
+=======
+	public TradingApplication TradingSimApp = TradingApplication.getInstance();
+	private Engine(){
+		
+	}
+
+	
+	
+	
+>>>>>>> ab25f3c9ce52fb19a3d453fe9fbd830c934205e1
 	
 }

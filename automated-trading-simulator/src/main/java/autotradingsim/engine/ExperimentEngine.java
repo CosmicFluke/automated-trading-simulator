@@ -8,22 +8,50 @@ public class ExperimentEngine {
 
 	public static ITradingApplication appEngine;
 	public static Experiment currExperiment;
+	
+	/**
+	 * 
+	 * @param none
+	 * populate appEngine with instance of application
+	 */
 	public ExperimentEngine() {
 		// TODO Auto-generated constructor stub
 		 appEngine = TradingApplication.getInstance();
 	}
-	protected static Experiment createExperiment(String name){
-		currExperiment = new Experiment(name);
-		appEngine.saveExperiment(currExperiment);
-		return currExperiment;
+	
+	/**
+	 * 
+	 * @param expname
+	 * @return retExp 
+	 * takes an experiment name, returns the new experiment created
+	 */
+	protected static Experiment createExperiment(String expname){
+		Experiment retExp=null;
+		if(appEngine.saveExperiment(new Experiment(expname))){
+			retExp=appEngine.getExperiment(expname.hashCode());
+		}
+		return retExp;
 	}
-	protected static Experiment viewExperiment(String name) {
+	/**
+	 * 
+	 * @param expname
+	 * @return Experiment
+	 * takes experiment name and returns experiment object with that name
+	 */
+	protected static Experiment viewExperiment(String expname) {
 		// TODO Auto-generated method stub
-		return appEngine.getExperiment(name.hashCode());
+		return appEngine.getExperiment(expname.hashCode());
 		
 	}
-	protected static void addStrategy(String expName, String stratname){
-		appEngine.getExperiment(expName.hashCode()).addStrategy(stratname);
+	/**
+	 * 
+	 * @param expName
+	 * @param stratname
+	 * take experiment name, adds the strategy name to it's list of strategy
+	 * @return boolean
+	 */
+	protected static boolean addStrategy(String expName, String stratname){
+		return(appEngine.getExperiment(expName.hashCode()).addStrategy(stratname));
 	}
 
 	public static void addtimeset(String currentExperiment, String string, String string2) {
