@@ -55,29 +55,27 @@ public class Strategy implements IStrategy {
 
     @Override
     public String getRuleDescription(RuleID rule) {
-        return null;
+        return this.rules.get(rule).getDescription();
     }
 
     @Override
     public String getRuleSummary(RuleID rule) {
-        return null;
+        return this.rules.get(rule).getSummary();
     }
 
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     @Override
     public IDecisionMaker getRuleDecisionMaker(RuleID rule) {
-        return null;
+        return this.rules.get(rule).getDecisionMaker();
     }
 
     @Override
     public StrategyTester getNewTester() {
-        return null;
+        return new FullStrategyTester(this, new HashSet<>(this.rules.values()));
     }
-
-    // NOTHING TO SEE HERE
 
 }
