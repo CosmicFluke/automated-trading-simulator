@@ -8,7 +8,7 @@ package autotradingsim.strategy;
  */
 public class RuleID {
 
-    private int id;
+    private final int id;
 
     public RuleID(IRule rule) {
         this.id = rule.hashCode();

@@ -2,9 +2,11 @@ package autotradingsim.strategy;
 
 import autotradingsim.stocks.StockEntry;
 
-import java.util.Calendar;
 import java.util.function.Predicate;
 
+/**
+ * Not yet implemented.
+ */
 public class Condition implements ICondition {
 
 	public Condition() {
@@ -12,9 +14,8 @@ public class Condition implements ICondition {
 	}
 
 	@Override
-	public boolean evaluate(Calendar date) {
-		// TODO Auto-generated method stub
-		return false;
+	public int getBufferSize() {
+		return 0;
 	}
 
 	@Override
