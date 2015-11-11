@@ -19,17 +19,16 @@ import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.StockLoader;
 import autotradingsim.strategy.*;
 
-public class TradingApplication {
+public class TradingApplication implements ITradingApplication {
 	private StockLoader loader;
-	public HashMap<Integer, IStrategy> strategies = new HashMap();
-	public HashMap<Integer, IExperiment> experiments = new HashMap();
-	private HashMap<String,IStock> stocks = new HashMap<>();
+	public HashMap<Integer, IStrategy> strategies = new HashMap<Integer, IStrategy>();
+	public HashMap<Integer, IExperiment> experiments = new HashMap<Integer, IExperiment>();
+	private HashMap<String,IStock> stocks = new HashMap<String, IStock>();
 
 	private static TradingApplication instance = null;
 	
 	protected TradingApplication() {
 		this.loader = new StockLoader();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public static TradingApplication getInstance(){
@@ -39,6 +38,10 @@ public class TradingApplication {
 		return instance;
 	}
 	
+	/* (non-Javadoc)
+	 * @see autotradingsim.application.ITradingApplication#saveExperiment(autotradingsim.experiment.IExperiment)
+	 */
+	@Override
 	public boolean saveExperiment(IExperiment experiment){
 		if(experiments.containsKey(experiment.getName())){
 			return false;
@@ -48,10 +51,18 @@ public class TradingApplication {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see autotradingsim.application.ITradingApplication#getExperiment(int)
+	 */
+	@Override
 	public Experiment getExperiment(int expID){
 		return (Experiment) experiments.get(expID);
 	}
 	
+	/* (non-Javadoc)
+	 * @see autotradingsim.application.ITradingApplication#displayResults(java.lang.String)
+	 */
+	@Override
 	public void displayResults(String filename) throws IOException, ParseException{
 		File file = new File(filename);
 		Scanner fileReader = new Scanner(file);
@@ -114,13 +125,25 @@ public class TradingApplication {
 		fileReader.close();
 	}
 	
+	/* (non-Javadoc)
+	 * @see autotradingsim.application.ITradingApplication#getStrategy(java.lang.String)
+	 */
+	@Override
 	public IStrategy getStrategy(String stratname){
 		return null;
 	}
+	/* (non-Javadoc)
+	 * @see autotradingsim.application.ITradingApplication#getStrategy(int)
+	 */
+	@Override
 	public IStrategy getStrategy(int stratid){
 		return strategies.get(stratid);	
 	}
 	
+	/* (non-Javadoc)
+	 * @see autotradingsim.application.ITradingApplication#saveStrategy(autotradingsim.strategy.IStrategy)
+	 */
+	@Override
 	public boolean saveStrategy (IStrategy newstrat){
 		if(strategies.containsKey(newstrat.hashCode())){
 			return false;
@@ -140,12 +163,10 @@ public class TradingApplication {
 		}
 	}
 	
-	/**
-	 * Retrive a Stock from application. This is a lazy loading method, 
-	 * will only retrive a Stock when asked for.
-	 * @param symbol:
-	 * @return
+	/* (non-Javadoc)
+	 * @see autotradingsim.application.ITradingApplication#getStock(java.lang.String)
 	 */
+	@Override
 	public IStock getStock(String symbol) {
 		if (stocks.containsKey(symbol)){
 			return this.stocks.get(symbol);
@@ -155,19 +176,18 @@ public class TradingApplication {
 		}
     }
 	
-	/**
-	 * Check if a Stock symbol is available in data.
-	 * @param symbol: String of a stock symbol, not case sensitive.
-	 * @return true if stock exists in data, false otherwise.
+	/* (non-Javadoc)
+	 * @see autotradingsim.application.ITradingApplication#existsStock(java.lang.String)
 	 */
+	@Override
 	public boolean existsStock(String symbol) {
         return loader.exists(symbol);
     }
 	
-	/**
-	 * Get an iterator of loaded stock symbols.
-	 * @return Iterator<String> of stock symbols that are loaded.
+	/* (non-Javadoc)
+	 * @see autotradingsim.application.ITradingApplication#getStockSymbols()
 	 */
+	@Override
 	public Iterator<String> getStockSymbols(){
 		// TODO Change this so we can get a list of all possible stocks.
 		return this.stocks.keySet().iterator();

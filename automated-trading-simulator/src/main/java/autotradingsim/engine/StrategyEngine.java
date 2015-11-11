@@ -3,6 +3,7 @@ package autotradingsim.engine;
 import java.math.BigDecimal;
 import java.util.Set;
 
+import autotradingsim.application.ITradingApplication;
 import autotradingsim.application.TradingApplication;
 import autotradingsim.strategy.IAction;
 import autotradingsim.strategy.IStrategy;
@@ -11,7 +12,7 @@ import autotradingsim.strategy.Strategy;
 import autotradingsim.strategy.ICondition.Comparator;
 
 public class StrategyEngine {
-	public TradingApplication appEngine;
+	public ITradingApplication appEngine;
 	public IStrategy currentStrategy;
 	
 	public StrategyEngine() {

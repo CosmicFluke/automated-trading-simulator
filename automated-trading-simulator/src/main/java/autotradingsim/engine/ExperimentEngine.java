@@ -1,11 +1,12 @@
 package autotradingsim.engine;
 
+import autotradingsim.application.ITradingApplication;
 import autotradingsim.application.TradingApplication;
 import autotradingsim.experiment.Experiment;
 
 public class ExperimentEngine {
 
-	public static TradingApplication appEngine;
+	public static ITradingApplication appEngine;
 	public static Experiment currExperiment;
 	public ExperimentEngine() {
 		// TODO Auto-generated constructor stub
