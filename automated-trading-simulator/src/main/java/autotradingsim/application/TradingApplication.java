@@ -1,4 +1,4 @@
-package application;
+package autotradingsim.application;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -25,7 +25,7 @@ public class TradingApplication {
 	public HashMap<Integer, IExperiment> experiments = new HashMap();
 	private HashMap<String,IStock> stocks = new HashMap<>();
 
-	private static TradingApplication instance=null;
+	private static TradingApplication instance = null;
 	
 	protected TradingApplication() {
 		this.loader = new StockLoader();
@@ -56,9 +56,9 @@ public class TradingApplication {
 		File file = new File(filename);
 		Scanner fileReader = new Scanner(file);
 		while((fileReader.hasNextLine())){
-			String strategyName=fileReader.nextLine();
-			String symbol=fileReader.nextLine();
-			String dateString=fileReader.nextLine();
+			String strategyName = fileReader.nextLine();
+			String symbol = fileReader.nextLine();
+			String dateString = fileReader.nextLine();
 			List<String[]> actionList = new ArrayList<String[]>();
 			List<BigDecimal> balanceList = new ArrayList<BigDecimal>();
 			List<Integer> holdingList = new ArrayList<Integer>();
@@ -66,7 +66,7 @@ public class TradingApplication {
 			DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
 			Calendar cal=Calendar.getInstance();
 			cal.setTime((Date) format.parse(dateString));
-			dateString=format.format(cal.getTime());
+			dateString = format.format(cal.getTime());
 			System.out.println("Strategy: "+strategyName+" | Stock: "+symbol+" | Starting date: "+dateString);
 	
 			String line = null;

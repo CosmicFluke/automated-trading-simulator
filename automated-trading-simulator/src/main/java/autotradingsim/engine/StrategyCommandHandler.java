@@ -3,9 +3,11 @@ package autotradingsim.engine;
 import java.math.BigDecimal;
 import java.util.Set;
 
+import application.TradingApplication;
 import autotradingsim.strategy.IAction;
 import autotradingsim.strategy.IStrategy;
 import autotradingsim.strategy.SimpleStrategy;
+import autotradingsim.strategy.Strategy;
 import autotradingsim.strategy.ICondition.Comparator;
 
 public class StrategyCommandHandler {
@@ -18,7 +20,7 @@ public class StrategyCommandHandler {
 	}
 	public IStrategy createDefaultStrategy() {
 		// TODO Auto-generated method stub
-		IStrategy newstrat = new SimpleStrategy();
+		IStrategy newstrat = new Strategy();
 		appEngine.saveStrategy(newstrat);
 		return newstrat;
 	}
