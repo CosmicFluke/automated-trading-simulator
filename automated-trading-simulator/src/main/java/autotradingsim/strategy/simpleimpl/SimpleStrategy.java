@@ -81,7 +81,7 @@ public class SimpleStrategy implements IStrategy {
     @Override
     public Set<RuleID> getRules() {
         Set<RuleID> rules = new HashSet<>();
-        rules.add(rule.getRuleID());
+        rules.add(rule.getID());
         return rules;
     }
 
@@ -91,28 +91,28 @@ public class SimpleStrategy implements IStrategy {
     }
 
     @Override
-    public void deleteRule(RuleID rule) {
-        throw new NotImplementedException();
+    public IRule removeRule(RuleID rule) {
+        return null;
     }
 
     @Override
     public String getRuleName(RuleID rule) {
-        return (rule == this.rule.getRuleID()) ? this.rule.getDescription() : null;
+        return (rule == this.rule.getID()) ? this.rule.getDescription() : null;
     }
 
     @Override
     public String getRuleDescription(RuleID rule) {
-        return (rule == this.rule.getRuleID()) ? this.rule.getDescription() : null;
+        return (rule == this.rule.getID()) ? this.rule.getDescription() : null;
     }
 
     @Override
     public String getRuleSummary(RuleID rule) {
-        return (rule == this.rule.getRuleID()) ? this.rule.getSummary() : null;
+        return (rule == this.rule.getID()) ? this.rule.getSummary() : null;
     }
 
     @Override
     public IDecisionMaker getRuleDecisionMaker(RuleID rule) {
-        return (rule == this.rule.getRuleID()) ? this.rule.getDecisionMaker() : null;
+        return (rule == this.rule.getID()) ? this.rule.getDecisionMaker() : null;
     }
 
     @Override

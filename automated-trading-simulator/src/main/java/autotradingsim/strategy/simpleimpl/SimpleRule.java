@@ -14,6 +14,8 @@ import java.util.List;
 public class SimpleRule implements IRule {
 
     private static String defaultDescription = "a simple rule";
+    private static int counter = 0;
+    private static String defaultName = String.format("SimpleRule%d", counter);
 
     private IAction action;
     private ICondition condition;
@@ -31,6 +33,7 @@ public class SimpleRule implements IRule {
     public SimpleRule (ICondition condition, IAction action, String description) {
         this(condition, action);
         this.description = description;
+        counter++;
     }
 
     @Override
@@ -39,7 +42,12 @@ public class SimpleRule implements IRule {
     }
 
     @Override
-    public RuleID getRuleID() {
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public RuleID getID() {
         return this.id;
     }
 
