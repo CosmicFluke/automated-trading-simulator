@@ -22,14 +22,7 @@ public class TradingApplication implements ITradingApplication {
 
 	private static TradingApplication instance = null;
 	
-	/**
-	 * Create a new Application, instantiate all objects.
-	 * Later on, look for a previous application object and load from it
-	 */
-	private TradingApplication() {
-		if(instance != null)
-			return;
-		
+	protected TradingApplication() {
 		this.loader = new StockLoader();
 		
 		this.strategies = new HashMap<Integer, IStrategy>();
@@ -43,12 +36,6 @@ public class TradingApplication implements ITradingApplication {
 		instance = this;
 	}
 	
-	/**
-	 * return the only instance of trading application
-	 * If none found at time of invokation, create it
-	 * 
-	 * @return trading application instance.
-	 */
 	public static TradingApplication getInstance(){
 		if (instance == null){
 			instance = new TradingApplication();
@@ -76,7 +63,6 @@ public class TradingApplication implements ITradingApplication {
 		experiments.put(experimentName.hashCode(), experiment);
 		return true;
 	}
-	
 
 	/**
 	 * Return experiment object associated with given name
@@ -142,10 +128,10 @@ public class TradingApplication implements ITradingApplication {
 			returningSet.add(name);
 		return returningSet;
 	}
+
 	
 	/**
 	 * Loads a Stock to memory.
-	 * 
 	 * @param symbol: String representing the stock symbol to be loaded.
 	 */
 	private void loadStock(String symbol){
@@ -153,14 +139,13 @@ public class TradingApplication implements ITradingApplication {
 			stocks.put(symbol, this.loader.fetchStock(symbol));
 		}
 	}
-
+	
 	/**
-	 * Retrieve a Stock from application.
-	 *
-	 * @param symbol: official name of the stock
-	 * @return Stock object associated with stock
+	 * Retrive a Stock from application. This is a lazy loading method, 
+	 * will only retrive a Stock when asked for.
+	 * @param symbol:
+	 * @return
 	 */
-	@Override
 	public IStock getStock(String symbol) {
 		if (stocks.containsKey(symbol)){
 			return this.stocks.get(symbol);
@@ -170,26 +155,21 @@ public class TradingApplication implements ITradingApplication {
 		}
     }
 	
-
 	/**
 	 * Check if a Stock symbol is available in data.
-	 * 
 	 * @param symbol: String of a stock symbol, not case sensitive.
 	 * @return true if stock exists in data, false otherwise.
 	 */
-	@Override
 	public boolean stockExists(String symbol) {
         return loader.exists(symbol);
     }
 	
-
 	/**
 	 * Get an iterator of loaded stock symbols.
-	 * 
-	 * @return Iterator<String> of stock symbols available.
+	 * @return Iterator<String> of stock symbols that are loaded.
 	 */
-	@Override
 	public Iterator<String> getStockSymbols(){
+		// TODO Change this so we can get a list of all possible stocks.
 		return this.stocks.keySet().iterator();
 	}
 
@@ -203,7 +183,4 @@ public class TradingApplication implements ITradingApplication {
 
 		stocks.clear();
 	}
-
-
-
 }

@@ -1,12 +1,8 @@
 package autotradingsim.experiment;
+import autotradingsim.application.TradingApplication;
 
-import autotradingsim.experiment.Experiment;
-import autotradingsim.experiment.TimeSet;
-import autotradingsim.strategy.SimpleStrategy;
-import autotradingsim.strategy.Strategy;
+import autotradingsim.strategy.simpleimpl.SimpleStrategy;
 import org.junit.Test;
-
-import application.TradingApplication;
 
 import static org.junit.Assert.*;
 
@@ -14,7 +10,7 @@ import static org.junit.Assert.*;
  * Created by Bill Feng on 15-11-02.
  *
  */
-public class experimentTest {
+public class ExperimentTest {
 
     @Test
     public void testExperimentName(){

@@ -10,10 +10,20 @@ public class RuleID {
 
     private final int id;
 
+    /**
+     * <p>Create a RuleID for an IRule object.<br><br>
+     * RuleIDs are unique for each IRule object, but are *not* serializable.  If deserializing a rule, make sure
+     * to instantiate and set a new RuleID</p>
+     * @param rule The Rule to be linked to the RuleID
+     */
     public RuleID(IRule rule) {
         this.id = rule.hashCode();
     }
 
+    /**
+     * ID getter
+     * @return
+     */
     public int getID() {
         return this.id;
     }
