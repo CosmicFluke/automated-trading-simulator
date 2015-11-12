@@ -1,6 +1,7 @@
 package autotradingsim.application;
 
 import java.util.Iterator;
+import java.util.Set;
 
 import autotradingsim.experiment.IExperiment;
 import autotradingsim.stocks.IStock;
@@ -27,6 +28,12 @@ public interface ITradingApplication {
 	 * @return experiment object found with ID. Null if no experiment by name found
 	 */
 	IExperiment getExperiment(String experimentName);
+	
+	/**
+	 * get all available experiment names in application
+	 * @return a set of experiment names
+	 */
+	Set<String> getAvailableExperiments();
 
 	/**
 	 * Add a strategy by name into the application
@@ -46,6 +53,11 @@ public interface ITradingApplication {
 	 */
 	IStrategy getStrategy(String stratname);
 
+	/**
+	 * return a set of available strategies loaded into memory
+	 * @return set of names of strategies
+	 */
+	Set<String> getAvailableStrategies();
 
 	/**
 	 * Retrieve a Stock from application.
@@ -69,5 +81,10 @@ public interface ITradingApplication {
 	 * @return Iterator<String> of stock symbols available.
 	 */
 	Iterator<String> getStockSymbols();
+	
+	/**
+	 * Clear any objects in Application memory
+	 */
+	void ClearMemory();
 
 }

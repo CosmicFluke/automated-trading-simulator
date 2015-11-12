@@ -1,6 +1,8 @@
 package autotradingsim.application;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import autotradingsim.experiment.*;
 import autotradingsim.stocks.IStock;
@@ -8,9 +10,14 @@ import autotradingsim.stocks.StockLoader;
 import autotradingsim.strategy.*;
 
 public class TradingApplication implements ITradingApplication {
-	private StockLoader loader;
+	
 	private HashMap<Integer, IStrategy> strategies;
+	private HashSet<String> strategyNames;
+	
 	private HashMap<Integer, IExperiment> experiments;
+	private HashSet<String> experimentNames;
+	
+	private StockLoader loader;
 	private HashMap<String, IStock> stocks;
 
 	private static TradingApplication instance = null;
@@ -24,8 +31,13 @@ public class TradingApplication implements ITradingApplication {
 			return;
 		
 		this.loader = new StockLoader();
+		
 		this.strategies = new HashMap<Integer, IStrategy>();
+		this.strategyNames = new HashSet<String>();
+		
 		this.experiments = new HashMap<Integer, IExperiment>();
+		this.experimentNames = new HashSet<String>();
+		
 		this.stocks = new HashMap<String, IStock>();
 		
 		instance = this;
@@ -57,11 +69,12 @@ public class TradingApplication implements ITradingApplication {
 	@Override
 	public boolean setExperiment(String experimentName, IExperiment experiment){
 		if(experiments.containsKey(experimentName.hashCode())){
+			assert(experimentNames.contains(experimentName));
 			return false;
-		}else{
-			experiments.put(experimentName.hashCode(), experiment);
-			return true;
 		}
+		experimentNames.add(experimentName);
+		experiments.put(experimentName.hashCode(), experiment);
+		return true;
 	}
 	
 
@@ -75,6 +88,17 @@ public class TradingApplication implements ITradingApplication {
 	public IExperiment getExperiment(String experimentName){
 		return experiments.get(experimentName.hashCode());
 	}
+	
+	/**
+	 * get all available experiment names in application
+	 * @return a set of experiment names
+	 */
+	public Set<String> getAvailableExperiments(){
+		Set<String> returningSet = new HashSet<String>();
+		for(String name : this.experimentNames)
+			returningSet.add(name);
+		return returningSet;
+	}
 
 	/**
 	 * Add a strategy by name into the application
@@ -87,8 +111,10 @@ public class TradingApplication implements ITradingApplication {
 	@Override
 	public boolean setStrategy(String stratName, IStrategy strat){
 		if(strategies.containsKey(stratName.hashCode())) {
+			assert(strategyNames.contains(stratName));
 			return false;
 		}
+		strategyNames.add(stratName);
 		strategies.put(stratName.hashCode(), strat);
 		return true;
 	}
@@ -105,7 +131,18 @@ public class TradingApplication implements ITradingApplication {
 		return strategies.get(stratName.hashCode());
 	}
 	
-
+	/**
+	 * return a set of available strategies loaded into memory
+	 * @return set of names of strategies
+	 */
+	@Override
+	public Set<String> getAvailableStrategies() {
+		Set<String> returningSet = new HashSet<String>();
+		for(String name : this.strategyNames)
+			returningSet.add(name);
+		return returningSet;
+	}
+	
 	/**
 	 * Loads a Stock to memory.
 	 * 
@@ -155,4 +192,18 @@ public class TradingApplication implements ITradingApplication {
 	public Iterator<String> getStockSymbols(){
 		return this.stocks.keySet().iterator();
 	}
+
+	@Override
+	public void ClearMemory() {
+		strategies.clear();
+		strategyNames.clear();
+		
+		experiments.clear();
+		experimentNames.clear();
+
+		stocks.clear();
+	}
+
+
+
 }
