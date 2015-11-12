@@ -1,141 +1,141 @@
 package autotradingsim.application;
-import java.io.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import autotradingsim.experiment.*;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.StockLoader;
 import autotradingsim.strategy.*;
 
-public class TradingApplication {
+public class TradingApplication implements ITradingApplication {
+	
+	private HashMap<Integer, IStrategy> strategies;
+	private HashSet<String> strategyNames;
+	
+	private HashMap<Integer, IExperiment> experiments;
+	private HashSet<String> experimentNames;
+	
 	private StockLoader loader;
-	public HashMap<Integer, IStrategy> strategies = new HashMap();
-	public HashMap<Integer, IExperiment> experiments = new HashMap();
-	private HashMap<String,IStock> stocks = new HashMap<>();
+	private HashMap<String, IStock> stocks;
 
 	private static TradingApplication instance = null;
 	
 	protected TradingApplication() {
 		this.loader = new StockLoader();
-		// TODO Auto-generated constructor stub
+		
+		this.strategies = new HashMap<Integer, IStrategy>();
+		this.strategyNames = new HashSet<String>();
+		
+		this.experiments = new HashMap<Integer, IExperiment>();
+		this.experimentNames = new HashSet<String>();
+		
+		this.stocks = new HashMap<String, IStock>();
+		
+		instance = this;
 	}
 	
 	public static TradingApplication getInstance(){
-		if (instance==null){
-			instance=new TradingApplication();
+		if (instance == null){
+			instance = new TradingApplication();
 		}
 		return instance;
 	}
 	
-	public boolean saveExperiment(IExperiment experiment){
-		if(experiments.containsKey(experiment.getName())){
+	/**
+	 * Add an experiment by name into the application
+	 * Name given and name found in experiment don't need
+	 * to match, but after being loaded, must use name found
+	 * in IExperiment class
+	 * 
+	 * @param experimentName name under which to store experiment
+	 * @param experiment Experiment object which will be stored
+	 * @return true if experiment added into Application successfully
+	 */
+	@Override
+	public boolean setExperiment(String experimentName, IExperiment experiment){
+		if(experiments.containsKey(experimentName.hashCode())){
+			assert(experimentNames.contains(experimentName));
 			return false;
-		}else{
-			experiments.put(experiment.getName().hashCode(), experiment);
-			return true;
 		}
+		experimentNames.add(experimentName);
+		experiments.put(experimentName.hashCode(), experiment);
+		return true;
+	}
+
+	/**
+	 * Return experiment object associated with given name
+	 * 
+	 * @param experimentName ID associated with experiment
+	 * @return experiment object found with ID. Null if no experiment by name found
+	 */
+	@Override
+	public IExperiment getExperiment(String experimentName){
+		return experiments.get(experimentName.hashCode());
 	}
 	
-	public Experiment getExperiment(int expID){
-		return (Experiment) experiments.get(expID);
+	/**
+	 * get all available experiment names in application
+	 * @return a set of experiment names
+	 */
+	public Set<String> getAvailableExperiments(){
+		Set<String> returningSet = new HashSet<String>();
+		for(String name : this.experimentNames)
+			returningSet.add(name);
+		return returningSet;
 	}
-	
-	public void displayResults(String filename) throws IOException, ParseException{
-		File file = new File(filename);
-		Scanner fileReader = new Scanner(file);
-		while((fileReader.hasNextLine())){
-			String strategyName = fileReader.nextLine();
-			String symbol = fileReader.nextLine();
-			String dateString = fileReader.nextLine();
-			List<String[]> actionList = new ArrayList<String[]>();
-			List<BigDecimal> balanceList = new ArrayList<BigDecimal>();
-			List<Integer> holdingList = new ArrayList<Integer>();
-			//print result header
-			DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
-			Calendar cal=Calendar.getInstance();
-			cal.setTime((Date) format.parse(dateString));
-			dateString = format.format(cal.getTime());
-			System.out.println("Strategy: "+strategyName+" | Stock: "+symbol+" | Starting date: "+dateString);
-	
-			String line = null;
-			while(fileReader.hasNextLine()){
-				line = fileReader.nextLine();
-				if(line.equals("") || line == null){
-					break;
-				}
-					String[] dailyData=line.split(",");
-					balanceList.add(new BigDecimal(dailyData[0]));
-					holdingList.add(Integer.parseInt(dailyData[1]));
-					String[] actions = new String[dailyData.length-2];
-					System.arraycopy(dailyData,2, actions, 0, dailyData.length-2);
-					actionList.add(actions);
-					
-					if(actions.length!=0){
-						System.out.print(dateString);
-						System.out.print(" action: ");
-						System.out.print(actions[0]);
-						for(int i = 1; i < actions.length; i++){
-							System.out.print(", " + actions[i]);
-						}
-						System.out.println("");
-					}else{
-						System.out.println(dateString);
-					}
-					//increment date by 1
-					cal.setTime((Date) format.parse(dateString));
-					cal.add(Calendar.DATE, 1);
-					dateString=format.format(cal.getTime());
-			}
-			BigDecimal startingCapital = balanceList.get(0).add(new BigDecimal(holdingList.get(0)));
-			BigDecimal closingBalance = balanceList.get(balanceList.size()-1).add(new BigDecimal(holdingList.get(balanceList.size()-1)));
-			BigDecimal earnings = closingBalance.subtract((startingCapital));
-			BigDecimal percentEarning = earnings.multiply(new BigDecimal(100)).divide(startingCapital, 2, RoundingMode.HALF_UP);
-			System.out.println("Starting Capital: "+startingCapital);
-			System.out.println("Closing Balance: "+closingBalance);
-			System.out.println("Earnings: "+earnings);
-			System.out.println("Percent Earning: " + percentEarning + "%");
-			System.out.println("------------------------------------------------------------");
-			if(line==null){
-				break;
-			}
-		}
-		fileReader.close();
-	}
-	
-	public IStrategy getStrategy(String stratname){
-		return null;
-	}
-	public IStrategy getStrategy(int stratid){
-		return strategies.get(stratid);	
-	}
-	
-	public boolean saveStrategy (IStrategy newstrat){
-		if(strategies.containsKey(newstrat.hashCode())){
+
+	/**
+	 * Add a strategy by name into the application
+	 * StrategyName should match with name found under newStrat object
+	 * 
+	 * @param StrategyName name under to which to store experiment
+	 * @param newStrat IStrategy object which is to be added to application
+	 * @return true if strategy added successfully into application
+	 */
+	@Override
+	public boolean setStrategy(String stratName, IStrategy strat){
+		if(strategies.containsKey(stratName.hashCode())) {
+			assert(strategyNames.contains(stratName));
 			return false;
-		}else{
-		strategies.put(newstrat.getName().hashCode(), newstrat);
-			return true;
 		}
+		strategyNames.add(stratName);
+		strategies.put(stratName.hashCode(), strat);
+		return true;
 	}
+	
+
+	/**
+	 * Retrieves a strategy by it's given name
+	 * 
+	 * @param stratname strategy name which was used to store strategy
+	 * @return strategy with the associated name or null on none found
+	 */
+	@Override
+	public IStrategy getStrategy(String stratName){
+		return strategies.get(stratName.hashCode());
+	}
+	
+	/**
+	 * return a set of available strategies loaded into memory
+	 * @return set of names of strategies
+	 */
+	@Override
+	public Set<String> getAvailableStrategies() {
+		Set<String> returningSet = new HashSet<String>();
+		for(String name : this.strategyNames)
+			returningSet.add(name);
+		return returningSet;
+	}
+
 	
 	/**
 	 * Loads a Stock to memory.
 	 * @param symbol: String representing the stock symbol to be loaded.
 	 */
 	private void loadStock(String symbol){
-		if (this.existsStock(symbol)){
+		if (this.stockExists(symbol)){
 			stocks.put(symbol, this.loader.fetchStock(symbol));
 		}
 	}
@@ -160,7 +160,7 @@ public class TradingApplication {
 	 * @param symbol: String of a stock symbol, not case sensitive.
 	 * @return true if stock exists in data, false otherwise.
 	 */
-	public boolean existsStock(String symbol) {
+	public boolean stockExists(String symbol) {
         return loader.exists(symbol);
     }
 	
@@ -172,10 +172,15 @@ public class TradingApplication {
 		// TODO Change this so we can get a list of all possible stocks.
 		return this.stocks.keySet().iterator();
 	}
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+	@Override
+	public void ClearMemory() {
+		strategies.clear();
+		strategyNames.clear();
 		
+		experiments.clear();
+		experimentNames.clear();
+
+		stocks.clear();
 	}
 }
