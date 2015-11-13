@@ -10,7 +10,7 @@ import java.io.Console;
 import java.io.File;
 import java.lang.InterruptedException;
 
-public class dataDownloader{
+public class DataDownloader {
 	
 	public static void main(String[] args){
 		
