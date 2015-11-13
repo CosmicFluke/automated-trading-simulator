@@ -10,8 +10,11 @@ import java.io.Console;
 import java.io.File;
 import java.lang.InterruptedException;
 
+/**
+ * TODO: This needs to be either entirely deprecated or fixed up to be a functioning module.
+ */
 public class DataDownloader {
-	
+
 	public static void main(String[] args){
 		
 		if(Desktop.isDesktopSupported()){
