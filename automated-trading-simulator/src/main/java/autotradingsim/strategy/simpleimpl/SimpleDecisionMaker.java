@@ -3,6 +3,7 @@ package autotradingsim.strategy.simpleimpl;
 import autotradingsim.stocks.IStock;
 import autotradingsim.strategy.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -32,7 +33,7 @@ public class SimpleDecisionMaker implements IDecisionMaker {
     }
 
     @Override
-    public Iterator<IDecision> getDecisions(Calendar date) {
+    public Iterator<IDecision> getDecisions(LocalDate date) {
         List<IDecision> decisionList = new ArrayList<>();
         // TODO: deal with casting -- BAD BAD BAD
         StockDayBufferAdapter buffer = (StockDayBufferAdapter) stock.getNewBuffer(date, 1);

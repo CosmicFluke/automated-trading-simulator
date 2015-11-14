@@ -2,7 +2,7 @@ package autotradingsim.strategy;
 
 import autotradingsim.stocks.IStock;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -29,9 +29,9 @@ public abstract class StrategyTester {
 
     /**
      * Get a set of decisions from this strategy for a given date.
-     * @param date
+     * @param currentDate
      * @return
      */
-    public abstract List<IDecision> testDate(Calendar date);
+    public abstract List<IDecision> testDate(LocalDate currentDate);
 
 }

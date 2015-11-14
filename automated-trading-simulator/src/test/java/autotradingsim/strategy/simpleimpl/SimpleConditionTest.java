@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -32,13 +33,13 @@ public class SimpleConditionTest {
     private BigDecimal three;
     private BigDecimal fourPointFive;
 
-    private Calendar testDate;
+    private LocalDate testDate;
 
     @Before
     public void setUp() throws Exception {
-        Calendar stockDate = new GregorianCalendar(2014, 1, 1);
-        testDate = (Calendar) stockDate.clone();
-        System.out.format("Setting up date %s\n", new SimpleDateFormat("YYYY-MM-DD").format(testDate.getTime()));
+        LocalDate stockDate = LocalDate.of(2014, 1, 1);
+        testDate = stockDate;
+        System.out.format("Setting up date %s\n", testDate.toString());
         one = new BigDecimal(1);
         two = new BigDecimal(2);
         three = new BigDecimal(3);
@@ -47,8 +48,8 @@ public class SimpleConditionTest {
         ArrayList<StockDay> dayList = new ArrayList<>();
         BigDecimal addend = new BigDecimal(0);
         for (int i=0; i < 10; i++) {
-            dayList.add(new StockDay("TEST", (Calendar) stockDate.clone(), one, one, one, two.add(addend), 100));
-            stockDate.add(Calendar.DATE, 1);
+            dayList.add(new StockDay("TEST", stockDate, one, one, one, two.add(addend), 100));
+            stockDate = stockDate.plusDays(1);
             addend = addend.add(BigDecimal.TEN);
         }
         stock = new Stock("TEST", "Test Stock", dayList);
@@ -69,7 +70,7 @@ public class SimpleConditionTest {
 
         assertTrue(p.test(adapter));
 
-        testDate.add(Calendar.DATE, 2);
+        testDate = testDate.plusDays(2);
         adapter = (StockDayBufferAdapter) stock.getNewBuffer(testDate, 1);
         assertFalse(p.test(adapter));
 

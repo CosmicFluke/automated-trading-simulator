@@ -1,4 +1,4 @@
-package autotradingsim.application.test;
+package autotradingsim.application;
 
 import static org.junit.Assert.*;
 
@@ -36,5 +36,10 @@ public class BasicTest {
 	@Test
 	public void testEmptyExperiments(){
 		assertTrue(ApplicationUnderTest.getAvailableExperiments().isEmpty());
+	}
+	
+	@Test
+	public void testSavingExperiment(){
+		assertTrue(true);
 	}
 }
