@@ -3,6 +3,7 @@ package autotradingsim.strategy.simpleimpl;
 import autotradingsim.stocks.IStock;
 import autotradingsim.strategy.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -40,7 +41,7 @@ public class SimpleStrategyTester extends StrategyTester {
     }
 
     @Override
-    public List<IDecision> testDate(Calendar date) {
+    public List<IDecision> testDate(LocalDate date) {
         List<IDecision> decisions = new LinkedList<>();
         for (IDecisionMaker maker : ruleIDtoDecisionMaker.values()) {
             Iterator<IDecision> decisionIter = maker.getDecisions(date);

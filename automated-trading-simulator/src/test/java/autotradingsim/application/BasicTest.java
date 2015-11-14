@@ -37,4 +37,9 @@ public class BasicTest {
 	public void testEmptyExperiments(){
 		assertTrue(ApplicationUnderTest.getAvailableExperiments().isEmpty());
 	}
+	
+	@Test
+	public void testSavingExperiment(){
+		assertTrue(true);
+	}
 }

@@ -2,7 +2,7 @@ package autotradingsim.stocks;
 
 import autotradingsim.strategy.IBufferAdapter;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 /**
  * Created by Asher on 2015-10-30.
@@ -20,11 +20,11 @@ public interface IStock {
      *
      * NOTE:    Returns NULL if this stock does not have an entry for the given date
      */
-    StockDay getDay(Calendar date);
+    StockDay getDay(LocalDate date);
 
-    Calendar getStartDate();
+    LocalDate getStartDate();
 
-    Calendar getEndDate();
+    LocalDate getEndDate();
 
-    IBufferAdapter getNewBuffer(Calendar date, int size);
+    IBufferAdapter getNewBuffer(LocalDate date, int size);
 }

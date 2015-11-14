@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -22,7 +23,7 @@ public class SimpleStrategyTest {
     private IStrategy stratDefault;
     private IStrategy stratCustom;
     private IStock stock;
-    private static Calendar startDate = new GregorianCalendar(2001, 0, 1);
+    private static LocalDate startDate = LocalDate.of(2001, 1, 1);
 
     @Before
     public void setUp() throws Exception {
@@ -34,7 +35,7 @@ public class SimpleStrategyTest {
                 ICondition.Comparator.GT, BigDecimal.TEN,
                 IAction.ActionType.BUY, 1);
         // Set up new Stock
-        Calendar testDate = (Calendar) startDate.clone();
+        LocalDate testDate = startDate;
         BigDecimal one = BigDecimal.ONE;
         BigDecimal two = one.add(one);
         BigDecimal ten = BigDecimal.TEN;
@@ -42,24 +43,23 @@ public class SimpleStrategyTest {
         ArrayList<StockDay> dayList = new ArrayList<>();
 
         printStamp(formatDate(testDate));
-        dayList.add(new StockDay("TEST", (Calendar) testDate.clone(), one, one, one, ten, 10));
-        testDate.add(Calendar.DATE, 1);
+        dayList.add(new StockDay("TEST", testDate, one, one, one, ten, 10));
+        testDate = testDate.plusDays(1);
         printStamp(formatDate(testDate));
-        dayList.add(new StockDay("TEST", (Calendar) testDate.clone(), two, one, one, ten.add(one), 11));
-        testDate.add(Calendar.DATE, 1);
+        dayList.add(new StockDay("TEST", testDate, two, one, one, ten.add(one), 11));
+        testDate = testDate.plusDays(1);
         printStamp(formatDate(testDate));
-        dayList.add(new StockDay("TEST", (Calendar) testDate.clone(), two.add(one), one, one, ten.multiply(ten).add(one), 101));
-        testDate.add(Calendar.DATE, 1);
+        dayList.add(new StockDay("TEST", testDate, two.add(one), one, one, ten.multiply(ten).add(one), 101));
+        testDate = testDate.plusDays(1);
         printStamp(formatDate(testDate));
-        dayList.add(new StockDay("TEST", (Calendar) testDate.clone(), two.add(two), one, one, ten.add(ten), 20));
+        dayList.add(new StockDay("TEST", testDate, two.add(two), one, one, ten.add(ten), 20));
 
         stock = new Stock("TEST", "Test Stock", dayList);
 
     }
 
-    private String formatDate(Calendar date) {
-        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
-        return f.format(date.getTime());
+    private String formatDate(LocalDate date) {
+        return date.toString();
     }
 
     private void printStamp(String date) {
@@ -73,12 +73,11 @@ public class SimpleStrategyTest {
         for (RuleID ruleid : rules) {
             assertEquals("a simple rule", stratDefault.getRuleName(ruleid));
         }
-
     }
 
     @Test
     public void testGetNewTester() throws Exception {
-        Calendar testDate = (Calendar) startDate.clone();
+        LocalDate testDate = startDate;
         System.out.print("New test date.\n");
         printStamp(formatDate(testDate));
 
@@ -92,19 +91,19 @@ public class SimpleStrategyTest {
         assertEquals(1, decisions.size());
 
         // Second day
-        testDate.add(Calendar.DATE, 1);
+        testDate = testDate.plusDays(1);
         printStamp(formatDate(testDate));
         decisions = tester.testDate(testDate);
         assertEquals(1, decisions.size());
 
         // Third day
-        testDate.add(Calendar.DATE, 1);
+        testDate = testDate.plusDays(1);
         printStamp(formatDate(testDate));
         decisions = tester.testDate(testDate);
         assertEquals(0, decisions.size());
 
         // Fourth day
-        testDate.add(Calendar.DATE, 1);
+        testDate = testDate.plusDays(1);
         printStamp(formatDate(testDate));
         decisions = tester.testDate(testDate);
         assertEquals(1, decisions.size());

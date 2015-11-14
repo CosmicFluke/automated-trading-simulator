@@ -1,9 +1,9 @@
 package autotradingsim.strategy.simpleimpl;
 
 import autotradingsim.strategy.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.math.BigDecimal;
+import java.security.InvalidParameterException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -87,7 +87,7 @@ public class SimpleStrategy implements IStrategy {
 
     @Override
     public void addRule(IRule rule) {
-        throw new NotImplementedException();
+        throw new InvalidParameterException();
     }
 
     @Override

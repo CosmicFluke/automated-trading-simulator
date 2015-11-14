@@ -3,8 +3,8 @@ package autotradingsim.stocks;
 import autotradingsim.strategy.IBufferAdapter;
 import autotradingsim.strategy.StockDayBufferAdapter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -39,9 +39,9 @@ public class Stock implements IStock {
     }
 
     @Override
-    public StockDay getDay(Calendar date){
+    public StockDay getDay(LocalDate date){
         for(int i = 0; i < data.size(); i++){
-            if(data.get(i).getDate().compareTo(date) == 0){
+            if(data.get(i).getDate().equals(date)){
                 return data.get(i);
             }
         }
@@ -49,21 +49,21 @@ public class Stock implements IStock {
     }
 
     @Override
-    public Calendar getStartDate() {
+    public LocalDate getStartDate() {
         return data.get(0).getDate();
     }
 
     @Override
-    public Calendar getEndDate() {
+    public LocalDate getEndDate() {
         return data.get(data.size() - 1).getDate();
     }
 
     @Override
-    public IBufferAdapter getNewBuffer(Calendar date, int size) {
+    public IBufferAdapter getNewBuffer(LocalDate date, int size) {
         return getNewDayBuffer(date, size);
     }
 
-    public StockDayBufferAdapter getNewDayBuffer(Calendar date, int size) {
+    public StockDayBufferAdapter getNewDayBuffer(LocalDate date, int size) {
         return new StockDayBufferAdapter(this, date, size);
     }
 }

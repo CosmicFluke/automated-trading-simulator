@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -118,7 +119,7 @@ public class Experiment implements IExperiment {
             IStrategy strategy;
             StrategyTester st;
             IStock stock;
-            Calendar currentDate;
+            LocalDate currentDate;
             List<IDecision> decisions;
             int duration;
             IDecision decision;
@@ -141,7 +142,7 @@ public class Experiment implements IExperiment {
                     bw.newLine();
                     bw.write(stock.getSymbol());
                     bw.newLine();
-                    bw.write(currentDate.YEAR+"-"+currentDate.MONTH+"-"+currentDate.DATE);
+                    bw.write(currentDate.toString());
                     bw.newLine();
 
                     balance = new BigDecimal(0);
@@ -150,7 +151,7 @@ public class Experiment implements IExperiment {
                     // Iterate through all the days in the time snippet
                     for(int j = 0; j < duration; j++) {
                         decisions = st.testDate(currentDate);
-                        Iterator itr = decisions.iterator();
+                        Iterator<IDecision> itr = decisions.iterator();
 
                         bw.write(balance.toString());
                         bw.write("," + shares);
@@ -168,7 +169,7 @@ public class Experiment implements IExperiment {
                             bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity());
                         }
                         bw.newLine();
-                        currentDate.add(currentDate.DATE, 1);
+                        currentDate = currentDate.plusDays(1);
                     }
                     bw.newLine();
                 }
@@ -189,7 +190,7 @@ public class Experiment implements IExperiment {
             IStrategy strategy;
             StrategyTester st;
             IStock stock;
-            Calendar currentDate;
+            LocalDate currentDate;
             List<IDecision> decisions;
             int duration;
             IDecision decision;
@@ -207,16 +208,17 @@ public class Experiment implements IExperiment {
                 currentDate = stock.getStartDate();
                 bw.write(strategy.getName()); bw.newLine();
                 bw.write(stock.getSymbol()); bw.newLine();
-                bw.write(currentDate.get(Calendar.YEAR)+"-"+currentDate.get(Calendar.MONTH)+"-"+currentDate.get(Calendar.DATE)); bw.newLine();
+                bw.write(currentDate.toString()); 
+                bw.newLine();
 
                 balance = new BigDecimal(100000);
                 shares = 0;
 
-                while(currentDate.before(stock.getEndDate())){
+                while(currentDate.isBefore(stock.getEndDate())){
                     decisions = st.testDate(currentDate);
                     Iterator itr = decisions.iterator();
 
-                    bw.write(currentDate.get(Calendar.YEAR)+"-"+currentDate.get(Calendar.MONTH)+"-"+currentDate.get(Calendar.DATE));
+                    bw.write(currentDate.toString());
                     bw.write("," + balance.toString());
                     bw.write("," + shares);
 
@@ -233,7 +235,7 @@ public class Experiment implements IExperiment {
                         bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity());
                     }
                     bw.newLine();
-                    currentDate.add(Calendar.DATE, 1);
+                    currentDate = currentDate.plusDays(1);
                 }
                 bw.newLine();
             }
