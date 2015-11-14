@@ -10,24 +10,17 @@ package autotradingsim.ui;
  *
  * @author billfeng
  */
-public class dialogConfirm extends javax.swing.JFrame {
+public class dialogConfirm extends javax.swing.JDialog {
 
     /**
-     * Creates new form dialog
+     * Creates new form dialogConfirm
      */
     boolean confirm;
-    public dialogConfirm() {
+    public dialogConfirm(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
-    }
-    
-    public dialogConfirm(int x, int y) {
-        initComponents();
-        this.setLocation(x + 250, y + 250);
-    }
-    
-    public boolean run(){
-        this.setVisible(true);
-        return confirm;
+        this.setLocation(parent.getX() + 250, parent.getY() + 250);
+        this.confirm = false;
     }
 
     /**
@@ -44,9 +37,6 @@ public class dialogConfirm extends javax.swing.JFrame {
         cancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Confirm");
-        setAlwaysOnTop(true);
-        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -108,6 +98,10 @@ public class dialogConfirm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_cancelActionPerformed
 
+    public boolean run(){
+        this.setVisible(true);
+        return confirm;
+    }
     /**
      * @param args the command line arguments
      */
@@ -135,10 +129,17 @@ public class dialogConfirm extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new dialogConfirm().setVisible(true);
+                dialogConfirm dialog = new dialogConfirm(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }

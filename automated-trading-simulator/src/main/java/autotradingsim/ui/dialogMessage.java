@@ -55,9 +55,9 @@ public class dialogMessage extends javax.swing.JDialog {
             }
         });
 
-        message.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        message.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         message.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        message.setText("jLabel1");
+        message.setText("Message");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

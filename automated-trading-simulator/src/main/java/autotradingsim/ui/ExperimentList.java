@@ -158,7 +158,7 @@ public class ExperimentList extends javax.swing.JFrame {
             dialogMessage dm = new dialogMessage(this, true, "Select an item to delete!");
             dm.setVisible(true);
         }else{
-            dialogConfirm dc = new dialogConfirm(this.getX(), this.getY());
+            dialogConfirm dc = new dialogConfirm(this, true);
             boolean delete = dc.run();
         }
     }//GEN-LAST:event_deleteActionPerformed
