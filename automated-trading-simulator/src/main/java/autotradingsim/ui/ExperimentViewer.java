@@ -1,5 +1,8 @@
 package autotradingsim.ui;
 
+import java.util.ArrayList;
+import javax.swing.ListModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -20,10 +23,13 @@ public class ExperimentViewer extends javax.swing.JFrame {
     }
     
     ExperimentList parent;
+    ArrayList<String> strategyListModel = new ArrayList();
+    ArrayList<String> stockListModel = new ArrayList();
     public ExperimentViewer(ExperimentList parent) {
         this.parent = parent;
         initComponents();
         this.setLocation(parent.getX(), parent.getY());
+        strategyList.setModel((ListModel) strategyListModel);
     }
 
     /**
@@ -39,9 +45,9 @@ public class ExperimentViewer extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        strategyList = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        stockList = new javax.swing.JList();
         edit = new javax.swing.JButton();
         back = new javax.swing.JButton();
         addStrategy = new javax.swing.JButton();
@@ -67,21 +73,21 @@ public class ExperimentViewer extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jLabel3.setText("Stocks");
 
-        jList1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        strategyList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        strategyList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(strategyList);
 
-        jList2.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        jList2.setModel(new javax.swing.AbstractListModel() {
+        stockList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        stockList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList2);
+        jScrollPane2.setViewportView(stockList);
 
         edit.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         edit.setText("Edit");
@@ -221,18 +227,46 @@ public class ExperimentViewer extends javax.swing.JFrame {
 
     private void addStrategyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStrategyActionPerformed
         // TODO add your handling code here:
+        StrategyPicker sp = new StrategyPicker(this, true);
+        String name = sp.run();
+        if(!name.equals("") && !strategyListModel.contains(name)){
+            strategyListModel.add(name);
+        }
     }//GEN-LAST:event_addStrategyActionPerformed
 
     private void deleteStrategyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStrategyActionPerformed
         // TODO add your handling code here:
+        if(strategyList.getSelectedIndex() == -1){
+            dialogMessage dm = new dialogMessage(this, true, "Select an item to delete!");
+            dm.setVisible(true);
+        }else{
+            dialogConfirm dc = new dialogConfirm(this, true);
+            if(dc.run()){
+                strategyListModel.remove(strategyList.getSelectedIndex());
+            }
+        }
     }//GEN-LAST:event_deleteStrategyActionPerformed
 
     private void addStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStockActionPerformed
         // TODO add your handling code here:
+        StockPicker sp = new StockPicker(this, true);
+        String name = sp.run();
+        if(!name.equals("") && !stockListModel.contains(name)){
+            stockListModel.add(name);
+        }
     }//GEN-LAST:event_addStockActionPerformed
 
     private void deleteStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStockActionPerformed
         // TODO add your handling code here:
+        if(stockList.getSelectedIndex() == -1){
+            dialogMessage dm = new dialogMessage(this, true, "Select an item to delete!");
+            dm.setVisible(true);
+        }else{
+            dialogConfirm dc = new dialogConfirm(this, true);
+            if(dc.run()){
+                stockListModel.remove(stockList.getSelectedIndex());
+            }
+        }
     }//GEN-LAST:event_deleteStockActionPerformed
 
     /**
@@ -279,10 +313,10 @@ public class ExperimentViewer extends javax.swing.JFrame {
     private javax.swing.JButton edit;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel name;
+    private javax.swing.JList stockList;
+    private javax.swing.JList strategyList;
     // End of variables declaration//GEN-END:variables
 }
