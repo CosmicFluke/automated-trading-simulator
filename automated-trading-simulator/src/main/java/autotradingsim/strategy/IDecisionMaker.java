@@ -2,6 +2,7 @@ package autotradingsim.strategy;
 
 import autotradingsim.stocks.IStock;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
@@ -32,6 +33,6 @@ public interface IDecisionMaker {
      * {@link IDecision IDecisions} for a given date.
      * @return A decision for this DecisionMaker.
      */
-    Iterator<IDecision> getDecisions(Calendar date);
+    Iterator<IDecision> getDecisions(LocalDate date);
 
 }
