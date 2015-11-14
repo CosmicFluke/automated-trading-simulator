@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  * Created by Bill Feng on 15-11-02.
  *
  */
-public class experimentTest {
+public class ExperimentTest {
 
     @Test
     public void testExperimentName(){

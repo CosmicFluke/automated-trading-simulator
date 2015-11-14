@@ -15,7 +15,7 @@ import org.junit.Test;
  * @author Shirley
  *
  */
-public class testdisplayResults {
+public class TestDisplayResults {
 
 	/**
 	 * @throws java.lang.Exception
