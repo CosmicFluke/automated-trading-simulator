@@ -213,7 +213,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
         dialogInput di = new dialogInput(this, true);
         String text = di.run();
         if(text.length() > 0){
-            name.setText(text);
+            name.setText("Name: " + text);
         }
     }//GEN-LAST:event_editActionPerformed
 
