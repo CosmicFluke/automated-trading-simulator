@@ -31,7 +31,7 @@ public class StockTest{
 		startDate= LocalDate.of(1990, 10,1);
 		LocalDate date = startDate;
 		for (int i = 0; i < 20; i++){
-			date = date.plusDays(1);
+			date = startDate.plusDays(i);
 			this.data.add(new StockDay("AAPL", date, new BigDecimal(50+(i/10)),new BigDecimal(50+(i/5)) ,new BigDecimal(50-(i/5)) ,new BigDecimal(50+(i/20)) , i * 100000));
 		}
 		endDate = date;
@@ -60,6 +60,9 @@ public class StockTest{
 
     @Test
     public void verifyGetDay(){
+    	System.out.println(startDate.toString());
+    	System.out.println(stock.getSymbol());
+    	this.stock.getDay(startDate);
         StockDay test;
         test = this.stock.getDay(startDate);
         assertNotNull(test);
