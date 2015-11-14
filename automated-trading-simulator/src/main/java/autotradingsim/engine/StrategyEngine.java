@@ -40,12 +40,12 @@ public class StrategyEngine {
 	 */
 
 	public IStrategy addNewSimpleStrategy(String stratname, int cselection, int cvalue, int aselection, int avalue) {
-		//if(appEngine.saveStrategy(new SimpleStrategy(stratname, "",(cselection == 1) ? Comparator.GT : Comparator.LT,
-		//		new BigDecimal(cvalue),(aselection == 1) ? IAction.ActionType.BUY : IAction.ActionType.SELL, avalue))){
-		//	return appEngine.getStrategy(stratname.hashCode());
-		//}else{
+		if(appEngine.setStrategy(stratname, new SimpleStrategy(stratname, "",(cselection == 1) ? Comparator.GT : Comparator.LT,
+				new BigDecimal(cvalue),(aselection == 1) ? IAction.ActionType.BUY : IAction.ActionType.SELL, avalue))){
+			return appEngine.getStrategy(stratname);
+		}else{
 			return null;
-		//}	
+		}	
 	}
 	
 	/**
@@ -55,8 +55,7 @@ public class StrategyEngine {
 	 */
 	public IStrategy viewStrategy(String stratname) {
 		// TODO Auto-generated method stub
-		//return(appEngine.getStrategy(stratname.hashCode()));
-		return null;
+		return(appEngine.getStrategy(stratname));
 	}
 
 }
