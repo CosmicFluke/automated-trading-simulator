@@ -26,9 +26,9 @@ public class ExperimentEngine {
 	 */
 	protected static Experiment createExperiment(String expname){
 		Experiment retExp=null;
-		if(appEngine.saveExperiment(new Experiment(expname))){
-			retExp=appEngine.getExperiment(expname.hashCode());
-		}
+		//if(appEngine.saveExperiment(new Experiment(expname))){
+		//	retExp=appEngine.getExperiment(expname.hashCode());
+		//}
 		return retExp;
 	}
 	/**
@@ -39,8 +39,8 @@ public class ExperimentEngine {
 	 */
 	protected static Experiment viewExperiment(String expname) {
 		// TODO Auto-generated method stub
-		return appEngine.getExperiment(expname.hashCode());
-		
+		//return appEngine.getExperiment(expname.hashCode());
+		return null;
 	}
 	/**
 	 * 
@@ -50,7 +50,8 @@ public class ExperimentEngine {
 	 * @return boolean
 	 */
 	protected static boolean addStrategy(String expName, String stratname){
-		return(appEngine.getExperiment(expName.hashCode()).addStrategy(stratname));
+		//return(appEngine.getExperiment(expName.hashCode()).addStrategy(stratname));
+		return false;
 	}
 
 	public static void addtimeset(String currentExperiment, String string, String string2) {

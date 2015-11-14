@@ -1,11 +1,11 @@
 package autotradingsim;
-import autotradingsim.terminal.SimTerminal;
+import autotradingsim.terminal.TerminalUI;
 
 public class autoTradingSim
 {
     public static void main( String[] args )
     {
-    	SimTerminal terminal = new SimTerminal();
+    	TerminalUI terminal = new TerminalUI();
         terminal.run();
     }
 }
