@@ -4,7 +4,7 @@ import autotradingsim.strategy.IBufferAdapter;
 import autotradingsim.strategy.Indicator;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.function.Function;
 
 /**
@@ -45,7 +45,7 @@ public class ExponentialMovingAverage extends Indicator{
     }
 
     @Override
-    public BigDecimal getValue(Calendar date) {
+    public BigDecimal getValue(LocalDate date) {
         return this.value;
     }
 

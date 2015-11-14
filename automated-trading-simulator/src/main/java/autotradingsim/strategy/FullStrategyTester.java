@@ -3,6 +3,7 @@ package autotradingsim.strategy;
 import autotradingsim.stocks.IStock;
 import autotradingsim.strategy.exceptions.RuleDoesNotExistException;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -78,7 +79,7 @@ public class FullStrategyTester extends StrategyTester {
     }
 
     @Override
-    public List<IDecision> testDate(Calendar date) {
+    public List<IDecision> testDate(LocalDate date) {
         List<IDecision> decisions = new LinkedList<>();
         for (IDecisionMaker maker : ruleIDtoDecisionMaker.values()) {
             Iterator<IDecision> decisionIterator = maker.getDecisions(date);

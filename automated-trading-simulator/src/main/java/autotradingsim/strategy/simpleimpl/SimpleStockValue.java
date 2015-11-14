@@ -10,6 +10,7 @@ import autotradingsim.strategy.IMeasurement;
 import autotradingsim.strategy.exceptions.DataNotProvidedException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.function.Function;
 
@@ -58,7 +59,7 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
     }
 
     @Override
-    public BigDecimal getValue(Calendar date) throws DataNotProvidedException {
+    public BigDecimal getValue(LocalDate date) throws DataNotProvidedException {
         if (this.stock == null) {
             throw new DataNotProvidedException();
         }

@@ -1,8 +1,8 @@
 package autotradingsim.strategy;
 
 
+import java.time.LocalDate;
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.function.Function;
 
 /**
@@ -18,7 +18,7 @@ public abstract class Indicator implements IMeasurement {
 
     private String name;
     private String description;
-    private Function<Calendar, BigDecimal> function;
+    private Function<LocalDate, BigDecimal> function;
 
     public Indicator(String name, String description){
         this.name = name;
@@ -38,7 +38,7 @@ public abstract class Indicator implements IMeasurement {
         return this.description;
     }
 
-    public BigDecimal getValue(Calendar date){
+    public BigDecimal getValue(LocalDate date){
         return this.function.apply(date);
     }
 

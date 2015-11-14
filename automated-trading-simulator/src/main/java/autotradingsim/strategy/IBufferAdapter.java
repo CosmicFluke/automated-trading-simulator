@@ -2,7 +2,7 @@ package autotradingsim.strategy;
 
 import autotradingsim.stocks.StockEntry;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.Iterator;
 
 /**
@@ -12,7 +12,7 @@ import java.util.Iterator;
  */
 public interface IBufferAdapter<E extends StockEntry> {
 
-    void updateTo(Calendar date);
+    void updateTo(LocalDate date);
 
     void updateNext();
 
