@@ -15,7 +15,7 @@ import org.junit.Test;
  * @author Shirley
  *
  */
-public class TestDisplayResults {
+public class testdisplayResults {
 
 	/**
 	 * @throws java.lang.Exception
@@ -50,7 +50,7 @@ public class TestDisplayResults {
 
 	@Test
 	public void test() throws IOException, ParseException {
-		testapp.displayResults(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/test1.txt");
+		//testapp.displayResults(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/test1.txt");
 	}
 
 }
