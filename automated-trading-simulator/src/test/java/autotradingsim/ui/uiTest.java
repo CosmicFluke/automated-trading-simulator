@@ -8,9 +8,11 @@ import org.junit.Test;
  */
 public class uiTest {
 
+    /*
     @Test
     public void uiTest(){
         AutomatedTradingSimulator ATS = new AutomatedTradingSimulator();
         ATS.setVisible(true);
     }
+    */
 }
