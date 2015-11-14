@@ -23,7 +23,7 @@ public class SimpleStrategyTest {
     private IStrategy stratDefault;
     private IStrategy stratCustom;
     private IStock stock;
-    private static LocalDate startDate = LocalDate.of(2001, 0, 1);
+    private static LocalDate startDate = LocalDate.of(2001, 1, 1);
 
     @Before
     public void setUp() throws Exception {
