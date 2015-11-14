@@ -22,12 +22,12 @@ public class dialogMessage extends javax.swing.JDialog {
         initComponents();
     }
     
-    
     public dialogMessage(java.awt.Frame parent, boolean modal, String text) {
         super(parent, modal);
         initComponents();
         message.setText(text);
-        this.setLocation(parent.getX() + 250, parent.getY() + 250);
+        this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
+                         parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
     }
 
     /**

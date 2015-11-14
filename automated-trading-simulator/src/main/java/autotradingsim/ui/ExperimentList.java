@@ -152,9 +152,9 @@ public class ExperimentList extends javax.swing.JFrame {
             dialogMessage dm = new dialogMessage(this, true, "Select an item to open!");
             dm.setVisible(true);
         }else{
-            experimentViewer ev = new experimentViewer(this);
+            ExperimentViewer ev = new ExperimentViewer(this);
             this.setVisible(false);
-            ev.run();
+            ev.setVisible(true);
         }
     }//GEN-LAST:event_openActionPerformed
 

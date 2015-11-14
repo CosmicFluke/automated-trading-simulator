@@ -19,7 +19,8 @@ public class dialogInput extends javax.swing.JDialog {
     public dialogInput(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setLocation(parent.getX() + 250, parent.getY() + 250);
+        this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
+                         parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
         this.input = "";
     }
 
