@@ -9,11 +9,13 @@ import java.awt.event.MouseEvent;
  *
  */
 public class AutomatdTradingSimulator {
-    private JList experiments;
-    private JButton add;
-    private JButton open;
-    private JButton delete;
     private JButton exit;
+    private JList list1;
+    private JPanel panel1;
+    private JList list2;
+    private JList list3;
+    private JButton button1;
+    private JButton button2;
 
     public AutomatdTradingSimulator() {
         exit.addMouseListener(new MouseAdapter() {
