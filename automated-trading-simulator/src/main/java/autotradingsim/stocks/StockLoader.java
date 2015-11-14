@@ -29,7 +29,7 @@ public class StockLoader{
     private String PathToStocks;
     public StockLoader() {
         // StockLoader keeps a list of stock symbols matched with stock names
-    	this.PathToStocks =  "\\DATA\\STOCKS\\";
+    	this.PathToStocks =  "//DATA//STOCKS//";
         this.stockListing = buildStockList();
     }
 
@@ -197,7 +197,7 @@ public class StockLoader{
     private ArrayList<String[]> buildStockList(){
         ArrayList<String[]> result = new ArrayList<>();
         try{
-            BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + this.PathToStocks + "..\\S&P-500-symbol-name-list.csv"));
+            BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + this.PathToStocks + "..//S&P-500-symbol-name-list.csv"));
             br.readLine();
             String line, holder[];
             while((line = br.readLine()) != null){

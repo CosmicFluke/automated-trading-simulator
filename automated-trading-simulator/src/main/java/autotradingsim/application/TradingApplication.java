@@ -36,7 +36,7 @@ public class TradingApplication implements ITradingApplication {
 		
 		this.stocks = new HashMap<String, IStock>();
 		
-		PathToExperiments = "\\DATA\\EXPERIMENTS\\";
+		PathToExperiments = "//DATA//EXPERIMENTS//";
 		
 		instance = this;
 	}
