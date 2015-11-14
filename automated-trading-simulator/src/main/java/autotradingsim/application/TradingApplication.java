@@ -11,6 +11,9 @@ import autotradingsim.strategy.*;
 
 public class TradingApplication implements ITradingApplication {
 	
+	private String PathToExperiments;
+	private String PathToStrategies;
+	
 	private HashMap<Integer, IStrategy> strategies;
 	private HashSet<String> strategyNames;
 	
@@ -32,6 +35,8 @@ public class TradingApplication implements ITradingApplication {
 		this.experimentNames = new HashSet<String>();
 		
 		this.stocks = new HashMap<String, IStock>();
+		
+		PathToExperiments = "//DATA//EXPERIMENTS//";
 		
 		instance = this;
 	}
@@ -74,6 +79,14 @@ public class TradingApplication implements ITradingApplication {
 	public IExperiment getExperiment(String experimentName){
 		return experiments.get(experimentName.hashCode());
 	}
+	
+	/**
+	 * 
+	 */
+	private void saveExperiment(IExperiment experiment){
+		//System.out.println(System.getProperty("user.dir") + PathToExperiments);
+	}
+	
 	
 	/**
 	 * get all available experiment names in application
