@@ -1,7 +1,5 @@
 package autotradingsim.stocks;
 
-import com.sun.xml.internal.ws.api.ResourceLoader;
-
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.Calendar;
