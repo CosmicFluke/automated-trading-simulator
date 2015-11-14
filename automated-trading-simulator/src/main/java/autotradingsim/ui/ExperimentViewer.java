@@ -30,6 +30,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
         initComponents();
         this.setLocation(parent.getX(), parent.getY());
         strategyList.setModel((ListModel) strategyListModel);
+        stockList.setModel((ListModel) stockListModel);
     }
 
     /**
@@ -228,9 +229,9 @@ public class ExperimentViewer extends javax.swing.JFrame {
     private void addStrategyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStrategyActionPerformed
         // TODO add your handling code here:
         StrategyPicker sp = new StrategyPicker(this, true);
-        String name = sp.run();
-        if(!name.equals("") && !strategyListModel.contains(name)){
-            strategyListModel.add(name);
+        String strategyName = sp.run();
+        if(!strategyName.equals("") && !strategyListModel.contains(strategyName)){
+            strategyListModel.add(strategyName);
         }
     }//GEN-LAST:event_addStrategyActionPerformed
 
@@ -250,9 +251,9 @@ public class ExperimentViewer extends javax.swing.JFrame {
     private void addStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStockActionPerformed
         // TODO add your handling code here:
         StockPicker sp = new StockPicker(this, true);
-        String name = sp.run();
-        if(!name.equals("") && !stockListModel.contains(name)){
-            stockListModel.add(name);
+        String stockName = sp.run();
+        if(!stockName.equals("") && !stockListModel.contains(stockName)){
+            stockListModel.add(stockName);
         }
     }//GEN-LAST:event_addStockActionPerformed
 
