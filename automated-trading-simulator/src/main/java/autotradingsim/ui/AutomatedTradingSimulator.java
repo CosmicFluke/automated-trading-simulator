@@ -126,7 +126,7 @@ public class AutomatedTradingSimulator extends javax.swing.JFrame {
 
     private void experimentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_experimentsActionPerformed
         // TODO add your handling code here:
-        Experiment e = new Experiment(this);
+        ExperimentList e = new ExperimentList(this);
         this.setVisible(false);
         e.setVisible(true);
     }//GEN-LAST:event_experimentsActionPerformed
