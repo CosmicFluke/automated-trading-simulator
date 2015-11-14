@@ -1,7 +1,6 @@
 package autotradingsim.ui;
 
-import java.util.ArrayList;
-import javax.swing.ListModel;
+import javax.swing.DefaultListModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,13 +18,13 @@ public class StockPicker extends javax.swing.JDialog {
      * Creates new form StockPicker
      */
     String name;
-    ArrayList<String> stockListModel = new ArrayList();
+    DefaultListModel stockListModel = new DefaultListModel();
     public StockPicker(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
-        stockList.setModel((ListModel) stockListModel);
+        stockList.setModel(stockListModel);
         name = "";
     }
 
@@ -105,7 +104,7 @@ public class StockPicker extends javax.swing.JDialog {
     private void selectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectActionPerformed
         // TODO add your handling code here:
         if(stockList.getSelectedIndex() > -1){
-            name = stockListModel.get(stockList.getSelectedIndex());
+            name = (String)stockListModel.get(stockList.getSelectedIndex());
         }
         this.dispose();
     }//GEN-LAST:event_selectActionPerformed

@@ -1,7 +1,6 @@
 package autotradingsim.ui;
 
-import java.util.ArrayList;
-import javax.swing.ListModel;
+import javax.swing.DefaultListModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,13 +18,13 @@ public class StrategyPicker extends javax.swing.JDialog {
      * Creates new form StrategyPicker
      */
     String name;
-    ArrayList<String> strategyListModel = new ArrayList();
+    DefaultListModel strategyListModel = new DefaultListModel();
     public StrategyPicker(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
-        strategyList.setModel((ListModel) strategyListModel);
+        strategyList.setModel(strategyListModel);
         name = "";
     }
 
@@ -105,7 +104,7 @@ public class StrategyPicker extends javax.swing.JDialog {
     private void selectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectActionPerformed
         // TODO add your handling code here:
         if(strategyList.getSelectedIndex() > -1){
-            name = strategyListModel.get(strategyList.getSelectedIndex());
+            name = (String)strategyListModel.get(strategyList.getSelectedIndex());
         }
         this.dispose();
     }//GEN-LAST:event_selectActionPerformed

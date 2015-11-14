@@ -1,7 +1,6 @@
 package autotradingsim.ui;
 
-import java.util.ArrayList;
-import javax.swing.ListModel;
+import javax.swing.DefaultListModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,14 +22,14 @@ public class ExperimentViewer extends javax.swing.JFrame {
     }
     
     ExperimentList parent;
-    ArrayList<String> strategyListModel = new ArrayList();
-    ArrayList<String> stockListModel = new ArrayList();
+    DefaultListModel strategyListModel = new DefaultListModel();
+    DefaultListModel stockListModel = new DefaultListModel();
     public ExperimentViewer(ExperimentList parent) {
         this.parent = parent;
         initComponents();
         this.setLocation(parent.getX(), parent.getY());
-        strategyList.setModel((ListModel) strategyListModel);
-        stockList.setModel((ListModel) stockListModel);
+        strategyList.setModel(strategyListModel);
+        stockList.setModel(stockListModel);
     }
 
     /**
@@ -231,7 +230,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
         StrategyPicker sp = new StrategyPicker(this, true);
         String strategyName = sp.run();
         if(!strategyName.equals("") && !strategyListModel.contains(strategyName)){
-            strategyListModel.add(strategyName);
+            strategyListModel.addElement(strategyName);
         }
     }//GEN-LAST:event_addStrategyActionPerformed
 
@@ -253,7 +252,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
         StockPicker sp = new StockPicker(this, true);
         String stockName = sp.run();
         if(!stockName.equals("") && !stockListModel.contains(stockName)){
-            stockListModel.add(stockName);
+            stockListModel.addElement(stockName);
         }
     }//GEN-LAST:event_addStockActionPerformed
 
