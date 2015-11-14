@@ -155,7 +155,8 @@ public class ExperimentList extends javax.swing.JFrame {
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
         if(experimentList.getSelectedIndex() == -1){
-            
+            dialogMessage dm = new dialogMessage(this, true, "Select an item to delete!");
+            dm.setVisible(true);
         }else{
             dialogConfirm dc = new dialogConfirm(this.getX(), this.getY());
             boolean delete = dc.run();
