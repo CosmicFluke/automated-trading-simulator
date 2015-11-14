@@ -141,8 +141,8 @@ public class TradingApplication implements ITradingApplication {
 	}
 	
 	/**
-	 * Retrive a Stock from application. This is a lazy loading method, 
-	 * will only retrive a Stock when asked for.
+	 * Retrieve a Stock from application. This is a lazy loading method, 
+	 * will only retrieve a Stock when asked for.
 	 * @param symbol:
 	 * @return
 	 */
@@ -173,6 +173,9 @@ public class TradingApplication implements ITradingApplication {
 		return this.stocks.keySet().iterator();
 	}
 
+	/**
+	 * Clear the Applications internal cache
+	 */
 	@Override
 	public void ClearMemory() {
 		strategies.clear();
