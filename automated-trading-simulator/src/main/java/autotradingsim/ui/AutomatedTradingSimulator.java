@@ -28,21 +28,122 @@ public class AutomatedTradingSimulator extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        experiments = new javax.swing.JButton();
+        strategies = new javax.swing.JButton();
+        stocks = new javax.swing.JButton();
+        indicators = new javax.swing.JButton();
+        quit = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("ATS");
+        setResizable(false);
+
+        experiments.setFont(new java.awt.Font("Lucida Grande", 0, 20)); // NOI18N
+        experiments.setText("Experiments");
+        experiments.setPreferredSize(new java.awt.Dimension(125, 100));
+        experiments.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                experimentsActionPerformed(evt);
+            }
+        });
+
+        strategies.setFont(new java.awt.Font("Lucida Grande", 0, 20)); // NOI18N
+        strategies.setText("Strategies");
+        strategies.setPreferredSize(new java.awt.Dimension(125, 100));
+        strategies.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                strategiesActionPerformed(evt);
+            }
+        });
+
+        stocks.setFont(new java.awt.Font("Lucida Grande", 0, 20)); // NOI18N
+        stocks.setText("Stocks");
+        stocks.setPreferredSize(new java.awt.Dimension(125, 100));
+        stocks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stocksActionPerformed(evt);
+            }
+        });
+
+        indicators.setFont(new java.awt.Font("Lucida Grande", 0, 20)); // NOI18N
+        indicators.setText("Indicators");
+        indicators.setPreferredSize(new java.awt.Dimension(125, 100));
+        indicators.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                indicatorsActionPerformed(evt);
+            }
+        });
+
+        quit.setFont(new java.awt.Font("Lucida Grande", 0, 20)); // NOI18N
+        quit.setText("Quit");
+        quit.setPreferredSize(new java.awt.Dimension(125, 100));
+        quit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Welcome to the Automated Trading Simulator!");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                    .addComponent(quit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(indicators, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(stocks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(experiments, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(strategies, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(experiments, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(strategies, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stocks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(indicators, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(quit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void experimentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_experimentsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_experimentsActionPerformed
+
+    private void strategiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_strategiesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_strategiesActionPerformed
+
+    private void stocksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stocksActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stocksActionPerformed
+
+    private void indicatorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_indicatorsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_indicatorsActionPerformed
+
+    private void quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_quitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -80,5 +181,11 @@ public class AutomatedTradingSimulator extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton experiments;
+    private javax.swing.JButton indicators;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton quit;
+    private javax.swing.JButton stocks;
+    private javax.swing.JButton strategies;
     // End of variables declaration//GEN-END:variables
 }
