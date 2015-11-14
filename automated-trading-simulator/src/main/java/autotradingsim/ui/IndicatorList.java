@@ -23,7 +23,8 @@ public class IndicatorList extends javax.swing.JFrame {
     public IndicatorList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
-        this.setLocation(parent.getX(), parent.getY());
+        this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
+                         parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
     }
 
     /**

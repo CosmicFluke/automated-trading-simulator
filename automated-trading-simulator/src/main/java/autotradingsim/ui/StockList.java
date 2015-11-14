@@ -23,7 +23,8 @@ public class StockList extends javax.swing.JFrame {
     public StockList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
-        this.setLocation(parent.getX(), parent.getY());
+        this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
+                         parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
     }
 
     /**
@@ -106,6 +107,9 @@ public class StockList extends javax.swing.JFrame {
 
     private void viewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewActionPerformed
         // TODO add your handling code here:
+        StockViewer sv = new StockViewer(this);
+        this.setVisible(false);
+        sv.setVisible(true);
     }//GEN-LAST:event_viewActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed

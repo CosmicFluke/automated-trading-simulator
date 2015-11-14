@@ -24,7 +24,8 @@ public class ExperimentList extends javax.swing.JFrame {
     public ExperimentList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
-        this.setLocation(parent.getX(), parent.getY());
+        this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
+                         parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
     }
 
     /**
