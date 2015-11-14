@@ -3,6 +3,7 @@ package autotradingsim.strategy;
 import autotradingsim.stocks.IStock;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Calendar;
 
 /**
@@ -13,13 +14,13 @@ import java.util.Calendar;
  */
 public class Decision implements IDecision {
 
-    private Calendar date;
+    private LocalDate date;
     private IAction.ActionType type;
     private IStock IStock;
     private IActionQuantity quantity;
 
 
-    public Decision (Calendar date, IAction.ActionType type, IStock IStock, IActionQuantity quantity) {
+    public Decision (LocalDate date, IAction.ActionType type, IStock IStock, IActionQuantity quantity) {
         this.date = date;
         this.type = type;
         this.IStock = IStock;
@@ -27,7 +28,7 @@ public class Decision implements IDecision {
     }
 
     @Override
-    public Calendar getDate() {
+    public LocalDate getDate() {
         return this.date;
     }
 
