@@ -51,6 +51,11 @@ public class StockViewer extends javax.swing.JFrame {
         Back.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         Back.setText("Back");
         Back.setPreferredSize(new java.awt.Dimension(150, 50));
+        Back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackActionPerformed(evt);
+            }
+        });
 
         stockTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -93,6 +98,15 @@ public class StockViewer extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
+                           this.getY() + this.getHeight()/2 - parent.getHeight()/2);
+        parent.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_BackActionPerformed
 
     /**
      * @param args the command line arguments

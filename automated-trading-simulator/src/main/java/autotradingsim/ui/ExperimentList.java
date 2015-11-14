@@ -134,7 +134,8 @@ public class ExperimentList extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        parent.setLocation(this.getX(), this.getY());
+        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
+                           this.getY() + this.getHeight()/2 - parent.getHeight()/2);
         parent.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
@@ -161,7 +162,8 @@ public class ExperimentList extends javax.swing.JFrame {
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         this.setVisible(false);
-        parent.setLocation(this.getX(), this.getY());
+        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
+                           this.getY() + this.getHeight()/2 - parent.getHeight()/2);
         parent.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backActionPerformed
