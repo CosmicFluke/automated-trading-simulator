@@ -139,10 +139,23 @@ public class ExperimentList extends javax.swing.JFrame {
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
         // TODO add your handling code here:
+        dialogInput di = new dialogInput(this, true);
+        String name = di.run();
+        if(name.length() > 0){
+            
+        }
     }//GEN-LAST:event_createActionPerformed
 
     private void openActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openActionPerformed
         // TODO add your handling code here:
+        if(experimentList.getSelectedIndex() == -1){
+            dialogMessage dm = new dialogMessage(this, true, "Select an item to open!");
+            dm.setVisible(true);
+        }else{
+            experimentViewer ev = new experimentViewer(this);
+            this.setVisible(false);
+            ev.run();
+        }
     }//GEN-LAST:event_openActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
