@@ -26,7 +26,7 @@ public class TerminalUI {
 	private Engine engine;
 
 	public TerminalUI(){
-		engine = new Engine();
+		//engine = Engine.this;
 	}
 
 	public boolean checkArgNum(String[]args, int correctnum){
@@ -58,10 +58,10 @@ public class TerminalUI {
 					break;
 				case "viewstrat":
 					if(args.length == 1){
-						engine.viewStrategy("");
+						//engine.viewStrategy("");
 					}
 					if(args.length == 2){
-						engine.viewStrategy(args[1]);
+						//engine.viewStrategy(args[1]);
 					}
 					break;
 				case "modifystrat":
@@ -69,7 +69,7 @@ public class TerminalUI {
 						HandleModifyStrategy(args);
 					}
 					if(args.length == 1){
-						engine.createDefaultStrategy();
+						//engine.createDefaultStrategy();
 					}
 					
 					break;		
@@ -185,9 +185,9 @@ public class TerminalUI {
 				case "liststrat":
 					//liststrat [-a] display all or current strategies
 					if(args.length == 1){
-						engine.viewStrategy("");
+						//engine.viewStrategy("");
 					}if(args.length == 2 && args[1].equals("-a")){
-						engine.viewStrategy("");
+						//engine.viewStrategy("");
 					} else if (false/*something?*/) {
 					    // do something
 					}
@@ -198,7 +198,7 @@ public class TerminalUI {
 				case "addrandomtimeset":
 					//Adds a randomly generated set of time windows: size windows, each length days long.
 					if(checkArgNum(args, 3)){
-						engine.addtimeset(currentExperiment, args[1], args[2]);
+						//engine.addtimeset(currentExperiment, args[1], args[2]);
 					}
 					break;
 				default :
@@ -223,7 +223,7 @@ public class TerminalUI {
 				case "newrule":
 
 					//get user input for condition
-					engine.printconditions();
+					//engine.printconditions();
 					String choice = getUserInput()[0];
 					while(!Character.isDigit(choice.toCharArray()[0])
 							||((Integer.parseInt(choice) != 1) && (Integer.parseInt(choice) != 2))){
@@ -240,7 +240,7 @@ public class TerminalUI {
 					int val = Integer.parseInt(choice);
 					
 					//get user input for actions
-					engine.printactions();
+					//engine.printactions();
 					String achoice=getUserInput()[0];
 					while(!Character.isDigit(achoice.toCharArray()[0])
 							||(Integer.parseInt(achoice)!=1 && Integer.parseInt(achoice) != 2)){
@@ -255,7 +255,7 @@ public class TerminalUI {
 						achoice = getUserInput()[0];
 					}
 					int aval = Integer.parseInt(achoice);
-					engine.addNewSimpleStrategy(stratname, select, val, aselect, aval);
+					//engine.addNewSimpleStrategy(stratname, select, val, aselect, aval);
 					break;
 
 				case "h":
@@ -275,7 +275,7 @@ public class TerminalUI {
 					//CommandHandler.removeCond(args[1]);
 					break;
 				case "save":
-					engine.saveCurrentStrategy();
+					//engine.saveCurrentStrategy();
 					System.out.println("Strategy: " + stratname + " is saved");
 					System.out.println("now exiting back to main menu");
 					running = false;

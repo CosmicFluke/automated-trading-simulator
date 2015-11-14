@@ -56,7 +56,7 @@ public class Experiment implements IExperiment {
      */
     @Override
     public boolean addStock(String symbol){
-        if(TradingApplication.getInstance().existsStock(symbol)) { //check existing might not be needed if trading application can check first
+        if(TradingApplication.getInstance().stockExists(symbol)) { //check existing might not be needed if trading application can check first
             stocks.add(symbol);
             return true;
         }else{
