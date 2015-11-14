@@ -1,4 +1,4 @@
-package autotradingsim.application.test;
+package autotradingsim.application;
 
 import static org.junit.Assert.*;
 
