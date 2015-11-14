@@ -133,14 +133,23 @@ public class AutomatedTradingSimulator extends javax.swing.JFrame {
 
     private void strategiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_strategiesActionPerformed
         // TODO add your handling code here:
+        StrategyList s = new StrategyList(this);
+        this.setVisible(false);
+        s.setVisible(true);
     }//GEN-LAST:event_strategiesActionPerformed
 
     private void stocksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stocksActionPerformed
         // TODO add your handling code here:
+        StockList s = new StockList(this);
+        this.setVisible(false);
+        s.setVisible(true);
     }//GEN-LAST:event_stocksActionPerformed
 
     private void indicatorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_indicatorsActionPerformed
         // TODO add your handling code here:
+        IndicatorList i = new IndicatorList(this);
+        this.setVisible(false);
+        i.setVisible(true);
     }//GEN-LAST:event_indicatorsActionPerformed
 
     private void quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitActionPerformed

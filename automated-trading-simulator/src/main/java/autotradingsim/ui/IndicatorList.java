@@ -10,17 +10,17 @@ package autotradingsim.ui;
  *
  * @author billfeng
  */
-public class StockList extends javax.swing.JFrame {
+public class IndicatorList extends javax.swing.JFrame {
 
     /**
-     * Creates new form stockList
+     * Creates new form IndicatorList
      */
-    public StockList() {
+    public IndicatorList() {
         initComponents();
     }
     
     AutomatedTradingSimulator parent;
-    public StockList(AutomatedTradingSimulator parent) {
+    public IndicatorList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
         this.setLocation(parent.getX(), parent.getY());
@@ -38,10 +38,10 @@ public class StockList extends javax.swing.JFrame {
         view = new javax.swing.JButton();
         back = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        stocks = new javax.swing.JList();
+        indicators = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Stock List");
+        setTitle("Indicator List");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -67,13 +67,13 @@ public class StockList extends javax.swing.JFrame {
             }
         });
 
-        stocks.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        stocks.setModel(new javax.swing.AbstractListModel() {
+        indicators.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        indicators.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(stocks);
+        jScrollPane1.setViewportView(indicators);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,28 +139,28 @@ public class StockList extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StockList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IndicatorList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StockList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IndicatorList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StockList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IndicatorList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StockList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(IndicatorList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StockList().setVisible(true);
+                new IndicatorList().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
+    private javax.swing.JList indicators;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList stocks;
     private javax.swing.JButton view;
     // End of variables declaration//GEN-END:variables
 }
