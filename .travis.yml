@@ -1,3 +1,5 @@
 language: java
+before_script:
+  Start xvfb
 jdk:
   - oraclejdk8
