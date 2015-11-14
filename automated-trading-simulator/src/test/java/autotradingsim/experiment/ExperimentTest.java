@@ -41,7 +41,7 @@ public class ExperimentTest {
     public void testExperimentAddStrategy(){
         Experiment test5 = new Experiment("experiment5");
         SimpleStrategy s = new SimpleStrategy();
-        TradingApplication.getInstance().saveStrategy(s);
+        //TradingApplication.getInstance().saveStrategy(s);
         assertEquals(test5.addStrategy(s.getName()), true);
     }
 
@@ -59,7 +59,7 @@ public class ExperimentTest {
 
         SimpleStrategy s = new SimpleStrategy();
         String id = s.getName();
-        TradingApplication.getInstance().saveStrategy(s);
+        //TradingApplication.getInstance().saveStrategy(s);
 
         test7.addTrial(id, "AAPL");
         test7.addTrial(id,"MSFT");
