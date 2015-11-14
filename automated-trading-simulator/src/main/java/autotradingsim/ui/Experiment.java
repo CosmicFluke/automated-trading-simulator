@@ -1,4 +1,4 @@
-package autotradingsim.Interface;
+package autotradingsim.ui;
 
 import javax.swing.*;
 
