@@ -75,16 +75,5 @@ public class StockTest{
         this.stock.getEndDate();
         assertEquals(endDate, this.stock.getEndDate());
     }
-/*
-    public IBufferAdapter getNewBuffer(Calendar date, int size) {
-        return getNewDayBuffer(date, size);
-    }
-
-    public BufferAdapter getNewDayBuffer(Calendar date, int size) {
-        return new BufferAdapter(this, date, size);
-    }
-*/
-	
-	
 	
 }

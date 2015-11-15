@@ -18,11 +18,12 @@ import static org.junit.Assert.*;
  */
 public class BufferAdapterTest {
 
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private BigDecimal one;
-    private BigDecimal two;
-    private ArrayList<StockDay> dayList;
+    LocalDate startDate;
+    LocalDate endDate;
+    BigDecimal one;
+    BigDecimal two;
+    ArrayList<StockDay> dayList;
+    IStock stock;
 
     @Before
     public void setUp() throws Exception {
@@ -32,15 +33,10 @@ public class BufferAdapterTest {
         // stock = new StockLoader().fetchStock("AAPL");
 
         // Set up new Stock
-        LocalDate testDate = startDate;
         one = BigDecimal.ONE;
         two = one.add(one);
-        BigDecimal addend = two;
         dayList = new ArrayList<>();
         dayList.add(new StockDay("TEST", startDate, one, one, one, BigDecimal.TEN, 100));
-
-        
-
     }
 
     private IStock buildStock(ArrayList<StockDay> dayList) {
