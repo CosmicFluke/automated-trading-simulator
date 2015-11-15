@@ -10,18 +10,18 @@ package autotradingsim.ui;
  *
  * @author billfeng
  */
-public class ConditionPicker extends javax.swing.JDialog {
+public class ActionPicker extends javax.swing.JDialog {
 
     /**
-     * Creates new form ConditionPicker
+     * Creates new form ActionPicker
      */
-    String conditionName;
-    public ConditionPicker(java.awt.Frame parent, boolean modal) {
+    String actionName;
+    public ActionPicker(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
-        this.conditionName = "";
+        this.actionName = "";
     }
 
     /**
@@ -35,12 +35,12 @@ public class ConditionPicker extends javax.swing.JDialog {
 
         ok = new javax.swing.JButton();
         cancel = new javax.swing.JButton();
-        indicator1 = new javax.swing.JComboBox();
-        indicator2 = new javax.swing.JComboBox();
-        compare = new javax.swing.JComboBox();
+        action = new javax.swing.JComboBox();
+        amount = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Condition");
+        setTitle("Action");
         setResizable(false);
 
         ok.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
@@ -61,18 +61,14 @@ public class ConditionPicker extends javax.swing.JDialog {
             }
         });
 
-        indicator1.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
-        indicator1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        indicator1.setPreferredSize(new java.awt.Dimension(130, 50));
+        action.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Buy", "Sell" }));
+        action.setPreferredSize(new java.awt.Dimension(130, 50));
 
-        indicator2.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
-        indicator2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        indicator2.setMinimumSize(new java.awt.Dimension(130, 32));
-        indicator2.setPreferredSize(new java.awt.Dimension(130, 50));
+        amount.setText("100");
+        amount.setPreferredSize(new java.awt.Dimension(80, 25));
 
-        compare.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
-        compare.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<", "<=", "=", ">=", ">" }));
-        compare.setPreferredSize(new java.awt.Dimension(94, 50));
+        jLabel1.setText("shares");
+        jLabel1.setPreferredSize(new java.awt.Dimension(45, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -80,19 +76,19 @@ public class ConditionPicker extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(indicator1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(action, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(compare, 0, 76, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(indicator2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(amount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(94, 94, 94)
                         .addComponent(ok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -100,9 +96,9 @@ public class ConditionPicker extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(indicator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(indicator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(compare, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(action, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -125,7 +121,7 @@ public class ConditionPicker extends javax.swing.JDialog {
 
     public String run(){
         this.setVisible(true);
-        return conditionName;
+        return actionName;
     }
     /**
      * @param args the command line arguments
@@ -144,20 +140,20 @@ public class ConditionPicker extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConditionPicker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ActionPicker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConditionPicker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ActionPicker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConditionPicker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ActionPicker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConditionPicker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ActionPicker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ConditionPicker dialog = new ConditionPicker(new javax.swing.JFrame(), true);
+                ActionPicker dialog = new ActionPicker(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -170,10 +166,10 @@ public class ConditionPicker extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox action;
+    private javax.swing.JTextField amount;
     private javax.swing.JButton cancel;
-    private javax.swing.JComboBox compare;
-    private javax.swing.JComboBox indicator1;
-    private javax.swing.JComboBox indicator2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JButton ok;
     // End of variables declaration//GEN-END:variables
 }
