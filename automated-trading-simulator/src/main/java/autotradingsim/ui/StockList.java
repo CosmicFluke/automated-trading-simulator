@@ -39,7 +39,7 @@ public class StockList extends javax.swing.JFrame {
         view = new javax.swing.JButton();
         back = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        stocks = new javax.swing.JList();
+        stockList = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Stock List");
@@ -68,13 +68,13 @@ public class StockList extends javax.swing.JFrame {
             }
         });
 
-        stocks.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        stocks.setModel(new javax.swing.AbstractListModel() {
+        stockList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        stockList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(stocks);
+        jScrollPane1.setViewportView(stockList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -107,9 +107,14 @@ public class StockList extends javax.swing.JFrame {
 
     private void viewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewActionPerformed
         // TODO add your handling code here:
-        StockViewer sv = new StockViewer(this);
-        this.setVisible(false);
-        sv.setVisible(true);
+        if(stockList.getSelectedIndex() == -1){
+            dialogMessage dm = new dialogMessage(this, true, "Select an item to view!");
+            dm.setVisible(true);
+        }else{
+            StockViewer sv = new StockViewer(this);
+            this.setVisible(false);
+            sv.setVisible(true);
+        }
     }//GEN-LAST:event_viewActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
@@ -166,7 +171,7 @@ public class StockList extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList stocks;
+    private javax.swing.JList stockList;
     private javax.swing.JButton view;
     // End of variables declaration//GEN-END:variables
 }

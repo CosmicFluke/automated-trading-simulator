@@ -1,5 +1,7 @@
 package autotradingsim.ui;
 
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -20,11 +22,16 @@ public class StockViewer extends javax.swing.JFrame {
     }
     
     StockList parent;
-    public StockViewer(StockList Parent) {
+    DefaultTableModel stockTableModel = new DefaultTableModel();
+    public StockViewer(StockList parent) {
         this.parent = parent;
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
+        stockTable.setModel(stockTableModel);
+        Object[][] dataVector = {{"11/12", 1.1,2.1,3.1,4.1,5.1},{"11/13", 1.2,2.2,3.2,4.2,5.2}};
+        Object[] columnIdentifiers = {"Date", "Open", "High", "Low", "Close", "Volume"};
+        stockTableModel.setDataVector(dataVector, columnIdentifiers);
     }
 
     /**
@@ -41,16 +48,21 @@ public class StockViewer extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         stockTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Stock Viewer");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         stockName.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         stockName.setText("AAPL (Apple Inc.)");
 
         Back.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         Back.setText("Back");
-        Back.setPreferredSize(new java.awt.Dimension(150, 50));
+        Back.setPreferredSize(new java.awt.Dimension(200, 50));
         Back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BackActionPerformed(evt);
@@ -107,6 +119,13 @@ public class StockViewer extends javax.swing.JFrame {
         parent.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_BackActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
+                           this.getY() + this.getHeight()/2 - parent.getHeight()/2);
+        parent.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
