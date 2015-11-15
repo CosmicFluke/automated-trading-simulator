@@ -4,7 +4,6 @@ import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.StockDay;
 
 import java.time.LocalDate;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -41,16 +40,18 @@ public class BufferAdapter implements IBufferAdapter {
     }
 
     @Override
-    public void updateNext() {
-        currentDate = currentDate.plusDays(1);
+    public LocalDate updateNext() {
+        LocalDate nextDate = currentDate.plusDays(1);
         StockDay next = this.stock.getDay(currentDate);
         if (next == null) {
-            return;
+            return null;
         }
         if (buffer.size() >= this.size) {
             buffer.removeFirst();
         }
         buffer.addLast(next);
+        currentDate = nextDate;
+        return currentDate;
     }
 
     public boolean isEmpty() {
@@ -86,11 +87,10 @@ public class BufferAdapter implements IBufferAdapter {
         buffer.clear();
         this.currentDate = date;
         for (int i=0; i < this.size; i++) {
-            StockDay day = stock.getDay(date);
+            StockDay day = stock.getDay(date.minusDays(i));
             if (day != null) {
-                this.buffer.addLast(stock.getDay(date));
+                this.buffer.addLast(day);
             }
-            date = date.minusDays(1);
         }
     }
 }
