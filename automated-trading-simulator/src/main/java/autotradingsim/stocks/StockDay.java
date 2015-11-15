@@ -20,7 +20,7 @@ import java.util.Map;
  *      getClose()
  *      getVolume()
  */
-public class StockDay extends StockEntry {
+public class StockDay {
 
     public enum Values {
         OPEN, CLOSE, HIGH, LOW
@@ -34,8 +34,8 @@ public class StockDay extends StockEntry {
     private Map<Values, BigDecimal> values;
 
     public StockDay(String symbol, LocalDate date, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close, int volume) {
-        this.symbol = symbol;
-        this.date = date;
+        StockDay.this.symbol = symbol;
+        StockDay.this.date = date;
 
         // Experimental BigDecimal Map
         values = new HashMap<>();
@@ -44,7 +44,7 @@ public class StockDay extends StockEntry {
         values.put(Values.HIGH, high);
         values.put(Values.LOW, low);
 
-        this.volume = volume;
+        StockDay.this.volume = volume;
     }
 
     // BigDecimal getter
@@ -52,19 +52,20 @@ public class StockDay extends StockEntry {
         return values.get(which);
     }
 
-    public String getSymbol(){
-        return this.symbol;
-    }
-
-    public LocalDate getDate(){
-        return this.date;
-    }
-
-    public int getVolume(){
-        return this.volume;
-    }
-
     public BigDecimal getValue() {
         return values.get(Values.CLOSE);
     }
+
+    public String getSymbol(){
+        return StockDay.this.symbol;
+    }
+
+    public LocalDate getDate(){
+        return StockDay.this.date;
+    }
+
+    public int getVolume(){
+        return StockDay.this.volume;
+    }
+
 }

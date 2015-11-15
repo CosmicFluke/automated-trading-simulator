@@ -3,7 +3,6 @@ package autotradingsim.strategy.simpleimpl;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
-import autotradingsim.stocks.StockEntry;
 import autotradingsim.strategy.IBufferAdapter;
 import autotradingsim.strategy.IFunctionBuilder;
 import autotradingsim.strategy.IMeasurement;
@@ -11,7 +10,6 @@ import autotradingsim.strategy.exceptions.DataNotProvidedException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.function.Function;
 
 /**
@@ -31,8 +29,9 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
     /**
      * The function!
      */
-    private static Function<IBufferAdapter<? extends StockEntry>, BigDecimal> function =
-            (IBufferAdapter<? extends StockEntry> stockBuffer) -> (stockBuffer.getLastEntry() != null ? ((StockDay) stockBuffer.getLastEntry()).getValue(StockDay.Values.CLOSE) : null);
+    private static Function<IBufferAdapter, BigDecimal> function =
+            (IBufferAdapter stockBuffer) -> (
+                    (stockBuffer.getLastEntry() != null) ? ((StockDay) stockBuffer.getLastEntry()).getValue(StockDay.Values.CLOSE) : null);
 
 
     public SimpleStockValue () {
@@ -41,7 +40,7 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
 
     /**
      * Sets the stock to be used to calculate the value of this measurement.<br>
-     * See {@link IMeasurement#getValue(Calendar)}
+     * See {@link IMeasurement#getValue(LocalDate)}
      * @param stock
      */
     public void setStock(IStock stock) {
@@ -69,7 +68,7 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
     }
 
     @Override
-    public Function<IBufferAdapter<? extends StockEntry>, BigDecimal> getFunction() {
+    public Function<IBufferAdapter, BigDecimal> getFunction() {
         return function;
     }
 

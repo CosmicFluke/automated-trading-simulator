@@ -1,6 +1,6 @@
 package autotradingsim.strategy;
 
-import autotradingsim.stocks.StockEntry;
+import autotradingsim.stocks.StockDay;
 
 import java.time.LocalDate;
 import java.util.Iterator;
@@ -10,7 +10,7 @@ import java.util.Iterator;
  *
  * TODO: Potentially observable class
  */
-public interface IBufferAdapter<E extends StockEntry> {
+public interface IBufferAdapter {
 
     void updateTo(LocalDate date);
 
@@ -18,8 +18,8 @@ public interface IBufferAdapter<E extends StockEntry> {
 
     boolean isEmpty();
 
-    E getLastEntry();
+    StockDay getLastEntry();
 
-    Iterator<E> getIterator();
+    Iterator<StockDay> getIterator();
 
 }
