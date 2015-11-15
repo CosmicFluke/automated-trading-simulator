@@ -21,7 +21,7 @@ public abstract class MetaIndicator extends Indicator {
     }
     @Override
     public int getBufferSize() {
-        return numDays + indicator.getBufferSize();
+        return indicator.getBufferSize();
     }
 
     public Indicator getIndicator(){

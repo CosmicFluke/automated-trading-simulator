@@ -1,10 +1,14 @@
 package autotradingsim.strategy.indicators;
 
+import autotradingsim.stocks.StockDay;
+import autotradingsim.strategy.BufferAdapter;
 import autotradingsim.strategy.IBufferAdapter;
-import autotradingsim.strategy.IMeasurement;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * Created by Asher on 2015-11-15.
@@ -26,11 +30,18 @@ public class IndicatorChange extends MetaIndicator {
 
     @Override
     public BigDecimal getValue(IBufferAdapter adapter) {
-        return null;
+        LocalDate lastDate = adapter.getLastDay();
+        LocalDate firstDate = lastDate.minusDays(numDays);
+        adapter.updateTo(firstDate);
+        BigDecimal firstVal = indicator.getValue(adapter);
+        adapter.updateTo(lastDate);
+        BigDecimal secondVal = indicator.getValue(adapter);
+
+        return secondVal.subtract(firstVal);
     }
 
     @Override
     public Function<IBufferAdapter, BigDecimal> getFunction() {
-        return null;
+        return (e) -> (this.getValue(e));
     }
 }
