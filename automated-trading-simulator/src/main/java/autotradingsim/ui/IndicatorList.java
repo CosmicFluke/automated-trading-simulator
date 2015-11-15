@@ -1,5 +1,7 @@
 package autotradingsim.ui;
 
+import javax.swing.DefaultListModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -20,11 +22,13 @@ public class IndicatorList extends javax.swing.JFrame {
     }
     
     AutomatedTradingSimulator parent;
+    DefaultListModel indicatorListModel = new DefaultListModel();
     public IndicatorList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
+        indicatorList.setModel(indicatorListModel);
     }
 
     /**
@@ -39,7 +43,7 @@ public class IndicatorList extends javax.swing.JFrame {
         view = new javax.swing.JButton();
         back = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        indicators = new javax.swing.JList();
+        indicatorList = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Indicator List");
@@ -68,13 +72,13 @@ public class IndicatorList extends javax.swing.JFrame {
             }
         });
 
-        indicators.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        indicators.setModel(new javax.swing.AbstractListModel() {
+        indicatorList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        indicatorList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(indicators);
+        jScrollPane1.setViewportView(indicatorList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -107,6 +111,14 @@ public class IndicatorList extends javax.swing.JFrame {
 
     private void viewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewActionPerformed
         // TODO add your handling code here:
+        if(indicatorList.getSelectedIndex() == -1){
+            dialogMessage dm = new dialogMessage(this, true, "Select an item to view!");
+            dm.setVisible(true);
+        }else{
+            IndicatorViewer iv = new IndicatorViewer(this);
+            this.setVisible(false);
+            iv.setVisible(true);
+        }
     }//GEN-LAST:event_viewActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
@@ -127,7 +139,7 @@ public class IndicatorList extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton back;
-    private javax.swing.JList indicators;
+    private javax.swing.JList indicatorList;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton view;
     // End of variables declaration//GEN-END:variables
