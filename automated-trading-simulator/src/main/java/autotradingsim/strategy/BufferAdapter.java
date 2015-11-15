@@ -2,7 +2,6 @@ package autotradingsim.strategy;
 
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.StockDay;
-import autotradingsim.stocks.StockEntry;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -11,14 +10,14 @@ import java.util.*;
  * Created by Asher on 2015-10-26.
  * Creates a buffer of StockDay objects to provide as input to Indicators
  */
-public class StockDayBufferAdapter implements IBufferAdapter<StockDay> {
+public class BufferAdapter implements IBufferAdapter {
 
     private final IStock stock;
     private LinkedList<StockDay> buffer;
     private int size;
     private LocalDate currentDate;
 
-    public StockDayBufferAdapter(IStock stock, LocalDate date, int size) {
+    public BufferAdapter(IStock stock, LocalDate date, int size) {
         this.currentDate = null;
         this.stock = stock;
         this.size = size;

@@ -3,25 +3,20 @@ package autotradingsim.strategy;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
-import autotradingsim.stocks.StockLoader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
 /**
  * Created by Asher on 2015-11-02.
  */
-public class StockDayBufferAdapterTest {
+public class BufferAdapterTest {
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -63,7 +58,7 @@ public class StockDayBufferAdapterTest {
         // From stock with ONE day
         IStock stock = buildStock(new ArrayList<>(dayList));
 
-        IBufferAdapter<StockDay> buffer = new StockDayBufferAdapter(stock, endDate, 1);
+        IBufferAdapter buffer = new BufferAdapter(stock, endDate, 1);
         assertEquals(BigDecimal.TEN, buffer.getLastEntry().getValue());
     }
 
@@ -77,11 +72,11 @@ public class StockDayBufferAdapterTest {
         IStock stock = buildStock(newList);
 
         // Buffer for endDate
-        IBufferAdapter<StockDay> buffer = new StockDayBufferAdapter(stock, endDate, 1);
+        IBufferAdapter buffer = new BufferAdapter(stock, endDate, 1);
         assertEquals(BigDecimal.TEN, buffer.getLastEntry().getValue());
 
         // Buffer for startDate
-        buffer = new StockDayBufferAdapter(stock, startDate, 1);
+        buffer = new BufferAdapter(stock, startDate, 1);
         assertEquals(BigDecimal.TEN.multiply(two), buffer.getLastEntry().getValue());
 
     }

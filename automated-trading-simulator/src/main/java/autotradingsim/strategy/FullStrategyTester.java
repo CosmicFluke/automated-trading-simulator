@@ -5,6 +5,7 @@ import autotradingsim.strategy.exceptions.RuleDoesNotExistException;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by Asher on 2015-11-10.
@@ -68,14 +69,19 @@ public class FullStrategyTester extends StrategyTester {
      * Produces a list of all rules which do not have an assigned stock
      * @return
      */
-    public List<RuleID> getUnassignedRules(){
-        List<RuleID> unassigned = new LinkedList<>();
+    public Stream<RuleID> getUnassignedRules(){
+        Stream<Map.Entry<RuleID, IDecisionMaker>> unassigned = ruleIDtoDecisionMaker.entrySet().stream()
+            .filter(entry -> entry.getValue().hasStockAssigned());
+
+        /*
         for (Map.Entry<RuleID, IDecisionMaker> entry : ruleIDtoDecisionMaker.entrySet()){
+
             if (!entry.getValue().hasStockAssigned()) {
                 unassigned.add(entry.getKey());
             }
         }
-        return null;
+        */
+        return unassigned.map(entry -> entry.getKey());
     }
 
     @Override

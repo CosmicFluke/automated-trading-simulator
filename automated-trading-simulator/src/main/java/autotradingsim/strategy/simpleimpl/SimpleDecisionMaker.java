@@ -36,7 +36,7 @@ public class SimpleDecisionMaker implements IDecisionMaker {
     public Iterator<IDecision> getDecisions(LocalDate date) {
         List<IDecision> decisionList = new ArrayList<>();
         // TODO: deal with casting -- BAD BAD BAD
-        StockDayBufferAdapter buffer = (StockDayBufferAdapter) stock.getNewBuffer(date, 1);
+        BufferAdapter buffer = (BufferAdapter) stock.getNewBuffer(date, 1);
         IDecision decision = getDecision(buffer);
         if (decision != null) {
             decisionList.add(decision);
@@ -44,7 +44,7 @@ public class SimpleDecisionMaker implements IDecisionMaker {
         return decisionList.iterator();
     }
 
-    private IDecision getDecision(StockDayBufferAdapter buffer) {
+    private IDecision getDecision(BufferAdapter buffer) {
         ICondition condition = rule.getConditions().get(0);
         IAction action = rule.getActions().get(0);
 

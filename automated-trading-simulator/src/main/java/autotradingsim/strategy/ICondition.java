@@ -1,10 +1,8 @@
 package autotradingsim.strategy;
 
-import autotradingsim.stocks.StockEntry;
 import autotradingsim.util.Pair;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.function.Predicate;
 
 /**
@@ -45,7 +43,7 @@ public interface ICondition {
 
     int getBufferSize();
 
-    Predicate<IBufferAdapter<? extends StockEntry>> getFunction();
+    Predicate<IBufferAdapter> getFunction();
 
 
 }

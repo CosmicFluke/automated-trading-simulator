@@ -18,7 +18,7 @@ public abstract class Indicator implements IMeasurement {
 
     private String name;
     private String description;
-    private Function<LocalDate, BigDecimal> function;
+    protected Function<IBufferAdapter, BigDecimal> function;
 
     public Indicator(String name, String description){
         this.name = name;
@@ -37,11 +37,5 @@ public abstract class Indicator implements IMeasurement {
     public String getDescription(){
         return this.description;
     }
-
-    public BigDecimal getValue(LocalDate date){
-        return this.function.apply(date);
-    }
-
-    public void attachBuffer(IBufferAdapter buffer) { }
 
 }
