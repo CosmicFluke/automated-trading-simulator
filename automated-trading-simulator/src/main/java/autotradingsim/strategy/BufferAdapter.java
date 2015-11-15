@@ -4,7 +4,9 @@ import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.StockDay;
 
 import java.time.LocalDate;
+import java.time.temporal.TemporalUnit;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by Asher on 2015-10-26.
@@ -56,8 +58,28 @@ public class BufferAdapter implements IBufferAdapter {
     }
 
     @Override
+    public int getSize() {
+        return this.size;
+    }
+
+    @Override
     public Iterator<StockDay> getIterator() {
         return buffer.listIterator();
+    }
+
+    @Override
+    public Stream<StockDay> getStream() {
+        return buffer.stream();
+    }
+
+    @Override
+    public LocalDate getLastDay() {
+        return this.currentDate;
+    }
+
+    @Override
+    public LocalDate getFirstDay() {
+        return this.currentDate.minusDays(this.size);
     }
 
     private void initializeBuffer(LocalDate date) {
