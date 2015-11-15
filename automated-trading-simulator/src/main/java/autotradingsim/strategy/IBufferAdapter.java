@@ -28,43 +28,49 @@ public interface IBufferAdapter {
 
     /**
      * True iff the buffer contains no StockDay entries.
-     * @return
+     * @return True iff the buffer is empty
      */
     boolean isEmpty();
 
     /**
-     * Gets the size of the buffer.
-     * @return
+     * Gets the maximum size of the buffer.
+     * @return maximum size of the buffer
+     */
+    int getMaxSize();
+
+    /**
+     * Gets the current number of StockDays stored in the buffer.
+     * @return number of elements currently stored in the buffer
      */
     int getSize();
 
     /**
      * Provides the last (most recent) entry in the buffer.
-     * @return
+     * @return Most recent entry in the buffer
      */
     StockDay getLastEntry();
 
     /**
      * Creates an iterator that starts with most recent date and goes backwards in time.
-     * @return
+     * @return Iterator over the elements of this buffer
      */
     Iterator<StockDay> getIterator();
 
     /**
      * Creates a stream that starts with most recent date and goes backwards in time.
-     * @return
+     * @return Stream over the elements of this buffer
      */
     Stream<StockDay> getStream();
 
     /**
      * Provides the first (oldest) day stored in the buffer.
-     * @return
+     * @return oldest day stored in the buffer
      */
     LocalDate getFirstDay();
 
     /**
      * Provides the last (most recent) day stored in the buffer.
-     * @return
+     * @return most recent day stored in the buffer
      */
     LocalDate getLastDay();
 

@@ -59,8 +59,13 @@ public class BufferAdapter implements IBufferAdapter {
     }
 
     @Override
-    public int getSize() {
+    public int getMaxSize() {
         return this.size;
+    }
+
+    @Override
+    public int getSize() {
+        return this.buffer.size();
     }
 
     @Override
