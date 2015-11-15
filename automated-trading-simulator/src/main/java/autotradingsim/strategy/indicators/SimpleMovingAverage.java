@@ -41,7 +41,7 @@ public class SimpleMovingAverage extends Indicator{
      * The function!
      */
     private Function<IBufferAdapter, BigDecimal> function =
-            (IBufferAdapter stockBuffer) -> (this.getValue(stockBuffer.getStream()));
+            (IBufferAdapter stockBuffer) -> (this.getValue(stockBuffer.getStream(), stockBuffer.getSize()));
 
     /**
      * Construct a new SimpleMovingAverage that uses the given number of days to calculate a moving average.
@@ -67,7 +67,7 @@ public class SimpleMovingAverage extends Indicator{
     }
 
     public BigDecimal getValue(IBufferAdapter adapter) {
-        return this.getValue(adapter.getStream());
+        return this.getValue(adapter.getStream(), adapter.getSize());
     }
 
     public int getBufferSize() {
@@ -76,24 +76,25 @@ public class SimpleMovingAverage extends Indicator{
 
 
     public Function<IBufferAdapter, BigDecimal> getFunction() {
-        return (IBufferAdapter buffer) -> (this.getValue(buffer.getStream()));
+        return (IBufferAdapter buffer) -> (this.getValue(buffer.getStream(), buffer.getSize()));
     }
 
     /**
      * Computes the average of a stream of StockDays.
-     * @param stream A stream of StockDay objects.  Must satisfy condition that <br>
+     * @param days A stream of StockDay objects.  Must satisfy condition that <br>
      *      {@link Stream#count() stream.count()} ==  {@link #getBufferSize()}
+     * @param size The size of the stream being passed in.
      * @return
      */
-    private BigDecimal getValue (Stream<StockDay> stream) {
-        if (stream.count() > this.days) {
+    private BigDecimal getValue (Stream<StockDay> days, int size) {
+        if (size > this.days) {
             System.out.println("SimpleMovingAverage method getValue was passed buffer of incorrect size");
             throw new RuntimeException("Buffer exceeded expected size for SimpleMovingAverage");
         }
         BigDecimal sum =
-                (stream.map((StockDay day) -> (day.getValue(StockDay.Values.CLOSE)))
-                        .reduce(new BigDecimal(1), (BigDecimal identity, BigDecimal addend) -> (identity.add(addend))));
+                (days.map((StockDay day) -> (day.getValue(StockDay.Values.CLOSE)))
+                        .reduce(new BigDecimal(0), (BigDecimal identity, BigDecimal addend) -> (identity.add(addend))));
 
-        return sum.divide(new BigDecimal(stream.count()));
+        return sum.divide(new BigDecimal(size));
     }
 }
