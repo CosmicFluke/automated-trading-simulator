@@ -2,15 +2,9 @@ package autotradingsim.ui;
 
 import javax.swing.DefaultListModel;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author billfeng
+ * @author Bill Feng
  */
 public class StrategyPicker extends javax.swing.JDialog {
 
@@ -102,7 +96,6 @@ public class StrategyPicker extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void selectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectActionPerformed
-        // TODO add your handling code here:
         if(strategyList.getSelectedIndex() > -1){
             name = (String)strategyListModel.get(strategyList.getSelectedIndex());
         }
@@ -110,7 +103,6 @@ public class StrategyPicker extends javax.swing.JDialog {
     }//GEN-LAST:event_selectActionPerformed
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_cancelActionPerformed
 

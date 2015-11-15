@@ -2,25 +2,15 @@ package autotradingsim.ui;
 
 import javax.swing.DefaultListModel;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author billfeng
+ * @author Bill Feng
  */
 public class StrategyViewer extends javax.swing.JFrame {
 
     /**
      * Creates new form StrategyViewer
      */
-    public StrategyViewer() {
-        initComponents();
-    }
-    
     StrategyList parent;
     DefaultListModel conditionListModel = new DefaultListModel();
     DefaultListModel actionListModel = new DefaultListModel();
@@ -204,11 +194,12 @@ public class StrategyViewer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
+        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2,
+                           this.getY() + this.getHeight()/2 - parent.getHeight()/2);
+        parent.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-        // TODO add your handling code here:
         dialogInput di = new dialogInput(this, true);
         String text = di.run();
         if(text.length() > 0){
@@ -217,16 +208,14 @@ public class StrategyViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_editActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
         parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2,
-            this.getY() + this.getHeight()/2 - parent.getHeight()/2);
+                           this.getY() + this.getHeight()/2 - parent.getHeight()/2);
+        this.setVisible(false);
         parent.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backActionPerformed
 
     private void addConditionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addConditionActionPerformed
-        // TODO add your handling code here:
         ConditionPicker cp = new ConditionPicker(this, true);
         String conditionName = cp.run();
         if(!conditionName.equals("") && !conditionListModel.contains(conditionName)){
@@ -235,7 +224,6 @@ public class StrategyViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_addConditionActionPerformed
 
     private void addActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionActionPerformed
-        // TODO add your handling code here:
         ActionPicker ap = new ActionPicker(this, true);
         String actionName = ap.run();
         if(!actionName.equals("") && !actionListModel.contains(actionName)){
@@ -244,7 +232,6 @@ public class StrategyViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_addActionActionPerformed
 
     private void deleteConditionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteConditionActionPerformed
-        // TODO add your handling code here:
         if(conditionList.getSelectedIndex() == -1){
             dialogMessage dm = new dialogMessage(this, true, "Select an item to delete!");
             dm.setVisible(true);
@@ -257,7 +244,6 @@ public class StrategyViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteConditionActionPerformed
 
     private void deleteActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionActionPerformed
-        // TODO add your handling code here:
         if(actionList.getSelectedIndex() == -1){
             dialogMessage dm = new dialogMessage(this, true, "Select an item to delete!");
             dm.setVisible(true);

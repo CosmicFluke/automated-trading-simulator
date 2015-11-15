@@ -2,15 +2,9 @@ package autotradingsim.ui;
 
 import javax.swing.table.DefaultTableModel;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author billfeng
+ * @author Bill Feng
  */
 public class StockViewer extends javax.swing.JFrame {
 
@@ -112,7 +106,6 @@ public class StockViewer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
-        // TODO add your handling code here:
         this.setVisible(false);
         parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
                            this.getY() + this.getHeight()/2 - parent.getHeight()/2);
@@ -121,7 +114,6 @@ public class StockViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_BackActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
         parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
                            this.getY() + this.getHeight()/2 - parent.getHeight()/2);
         parent.setVisible(true);

@@ -1,27 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package autotradingsim.ui;
 
 import javax.swing.DefaultListModel;
 
 /**
  *
- * @author billfeng
+ * @author Bill Feng
  */
 public class ExperimentList extends javax.swing.JFrame {
 
     /**
      * Creates new form Experiment
      */
-    
-    public ExperimentList() {
-        initComponents();
-    }
-    
     AutomatedTradingSimulator parent;
     DefaultListModel experimentListModel = new DefaultListModel();
     public ExperimentList(AutomatedTradingSimulator parent) {
@@ -137,14 +126,12 @@ public class ExperimentList extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
         parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
                            this.getY() + this.getHeight()/2 - parent.getHeight()/2);
         parent.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
-        // TODO add your handling code here:
         dialogInput di = new dialogInput(this, true);
         String name = di.run();
         if(name.length() > 0){
@@ -153,7 +140,6 @@ public class ExperimentList extends javax.swing.JFrame {
     }//GEN-LAST:event_createActionPerformed
 
     private void openActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openActionPerformed
-        // TODO add your handling code here:
         if(experimentList.getSelectedIndex() == -1){
             dialogMessage dm = new dialogMessage(this, true, "Select an item to open!");
             dm.setVisible(true);
@@ -173,7 +159,6 @@ public class ExperimentList extends javax.swing.JFrame {
     }//GEN-LAST:event_backActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-        // TODO add your handling code here:
         if(experimentList.getSelectedIndex() == -1){
             dialogMessage dm = new dialogMessage(this, true, "Select an item to delete!");
             dm.setVisible(true);

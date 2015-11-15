@@ -1,26 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package autotradingsim.ui;
 
 import javax.swing.DefaultListModel;
 
 /**
  *
- * @author billfeng
+ * @author Bill Feng
  */
 public class StrategyList extends javax.swing.JFrame {
 
     /**
      * Creates new form Strategy
      */
-    public StrategyList() {
-        initComponents();
-    }
-    
     AutomatedTradingSimulator parent;
     DefaultListModel strategyListModel = new DefaultListModel();
     public StrategyList(AutomatedTradingSimulator parent) {
@@ -123,7 +113,6 @@ public class StrategyList extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
-        // TODO add your handling code here:
         dialogInput di = new dialogInput(this, true);
         String name = di.run();
         if(!name.equals("") && !strategyListModel.contains(name)){
@@ -132,7 +121,6 @@ public class StrategyList extends javax.swing.JFrame {
     }//GEN-LAST:event_createActionPerformed
 
     private void openActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openActionPerformed
-        // TODO add your handling code here:
         if(strategyList.getSelectedIndex() == -1){
             dialogMessage dm = new dialogMessage(this, true, "Select an item to open!");
             dm.setVisible(true);
@@ -152,7 +140,6 @@ public class StrategyList extends javax.swing.JFrame {
     }//GEN-LAST:event_backActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
         parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
                            this.getY() + this.getHeight()/2 - parent.getHeight()/2);
         parent.setVisible(true);

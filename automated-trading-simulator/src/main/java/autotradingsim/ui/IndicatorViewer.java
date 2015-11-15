@@ -1,24 +1,14 @@
 package autotradingsim.ui;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author billfeng
+ * @author Bill Feng
  */
 public class IndicatorViewer extends javax.swing.JFrame {
 
     /**
      * Creates new form IndicatorViewer
      */
-    public IndicatorViewer() {
-        initComponents();
-    }
-    
     IndicatorList parent;
     public IndicatorViewer(IndicatorList parent) {
         this.parent = parent;
@@ -119,14 +109,12 @@ public class IndicatorViewer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
         parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
                            this.getY() + this.getHeight()/2 - parent.getHeight()/2);
         parent.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-        // TODO add your handling code here:
         parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
                            this.getY() + this.getHeight()/2 - parent.getHeight()/2);
         this.setVisible(false);

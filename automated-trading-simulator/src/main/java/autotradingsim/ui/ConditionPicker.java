@@ -1,14 +1,8 @@
 package autotradingsim.ui;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author billfeng
+ * @author Bill Feng
  */
 public class ConditionPicker extends javax.swing.JDialog {
 
@@ -115,12 +109,10 @@ public class ConditionPicker extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_okActionPerformed
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_cancelActionPerformed
 
