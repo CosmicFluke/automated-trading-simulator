@@ -106,6 +106,7 @@ public class TradingApplication implements ITradingApplication {
 			if(!experimentFileObj.exists())
 				experimentFileObj.createNewFile();
 		} catch (IOException e) {
+			System.err.println("Error in creating file for saving the experiment");
 			e.printStackTrace();
 		}
 		try{
