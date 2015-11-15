@@ -47,6 +47,11 @@ public class TradingApplication implements ITradingApplication {
 		PathToExperiments = "//DATA//EXPERIMENTS//";
 		
 		instance = this;
+		
+		String absoluteExperimentDir = System.getProperty("user.dir") + PathToExperiments;
+		File experimentDir = new File(absoluteExperimentDir);
+		if(!experimentDir.exists())
+			experimentDir.mkdir();
 	}
 	
 	public static TradingApplication getInstance(){
