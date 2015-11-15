@@ -24,8 +24,7 @@ public class IndicatorAbsoluteChange extends MetaIndicator {
         super(indicator, numDays, default_name, default_description);
     }
 
-    @Override
-    public BigDecimal getValue(IBufferAdapter adapter) {
+    public BigDecimal[] getFirstAndSecond(IBufferAdapter adapter) {
         LocalDate lastDate = adapter.getLastDay();
         LocalDate firstDate = lastDate.minusDays(numDays);
         adapter.updateTo(firstDate);
@@ -33,7 +32,13 @@ public class IndicatorAbsoluteChange extends MetaIndicator {
         adapter.updateTo(lastDate);
         BigDecimal secondVal = indicator.getValue(adapter);
 
-        return secondVal.subtract(firstVal);
+        return new BigDecimal[]{firstVal, secondVal};
+    }
+
+    @Override
+    public BigDecimal getValue(IBufferAdapter adapter) {
+        BigDecimal[] firstAndSecond = getFirstAndSecond(adapter);
+        return firstAndSecond[2].subtract(firstAndSecond[1]);
     }
 
     @Override
