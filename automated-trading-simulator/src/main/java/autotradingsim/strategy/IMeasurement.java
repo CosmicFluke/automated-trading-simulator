@@ -35,6 +35,6 @@ public interface IMeasurement extends IFunctionBuilder{
      * @return a function that will calculate this IMeasurement's value for a given Buffer
      */
     @Override
-    Function<? extends IBufferAdapter, BigDecimal> getFunction();
+    Function<IBufferAdapter, BigDecimal> getFunction();
 
 }
