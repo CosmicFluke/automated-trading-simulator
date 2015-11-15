@@ -1,11 +1,9 @@
 
 package autotradingsim.stocks;
 
-import java.util.List;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +12,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
-
-import autotradingsim.stocks.StockLoader;
 
 public class StockTest{
 	private IStock stock;
@@ -84,8 +80,8 @@ public class StockTest{
         return getNewDayBuffer(date, size);
     }
 
-    public StockDayBufferAdapter getNewDayBuffer(Calendar date, int size) {
-        return new StockDayBufferAdapter(this, date, size);
+    public BufferAdapter getNewDayBuffer(Calendar date, int size) {
+        return new BufferAdapter(this, date, size);
     }
 */
 	

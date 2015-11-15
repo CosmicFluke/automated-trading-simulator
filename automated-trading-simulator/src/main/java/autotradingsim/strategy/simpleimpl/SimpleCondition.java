@@ -1,6 +1,5 @@
 package autotradingsim.strategy.simpleimpl;
 
-import autotradingsim.stocks.StockEntry;
 import autotradingsim.strategy.IBufferAdapter;
 import autotradingsim.strategy.ICondition;
 import autotradingsim.strategy.IMeasurement;
@@ -21,7 +20,7 @@ import java.util.function.Predicate;
 public class SimpleCondition implements ICondition {
 
     private SimpleStockValue measurement;
-    private Predicate<IBufferAdapter<? extends StockEntry>> compare;
+    private Predicate<IBufferAdapter> compare;
     private Predicate<Pair<BigDecimal,BigDecimal>> comparison;
 
     public SimpleCondition (Comparator comp, BigDecimal value) {
@@ -30,7 +29,7 @@ public class SimpleCondition implements ICondition {
 
         // Want to use comparison function to check measurement against value
         this.comparison = makeComparator(comp);
-        this.compare = (IBufferAdapter<? extends StockEntry> buf) ->
+        this.compare = (IBufferAdapter buf) ->
             (comparison.test(new Pair<>(measurement.getFunction().apply(buf), value)));
 
     }
@@ -41,7 +40,7 @@ public class SimpleCondition implements ICondition {
     }
 
     @Override
-    public Predicate<IBufferAdapter<? extends StockEntry>> getFunction() {
+    public Predicate<IBufferAdapter> getFunction() {
         return this.compare;
     }
 
