@@ -3,7 +3,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.NotSerializableException;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -71,6 +74,8 @@ public class TradingApplication implements ITradingApplication {
 		}
 		experimentNames.add(experimentName);
 		experiments.put(experimentName.hashCode(), experiment);
+		
+		this.saveExperiment(experiment);
 		return true;
 	}
 
@@ -82,37 +87,42 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public IExperiment getExperiment(String experimentName){
-		return experiments.get(experimentName.hashCode());
+		if(experiments.containsKey(experimentName.hashCode())){
+			return experiments.get(experimentName.hashCode());
+		}else{
+			return null;
+		}
 	}
 	
 	/**
 	 * 
 	 */
 	private void saveExperiment(IExperiment experiment){
-		String path = PathToExperiments + "Experiment" + experiment.getName() + ".bin";
+		String path = System.getProperty("user.dir") + PathToExperiments + "Experiment" + experiment.getName() + ".bin";
 		File experimentFileObj = new File(path);
-		if(!experimentFileObj.exists()){
-			try {
-				experimentFileObj.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		ObjectOutputStream serializer = null;
 		FileOutputStream experimentFile = null;
 		try {
+			if(!experimentFileObj.exists())
+				experimentFileObj.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try{
 			experimentFile = new FileOutputStream(experimentFileObj);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		ObjectOutputStream serializer = null;
-		try {
 			serializer = new ObjectOutputStream(experimentFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
 			serializer.writeObject(experiment);
-		} catch (IOException e) {
+			serializer.close();
+
+		}catch (IOException e) {
+			try {
+				if(serializer != null)
+					serializer.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			experimentFileObj.delete();
+			System.err.println("IO Exception occured in saving experiment");
 			e.printStackTrace();
 		}
 	}

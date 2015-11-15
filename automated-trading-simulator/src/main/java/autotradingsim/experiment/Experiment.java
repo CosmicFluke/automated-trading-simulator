@@ -7,6 +7,7 @@ import autotradingsim.strategy.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
@@ -23,9 +24,10 @@ import java.util.*;
  * Modifications on 2015-10-30
  * -changes to experiment constructor to include name
  */
-public class Experiment implements IExperiment {
+public class Experiment implements IExperiment, Serializable {
 
-    private String name;
+	private static final long serialVersionUID = -7533956851982543038L;
+	private String name;
     private ArrayList<String> stocks;
     private ArrayList<String> strategies;
     private ArrayList<int[]> trials;
