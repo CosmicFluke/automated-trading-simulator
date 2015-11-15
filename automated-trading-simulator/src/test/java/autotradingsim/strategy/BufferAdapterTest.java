@@ -29,14 +29,14 @@ public class BufferAdapterTest {
     public void setUp() throws Exception {
 
         startDate = LocalDate.of(2014, 1, 1);
-        endDate = LocalDate.of(2014, 1, 1);
+        endDate = LocalDate.of(2015, 11, 1);
         // stock = new StockLoader().fetchStock("AAPL");
 
         // Set up new Stock
         one = BigDecimal.ONE;
         two = one.add(one);
         dayList = new ArrayList<>();
-        dayList.add(new StockDay("TEST", startDate, one, one, one, BigDecimal.TEN, 100));
+        dayList.add(new StockDay("TEST", endDate, one, one, one, BigDecimal.TEN, 100));
     }
 
     private IStock buildStock(ArrayList<StockDay> dayList) {
@@ -63,9 +63,9 @@ public class BufferAdapterTest {
 
         // From stock with TWO days
         ArrayList<StockDay> newList = new ArrayList<>(dayList);
-        startDate = startDate.minusDays(1);
+        startDate = endDate.minusDays(1);
         newList.add(new StockDay("TEST", startDate, two, two, two, BigDecimal.TEN.multiply(two), 1000));
-        IStock stock = buildStock(newList);
+        stock = buildStock(newList);
 
         // Buffer for endDate
         IBufferAdapter buffer = new BufferAdapter(stock, endDate, 1);
@@ -74,7 +74,6 @@ public class BufferAdapterTest {
         // Buffer for startDate
         buffer = new BufferAdapter(stock, startDate, 1);
         assertEquals(BigDecimal.TEN.multiply(two), buffer.getLastEntry().getValue());
-
     }
 
     @Test
@@ -83,7 +82,81 @@ public class BufferAdapterTest {
     }
 
     @Test
-    public void testUpdateNext() throws Exception {
+    public void testUpdateNextWithBufferSizeOne() throws Exception {
+        // From stock with TWO days
+        ArrayList<StockDay> newList = new ArrayList<>(dayList);
+        startDate = endDate.minusDays(1);
+        newList.add(new StockDay("TEST", startDate, two, two, two, BigDecimal.TEN.multiply(two), 1000));
+        stock = buildStock(newList);
+
+        // Buffer of size ONE for startDate
+        IBufferAdapter buffer = new BufferAdapter(stock, startDate, 1);
+        // Check initial buffer state before updateNext()
+        assertEquals("First getLastEntry call", BigDecimal.TEN.multiply(two), buffer.getLastEntry().getValue());
+
+        // Update the buffer
+        LocalDate last = buffer.updateNext();
+        assertEquals("Checking date after update", endDate, last);
+        assertEquals("getLastEntry call after updateNext()", BigDecimal.TEN, buffer.getLastEntry().getValue());
+
+        // Update again, with no more entries available
+        last = buffer.updateNext();
+        assertEquals("Checking date after second update", null, last);
+        assertEquals("getLastEntry call after updateNext()", BigDecimal.TEN, buffer.getLastEntry().getValue());
+    }
+
+    @Test
+    public void testUpdateNextWithBufferSizeTwo() throws Exception {
+
+        BigDecimal day1Expected = new BigDecimal(100);
+        BigDecimal day2Expected = new BigDecimal(20);
+        BigDecimal day3Expected = dayList.get(0).getValue();
+
+        // From stock with THREE days
+        ArrayList<StockDay> newList = new ArrayList<>(dayList);
+        newList.add(new StockDay(
+                "TEST",
+                endDate.minusDays(1),           // Date
+                two, two, two,
+                day2Expected,   // Closing value
+                1000));
+        newList.add(new StockDay(
+                "TEST",
+                endDate.minusDays(2),           // Date
+                two, two, two,
+                day1Expected,    // Closing value
+                1000));
+        startDate = endDate.minusDays(2);
+        stock = buildStock(newList);
+
+        // Buffer of size TWO for startDate
+        // Edge case, since only one past entry exists in the stock for this date
+        IBufferAdapter buffer = new BufferAdapter(stock, startDate, 1);
+        // Check initial buffer state before updateNext()
+        assertEquals("Size of buffer initially", 1, buffer.getSize());
+        assertEquals("First getLastEntry call", day1Expected, buffer.getLastEntry().getValue());
+        assertEquals("First getFirstDay call", startDate, buffer.getFirstDay());
+
+        // First update
+        LocalDate last = buffer.updateNext();
+        assertEquals("Checking date after first update", startDate.plusDays(1), last);
+        assertEquals("Size of buffer after first update", 2, buffer.getSize());
+        assertEquals("getLastEntry call after first update", day2Expected, buffer.getLastEntry().getValue());
+        assertEquals("getFirstDay call after first update", startDate, buffer.getFirstDay());
+
+        // Second update
+        last = buffer.updateNext();
+        assertEquals("Checking date after second update", endDate, last);
+        assertEquals("Checking size of buffer after second update", 2, buffer.getSize());
+        assertEquals("getLastEntry call after second update", day3Expected, buffer.getLastEntry().getValue());
+        assertEquals("getFirstDay call after second update", startDate.plusDays(1), buffer.getFirstDay());
+
+        // Third update, no more entries available
+        last = buffer.updateNext();
+        assertEquals("Checking date after second update", null, last);
+        assertEquals("Checking size of buffer after second update", 2, buffer.getSize());
+        assertEquals("getLastEntry call after updateNext()",day3Expected, buffer.getLastEntry().getValue());
+        assertEquals("getFirstDay call after second update", startDate.plusDays(1), buffer.getFirstDay());
     }
 
     @Test
