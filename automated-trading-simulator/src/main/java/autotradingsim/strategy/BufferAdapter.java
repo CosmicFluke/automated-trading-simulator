@@ -19,6 +19,9 @@ public class BufferAdapter implements IBufferAdapter {
     private LocalDate currentDate;
 
     public BufferAdapter(IStock stock, LocalDate date, int size) {
+        if (size < 1) {
+            throw new IllegalArgumentException("Size cannot be less than 1");
+        }
         this.currentDate = null;
         this.stock = stock;
         this.size = size;
@@ -42,11 +45,11 @@ public class BufferAdapter implements IBufferAdapter {
     @Override
     public LocalDate updateNext() {
         LocalDate nextDate = currentDate.plusDays(1);
-        StockDay next = this.stock.getDay(currentDate);
+        StockDay next = this.stock.getDay(nextDate);
         if (next == null) {
             return null;
         }
-        if (buffer.size() >= this.size) {
+        if (buffer.size() > this.size) {
             buffer.removeFirst();
         }
         buffer.addLast(next);
@@ -85,7 +88,7 @@ public class BufferAdapter implements IBufferAdapter {
 
     @Override
     public LocalDate getFirstDay() {
-        return this.currentDate.minusDays(this.size);
+        return this.currentDate.minusDays(this.getSize() - 1);
     }
 
     private void initializeBuffer(LocalDate date) {
