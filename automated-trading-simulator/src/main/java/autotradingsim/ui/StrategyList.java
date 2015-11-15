@@ -6,6 +6,8 @@
 
 package autotradingsim.ui;
 
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author billfeng
@@ -20,11 +22,13 @@ public class StrategyList extends javax.swing.JFrame {
     }
     
     AutomatedTradingSimulator parent;
+    DefaultListModel strategyListModel = new DefaultListModel();
     public StrategyList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
+        strategyList.setModel(strategyListModel);
     }
 
     /**
@@ -120,10 +124,23 @@ public class StrategyList extends javax.swing.JFrame {
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
         // TODO add your handling code here:
+        dialogInput di = new dialogInput(this, true);
+        String name = di.run();
+        if(!name.equals("") && !strategyListModel.contains(name)){
+            strategyListModel.addElement(name);
+        }
     }//GEN-LAST:event_createActionPerformed
 
     private void openActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openActionPerformed
         // TODO add your handling code here:
+        if(strategyList.getSelectedIndex() == -1){
+            dialogMessage dm = new dialogMessage(this, true, "Select an item to open!");
+            dm.setVisible(true);
+        }else{
+            StrategyViewer sv = new StrategyViewer(this);
+            this.setVisible(false);
+            sv.setVisible(true);
+        }
     }//GEN-LAST:event_openActionPerformed
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
