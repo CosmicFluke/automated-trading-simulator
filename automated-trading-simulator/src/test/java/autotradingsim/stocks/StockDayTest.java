@@ -3,19 +3,15 @@ package autotradingsim.stocks;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Calendar;
-
-import autotradingsim.stocks.StockDay;
 
 public class StockDayTest{
 	private StockDay dayStock;
 	private StockDay dayStock2;
-	private final String symbol = "APPL";
+	private final String symbol = "AAPL";
 	private final LocalDate date = LocalDate.now();
 	private final BigDecimal open = new BigDecimal(50.01);
 	private final BigDecimal high = new BigDecimal(50.51);
@@ -58,16 +54,5 @@ public class StockDayTest{
     public void verifyVolume() {
     	assertEquals(this.dayStock.getVolume(),this.volume);
     }
-    
-    /** 
-     * StockDay.getSingleValue() method returns BigDecimal, only test if we decide to move to this method.
-     * 
-    
-    @Test
-    public void verifySingleValues() {
-    	assertEquals(this.dayStock.getSingleValue(OPEN),this.open);
-    }
-    
-    **/
 
 }

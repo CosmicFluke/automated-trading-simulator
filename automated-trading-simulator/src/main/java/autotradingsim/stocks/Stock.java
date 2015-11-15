@@ -50,20 +50,23 @@ public class Stock implements IStock {
 
     @Override
     public LocalDate getStartDate() {
-        return data.get(0).getDate();
-    }
-
-    @Override
-    public LocalDate getEndDate() {
+        if (data.isEmpty()) {
+            return null;
+        }
         return data.get(data.size() - 1).getDate();
     }
 
     @Override
-    public IBufferAdapter getNewBuffer(LocalDate date, int size) {
-        return getNewDayBuffer(date, size);
+    public LocalDate getEndDate() {
+        if (data.isEmpty()) {
+            return null;
+        }
+        return data.get(0).getDate();
     }
 
-    public BufferAdapter getNewDayBuffer(LocalDate date, int size) {
+    @Override
+    public IBufferAdapter getNewBuffer(LocalDate date, int size) {
         return new BufferAdapter(this, date, size);
     }
+
 }

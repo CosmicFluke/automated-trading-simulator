@@ -1,0 +1,3 @@
+The `simpleimpl` package comprises a basic implementation of the strategy package, primarily for testing and
+demonstration purposes.  It is not intended for use in release versions.
+

@@ -1,12 +1,12 @@
 package autotradingsim.strategy.indicators;
 
 import autotradingsim.stocks.Stock;
+import autotradingsim.stocks.StockDay;
 import autotradingsim.strategy.IBufferAdapter;
-import autotradingsim.strategy.Indicator;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * Created by Bill Feng on 15-10-29.
@@ -38,6 +38,12 @@ public class SimpleMovingAverage extends Indicator{
     private Stock stock;
 
     /**
+     * The function!
+     */
+    private Function<IBufferAdapter, BigDecimal> function =
+            (IBufferAdapter stockBuffer) -> (this.getValue(stockBuffer.getStream(), stockBuffer.getSize()));
+
+    /**
      * Construct a new SimpleMovingAverage that uses the given number of days to calculate a moving average.
      * @param days
      * @param name
@@ -60,12 +66,8 @@ public class SimpleMovingAverage extends Indicator{
         return this.days;
     }
 
-    public void setStock(Stock stock) {
-        this.stock = stock;
-    }
-
-    public BigDecimal getValue(LocalDate date) {
-        return this.getFunction().apply(this.stock.getNewBuffer(date, this.days));
+    public BigDecimal getValue(IBufferAdapter adapter) {
+        return this.getValue(adapter.getStream(), adapter.getSize());
     }
 
     public int getBufferSize() {
@@ -74,6 +76,25 @@ public class SimpleMovingAverage extends Indicator{
 
 
     public Function<IBufferAdapter, BigDecimal> getFunction() {
-        return this.function;
+        return (IBufferAdapter buffer) -> (this.getValue(buffer.getStream(), buffer.getSize()));
+    }
+
+    /**
+     * Computes the average of a stream of StockDays.
+     * @param days A stream of StockDay objects.  Must satisfy condition that <br>
+     *      {@link Stream#count() stream.count()} ==  {@link #getBufferSize()}
+     * @param size The size of the stream being passed in.
+     * @return
+     */
+    private BigDecimal getValue (Stream<StockDay> days, int size) {
+        if (size > this.days) {
+            System.out.println("SimpleMovingAverage method getValue was passed buffer of incorrect size");
+            throw new RuntimeException("Buffer exceeded expected size for SimpleMovingAverage");
+        }
+        BigDecimal sum =
+                (days.map((StockDay day) -> (day.getValue(StockDay.Values.CLOSE)))
+                        .reduce(new BigDecimal(0), (BigDecimal identity, BigDecimal addend) -> (identity.add(addend))));
+
+        return sum.divide(new BigDecimal(size));
     }
 }

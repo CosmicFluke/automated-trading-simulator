@@ -31,7 +31,7 @@ public class SimpleStockValueTest {
         IMeasurement testObj = new SimpleStockValue();
         ((SimpleStockValue) testObj).setStock(stock);
         LocalDate date = LocalDate.of(2014, 1, 1);
-        BigDecimal value = testObj.getValue(date);
+        BigDecimal value = testObj.getValue(stock.getNewBuffer(date, testObj.getBufferSize()));
         assertEquals(one, value);
     }
 }
