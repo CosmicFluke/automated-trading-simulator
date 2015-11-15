@@ -1,7 +1,7 @@
 package autotradingsim.stocks;
 
+import autotradingsim.strategy.BufferAdapter;
 import autotradingsim.strategy.IBufferAdapter;
-import autotradingsim.strategy.StockDayBufferAdapter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class Stock implements IStock {
         return getNewDayBuffer(date, size);
     }
 
-    public StockDayBufferAdapter getNewDayBuffer(LocalDate date, int size) {
-        return new StockDayBufferAdapter(this, date, size);
+    public BufferAdapter getNewDayBuffer(LocalDate date, int size) {
+        return new BufferAdapter(this, date, size);
     }
 }
