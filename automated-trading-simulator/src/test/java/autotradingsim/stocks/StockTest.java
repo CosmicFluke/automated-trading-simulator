@@ -18,19 +18,27 @@ public class StockTest{
 	private IStock stock2;
 	private String symbol;
     private String name;
-    private ArrayList<StockDay> data = new ArrayList<StockDay>();
+    private ArrayList<StockDay> data;
     private LocalDate startDate;
     private LocalDate endDate;
     
     @Before
 	public void setUp() throws Exception {
-		startDate= LocalDate.of(1990, 10,1);
-		LocalDate date = startDate;
+		data = new ArrayList<>();
+		endDate = LocalDate.of(1990, 10,1);
+		LocalDate date = endDate;
 		for (int i = 0; i < 20; i++){
-			date = startDate.plusDays(i);
-			this.data.add(new StockDay("AAPL", date, new BigDecimal(50+(i/10)),new BigDecimal(50+(i/5)) ,new BigDecimal(50-(i/5)) ,new BigDecimal(50+(i/20)) , i * 100000));
+			date = endDate.minusDays(i);
+			this.data.add(
+					new StockDay(
+							"AAPL", date,
+							new BigDecimal(50+(i/10)),
+							new BigDecimal(50+(i/5)),
+							new BigDecimal(50-(i/5)),
+							new BigDecimal(50+(i/20)),
+							i * 100000));
 		}
-		endDate = date;
+		startDate = date;
 		this.stock = new Stock("AAPL", "Apple Inc.",this.data);
 		this.stock2 = new StockLoader().fetchStock("AAPL");
 	}
