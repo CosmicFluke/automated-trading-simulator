@@ -1,5 +1,7 @@
 package autotradingsim.ui;
 
+import javax.swing.DefaultListModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -20,11 +22,13 @@ public class StockList extends javax.swing.JFrame {
     }
     
     AutomatedTradingSimulator parent;
+    DefaultListModel stockListModel = new DefaultListModel();
     public StockList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
+        //stockList.setModel(defaultListModel);
     }
 
     /**

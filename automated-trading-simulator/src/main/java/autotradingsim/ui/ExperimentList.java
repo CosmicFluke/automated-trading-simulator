@@ -6,6 +6,8 @@
 
 package autotradingsim.ui;
 
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author billfeng
@@ -21,11 +23,13 @@ public class ExperimentList extends javax.swing.JFrame {
     }
     
     AutomatedTradingSimulator parent;
+    DefaultListModel experimentListModel = new DefaultListModel();
     public ExperimentList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
+        //experimentList.setModel(experimentListModel);
     }
 
     /**

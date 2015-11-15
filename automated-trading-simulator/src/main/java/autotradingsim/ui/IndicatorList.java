@@ -28,7 +28,7 @@ public class IndicatorList extends javax.swing.JFrame {
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
-        indicatorList.setModel(indicatorListModel);
+        // indicatorList.setModel(indicatorListModel);
     }
 
     /**

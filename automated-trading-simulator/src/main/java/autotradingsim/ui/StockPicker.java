@@ -24,7 +24,7 @@ public class StockPicker extends javax.swing.JDialog {
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
-        stockList.setModel(stockListModel);
+        //stockList.setModel(stockListModel);
         name = "";
     }
 
