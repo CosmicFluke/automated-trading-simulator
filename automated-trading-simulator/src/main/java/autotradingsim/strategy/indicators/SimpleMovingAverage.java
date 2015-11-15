@@ -2,7 +2,6 @@ package autotradingsim.strategy.indicators;
 
 import autotradingsim.stocks.Stock;
 import autotradingsim.strategy.IBufferAdapter;
-import autotradingsim.strategy.Indicator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
