@@ -3,21 +3,16 @@ package autotradingsim.strategy.simpleimpl;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
-import autotradingsim.stocks.StockEntry;
+import autotradingsim.strategy.BufferAdapter;
 import autotradingsim.strategy.IBufferAdapter;
 import autotradingsim.strategy.ICondition;
-import autotradingsim.strategy.StockDayBufferAdapter;
-import autotradingsim.strategy.simpleimpl.SimpleCondition;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.function.Predicate;
 
 import static org.junit.Assert.*;
@@ -64,14 +59,14 @@ public class SimpleConditionTest {
     public void testGetFunction() throws Exception {
         ICondition condition = new SimpleCondition(ICondition.Comparator.LEQ, three);
 
-        Predicate<IBufferAdapter<? extends StockEntry>> p = (Predicate<IBufferAdapter<? extends StockEntry>>) condition.getFunction();
+        Predicate<IBufferAdapter> p = condition.getFunction();
 
-        StockDayBufferAdapter adapter = (StockDayBufferAdapter) stock.getNewBuffer(testDate, 1);
+        BufferAdapter adapter = (BufferAdapter) stock.getNewBuffer(testDate, 1);
 
         assertTrue(p.test(adapter));
 
         testDate = testDate.plusDays(2);
-        adapter = (StockDayBufferAdapter) stock.getNewBuffer(testDate, 1);
+        adapter = (BufferAdapter) stock.getNewBuffer(testDate, 1);
         assertFalse(p.test(adapter));
 
     }
