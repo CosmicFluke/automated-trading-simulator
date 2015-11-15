@@ -1,4 +1,12 @@
 package autotradingsim.application;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.NotSerializableException;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -39,6 +47,11 @@ public class TradingApplication implements ITradingApplication {
 		PathToExperiments = "//DATA//EXPERIMENTS//";
 		
 		instance = this;
+		
+		String absoluteExperimentDir = System.getProperty("user.dir") + PathToExperiments;
+		File experimentDir = new File(absoluteExperimentDir);
+		if(!experimentDir.exists())
+			experimentDir.mkdir();
 	}
 	
 	public static TradingApplication getInstance(){
@@ -66,6 +79,8 @@ public class TradingApplication implements ITradingApplication {
 		}
 		experimentNames.add(experimentName);
 		experiments.put(experimentName.hashCode(), experiment);
+		
+		this.saveExperiment(experiment);
 		return true;
 	}
 
@@ -77,14 +92,45 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public IExperiment getExperiment(String experimentName){
-		return experiments.get(experimentName.hashCode());
+		if(experiments.containsKey(experimentName.hashCode())){
+			return experiments.get(experimentName.hashCode());
+		}else{
+			return null;
+		}
 	}
 	
 	/**
 	 * 
 	 */
 	private void saveExperiment(IExperiment experiment){
-		//System.out.println(System.getProperty("user.dir") + PathToExperiments);
+		String path = System.getProperty("user.dir") + PathToExperiments + "Experiment" + experiment.getName() + ".bin";
+		File experimentFileObj = new File(path);
+		ObjectOutputStream serializer = null;
+		FileOutputStream experimentFile = null;
+		try {
+			if(!experimentFileObj.exists())
+				experimentFileObj.createNewFile();
+		} catch (IOException e) {
+			System.err.println("Error in creating file for saving the experiment");
+			e.printStackTrace();
+		}
+		try{
+			experimentFile = new FileOutputStream(experimentFileObj);
+			serializer = new ObjectOutputStream(experimentFile);
+			serializer.writeObject(experiment);
+			serializer.close();
+
+		}catch (IOException e) {
+			try {
+				if(serializer != null)
+					serializer.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			experimentFileObj.delete();
+			System.err.println("IO Exception occured in saving experiment");
+			e.printStackTrace();
+		}
 	}
 	
 	
