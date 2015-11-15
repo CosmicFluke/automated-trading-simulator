@@ -53,7 +53,7 @@ public class Stock implements IStock {
         if (data.isEmpty()) {
             return null;
         }
-        return data.get(0).getDate();
+        return data.get(data.size() - 1).getDate();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Stock implements IStock {
         if (data.isEmpty()) {
             return null;
         }
-        return data.get(data.size() - 1).getDate();
+        return data.get(0).getDate();
     }
 
     @Override
