@@ -116,22 +116,22 @@ public class BufferAdapterTest {
         ArrayList<StockDay> newList = new ArrayList<>(dayList);
         newList.add(new StockDay(
                 "TEST",
-                endDate.minusDays(1),           // Date
+                endDate.minusDays(1),       // Date
                 two, two, two,
-                day2Expected,   // Closing value
+                day2Expected,               // Closing value
                 1000));
         newList.add(new StockDay(
                 "TEST",
-                endDate.minusDays(2),           // Date
+                endDate.minusDays(2),       // Date
                 two, two, two,
-                day1Expected,    // Closing value
+                day1Expected,               // Closing value
                 1000));
         startDate = endDate.minusDays(2);
         stock = buildStock(newList);
 
         // Buffer of size TWO for startDate
         // Edge case, since only one past entry exists in the stock for this date
-        IBufferAdapter buffer = new BufferAdapter(stock, startDate, 1);
+        IBufferAdapter buffer = new BufferAdapter(stock, startDate, 2);
         // Check initial buffer state before updateNext()
         assertEquals("Size of buffer initially", 1, buffer.getSize());
         assertEquals("First getLastEntry call", day1Expected, buffer.getLastEntry().getValue());

@@ -43,7 +43,6 @@ public class SimpleMovingAverageTest {
         startDate = LocalDate.of(2013, 1, 1);
         endDate = LocalDate.of(2015, 11, 1);
         long diff = startDate.until(endDate, ChronoUnit.DAYS);
-        System.out.print(diff);
 
         // Set up new Stock
         IntStream ints =

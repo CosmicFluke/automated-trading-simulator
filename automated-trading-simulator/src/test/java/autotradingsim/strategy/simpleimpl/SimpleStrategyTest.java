@@ -42,16 +42,12 @@ public class SimpleStrategyTest {
         BigDecimal addend = one;
         ArrayList<StockDay> dayList = new ArrayList<>();
 
-        printStamp(formatDate(testDate));
         dayList.add(new StockDay("TEST", testDate, one, one, one, ten, 10));
         testDate = testDate.plusDays(1);
-        printStamp(formatDate(testDate));
         dayList.add(new StockDay("TEST", testDate, two, one, one, ten.add(one), 11));
         testDate = testDate.plusDays(1);
-        printStamp(formatDate(testDate));
         dayList.add(new StockDay("TEST", testDate, two.add(one), one, one, ten.multiply(ten).add(one), 101));
         testDate = testDate.plusDays(1);
-        printStamp(formatDate(testDate));
         dayList.add(new StockDay("TEST", testDate, two.add(two), one, one, ten.add(ten), 20));
 
         stock = new Stock("TEST", "Test Stock", dayList);
@@ -78,8 +74,6 @@ public class SimpleStrategyTest {
     @Test
     public void testGetNewTester() throws Exception {
         LocalDate testDate = startDate;
-        System.out.print("New test date.\n");
-        printStamp(formatDate(testDate));
 
         StrategyTester tester = stratDefault.getNewTester();
         tester.setAll(stock);
@@ -92,19 +86,16 @@ public class SimpleStrategyTest {
 
         // Second day
         testDate = testDate.plusDays(1);
-        printStamp(formatDate(testDate));
         decisions = tester.testDate(testDate);
         assertEquals(1, decisions.size());
 
         // Third day
         testDate = testDate.plusDays(1);
-        printStamp(formatDate(testDate));
         decisions = tester.testDate(testDate);
         assertEquals(0, decisions.size());
 
         // Fourth day
         testDate = testDate.plusDays(1);
-        printStamp(formatDate(testDate));
         decisions = tester.testDate(testDate);
         assertEquals(1, decisions.size());
 
