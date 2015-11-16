@@ -1,5 +1,7 @@
 package autotradingsim.strategy.indicators;
 
+import autotradingsim.strategy.IMeasurement;
+
 /**
  * Created by Asher on 2015-11-15.
  *
@@ -11,10 +13,10 @@ public abstract class MetaIndicator extends Indicator {
     static String default_description =
             "This Indicator collects information about another indicator's value over time.";
 
-    Indicator indicator;
+    IMeasurement indicator;
     int numDays;
 
-    public MetaIndicator(Indicator indicator, int numDays, String name, String description) {
+    public MetaIndicator(IMeasurement indicator, int numDays, String name, String description) {
         super(name, description);
         this.indicator = indicator;
         this.numDays = numDays;
@@ -24,7 +26,7 @@ public abstract class MetaIndicator extends Indicator {
         return indicator.getBufferSize();
     }
 
-    public Indicator getIndicator(){
+    public IMeasurement getIndicator(){
         return indicator;
     }
 }

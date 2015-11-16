@@ -1,6 +1,7 @@
 package autotradingsim.strategy.indicators;
 
 import autotradingsim.strategy.IBufferAdapter;
+import autotradingsim.strategy.IMeasurement;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ public class IndicatorAbsoluteChange extends MetaIndicator {
      * @param indicator an Indicator to follow
      * @param numDays Number of days to average for a change in Indicator's value
      */
-    public IndicatorAbsoluteChange(Indicator indicator, int numDays) {
+    public IndicatorAbsoluteChange(IMeasurement indicator, int numDays) {
         super(indicator, numDays, default_name, default_description);
     }
 

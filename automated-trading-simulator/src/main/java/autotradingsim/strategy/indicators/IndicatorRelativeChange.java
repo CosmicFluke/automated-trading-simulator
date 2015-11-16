@@ -1,6 +1,7 @@
 package autotradingsim.strategy.indicators;
 
 import autotradingsim.strategy.IBufferAdapter;
+import autotradingsim.strategy.IMeasurement;
 
 import java.math.BigDecimal;
 
@@ -14,7 +15,7 @@ public class IndicatorRelativeChange extends IndicatorAbsoluteChange {
      * @param indicator an Indicator to follow
      * @param numDays   Number of days to average for a change in Indicator's value
      */
-    public IndicatorRelativeChange(Indicator indicator, int numDays) {
+    public IndicatorRelativeChange(IMeasurement indicator, int numDays) {
         super(indicator, numDays);
     }
 

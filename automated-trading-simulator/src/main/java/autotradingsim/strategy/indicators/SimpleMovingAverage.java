@@ -95,6 +95,6 @@ public class SimpleMovingAverage extends Indicator{
                 (days.map((StockDay day) -> (day.getValue(StockDay.Values.CLOSE)))
                         .reduce(new BigDecimal(0), (BigDecimal identity, BigDecimal addend) -> (identity.add(addend))));
 
-        return sum.divide(new BigDecimal(size));
+        return sum.divide(BigDecimal.valueOf(size));
     }
 }
