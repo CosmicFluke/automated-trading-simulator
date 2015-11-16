@@ -34,7 +34,7 @@ public class BufferAdapter implements IBufferAdapter {
         if (buffer.isEmpty()) {
             return null;
         }
-        return buffer.getLast();
+        return buffer.getFirst();
     }
 
     @Override
@@ -49,10 +49,10 @@ public class BufferAdapter implements IBufferAdapter {
         if (next == null) {
             return null;
         }
+        buffer.addFirst(next);
         if (buffer.size() > this.size) {
-            buffer.removeFirst();
+            buffer.removeLast();
         }
-        buffer.addLast(next);
         currentDate = nextDate;
         return currentDate;
     }
