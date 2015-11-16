@@ -20,7 +20,7 @@ import java.util.Map;
  *      getClose()
  *      getVolume()
  */
-public class StockDay {
+public class StockDay implements Comparable<StockDay> {
 
     public enum Values {
         OPEN, CLOSE, HIGH, LOW
@@ -66,6 +66,11 @@ public class StockDay {
 
     public int getVolume(){
         return StockDay.this.volume;
+    }
+
+    @Override
+    public int compareTo(StockDay o) {
+        return this.getDate().compareTo(o.getDate());
     }
 
 }

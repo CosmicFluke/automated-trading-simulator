@@ -5,6 +5,7 @@ import autotradingsim.stocks.StockDay;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by Asher on 2015-10-26.
@@ -18,6 +19,9 @@ public class BufferAdapter implements IBufferAdapter {
     private LocalDate currentDate;
 
     public BufferAdapter(IStock stock, LocalDate date, int size) {
+        if (size < 1) {
+            throw new IllegalArgumentException("Size cannot be less than 1");
+        }
         this.currentDate = null;
         this.stock = stock;
         this.size = size;
@@ -39,16 +43,18 @@ public class BufferAdapter implements IBufferAdapter {
     }
 
     @Override
-    public void updateNext() {
-        currentDate = currentDate.plusDays(1);
-        StockDay next = this.stock.getDay(currentDate);
+    public LocalDate updateNext() {
+        LocalDate nextDate = currentDate.plusDays(1);
+        StockDay next = this.stock.getDay(nextDate);
         if (next == null) {
-            return;
+            return null;
         }
-        if (buffer.size() >= this.size) {
+        if (buffer.size() > this.size) {
             buffer.removeFirst();
         }
         buffer.addLast(next);
+        currentDate = nextDate;
+        return currentDate;
     }
 
     public boolean isEmpty() {
@@ -56,19 +62,43 @@ public class BufferAdapter implements IBufferAdapter {
     }
 
     @Override
+    public int getMaxSize() {
+        return this.size;
+    }
+
+    @Override
+    public int getSize() {
+        return this.buffer.size();
+    }
+
+    @Override
     public Iterator<StockDay> getIterator() {
         return buffer.listIterator();
+    }
+
+    @Override
+    public Stream<StockDay> getStream() {
+        return buffer.stream();
+    }
+
+    @Override
+    public LocalDate getLastDay() {
+        return this.currentDate;
+    }
+
+    @Override
+    public LocalDate getFirstDay() {
+        return this.currentDate.minusDays(this.getSize() - 1);
     }
 
     private void initializeBuffer(LocalDate date) {
         buffer.clear();
         this.currentDate = date;
         for (int i=0; i < this.size; i++) {
-            StockDay day = stock.getDay(date);
+            StockDay day = stock.getDay(date.minusDays(i));
             if (day != null) {
-                this.buffer.addLast(stock.getDay(date));
+                this.buffer.addLast(day);
             }
-            date = date.minusDays(1);
         }
     }
 }

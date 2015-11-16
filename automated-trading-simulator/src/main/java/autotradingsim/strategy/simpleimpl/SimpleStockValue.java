@@ -9,7 +9,6 @@ import autotradingsim.strategy.IMeasurement;
 import autotradingsim.strategy.exceptions.DataNotProvidedException;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.function.Function;
 
 /**
@@ -31,7 +30,7 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
      */
     private static Function<IBufferAdapter, BigDecimal> function =
             (IBufferAdapter stockBuffer) -> (
-                    (stockBuffer.getLastEntry() != null) ? ((StockDay) stockBuffer.getLastEntry()).getValue(StockDay.Values.CLOSE) : null);
+                    (stockBuffer.getLastEntry() != null) ? (stockBuffer.getLastEntry()).getValue(StockDay.Values.CLOSE) : null);
 
 
     public SimpleStockValue () {
@@ -40,7 +39,7 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
 
     /**
      * Sets the stock to be used to calculate the value of this measurement.<br>
-     * See {@link IMeasurement#getValue(LocalDate)}
+     * See {@link IMeasurement#getValue(IBufferAdapter)}
      * @param stock
      */
     public void setStock(IStock stock) {
@@ -58,13 +57,13 @@ public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
     }
 
     @Override
-    public BigDecimal getValue(LocalDate date) throws DataNotProvidedException {
+    public BigDecimal getValue(IBufferAdapter adapter) throws DataNotProvidedException {
         if (this.stock == null) {
             throw new DataNotProvidedException();
         }
         // Calendar prevDate = ((Calendar) date.clone());
         // prevDate.add(Calendar.DATE, -1);
-        return function.apply(((Stock) this.stock).getNewDayBuffer(date, this.getBufferSize()));
+        return function.apply(adapter);
     }
 
     @Override

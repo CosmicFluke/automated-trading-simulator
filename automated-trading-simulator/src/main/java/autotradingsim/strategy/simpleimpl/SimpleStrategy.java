@@ -2,6 +2,7 @@ package autotradingsim.strategy.simpleimpl;
 
 import autotradingsim.strategy.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.security.InvalidParameterException;
 import java.util.HashSet;
