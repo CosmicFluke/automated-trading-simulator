@@ -115,6 +115,7 @@ public class TradingApplication implements ITradingApplication {
 	 * 
 	 * @param experiment which will be saved to file under EXPERIMENTS dir
 	 */
+
 	private void saveExperiment(IExperiment experiment){
 		String path = PathToExperiments + experiment.getName() + ".bin";
 		File experimentFileObj = new File(path);
@@ -177,6 +178,7 @@ public class TradingApplication implements ITradingApplication {
 		
 		return result;
 	}
+
 	
 	
 	/**
