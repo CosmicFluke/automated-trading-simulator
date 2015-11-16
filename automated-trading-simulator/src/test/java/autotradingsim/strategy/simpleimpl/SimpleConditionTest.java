@@ -34,7 +34,6 @@ public class SimpleConditionTest {
     public void setUp() throws Exception {
         LocalDate stockDate = LocalDate.of(2014, 1, 1);
         testDate = stockDate;
-        System.out.format("Setting up date %s\n", testDate.toString());
         one = new BigDecimal(1);
         two = new BigDecimal(2);
         three = new BigDecimal(3);

@@ -45,7 +45,7 @@ public class BufferAdapter implements IBufferAdapter {
     @Override
     public LocalDate updateNext() {
         LocalDate nextDate = currentDate.plusDays(1);
-        StockDay next = this.stock.getDay(nextDate);
+        StockDay next = stock.getDay(nextDate);
         if (next == null) {
             return null;
         }
@@ -97,7 +97,7 @@ public class BufferAdapter implements IBufferAdapter {
         for (int i=0; i < this.size; i++) {
             StockDay day = stock.getDay(date.minusDays(i));
             if (day != null) {
-                this.buffer.addLast(day);
+                this.buffer.add(day);
             }
         }
     }

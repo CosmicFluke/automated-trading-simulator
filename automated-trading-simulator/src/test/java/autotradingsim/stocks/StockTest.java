@@ -61,8 +61,6 @@ public class StockTest{
 
     @Test
     public void verifyGetDay(){
-    	System.out.println(startDate.toString());
-    	System.out.println(stock.getSymbol());
     	this.stock.getDay(startDate);
         StockDay test;
         test = this.stock.getDay(startDate);

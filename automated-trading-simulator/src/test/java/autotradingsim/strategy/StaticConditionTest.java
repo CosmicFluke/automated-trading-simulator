@@ -49,7 +49,6 @@ public class StaticConditionTest {
         startDate = LocalDate.of(2013, 1, 1);
         endDate = LocalDate.of(2015, 11, 1);
         long diff = startDate.until(endDate, ChronoUnit.DAYS);
-        System.out.print(diff);
 
         // Set up new test stock
         IntStream ints =
@@ -106,6 +105,8 @@ public class StaticConditionTest {
     public void testGetFunction() throws Exception {
         ArrayList<StockDay> smallList = new ArrayList<>();
         BigDecimal one = BigDecimal.ONE;
+
+        // Set up a small list of StockDays
         smallList.add(
                 new StockDay(
                         "SIMP", endDate.minusDays(4),
@@ -135,8 +136,10 @@ public class StaticConditionTest {
         smallList.sort((c, d) -> ((-1) * (c.compareTo(d))));
         LocalDate startDate = smallList.get(smallList.size() - 1).getDate();
 
+        // Create the new Simple Stock
         simpleStock = new Stock("SIMP", "Simple Stock", smallList);
 
+        // Instantiate two different StaticConditions with 1- and 2-day moving average indicators
         ICondition movingAvgOne =
                 new StaticCondition(new SimpleMovingAverage(1), ICondition.Comparator.GEQ, BigDecimal.TEN);
         ICondition movingAvgTwo =
