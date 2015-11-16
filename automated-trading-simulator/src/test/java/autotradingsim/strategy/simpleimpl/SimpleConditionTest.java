@@ -61,12 +61,12 @@ public class SimpleConditionTest {
 
         Predicate<IBufferAdapter> p = condition.getFunction();
 
-        BufferAdapter adapter = (BufferAdapter) stock.getNewBuffer(testDate, 1);
+        IBufferAdapter adapter = stock.getNewBuffer(testDate, 1);
 
         assertTrue(p.test(adapter));
 
         testDate = testDate.plusDays(2);
-        adapter = (BufferAdapter) stock.getNewBuffer(testDate, 1);
+        adapter = stock.getNewBuffer(testDate, 1);
         assertFalse(p.test(adapter));
 
     }
