@@ -1,12 +1,10 @@
 package autotradingsim.application;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.NotSerializableException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -44,14 +42,20 @@ public class TradingApplication implements ITradingApplication {
 		
 		this.stocks = new HashMap<String, IStock>();
 		
-		PathToExperiments = "//DATA//EXPERIMENTS//";
+		PathToExperiments = System.getProperty("user.dir") + "//DATA//EXPERIMENTS//";
+		PathToStrategies = System.getProperty("user.dir") + "//DATA//STRATEGIES//";
 		
 		instance = this;
 		
-		String absoluteExperimentDir = System.getProperty("user.dir") + PathToExperiments;
-		File experimentDir = new File(absoluteExperimentDir);
+		//Initialize Directory for storing experiments
+		File experimentDir = new File(PathToExperiments);
 		if(!experimentDir.exists())
 			experimentDir.mkdir();
+		
+		//Initialize Directory for storing strategies
+		File strategyDir = new File(PathToStrategies);
+		if(!strategyDir.exists())
+			strategyDir.mkdir();
 	}
 	
 	public static TradingApplication getInstance(){
@@ -73,6 +77,9 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public boolean setExperiment(String experimentName, IExperiment experiment){
+		if(experiment == null || experimentName == null)
+			return false;
+		
 		if(experiments.containsKey(experimentName.hashCode())){
 			assert(experimentNames.contains(experimentName));
 			return false;
@@ -86,6 +93,7 @@ public class TradingApplication implements ITradingApplication {
 
 	/**
 	 * Return experiment object associated with given name
+	 * Tries to load the experiment from memory if able
 	 * 
 	 * @param experimentName ID associated with experiment
 	 * @return experiment object found with ID. Null if no experiment by name found
@@ -95,15 +103,20 @@ public class TradingApplication implements ITradingApplication {
 		if(experiments.containsKey(experimentName.hashCode())){
 			return experiments.get(experimentName.hashCode());
 		}else{
-			return null;
+			IExperiment result = loadExperiment(experimentName);
+			if(result != null)
+				this.setExperiment(experimentName, result);
+			return result;
 		}
 	}
 	
 	/**
+	 * Save an experiment to file. Experiment is saved by it's given name.
 	 * 
+	 * @param experiment which will be saved to file under EXPERIMENTS dir
 	 */
 	private void saveExperiment(IExperiment experiment){
-		String path = System.getProperty("user.dir") + PathToExperiments + "Experiment" + experiment.getName() + ".bin";
+		String path = PathToExperiments + experiment.getName() + ".bin";
 		File experimentFileObj = new File(path);
 		ObjectOutputStream serializer = null;
 		FileOutputStream experimentFile = null;
@@ -113,6 +126,7 @@ public class TradingApplication implements ITradingApplication {
 		} catch (IOException e) {
 			System.err.println("Error in creating file for saving the experiment");
 			e.printStackTrace();
+			return;
 		}
 		try{
 			experimentFile = new FileOutputStream(experimentFileObj);
@@ -125,6 +139,7 @@ public class TradingApplication implements ITradingApplication {
 				if(serializer != null)
 					serializer.close();
 			} catch (IOException e1) {
+				assert("false" == "this should never happen");
 				e1.printStackTrace();
 			}
 			experimentFileObj.delete();
@@ -133,15 +148,48 @@ public class TradingApplication implements ITradingApplication {
 		}
 	}
 	
+	/**
+	 * Load experiment from memory with given name. 
+	 * Null on error with error printed to System.err
+	 * 
+	 * @param name of experiment to load
+	 * @return experiment in file or null on error
+	 */
+	private IExperiment loadExperiment(String name){
+		String path = PathToExperiments + name + ".bin";
+		File experimentFileObj = new File(path);
+		ObjectInputStream serializer = null;
+		FileInputStream experimentFile = null;
+		IExperiment result = null;
+		
+		if(!experimentFileObj.exists())
+			return result;
+		
+		try {
+			experimentFile = new FileInputStream(experimentFileObj);
+			serializer = new ObjectInputStream(experimentFile);
+			result = (IExperiment) serializer.readObject();
+			serializer.close();
+		} catch (ClassNotFoundException | IOException e) {
+			System.err.println("Error loading experiment from memory");
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 	
 	/**
 	 * get all available experiment names in application
 	 * @return a set of experiment names
 	 */
 	public Set<String> getAvailableExperiments(){
+		File experiments = new File(this.PathToExperiments);
 		Set<String> returningSet = new HashSet<String>();
-		for(String name : this.experimentNames)
-			returningSet.add(name);
+		if(experiments.exists() && experiments.isDirectory()){
+			for(File experiment : experiments.listFiles())
+				returningSet.add(experiment.getName());
+		}
 		return returningSet;
 	}
 
@@ -236,7 +284,7 @@ public class TradingApplication implements ITradingApplication {
 	 * Clear the Applications internal cache
 	 */
 	@Override
-	public void ClearMemory() {
+	public void clearMemory() {
 		strategies.clear();
 		strategyNames.clear();
 		
@@ -244,5 +292,13 @@ public class TradingApplication implements ITradingApplication {
 		experimentNames.clear();
 
 		stocks.clear();
+	}
+	
+	/**
+	 * Destroy the instance of the object and set it to null
+	 */
+	public static void destructObject() {
+		instance.clearMemory();
+		instance = null;
 	}
 }
