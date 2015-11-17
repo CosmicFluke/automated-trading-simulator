@@ -1,13 +1,15 @@
 package autotradingsim.experiment;
 
-import autotradingsim.engine.TradingApplication;
+import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.*;
 import autotradingsim.strategy.*;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -22,12 +24,12 @@ import java.util.*;
  * Modifications on 2015-10-30
  * -changes to experiment constructor to include name
  */
-public class Experiment implements IExperiment {
+public class Experiment implements IExperiment, Serializable {
 
-    private StockLoader loader;
-    private String name;
+	private static final long serialVersionUID = -7533956851982543038L;
+	private String name;
     private ArrayList<String> stocks;
-    private ArrayList<Integer> strategies;
+    private ArrayList<String> strategies;
     private ArrayList<int[]> trials;
 
     /**
@@ -35,10 +37,9 @@ public class Experiment implements IExperiment {
      * @param name name of the experiment
      */
     public Experiment(String name){
-        this.loader = new StockLoader();
         this.name = name;
         this.stocks = new ArrayList<>();
-        this.strategies = new ArrayList<Integer>();
+        this.strategies = new ArrayList<String>();
         this.trials = new ArrayList<>();
     }
 
@@ -58,7 +59,7 @@ public class Experiment implements IExperiment {
      */
     @Override
     public boolean addStock(String symbol){
-        if(loader.exists(symbol)) { //check existing might not be needed if trading application can check first
+        if(TradingApplication.getInstance().stockExists(symbol)) { //check existing might not be needed if trading application can check first
             stocks.add(symbol);
             return true;
         }else{
@@ -67,14 +68,9 @@ public class Experiment implements IExperiment {
     }
 
     @Override
-    public IStock getStock(String symbol) {
-        return loader.fetchStock(symbol);
-    }
-
-    @Override
-    public boolean addStrategy(int id){
-        if(TradingApplication.getInstance().getStrategy(id) != null){  //check existing might not be needed if trading application can check first
-            strategies.add(id);
+    public boolean addStrategy(String name){
+        if(TradingApplication.getInstance().getStrategy(name) != null){  //check existing might not be needed if trading application can check first
+            strategies.add(name);
             return true;
         }else{
             return false;
@@ -82,15 +78,15 @@ public class Experiment implements IExperiment {
     }
 
     @Override
-    public IStrategy getStrategy(int id){
-        return TradingApplication.getInstance().getStrategy(id); // return strategy with the id
+    public IStrategy getStrategy(String name){
+        return TradingApplication.getInstance().getStrategy(name); // return strategy with the id
     }
 
-    public void addTrial(int id, String symbol){
+    public void addTrial(String id, String symbol){
         int i = strategies.size();
         int j = stocks.size();
         for(int k = 0; k < i; k++){
-            if(strategies.get(k) == id){
+            if(strategies.get(k).equals(id)){
                 i = k;
                 break;
             }
@@ -125,7 +121,7 @@ public class Experiment implements IExperiment {
             IStrategy strategy;
             StrategyTester st;
             IStock stock;
-            Calendar currentDate;
+            LocalDate currentDate;
             List<IDecision> decisions;
             int duration;
             IDecision decision;
@@ -135,8 +131,8 @@ public class Experiment implements IExperiment {
 
             // Go through all the trials, test each one. Output a chunk of results to file for each trial
             for(int i  = 0; i < trials.size(); i++){
-                strategy = getStrategy(strategies.get(trials.get(i)[0]));
-                stock = getStock(stocks.get(trials.get(i)[1]));
+                strategy = TradingApplication.getInstance().getStrategy(strategies.get(trials.get(i)[0]));
+                stock = TradingApplication.getInstance().getStock(stocks.get(trials.get(i)[1]));
                 st = strategy.getNewTester();
                 st.setAll(stock);
                 duration = ts.getDuration();
@@ -148,7 +144,7 @@ public class Experiment implements IExperiment {
                     bw.newLine();
                     bw.write(stock.getSymbol());
                     bw.newLine();
-                    bw.write(currentDate.YEAR+"-"+currentDate.MONTH+"-"+currentDate.DATE);
+                    bw.write(currentDate.toString());
                     bw.newLine();
 
                     balance = new BigDecimal(0);
@@ -157,7 +153,7 @@ public class Experiment implements IExperiment {
                     // Iterate through all the days in the time snippet
                     for(int j = 0; j < duration; j++) {
                         decisions = st.testDate(currentDate);
-                        Iterator itr = decisions.iterator();
+                        Iterator<IDecision> itr = decisions.iterator();
 
                         bw.write(balance.toString());
                         bw.write("," + shares);
@@ -175,7 +171,7 @@ public class Experiment implements IExperiment {
                             bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity());
                         }
                         bw.newLine();
-                        currentDate.add(currentDate.DATE, 1);
+                        currentDate = currentDate.plusDays(1);
                     }
                     bw.newLine();
                 }
@@ -196,7 +192,7 @@ public class Experiment implements IExperiment {
             IStrategy strategy;
             StrategyTester st;
             IStock stock;
-            Calendar currentDate;
+            LocalDate currentDate;
             List<IDecision> decisions;
             int duration;
             IDecision decision;
@@ -206,24 +202,25 @@ public class Experiment implements IExperiment {
 
             // Go through all the trials, test each one. Output a chunk of results to file for each trial
             for(int[] trial: trials){
-                strategy = getStrategy(strategies.get(trial[0]));
-                stock = getStock(stocks.get(trial[1]));
+                strategy = TradingApplication.getInstance().getStrategy(strategies.get(trial[0]));
+                stock = TradingApplication.getInstance().getStock(stocks.get(trial[1]));
                 st = strategy.getNewTester();
                 st.setAll(stock);
 
                 currentDate = stock.getStartDate();
                 bw.write(strategy.getName()); bw.newLine();
                 bw.write(stock.getSymbol()); bw.newLine();
-                bw.write(currentDate.get(Calendar.YEAR)+"-"+currentDate.get(Calendar.MONTH)+"-"+currentDate.get(Calendar.DATE)); bw.newLine();
+                bw.write(currentDate.toString()); 
+                bw.newLine();
 
                 balance = new BigDecimal(100000);
                 shares = 0;
 
-                while(currentDate.before(stock.getEndDate())){
+                while(currentDate.isBefore(stock.getEndDate())){
                     decisions = st.testDate(currentDate);
                     Iterator itr = decisions.iterator();
 
-                    bw.write(currentDate.get(Calendar.YEAR)+"-"+currentDate.get(Calendar.MONTH)+"-"+currentDate.get(Calendar.DATE));
+                    bw.write(currentDate.toString());
                     bw.write("," + balance.toString());
                     bw.write("," + shares);
 
@@ -240,7 +237,7 @@ public class Experiment implements IExperiment {
                         bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity());
                     }
                     bw.newLine();
-                    currentDate.add(Calendar.DATE, 1);
+                    currentDate = currentDate.plusDays(1);
                 }
                 bw.newLine();
             }

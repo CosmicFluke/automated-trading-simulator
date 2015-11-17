@@ -16,7 +16,9 @@ public interface IAction {
     ActionType getActionType();
 
     /**
-     * Sorry for making this complicated.  It's a way of maintaining robustness & extensibility.
+     * Gets the IActionQuantity object associated with this action.  IActionQuantities may be as simple as a
+     * constant quantity, but the interface implicitly supports more dynamic quantities.
+     * NOTE: Sorry for making this complicated.  It's a way of maintaining robustness & extensibility.
      * @return
      */
     IActionQuantity getQuantity();

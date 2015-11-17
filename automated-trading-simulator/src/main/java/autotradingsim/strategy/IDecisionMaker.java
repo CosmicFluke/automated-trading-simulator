@@ -2,6 +2,7 @@ package autotradingsim.strategy;
 
 import autotradingsim.stocks.IStock;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,10 +23,16 @@ public interface IDecisionMaker {
     void assignStock(IStock stock);
 
     /**
+     * Indicates whether this decision maker has a stock assigned
+     * @return true iff a stock is assigned to this IDecisionMaker
+     */
+    boolean hasStockAssigned();
+
+    /**
      * Once stocks are assigned, this can be used to get an iterator that provides a list of
      * {@link IDecision IDecisions} for a given date.
      * @return A decision for this DecisionMaker.
      */
-    Iterator<IDecision> getDecisions(Calendar date);
+    Iterator<IDecision> getDecisions(LocalDate date);
 
 }

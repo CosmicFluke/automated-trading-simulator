@@ -1,5 +1,6 @@
 package autotradingsim.strategy;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Calendar;
  */
 public interface IDecision {
 
-    Calendar getDate();
+    LocalDate getDate();
     IAction.ActionType getActionType();
     int getQuantity();
     String getStockSymbol();

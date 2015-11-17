@@ -25,12 +25,12 @@ public interface IStrategy {
      * Delete a rule from this strategy
      * @param rule ID of the rule to be deleted.
      */
-    void deleteRule(RuleID rule);
+    IRule removeRule(RuleID rule);
 
 
     /**
      * User-entered string that uniquely identifies this strategy.
-     * Any two strategies with the same name should have the same ID (see {@link #getID()})
+     * Any two strategies with the same name should have the same ID (see {@link #})
      * @param rule
      * @return
      */
@@ -52,10 +52,5 @@ public interface IStrategy {
      */
     StrategyTester getNewTester();
 
-    /**
-     * Provides a unique ID number associated with this strategy.  Any two IStrategy instances with the same name should have the same ID.
-     * @return
-     */
-    int getID();
 
 }

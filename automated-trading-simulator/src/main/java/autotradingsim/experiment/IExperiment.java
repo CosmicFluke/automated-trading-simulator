@@ -12,12 +12,9 @@ public interface IExperiment {
     String getName();
 
     boolean addStock(String symbol);
+    boolean addStrategy(String name);
 
-    IStock getStock(String symbol);
-
-    boolean addStrategy(int id);
-
-    IStrategy getStrategy(int id);
+    IStrategy getStrategy(String name);
 
     boolean runExperiment(TimeSet ts);
 }

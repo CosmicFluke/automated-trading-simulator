@@ -1,7 +1,7 @@
 package autotradingsim.stocks;
 
+import java.time.LocalDate;
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,22 +20,22 @@ import java.util.Map;
  *      getClose()
  *      getVolume()
  */
-public class StockDay extends StockEntry {
+public class StockDay implements Comparable<StockDay> {
 
     public enum Values {
         OPEN, CLOSE, HIGH, LOW
     }
 
     private String symbol;
-    private Calendar date;
+    private LocalDate date;
     private int volume;
 
     // Experimental BigDecimal Map
     private Map<Values, BigDecimal> values;
 
-    public StockDay(String symbol, Calendar date, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close, int volume) {
-        this.symbol = symbol;
-        this.date = date;
+    public StockDay(String symbol, LocalDate date, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close, int volume) {
+        StockDay.this.symbol = symbol;
+        StockDay.this.date = date;
 
         // Experimental BigDecimal Map
         values = new HashMap<>();
@@ -44,7 +44,7 @@ public class StockDay extends StockEntry {
         values.put(Values.HIGH, high);
         values.put(Values.LOW, low);
 
-        this.volume = volume;
+        StockDay.this.volume = volume;
     }
 
     // BigDecimal getter
@@ -52,20 +52,25 @@ public class StockDay extends StockEntry {
         return values.get(which);
     }
 
-    public String getSymbol(){
-        return this.symbol;
-    }
-
-    public Calendar getDate(){
-        return this.date;
-    }
-
-    public int getVolume(){
-        return this.volume;
-    }
-
-    @Override
     public BigDecimal getValue() {
         return values.get(Values.CLOSE);
     }
+
+    public String getSymbol(){
+        return StockDay.this.symbol;
+    }
+
+    public LocalDate getDate(){
+        return StockDay.this.date;
+    }
+
+    public int getVolume(){
+        return StockDay.this.volume;
+    }
+
+    @Override
+    public int compareTo(StockDay o) {
+        return this.getDate().compareTo(o.getDate());
+    }
+
 }

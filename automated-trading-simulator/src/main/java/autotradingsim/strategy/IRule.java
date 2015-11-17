@@ -1,6 +1,5 @@
 package autotradingsim.strategy;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -12,7 +11,7 @@ import java.util.List;
  *
  */
 public interface IRule {
-
+    
     /**
      * Produces the decision-making object.<br>
      * (The {@link StrategyTester} should use this to get decisions for specific stocks on specific dates)<br>
@@ -20,26 +19,31 @@ public interface IRule {
      */
     IDecisionMaker getDecisionMaker();
 
+    /**
+     * Provides a list of conditions for this IRule.
+     * @return list of ICondition objects
+     */
     List<ICondition> getConditions();
 
     /**
-     *
-     * @return
+     * Provides a list of actions in this IRule.
+     * @return list of IAction objects
      */
     List<IAction> getActions();
 
     /**
-     * Provides a user-defined description for this rule
+     * Provides a user-defined description for this IRule
      * @return User-defined description
      */
     String getDescription();
 
-    RuleID getRuleID();
+    String getName();
+
+    RuleID getID();
 
     /**
      * A formalized summary of each of the conditions and actions included in this rule
      * @return
      */
     String getSummary();
-
 }

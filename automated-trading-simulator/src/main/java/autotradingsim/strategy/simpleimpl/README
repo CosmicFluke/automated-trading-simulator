@@ -1,0 +1,4 @@
+The `simpleimpl` package comprises a basic implementation of the strategy package, primarily for testing and
+demonstration purposes.  It is not intended for use in release versions.
+
+Note that SimpleStockValue is equivalent to the new SimpleMovingAverage with numDays set to 1.

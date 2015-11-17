@@ -1,7 +1,6 @@
 package autotradingsim.strategy;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.function.Function;
 
 /**
@@ -24,11 +23,11 @@ public interface IMeasurement extends IFunctionBuilder{
     int getBufferSize();
 
     /**
-     * Gets the value associated with this measurement for a given date.
-     * @param date
+     * Gets the value associated with this measurement for a given IBufferAdapter.
+     * @param adapter
      * @return
      */
-    BigDecimal getValue(Calendar date);
+    BigDecimal getValue(IBufferAdapter adapter);
 
     /**
      * <p>Gets the function that calculates this IMeasurement's value for a given IBufferAdapter.
@@ -36,6 +35,6 @@ public interface IMeasurement extends IFunctionBuilder{
      * @return a function that will calculate this IMeasurement's value for a given Buffer
      */
     @Override
-    Function<? extends IBufferAdapter, BigDecimal> getFunction();
+    Function<IBufferAdapter, BigDecimal> getFunction();
 
 }

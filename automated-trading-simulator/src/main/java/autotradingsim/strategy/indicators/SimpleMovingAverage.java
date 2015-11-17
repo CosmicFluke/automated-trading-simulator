@@ -1,14 +1,16 @@
 package autotradingsim.strategy.indicators;
 
+import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
 import autotradingsim.strategy.IBufferAdapter;
-import autotradingsim.strategy.Indicator;
 
 import java.math.BigDecimal;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * Created by Bill Feng on 15-10-29.
+ * Modified by Asher Minden-Webb on 15-11-14
  *
  * Simple Moving Average
  *      Calculated by taking the average of the past days, the length of which can be specified.
@@ -16,36 +18,83 @@ import java.util.function.Function;
  */
 public class SimpleMovingAverage extends Indicator{
 
-    private int days;
-    private BigDecimal value;
-    private static final String name = "Simple Moving Average";
-    private static final String description = "The Simple Moving Average is calculated by summing the closing prices of the security for a period of time and then dividing this total by the number of time periods. Sometimes called an arithmetic moving average, the SimpleMovingAverage is basically the average stock price over time. As a trend develops, the moving average will slope in the direction of the trend, showing the trend direction and some indication of its strength based on the slope steepness.\n Note that since the Simple Moving Average gives equal weight to each daily price, the longer time period studied suggests the greater smoothing out of recent market volatility. Long-term moving averages smooth out all the minor fluctuations showing only longer-term trends. Shorter-term moving averages show shorter-term trends but at the expense of the long-term ones.";
+    private static final String default_name = "Simple Moving Average";
+    private static final String default_description =
+            "The Simple Moving Average is calculated by summing the closing prices of the security for a period of " +
+                    "time and then dividing this total by the number of time periods. Sometimes called an arithmetic " +
+                    "moving average, the SimpleMovingAverage is basically the average stock price over time. As a " +
+                    "trend develops, the moving average will slope in the direction of the trend, showing the trend " +
+                    "direction and some indication of its strength based on the slope steepness.\n Note that since " +
+                    "the Simple Moving Average gives equal weight to each daily price, the longer time period " +
+                    "studied suggests the greater smoothing out of recent market volatility. Long-term moving " +
+                    "averages smooth out all the minor fluctuations showing only longer-term trends. Shorter-term " +
+                    "moving averages show shorter-term trends but at the expense of the long-term ones.";
 
-    public SimpleMovingAverage(BigDecimal init, int days){
+    private int days;
+
+    /**
+     * This is only here because of confusion in the responsibilities/collaborations of the Indicator hierarchy.<br>
+     */
+    private Stock stock;
+
+    /**
+     * The function!
+     */
+    private Function<IBufferAdapter, BigDecimal> function =
+            (IBufferAdapter stockBuffer) -> (this.getValue(stockBuffer.getStream(), stockBuffer.getSize()));
+
+    /**
+     * Construct a new SimpleMovingAverage that uses the given number of days to calculate a moving average.
+     * @param days
+     * @param name
+     * @param description
+     */
+    public SimpleMovingAverage(int days, String name, String description) {
         super(name, description);
-        this.value = init;
         this.days = days;
     }
 
-    public void update(StockDay data){
-        setValue((this.getValue().multiply(new BigDecimal(days - 1)).add(data.getValue().divide(new BigDecimal(days)))));
+    public SimpleMovingAverage(int days){
+        this(days, default_name, default_description);
     }
 
-    public BigDecimal getValue(){
-        return this.value;
+    /**
+     * Gets the number of days <i>n</i> tracked by this <i>n</i>-day Simple Moving Average.
+     * @return Number of days
+     */
+    public int getNumDays() {
+        return this.days;
     }
 
-    public void setValue(BigDecimal value){
-        this.value = value;
+    public BigDecimal getValue(IBufferAdapter adapter) {
+        return this.getValue(adapter.getStream(), adapter.getSize());
     }
 
-    @Override
     public int getBufferSize() {
-        return 0;
+        return this.days;
     }
 
-    @Override
-    public Function<? extends IBufferAdapter, BigDecimal> getFunction() {
-        return null;
+
+    public Function<IBufferAdapter, BigDecimal> getFunction() {
+        return (IBufferAdapter buffer) -> (this.getValue(buffer.getStream(), buffer.getSize()));
+    }
+
+    /**
+     * Computes the average of a stream of StockDays.
+     * @param days A stream of StockDay objects.  Must satisfy condition that <br>
+     *      {@link Stream#count() stream.count()} ==  {@link #getBufferSize()}
+     * @param size The size of the stream being passed in.
+     * @return
+     */
+    private BigDecimal getValue (Stream<StockDay> days, int size) {
+        if (size > this.days) {
+            System.out.println("SimpleMovingAverage method getValue was passed buffer of incorrect size");
+            throw new RuntimeException("Buffer exceeded expected size for SimpleMovingAverage");
+        }
+        BigDecimal sum =
+                (days.map((StockDay day) -> (day.getValue(StockDay.Values.CLOSE)))
+                        .reduce(new BigDecimal(0), (BigDecimal identity, BigDecimal addend) -> (identity.add(addend))));
+
+        return sum.divide(BigDecimal.valueOf(size));
     }
 }
