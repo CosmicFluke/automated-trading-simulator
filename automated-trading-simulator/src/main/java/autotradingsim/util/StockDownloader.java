@@ -20,6 +20,8 @@ public class StockDownloader {
     public static void downloadStockData(String symbol) {
         URL url = null;
         try {
+
+            // Create the URL by inserting the symbol
             url = new URL(
                     "http://real-chart.finance.yahoo.com/table.csv?s=" + symbol +
                             "&d=10&e=17&f=2015&g=d&a=3&b=12&c=1996&ignore=.csv");
@@ -28,9 +30,13 @@ public class StockDownloader {
             return;
         }
 
+        // Define a new file
         File f = new File(System.getProperty("user.dir") + pathToStocks + symbol + ".csv");
         if (!f.exists()) {
+            // Create the file if it doesn't exist -- this will need to be changed/modified to account for updating a
+            // file that already exists.
             try {
+                // Copy the URL-file to a local file using class FileUtils from apache.commons.io package
                 FileUtils.copyURLToFile(url, f);
             } catch (IOException e) {
                 System.out.println("IOException when writing to stock file.");
