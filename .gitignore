@@ -106,3 +106,4 @@ crashlytics-build.properties
 # Saved test files
 *.txt
 *.vsdx
+DATA/
