@@ -17,7 +17,6 @@ public class TradingApplication implements ITradingApplication {
 	private String PathToStrategies;
 	
 	private HashMap<Integer, IStrategy> strategies;
-	
 	private HashMap<Integer, IExperiment> experiments;
 	
 	private StockLoader loader;
