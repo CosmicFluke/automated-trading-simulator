@@ -21,10 +21,8 @@ public class TradingApplication implements ITradingApplication {
 	private String PathToStrategies;
 	
 	private HashMap<Integer, IStrategy> strategies;
-	private HashSet<String> strategyNames;
 	
 	private HashMap<Integer, IExperiment> experiments;
-	private HashSet<String> experimentNames;
 	
 	private StockLoader loader;
 	private HashMap<String, IStock> stocks;
@@ -35,10 +33,8 @@ public class TradingApplication implements ITradingApplication {
 		this.loader = new StockLoader();
 		
 		this.strategies = new HashMap<Integer, IStrategy>();
-		this.strategyNames = new HashSet<String>();
 		
 		this.experiments = new HashMap<Integer, IExperiment>();
-		this.experimentNames = new HashSet<String>();
 		
 		this.stocks = new HashMap<String, IStock>();
 		
@@ -67,9 +63,8 @@ public class TradingApplication implements ITradingApplication {
 	
 	/**
 	 * Add an experiment by name into the application
-	 * Name given and name found in experiment don't need
-	 * to match, but after being loaded, must use name found
-	 * in IExperiment class
+	 * Name given and name found in experiment need
+	 * to match
 	 * 
 	 * @param experimentName name under which to store experiment
 	 * @param experiment Experiment object which will be stored
@@ -77,14 +72,14 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public boolean setExperiment(String experimentName, IExperiment experiment){
-		if(experiment == null || experimentName == null)
+		if(experiment == null || 
+				experimentName == null || 
+				!experiment.getName().equals(experimentName))
 			return false;
 		
 		if(experiments.containsKey(experimentName.hashCode())){
-			assert(experimentNames.contains(experimentName));
 			return false;
 		}
-		experimentNames.add(experimentName);
 		experiments.put(experimentName.hashCode(), experiment);
 		
 		this.saveExperiment(experiment);
@@ -206,10 +201,8 @@ public class TradingApplication implements ITradingApplication {
 	@Override
 	public boolean setStrategy(String stratName, IStrategy strat){
 		if(strategies.containsKey(stratName.hashCode())) {
-			assert(strategyNames.contains(stratName));
 			return false;
 		}
-		strategyNames.add(stratName);
 		strategies.put(stratName.hashCode(), strat);
 		return true;
 	}
@@ -233,8 +226,8 @@ public class TradingApplication implements ITradingApplication {
 	@Override
 	public Set<String> getAvailableStrategies() {
 		Set<String> returningSet = new HashSet<String>();
-		for(String name : this.strategyNames)
-			returningSet.add(name);
+		//for(String name : this.strategyNames)
+		//	returningSet.add(name);
 		return returningSet;
 	}
 
@@ -288,11 +281,9 @@ public class TradingApplication implements ITradingApplication {
 	@Override
 	public void clearMemory() {
 		strategies.clear();
-		strategyNames.clear();
-		
+				
 		experiments.clear();
-		experimentNames.clear();
-
+		
 		stocks.clear();
 	}
 	
