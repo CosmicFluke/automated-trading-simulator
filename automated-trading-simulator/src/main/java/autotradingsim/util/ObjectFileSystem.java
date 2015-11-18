@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-<<<<<<< HEAD
 import java.io.NotSerializableException;
-=======
->>>>>>> b769d790b3cd4527a53f8a7713a4f02e0d6c3b82
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -31,7 +28,6 @@ public class ObjectFileSystem {
 			serializer = new ObjectOutputStream(ObjectStream);
 			serializer.writeObject(toSave);
 			serializer.close();
-<<<<<<< HEAD
 			return true;
 
 		}catch (NotSerializableException e){
@@ -53,22 +49,6 @@ public class ObjectFileSystem {
 		}
 		FileObj.delete();
 		return false;
-=======
-
-		}catch (IOException e) {
-			try {
-				if(serializer != null)
-					serializer.close();
-			} catch (IOException e1) {
-				assert("false" == "this should never happen");
-				e1.printStackTrace();
-			}
-			FileObj.delete();
-			System.err.println("IO Exception occured in saving experiment");
-			e.printStackTrace();
-		}
-		return true;
->>>>>>> b769d790b3cd4527a53f8a7713a4f02e0d6c3b82
 	}
 	
 	public static Object loadObject(String path){

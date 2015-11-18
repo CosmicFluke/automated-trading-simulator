@@ -132,11 +132,6 @@ public class TradingApplication implements ITradingApplication {
 	 * 
 	 * @param experiment which will be saved to file under EXPERIMENTS dir
 	 */
-<<<<<<< HEAD
-
-
-=======
->>>>>>> b769d790b3cd4527a53f8a7713a4f02e0d6c3b82
 	private void saveExperiment(IExperiment experiment){
 		String path = PathToExperiments + experiment.getName();
 		if(!ObjectFileSystem.saveObject(path, experiment))
@@ -183,7 +178,6 @@ public class TradingApplication implements ITradingApplication {
 	public boolean setStrategy(String stratName, IStrategy strat){
 		if(stratName == null || strat == null ||
 				!strat.getName().equals(stratName))
-<<<<<<< HEAD
 			return false;
 		return setStrategy(strat);
 	}
@@ -209,33 +203,6 @@ public class TradingApplication implements ITradingApplication {
 		this.saveStrategy(newStrat);
 		return true;
 	}
-=======
-			return false;
-		return setStrategy(strat);
-	}
-	
-	
-	/**
-	 * Add a strategy into the application
-	 * Strategy stored by using the name resolved under getName
-	 * 
-	 * @param newStrat IStrategy object which is to be added to application
-	 * @return true if strategy added successfully into application
-	 */
-	@Override
-	public boolean setStrategy(IStrategy newStrat) {
-		if(newStrat == null || newStrat.getName() == null)
-			return false;
-		
-		if(strategies.containsKey(newStrat.getName().hashCode())){
-			return false;
-		}
-		strategies.put(newStrat.getName().hashCode(), newStrat);
-		
-		this.saveStrategy(newStrat);
-		return true;
-	}
->>>>>>> b769d790b3cd4527a53f8a7713a4f02e0d6c3b82
 
 	/**
 	 * Retrieves a strategy by it's given name
@@ -255,7 +222,6 @@ public class TradingApplication implements ITradingApplication {
 				this.setStrategy(stratName, result);
 			return result;
 		}
-<<<<<<< HEAD
 	}
 	
 	private void saveStrategy(IStrategy newStrat) {
@@ -271,16 +237,6 @@ public class TradingApplication implements ITradingApplication {
 	private IStrategy loadStrategy(String stratName) {
 		String path = this.PathToStrategies + stratName;
 		return (IStrategy) ObjectFileSystem.loadObject(path);
-=======
-	}
-	
-	private void saveStrategy(IStrategy newStrat) {
-		
-	}
-	
-	private IStrategy loadStrategy(String stratName) {
-		return null;
->>>>>>> b769d790b3cd4527a53f8a7713a4f02e0d6c3b82
 	}
 
 	/**

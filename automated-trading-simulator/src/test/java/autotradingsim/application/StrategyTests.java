@@ -40,12 +40,8 @@ public class StrategyTests {
 
 	@Test
 	public void testSetStrategyValid(){
-<<<<<<< HEAD
 		IStrategy testStrat = new Strategy("TestSaving");
-=======
-		IStrategy testStrat = new Strategy();
->>>>>>> b769d790b3cd4527a53f8a7713a4f02e0d6c3b82
-		assertTrue(ApplicationUnderTest.setStrategy("TestSaving", new Strategy()));
+		assertTrue(ApplicationUnderTest.setStrategy("TestSaving", testStrat));
 	}
 	
 	@Test
