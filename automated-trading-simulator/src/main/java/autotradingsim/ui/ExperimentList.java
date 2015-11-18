@@ -1,7 +1,10 @@
 package autotradingsim.ui;
 
-import javax.swing.DefaultListModel;
+import autotradingsim.application.TradingApplication;
 
+import javax.swing.DefaultListModel;
+import java.io.File;
+import autotradingsim.application.*;
 /**
  *
  * @author Bill Feng
@@ -12,6 +15,7 @@ public class ExperimentList extends javax.swing.JFrame {
      * Creates new form Experiment
      */
     AutomatedTradingSimulator parent;
+    TradingApplication application = TradingApplication.getInstance();
     DefaultListModel experimentListModel = new DefaultListModel();
     public ExperimentList(AutomatedTradingSimulator parent) {
         this.parent = parent;
@@ -47,8 +51,14 @@ public class ExperimentList extends javax.swing.JFrame {
         });
 
         experimentList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        File folder = new File(application.getpathexperiment());
+        File[] listOfFiles = folder.listFiles();
+        String[] filenames= new String[listOfFiles.length];
+        for (int i=0; i<listOfFiles.length; i++){
+            filenames[i]=listOfFiles[i].getName();
+        }
         experimentList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = filenames;
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });

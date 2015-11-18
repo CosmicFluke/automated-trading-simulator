@@ -57,7 +57,7 @@ public class TradingApplication implements ITradingApplication {
 		if(!strategyDir.exists())
 			strategyDir.mkdir();
 	}
-	
+
 	public static TradingApplication getInstance(){
 		if (instance == null){
 			instance = new TradingApplication();
@@ -75,6 +75,14 @@ public class TradingApplication implements ITradingApplication {
 	 * @param experiment Experiment object which will be stored
 	 * @return true if experiment added into Application successfully
 	 */
+
+	public String getpathexperiment(){
+		return PathToExperiments;
+	}
+	public String getpathstrategies(){
+		return PathToStrategies;
+	}
+	
 	@Override
 	public boolean setExperiment(String experimentName, IExperiment experiment){
 		if(experiment == null || experimentName == null)
@@ -110,6 +118,13 @@ public class TradingApplication implements ITradingApplication {
 		}
 	}
 	
+
+	/**
+	 * Save an experiment to file. Experiment is saved by it's given name.
+	 * 
+	 * @param experiment which will be saved to file under EXPERIMENTS dir
+	 */
+
 
 	private void saveExperiment(IExperiment experiment){
 		String path = PathToExperiments + experiment.getName() + ".bin";
