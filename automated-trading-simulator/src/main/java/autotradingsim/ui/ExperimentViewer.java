@@ -192,9 +192,11 @@ public class ExperimentViewer extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    protected void setNameText(String filename){
+         name.setText(filename);
+    }
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
+        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2,
                            this.getY() + this.getHeight()/2 - parent.getHeight()/2);
         parent.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
@@ -206,7 +208,6 @@ public class ExperimentViewer extends javax.swing.JFrame {
             name.setText("Name: " + text);
         }
     }//GEN-LAST:event_editActionPerformed
-
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         this.setVisible(false);
         parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 

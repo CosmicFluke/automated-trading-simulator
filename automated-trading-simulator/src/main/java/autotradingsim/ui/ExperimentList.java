@@ -1,10 +1,9 @@
 package autotradingsim.ui;
-
 import autotradingsim.application.TradingApplication;
-
+import autotradingsim.engine.*;
 import javax.swing.DefaultListModel;
 import java.io.File;
-import autotradingsim.application.*;
+
 /**
  *
  * @author Bill Feng
@@ -15,15 +14,28 @@ public class ExperimentList extends javax.swing.JFrame {
      * Creates new form Experiment
      */
     AutomatedTradingSimulator parent;
-    TradingApplication application = TradingApplication.getInstance();
     DefaultListModel experimentListModel = new DefaultListModel();
+    TradingApplication application = TradingApplication.getInstance();
+    ExperimentEngine experimentengine = ExperimentEngine.getInstance();
     public ExperimentList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
-        this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
-                         parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
-        //experimentList.setModel(experimentListModel);
+        this.setLocation(parent.getX() + parent.getWidth() / 2 - this.getWidth() / 2,
+                parent.getY() + parent.getHeight() / 2 - this.getHeight() / 2);
+        experimentList.setModel(experimentListModel);
+        loadFileNames(experimentListModel);
+
     }
+    //loads filenames of experiments into the list model
+    public void loadFileNames(DefaultListModel experimentListModel){
+        File folder = new File(application.getpathexperiment());
+        File[] listOfFiles = folder.listFiles();
+        for(File f : listOfFiles){
+            experimentListModel.addElement(f.getName());
+        }
+
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,14 +63,10 @@ public class ExperimentList extends javax.swing.JFrame {
         });
 
         experimentList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        File folder = new File(application.getpathexperiment());
-        File[] listOfFiles = folder.listFiles();
-        String[] filenames= new String[listOfFiles.length];
-        for (int i=0; i<listOfFiles.length; i++){
-            filenames[i]=listOfFiles[i].getName();
-        }
+
         experimentList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = filenames;
+
+            String[] strings = {"item1", "item2", "item3", "item4", "item4"};
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -136,7 +144,7 @@ public class ExperimentList extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
+        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2,
                            this.getY() + this.getHeight()/2 - parent.getHeight()/2);
         parent.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
@@ -145,7 +153,9 @@ public class ExperimentList extends javax.swing.JFrame {
         dialogInput di = new dialogInput(this, true);
         String name = di.run();
         if(name.length() > 0){
-            
+            application.setExperiment(name, experimentengine.createExperiment(name));
+
+            //application.setExperiment(String name);
         }
     }//GEN-LAST:event_createActionPerformed
 
@@ -155,6 +165,7 @@ public class ExperimentList extends javax.swing.JFrame {
             dm.setVisible(true);
         }else{
             ExperimentViewer ev = new ExperimentViewer(this);
+            ev.setNameText(experimentListModel.getElementAt(experimentList.getSelectedIndex()).toString());
             this.setVisible(false);
             ev.setVisible(true);
         }
