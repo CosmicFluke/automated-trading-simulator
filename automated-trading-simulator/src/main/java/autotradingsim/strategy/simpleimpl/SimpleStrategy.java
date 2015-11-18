@@ -80,6 +80,11 @@ public class SimpleStrategy implements IStrategy {
     }
 
     @Override
+    public String getDescription() {
+        return this.description;
+    }
+
+    @Override
     public Set<RuleID> getRules() {
         Set<RuleID> rules = new HashSet<>();
         rules.add(rule.getID());
@@ -119,6 +124,11 @@ public class SimpleStrategy implements IStrategy {
     @Override
     public StrategyTester getNewTester() {
         return new SimpleStrategyTester((IStrategy) this);
+    }
+
+    @Override
+    public int getID() {
+        return this.name.hashCode();
     }
 
 }

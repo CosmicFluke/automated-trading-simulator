@@ -1,6 +1,7 @@
 package autotradingsim.strategy.simpleimpl;
 
 import autotradingsim.strategy.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,36 @@ public class SimpleRule implements IRule {
     public String getSummary() {
         // TODO: implement!
         return null;
+    }
+
+    @Override
+    public void addAction(IAction action) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void addCondition(ICondition condition) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void removeAction(IAction action) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void removeCondition(IAction condition) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void setName(String name) {
+
+    }
+
+    @Override
+    public void setDescription(String description) {
+
     }
 
     @Override

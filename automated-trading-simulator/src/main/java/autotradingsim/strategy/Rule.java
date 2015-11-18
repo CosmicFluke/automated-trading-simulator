@@ -1,17 +1,64 @@
 package autotradingsim.strategy;
 
+import autotradingsim.strategy.simpleimpl.SimpleDecisionMaker;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Created by Asher on 2015-10-30.
  *
  * Basis for general implementation of IRule -- allows for multiple conditions and multiple actions.
  *
  */
-public abstract class Rule implements IRule {
+public class Rule implements IRule {
+
+    private static String default_name = "Rule";
+    private static String default_description = "A rule";
 
     private RuleID id;
+    private Set<ICondition> conditions;
+    private Set<IAction> actions;
+    private String name;
+    private String description;
 
-    public Rule (){
+    public Rule (String name, String description){
         this.id = new RuleID(this);
+        this.conditions = new HashSet<>();
+        this.actions = new HashSet<>();
+        this.name = name;
+        this.description = description;
+    }
+
+    public Rule () {
+        this(default_name, default_description);
+    }
+
+    @Override
+    public IDecisionMaker getDecisionMaker() {
+        return new DecisionMaker(this.conditions, this.actions, this);
+    }
+
+    @Override
+    public List<ICondition> getConditions() {
+        return new ArrayList<>(conditions);
+    }
+
+    @Override
+    public List<IAction> getActions() {
+        return new ArrayList<>(actions);
+    }
+
+    @Override
+    public String getDescription() {
+        return this.description;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 
     @Override
@@ -19,9 +66,39 @@ public abstract class Rule implements IRule {
         return this.id;
     }
 
-    public abstract void addAction(IAction action);
-    public abstract void addCondition(ICondition condition);
-    public abstract void removeAction(IAction action);
-    public abstract void removeCondition(IAction condition);
+    @Override
+    public String getSummary() {
+        return null;
+    }
+
+    @Override
+    public void addAction(IAction action) {
+        actions.add(action);
+    }
+
+    @Override
+    public void addCondition(ICondition condition){
+        conditions.add(condition);
+    }
+
+    @Override
+    public void removeAction(IAction action){
+        actions.remove(action);
+    }
+
+    @Override
+    public void removeCondition(IAction condition){
+        conditions.remove(condition);
+    }
+
+    @Override
+    public void setName(String newName) {
+        name = newName;
+    }
+
+    @Override
+    public void setDescription(String newDescription) {
+        description = newDescription;
+    }
 
 }

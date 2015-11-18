@@ -34,7 +34,6 @@ public class SimpleConditionTest {
     public void setUp() throws Exception {
         LocalDate stockDate = LocalDate.of(2014, 1, 1);
         testDate = stockDate;
-        System.out.format("Setting up date %s\n", testDate.toString());
         one = new BigDecimal(1);
         two = new BigDecimal(2);
         three = new BigDecimal(3);
@@ -61,12 +60,12 @@ public class SimpleConditionTest {
 
         Predicate<IBufferAdapter> p = condition.getFunction();
 
-        BufferAdapter adapter = (BufferAdapter) stock.getNewBuffer(testDate, 1);
+        IBufferAdapter adapter = stock.getNewBuffer(testDate, 1);
 
         assertTrue(p.test(adapter));
 
         testDate = testDate.plusDays(2);
-        adapter = (BufferAdapter) stock.getNewBuffer(testDate, 1);
+        adapter = stock.getNewBuffer(testDate, 1);
         assertFalse(p.test(adapter));
 
     }
