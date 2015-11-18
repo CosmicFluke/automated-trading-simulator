@@ -3,19 +3,14 @@ package autotradingsim.application;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import autotradingsim.application.ITradingApplication;
 import autotradingsim.application.TradingApplication;
-import autotradingsim.experiment.Experiment;
-import autotradingsim.experiment.IExperiment;
 
 public class BasicTest {
 

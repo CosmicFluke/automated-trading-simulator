@@ -3,6 +3,8 @@ package autotradingsim.application;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -74,16 +76,44 @@ public class ExperimentTests {
 	
 	@Test
 	public void testGetExperimentValidExperiment(){
-		String ExpectedFileExists = PathToExperiments + "TestSaving.bin";
-		ApplicationUnderTest.setExperiment("TestSaving", new Experiment("TestSaving"));
-		File testingFile = new File(ExpectedFileExists);
-		assertTrue(testingFile.exists());
-		testingFile.delete();
+		IExperiment savingExperiment = new Experiment("TestSaving");
+		ApplicationUnderTest.setExperiment("TestSaving", savingExperiment);
+		assertEquals(savingExperiment, ApplicationUnderTest.getExperiment("TestSaving"));
+	}
+	
+	@Test
+	public void testGetExperimentInValidExperiment(){
+		assertEquals(ApplicationUnderTest.getExperiment("Invalid"), null);
+	}
+	
+	@Test
+	public void testGetExperimentNullExperimentName(){
+		assertEquals(ApplicationUnderTest.getExperiment(null), null);
+	}
+	
+	@Test
+	public void testGetExperimentMultipleExperiments(){
+		IExperiment savingExperiment1 = new Experiment("TestSaving1");
+		IExperiment savingExperiment2 = new Experiment("TestSaving2");
+		ApplicationUnderTest.setExperiment("TestSaving1", savingExperiment1);
+		ApplicationUnderTest.setExperiment("TestSaving2", savingExperiment2);
+		assertEquals(savingExperiment1, ApplicationUnderTest.getExperiment("TestSaving1"));
+		assertEquals(savingExperiment2, ApplicationUnderTest.getExperiment("TestSaving2"));
+	}
+	
+	@Test
+	public void testGetExperimentMultipleGetExperiment(){
+		IExperiment savingExperiment1 = new Experiment("TestSaving1");
+		IExperiment savingExperiment2 = new Experiment("TestSaving2");
+		ApplicationUnderTest.setExperiment("TestSaving1", savingExperiment1);
+		ApplicationUnderTest.setExperiment("TestSaving2", savingExperiment2);
+		assertEquals(savingExperiment1, ApplicationUnderTest.getExperiment("TestSaving1"));
+		assertEquals(savingExperiment1, ApplicationUnderTest.getExperiment("TestSaving1"));
 	}
 	
 	@Test
 	public void testSavingExperiment(){
-		String ExpectedFileExists = PathToExperiments + "TestSaving.bin";
+		String ExpectedFileExists = PathToExperiments + "TestSaving";
 		ApplicationUnderTest.setExperiment("TestSaving", new Experiment("TestSaving"));
 		File testingFile = new File(ExpectedFileExists);
 		assertTrue(testingFile.exists());
@@ -92,7 +122,7 @@ public class ExperimentTests {
 	
 	@Test
 	public void testSavingLoadingExperiment(){
-		String ExpectedFileExists = PathToExperiments + "TestSaving.bin";
+		String ExpectedFileExists = PathToExperiments + "TestSaving";
 		IExperiment myExperiment = new Experiment("TestSaving");
 		ApplicationUnderTest.setExperiment("TestSaving", myExperiment);
 		File testingFile = new File(ExpectedFileExists);
@@ -108,5 +138,30 @@ public class ExperimentTests {
 		
 		testingFile.delete();
 	}
+	
+	@Test
+	public void testAvailableExperimentsEmpty(){
+		assertTrue(ApplicationUnderTest.getAvailableExperiments().isEmpty());
+	}
+	
+	@Test
+	public void testAvailableExperimentsSingleExperiment(){
+		IExperiment testExperiment = new Experiment("newExperiment");
+		ApplicationUnderTest.setExperiment("newExperiment", testExperiment);
+		Set<String> expectedSet = new HashSet<String>();
+		expectedSet.add("newExperiment");
+		assertEquals(ApplicationUnderTest.getAvailableExperiments(), expectedSet);
+	}
 
+	@Test
+	public void testAvailableExperimentsSingleClearExperiment(){
+		IExperiment testExperiment = new Experiment("newExperiment");
+		ApplicationUnderTest.setExperiment("newExperiment", testExperiment);
+		ApplicationUnderTest.clearMemory();
+		Set<String> expectedSet = new HashSet<String>();
+		expectedSet.add("newExperiment");
+		assertEquals(ApplicationUnderTest.getAvailableExperiments(), expectedSet);
+	}
+
+	
 }

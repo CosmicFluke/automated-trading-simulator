@@ -1,0 +1,38 @@
+[1mdiff --git a/automated-trading-simulator/src/main/java/autotradingsim/autoTradingSim.java b/automated-trading-simulator/src/main/java/autotradingsim/autoTradingSim.java[m
+[1mindex 069189d..f7b27e0 100644[m
+[1m--- a/automated-trading-simulator/src/main/java/autotradingsim/autoTradingSim.java[m
+[1m+++ b/automated-trading-simulator/src/main/java/autotradingsim/autoTradingSim.java[m
+[36m@@ -1,11 +1,11 @@[m
+ package autotradingsim;[m
+[31m-import autotradingsim.terminal.SimTerminal;[m
+[32m+[m[32mimport autotradingsim.terminal.TerminalUI;;[m
+ [m
+ public class autoTradingSim[m
+ {[m
+     public static void main( String[] args )[m
+     {[m
+[31m-    	SimTerminal terminal = new SimTerminal();[m
+[32m+[m[41m    [m	[32mTerminalUI terminal = new TerminalUI();[m
+         terminal.run();[m
+     }[m
+ }[m
+[1mdiff --git a/automated-trading-simulator/src/main/java/autotradingsim/experiment/Experiment.java b/automated-trading-simulator/src/main/java/autotradingsim/experiment/Experiment.java[m
+[1mindex fa0b4ea..f6a542e 100644[m
+[1m--- a/automated-trading-simulator/src/main/java/autotradingsim/experiment/Experiment.java[m
+[1m+++ b/automated-trading-simulator/src/main/java/autotradingsim/experiment/Experiment.java[m
+[36m@@ -1,6 +1,7 @@[m
+ package autotradingsim.experiment;[m
+ [m
+ import autotradingsim.stocks.*;[m
+[32m+[m[32mimport autotradingsim.application.*;[m
+ import autotradingsim.strategy.*;[m
+ [m
+ import java.io.BufferedWriter;[m
+[36m@@ -9,7 +10,6 @@[m [mimport java.io.IOException;[m
+ import java.math.BigDecimal;[m
+ import java.util.*;[m
+ [m
+[31m-import application.TradingApplication;[m
+ [m
+ /**[m
+  * Created by Asher on 2015-10-25.[m

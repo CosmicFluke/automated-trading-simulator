@@ -11,15 +11,23 @@ public interface ITradingApplication {
 
 	/**
 	 * Add an experiment by name into the application
-	 * Name given and name found in experiment don't need
-	 * to match, but after being loaded, must use name found
-	 * in IExperiment class
+	 * Name given and name found in experiment need
+	 * to match
 	 * 
 	 * @param experimentName name under which to store experiment
 	 * @param experiment Experiment object which will be stored
 	 * @return true if experiment added into Application successfully
 	 */
 	boolean setExperiment(String experimentName, IExperiment experiment);
+	
+	/**
+	 * Add an experiment into the application
+	 * Experiment will be stored by name found in from IExperiment.getName
+	 * 
+	 * @param experiment Experiment object which will be stored
+	 * @return true if experiment added into Application successfully
+	 */
+	boolean addExperiment(IExperiment experiment);
 	
 	/**
 	 * Return experiment object associated with given name
@@ -44,6 +52,15 @@ public interface ITradingApplication {
 	 * @return true if strategy added successfully into application
 	 */
 	boolean setStrategy(String StrategyName, IStrategy newStrat);
+	
+	/**
+	 * Add a strategy into the application
+	 * Strategy stored by using the name resolved under getName
+	 * 
+	 * @param newStrat IStrategy object which is to be added to application
+	 * @return true if strategy added successfully into application
+	 */
+	boolean setStrategy(IStrategy newStrat);
 	
 	/**
 	 * Retrieves a strategy by it's given name
