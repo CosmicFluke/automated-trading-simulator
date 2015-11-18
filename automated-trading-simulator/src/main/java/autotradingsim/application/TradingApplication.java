@@ -80,7 +80,8 @@ public class TradingApplication implements ITradingApplication {
 	
 	@Override
 	public boolean setExperiment(String experimentName, IExperiment experiment){
-		if(experimentName == null || !experiment.getName().equals(experimentName))
+		if(experimentName == null || experiment == null ||
+				!experiment.getName().equals(experimentName))
 			return false;
 		
 		return addExperiment(experiment);
@@ -225,13 +226,33 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public boolean setStrategy(String stratName, IStrategy strat){
-		if(strategies.containsKey(stratName.hashCode())) {
+		if(stratName == null || strat == null ||
+				!strat.getName().equals(stratName))
 			return false;
-		}
-		strategies.put(stratName.hashCode(), strat);
-		return true;
+		return setStrategy(strat);
 	}
 	
+	
+	/**
+	 * Add a strategy into the application
+	 * Strategy stored by using the name resolved under getName
+	 * 
+	 * @param newStrat IStrategy object which is to be added to application
+	 * @return true if strategy added successfully into application
+	 */
+	@Override
+	public boolean setStrategy(IStrategy newStrat) {
+		if(newStrat == null || newStrat.getName() == null)
+			return false;
+		
+		if(strategies.containsKey(newStrat.getName().hashCode())){
+			return false;
+		}
+		strategies.put(newStrat.getName().hashCode(), newStrat);
+		
+		this.saveStrategy(newStrat);
+		return true;
+	}
 
 	/**
 	 * Retrieves a strategy by it's given name
@@ -241,18 +262,37 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public IStrategy getStrategy(String stratName){
-		return strategies.get(stratName.hashCode());
+		if(stratName == null)
+			return null;
+		if(strategies.containsKey(stratName.hashCode())){
+			return strategies.get(stratName.hashCode());
+		}else{
+			IStrategy result = loadStrategy(stratName);
+			if(result != null)
+				this.setStrategy(stratName, result);
+			return result;
+		}
 	}
 	
+	private void saveStrategy(IStrategy newStrat) {
+	}
+	
+	private IStrategy loadStrategy(String stratName) {
+		return null;
+	}
+
 	/**
 	 * return a set of available strategies loaded into memory
 	 * @return set of names of strategies
 	 */
 	@Override
 	public Set<String> getAvailableStrategies() {
+		File strategies = new File(this.PathToStrategies);
 		Set<String> returningSet = new HashSet<String>();
-		//for(String name : this.strategyNames)
-		//	returningSet.add(name);
+		if(strategies.exists() && strategies.isDirectory()){
+			for(File strategy : strategies.listFiles())
+				returningSet.add(strategy.getName());
+		}
 		return returningSet;
 	}
 

@@ -54,6 +54,15 @@ public interface ITradingApplication {
 	boolean setStrategy(String StrategyName, IStrategy newStrat);
 	
 	/**
+	 * Add a strategy into the application
+	 * Strategy stored by using the name resolved under getName
+	 * 
+	 * @param newStrat IStrategy object which is to be added to application
+	 * @return true if strategy added successfully into application
+	 */
+	boolean setStrategy(IStrategy newStrat);
+	
+	/**
 	 * Retrieves a strategy by it's given name
 	 * 
 	 * @param stratname strategy name which was used to store strategy
