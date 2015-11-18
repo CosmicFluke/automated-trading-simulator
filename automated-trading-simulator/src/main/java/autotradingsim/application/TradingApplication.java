@@ -71,8 +71,7 @@ public class TradingApplication implements ITradingApplication {
 	 * to match, but after being loaded, must use name found
 	 * in IExperiment class
 	 * 
-	 * @param experimentName name under which to store experiment
-	 * @param experiment Experiment object which will be stored
+	 *
 	 * @return true if experiment added into Application successfully
 	 */
 
@@ -158,7 +157,7 @@ public class TradingApplication implements ITradingApplication {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Load experiment from memory with given name. 
 	 * Null on error with error printed to System.err
@@ -209,8 +208,8 @@ public class TradingApplication implements ITradingApplication {
 	 * Add a strategy by name into the application
 	 * StrategyName should match with name found under newStrat object
 	 * 
-	 * @param StrategyName name under to which to store experiment
-	 * @param newStrat IStrategy object which is to be added to application
+	 * @param stratName name under to which to store experiment
+	 * @param strat IStrategy object which is to be added to application
 	 * @return true if strategy added successfully into application
 	 */
 	@Override
@@ -228,7 +227,7 @@ public class TradingApplication implements ITradingApplication {
 	/**
 	 * Retrieves a strategy by it's given name
 	 * 
-	 * @param stratname strategy name which was used to store strategy
+	 * @param stratName strategy name which was used to store strategy
 	 * @return strategy with the associated name or null on none found
 	 */
 	@Override
