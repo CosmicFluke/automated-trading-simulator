@@ -21,10 +21,34 @@ import java.util.Set;
  */
 public class Strategy implements IStrategy {
 
+    private static final String defaultDescription = "This is a strategy.";
+    private static final String defaultName = "DefaultStrategyName";
+    private static int counter = 0;
+
     private Map<RuleID, IRule> rules;
     private String name;
     private String description;
-    private static String defaultDescription = "This is a strategy.";
+
+    public Strategy (String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public Strategy(String name) {
+        this(name, defaultDescription);
+    }
+
+    /**
+     * WARNING. Avoid using this constructor.
+     */
+    public Strategy() {
+        this(defaultName + String.valueOf(counter), defaultDescription);
+        counter++;
+    }
+
+    public void setDescription(String newDescription) {
+        this.description = newDescription;
+    }
 
     @Override
     public Set<RuleID> getRules() {
@@ -49,6 +73,11 @@ public class Strategy implements IStrategy {
     }
 
     @Override
+    public int getID(){
+        return this.name.hashCode();
+    }
+
+    @Override
     public String getRuleName(RuleID rule) {
         return this.rules.get(rule).getName();
     }
@@ -66,6 +95,11 @@ public class Strategy implements IStrategy {
     @Override
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public String getDescription() {
+        return this.description;
     }
 
     @Override
