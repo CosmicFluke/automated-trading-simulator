@@ -74,11 +74,39 @@ public class ExperimentTests {
 	
 	@Test
 	public void testGetExperimentValidExperiment(){
-		String ExpectedFileExists = PathToExperiments + "TestSaving.bin";
-		ApplicationUnderTest.setExperiment("TestSaving", new Experiment("TestSaving"));
-		File testingFile = new File(ExpectedFileExists);
-		assertTrue(testingFile.exists());
-		testingFile.delete();
+		IExperiment savingExperiment = new Experiment("TestSaving");
+		ApplicationUnderTest.setExperiment("TestSaving", savingExperiment);
+		assertEquals(savingExperiment, ApplicationUnderTest.getExperiment("TestSaving"));
+	}
+	
+	@Test
+	public void testGetExperimentInValidExperiment(){
+		assertEquals(ApplicationUnderTest.getExperiment("Invalid"), null);
+	}
+	
+	@Test
+	public void testGetExperimentNullExperimentName(){
+		assertEquals(ApplicationUnderTest.getExperiment(null), null);
+	}
+	
+	@Test
+	public void testGetExperimentMultipleExperiments(){
+		IExperiment savingExperiment1 = new Experiment("TestSaving1");
+		IExperiment savingExperiment2 = new Experiment("TestSaving2");
+		ApplicationUnderTest.setExperiment("TestSaving1", savingExperiment1);
+		ApplicationUnderTest.setExperiment("TestSaving2", savingExperiment2);
+		assertEquals(savingExperiment1, ApplicationUnderTest.getExperiment("TestSaving1"));
+		assertEquals(savingExperiment2, ApplicationUnderTest.getExperiment("TestSaving2"));
+	}
+	
+	@Test
+	public void testGetExperimentMultipleGetExperiment(){
+		IExperiment savingExperiment1 = new Experiment("TestSaving1");
+		IExperiment savingExperiment2 = new Experiment("TestSaving2");
+		ApplicationUnderTest.setExperiment("TestSaving1", savingExperiment1);
+		ApplicationUnderTest.setExperiment("TestSaving2", savingExperiment2);
+		assertEquals(savingExperiment1, ApplicationUnderTest.getExperiment("TestSaving1"));
+		assertEquals(savingExperiment1, ApplicationUnderTest.getExperiment("TestSaving1"));
 	}
 	
 	@Test
