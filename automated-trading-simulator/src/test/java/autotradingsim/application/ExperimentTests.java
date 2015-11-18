@@ -3,6 +3,8 @@ package autotradingsim.application;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -111,7 +113,7 @@ public class ExperimentTests {
 	
 	@Test
 	public void testSavingExperiment(){
-		String ExpectedFileExists = PathToExperiments + "TestSaving.bin";
+		String ExpectedFileExists = PathToExperiments + "TestSaving";
 		ApplicationUnderTest.setExperiment("TestSaving", new Experiment("TestSaving"));
 		File testingFile = new File(ExpectedFileExists);
 		assertTrue(testingFile.exists());
@@ -120,7 +122,7 @@ public class ExperimentTests {
 	
 	@Test
 	public void testSavingLoadingExperiment(){
-		String ExpectedFileExists = PathToExperiments + "TestSaving.bin";
+		String ExpectedFileExists = PathToExperiments + "TestSaving";
 		IExperiment myExperiment = new Experiment("TestSaving");
 		ApplicationUnderTest.setExperiment("TestSaving", myExperiment);
 		File testingFile = new File(ExpectedFileExists);
@@ -136,5 +138,30 @@ public class ExperimentTests {
 		
 		testingFile.delete();
 	}
+	
+	@Test
+	public void testAvailableExperimentsEmpty(){
+		assertTrue(ApplicationUnderTest.getAvailableExperiments().isEmpty());
+	}
+	
+	@Test
+	public void testAvailableExperimentsSingleExperiment(){
+		IExperiment testExperiment = new Experiment("newExperiment");
+		ApplicationUnderTest.setExperiment("newExperiment", testExperiment);
+		Set<String> expectedSet = new HashSet<String>();
+		expectedSet.add("newExperiment");
+		assertEquals(ApplicationUnderTest.getAvailableExperiments(), expectedSet);
+	}
 
+	@Test
+	public void testAvailableExperimentsSingleClearExperiment(){
+		IExperiment testExperiment = new Experiment("newExperiment");
+		ApplicationUnderTest.setExperiment("newExperiment", testExperiment);
+		ApplicationUnderTest.clearMemory();
+		Set<String> expectedSet = new HashSet<String>();
+		expectedSet.add("newExperiment");
+		assertEquals(ApplicationUnderTest.getAvailableExperiments(), expectedSet);
+	}
+
+	
 }

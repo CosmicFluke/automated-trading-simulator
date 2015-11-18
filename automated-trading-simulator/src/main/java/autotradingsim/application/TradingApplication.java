@@ -118,7 +118,7 @@ public class TradingApplication implements ITradingApplication {
 	 * @param experiment which will be saved to file under EXPERIMENTS dir
 	 */
 	private void saveExperiment(IExperiment experiment){
-		String path = PathToExperiments + experiment.getName() + ".bin";
+		String path = PathToExperiments + experiment.getName();
 		File experimentFileObj = new File(path);
 		ObjectOutputStream serializer = null;
 		FileOutputStream experimentFile = null;
@@ -158,7 +158,7 @@ public class TradingApplication implements ITradingApplication {
 	 * @return experiment in file or null on error
 	 */
 	private IExperiment loadExperiment(String name){
-		String path = PathToExperiments + name + ".bin";
+		String path = PathToExperiments + name;
 		File experimentFileObj = new File(path);
 		ObjectInputStream serializer = null;
 		FileInputStream experimentFile = null;
