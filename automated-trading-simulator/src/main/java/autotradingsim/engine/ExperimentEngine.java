@@ -7,15 +7,26 @@ public class ExperimentEngine {
 
 	public static TradingApplication appEngine;
 	public static Experiment currExperiment;
+	public static ExperimentEngine engine;
 	
 	/**
 	 * 
 	 * @param none
 	 * populate appEngine with instance of application
 	 */
-	public ExperimentEngine() {
+	private ExperimentEngine() {
 		// TODO Auto-generated constructor stub
 		 appEngine = TradingApplication.getInstance();
+	}
+	
+
+	public static ExperimentEngine getInstance() {
+		// TODO Auto-generated method stub
+		if (engine==null){
+			engine = new ExperimentEngine();
+		}
+		return engine;
+		
 	}
 	
 	/**
@@ -56,5 +67,6 @@ public class ExperimentEngine {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }
