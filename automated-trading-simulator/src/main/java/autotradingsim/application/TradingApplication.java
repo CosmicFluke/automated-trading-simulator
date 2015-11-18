@@ -108,6 +108,8 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public IExperiment getExperiment(String experimentName){
+		if(experimentName == null)
+			return null;
 		if(experiments.containsKey(experimentName.hashCode())){
 			return experiments.get(experimentName.hashCode());
 		}else{
