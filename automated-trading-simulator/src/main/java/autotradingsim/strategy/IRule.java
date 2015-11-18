@@ -7,13 +7,17 @@ import java.util.List;
  *
  * <p>Classes implementing this interface <b>arrange, validate, and store</b> sets of conditions and actions.</p>
  * <p>Members of this class do *not* produce decisions, but rather produce {@link IDecisionMaker IDecisionMaker}
- * objects to fulfill that responsibility.  Rules are blind to Stocks.</p>
+ * objects to fulfill that responsibility.<br>
+ * The actual ICondition and IAction objects contained in an IRule are not mutable, and thus can be accessed directly
+ * through the {@link #getConditions()} and {@link #getActions()} methods.  However, in any implementation of IRule,
+ * the Collections returned should not themselves be mutable.<br>
+ * Rules are blind to Stocks.</p>
  *
  */
 public interface IRule {
     
     /**
-     * Produces the decision-making object.<br>
+     * Produces a decision-making object for this rule.<br>
      * (The {@link StrategyTester} should use this to get decisions for specific stocks on specific dates)<br>
      * @return A decision maker.
      */
@@ -46,4 +50,32 @@ public interface IRule {
      * @return
      */
     String getSummary();
+
+    /**
+     * Add an action to this rule.
+     * @param action
+     */
+    void addAction(IAction action);
+
+    /**
+     * Add a condition to this rule.
+     * @param condition
+     */
+    void addCondition(ICondition condition);
+
+    /**
+     * Remove the specified action from this rule.
+     * @param action
+     */
+    void removeAction(IAction action);
+
+    /**
+     * Remove the specified condition from this rule.
+     * @param condition
+     */
+    void removeCondition(IAction condition);
+
+    void setName(String name);
+
+    void setDescription(String description);
 }
