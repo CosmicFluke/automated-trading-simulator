@@ -80,15 +80,28 @@ public class TradingApplication implements ITradingApplication {
 	
 	@Override
 	public boolean setExperiment(String experimentName, IExperiment experiment){
-		if(experiment == null || 
-				experimentName == null || 
-				!experiment.getName().equals(experimentName))
+		if(experimentName == null || !experiment.getName().equals(experimentName))
 			return false;
 		
-		if(experiments.containsKey(experimentName.hashCode())){
+		return addExperiment(experiment);
+	}
+	
+	/**
+	 * Add an experiment into the application
+	 * Experiment will be stored by name found in from IExperiment.getName
+	 * 
+	 * @param experiment Experiment object which will be stored
+	 * @return true if experiment added into Application successfully
+	 */
+	@Override
+	public boolean addExperiment(IExperiment experiment) {
+		if(experiment == null || experiment.getName() == null)
+			return false;
+		
+		if(experiments.containsKey(experiment.getName().hashCode())){
 			return false;
 		}
-		experiments.put(experimentName.hashCode(), experiment);
+		experiments.put(experiment.getName().hashCode(), experiment);
 		
 		this.saveExperiment(experiment);
 		return true;
