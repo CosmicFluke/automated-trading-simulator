@@ -1,10 +1,5 @@
 package autotradingsim.application;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,6 +9,7 @@ import autotradingsim.experiment.*;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.StockLoader;
 import autotradingsim.strategy.*;
+import autotradingsim.util.ObjectFileSystem;
 
 public class TradingApplication implements ITradingApplication {
 	
@@ -38,8 +34,10 @@ public class TradingApplication implements ITradingApplication {
 		
 		this.stocks = new HashMap<String, IStock>();
 		
-		PathToExperiments = System.getProperty("user.dir") + "//DATA//EXPERIMENTS//";
-		PathToStrategies = System.getProperty("user.dir") + "//DATA//STRATEGIES//";
+		PathToExperiments = System.getProperty("user.dir") + File.separator + "DATA" +
+							File.separator + "EXPERIMENTS" + File.separator;
+		PathToStrategies = System.getProperty("user.dir") + File.separator + "DATA" + 
+							File.separator + "STRATEGIES" + File.separator;
 		
 		instance = this;
 		
@@ -139,35 +137,8 @@ public class TradingApplication implements ITradingApplication {
 
 	private void saveExperiment(IExperiment experiment){
 		String path = PathToExperiments + experiment.getName();
-		File experimentFileObj = new File(path);
-		ObjectOutputStream serializer = null;
-		FileOutputStream experimentFile = null;
-		try {
-			if(!experimentFileObj.exists())
-				experimentFileObj.createNewFile();
-		} catch (IOException e) {
-			System.err.println("Error in creating file for saving the experiment");
-			e.printStackTrace();
-			return;
-		}
-		try{
-			experimentFile = new FileOutputStream(experimentFileObj);
-			serializer = new ObjectOutputStream(experimentFile);
-			serializer.writeObject(experiment);
-			serializer.close();
-
-		}catch (IOException e) {
-			try {
-				if(serializer != null)
-					serializer.close();
-			} catch (IOException e1) {
-				assert("false" == "this should never happen");
-				e1.printStackTrace();
-			}
-			experimentFileObj.delete();
-			System.err.println("IO Exception occured in saving experiment");
-			e.printStackTrace();
-		}
+		if(!ObjectFileSystem.saveObject(path, experiment))
+			System.err.println("Something went wrong. Check console");
 	}
 	
 	/**
@@ -179,25 +150,7 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	private IExperiment loadExperiment(String name){
 		String path = PathToExperiments + name;
-		File experimentFileObj = new File(path);
-		ObjectInputStream serializer = null;
-		FileInputStream experimentFile = null;
-		IExperiment result = null;
-		
-		if(!experimentFileObj.exists())
-			return result;
-		
-		try {
-			experimentFile = new FileInputStream(experimentFileObj);
-			serializer = new ObjectInputStream(experimentFile);
-			result = (IExperiment) serializer.readObject();
-			serializer.close();
-		} catch (ClassNotFoundException | IOException e) {
-			System.err.println("Error loading experiment from memory");
-			e.printStackTrace();
-		}
-		
-		return result;
+		return (IExperiment) ObjectFileSystem.loadObject(path);
 	}
 
 	
@@ -275,6 +228,7 @@ public class TradingApplication implements ITradingApplication {
 	}
 	
 	private void saveStrategy(IStrategy newStrat) {
+		
 	}
 	
 	private IStrategy loadStrategy(String stratName) {
