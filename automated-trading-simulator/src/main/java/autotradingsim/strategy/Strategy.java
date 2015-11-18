@@ -4,6 +4,7 @@ import autotradingsim.strategy.exceptions.DuplicateEntryException;
 import autotradingsim.strategy.exceptions.RuleDoesNotExistException;
 import autotradingsim.strategy.simpleimpl.SimpleAction;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -19,9 +20,10 @@ import java.util.Set;
  * <p>To modify a rule, remove it from the strategy and re-add it once it has been modified.</p>
  *
  */
-public class Strategy implements IStrategy {
+public class Strategy implements IStrategy, Serializable {
 
-    private static final String defaultDescription = "This is a strategy.";
+	private static final long serialVersionUID = -1393482066088892563L;
+	private static final String defaultDescription = "This is a strategy.";
     private static final String defaultName = "DefaultStrategyName";
     private static int counter = 0;
 
