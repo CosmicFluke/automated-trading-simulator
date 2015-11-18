@@ -14,7 +14,7 @@ import org.junit.Test;
 import autotradingsim.experiment.Experiment;
 import autotradingsim.experiment.IExperiment;
 
-public class ExperimentTests {
+public class ExperimentTest {
 
 	private String PathToExperiments = System.getProperty("user.dir") + "//DATA//EXPERIMENTS//";
 	ITradingApplication ApplicationUnderTest = null;

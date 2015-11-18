@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import autotradingsim.strategy.*;
 
-public class StrategyTests {
+public class StrategyTest {
 
 	private String PathToStrategies = System.getProperty("user.dir") + File.separator + "DATA" + 
 										File.separator + "STRATEGIES" + File.separator;
