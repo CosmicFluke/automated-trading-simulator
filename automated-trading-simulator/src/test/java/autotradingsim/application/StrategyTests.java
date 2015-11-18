@@ -40,7 +40,7 @@ public class StrategyTests {
 
 	@Test
 	public void testSetStrategyValid(){
-		IStrategy testStrat = new Strategy();
+		IStrategy testStrat = new Strategy("TestSaving");
 		assertTrue(ApplicationUnderTest.setStrategy("TestSaving", new Strategy()));
 	}
 	

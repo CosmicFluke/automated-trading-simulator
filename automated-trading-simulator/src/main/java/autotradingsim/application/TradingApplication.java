@@ -197,9 +197,9 @@ public class TradingApplication implements ITradingApplication {
 		if(newStrat == null || newStrat.getName() == null)
 			return false;
 		
-		if(strategies.containsKey(newStrat.getName().hashCode())){
+		if(strategies.containsKey(newStrat.getName().hashCode()))
 			return false;
-		}
+
 		strategies.put(newStrat.getName().hashCode(), newStrat);
 		
 		this.saveStrategy(newStrat);
@@ -227,11 +227,18 @@ public class TradingApplication implements ITradingApplication {
 	}
 	
 	private void saveStrategy(IStrategy newStrat) {
+		if(newStrat.getName() == null){
+			System.out.println("Warning, not saving strategy. Missing name.");
+			return;
+		}
+		String path = this.PathToStrategies + newStrat.getName();
+		ObjectFileSystem.saveObject(path, newStrat);
 		
 	}
 	
 	private IStrategy loadStrategy(String stratName) {
-		return null;
+		String path = this.PathToStrategies + stratName;
+		return (IStrategy) ObjectFileSystem.loadObject(path);
 	}
 
 	/**
