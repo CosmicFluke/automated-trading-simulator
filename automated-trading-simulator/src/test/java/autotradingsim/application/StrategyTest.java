@@ -16,6 +16,7 @@ import autotradingsim.application.ITradingApplication;
 import autotradingsim.application.TradingApplication;
 
 import autotradingsim.strategy.*;
+import autotradingsim.strategy.simpleimpl.SimpleCondition;
 import autotradingsim.strategy.simpleimpl.SimpleStrategy;
 
 public class StrategyTest {
@@ -133,6 +134,38 @@ public class StrategyTest {
 		IRule myRule = new Rule();
 		mySimpleStrat.addRule(myRule);
 		
+		ApplicationUnderTest.setStrategy("TestSingleRule", mySimpleStrat);
+		File testingFile = new File(ExpectedFileExists);
+		assertTrue(testingFile.exists());
+		testingFile.delete();
+	}
+	
+	@Test
+	public void testSavingStrategyMultipleEmptyRules(){
+		String ExpectedFileExists = PathToStrategies + "TestSingleRule";
+		IStrategy mySimpleStrat = new Strategy("TestSingleRule");
+		IRule myRule1 = new Rule();
+		mySimpleStrat.addRule(myRule1);
+		IRule myRule2 = new Rule();
+		mySimpleStrat.addRule(myRule2);
+		
+		ApplicationUnderTest.setStrategy("TestSingleRule", mySimpleStrat);
+		File testingFile = new File(ExpectedFileExists);
+		assertTrue(testingFile.exists());
+		testingFile.delete();
+	}
+	
+	@Test
+	public void testSavingStrategyOneRuleOneCondition(){
+		String ExpectedFileExists = PathToStrategies + "TestSingleRule";
+		IStrategy mySimpleStrat = new Strategy("TestSingleRule");
+		IRule myRule = new Rule();
+		IAction action = new Action();
+		myRule.addAction(action );
+		//ICondition myCondition = new SimpleCondition(ICondition.Comparator.EQ, new BigDecimal(10));
+		//myRule.addCondition(myCondition);
+		//mySimpleStrat.addRule(myRule);
+		// TODO Solidify the serialization of conditions
 		ApplicationUnderTest.setStrategy("TestSingleRule", mySimpleStrat);
 		File testingFile = new File(ExpectedFileExists);
 		assertTrue(testingFile.exists());

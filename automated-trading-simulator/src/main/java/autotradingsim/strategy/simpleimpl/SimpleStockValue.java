@@ -8,6 +8,7 @@ import autotradingsim.strategy.IFunctionBuilder;
 import autotradingsim.strategy.IMeasurement;
 import autotradingsim.strategy.exceptions.DataNotProvidedException;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.function.Function;
 
@@ -17,9 +18,10 @@ import java.util.function.Function;
  * IMeasurement implementation which always uses a stock's daily closing value.
  *
  */
-public class SimpleStockValue implements IMeasurement, IFunctionBuilder {
+public class SimpleStockValue implements IMeasurement, IFunctionBuilder, Serializable {
 
-    private static final String name = "Simple Stock Value";
+	private static final long serialVersionUID = 7222665412381196992L;
+	private static final String name = "Simple Stock Value";
     private static final String desc = "Daily closing value of a stock";
     private static final int bufferSize = 1;
 
