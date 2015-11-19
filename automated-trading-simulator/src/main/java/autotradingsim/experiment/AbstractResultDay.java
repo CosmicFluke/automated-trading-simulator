@@ -30,10 +30,9 @@ public abstract class AbstractResultDay {
         this.decisions = decisions;
         this.strategyIDtoStockSymbol = new HashMap<>();
         // TODO: Finish implementing constructor
-        /*strategyToStock.entrySet().stream()
-                .map(entry -> new String[]{entry.getKey().getName(), entry.getValue().getName()})
-                .reduce();
-                */
+        strategyToStock.entrySet().stream()
+                    .map(entry -> new String[]{entry.getKey().getName(), entry.getValue().getName()})
+                    .peek((e) -> {});
     }
 
     abstract BigDecimal getBalanceRelativeChange();

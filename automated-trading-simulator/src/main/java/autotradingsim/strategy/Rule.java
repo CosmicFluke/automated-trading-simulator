@@ -68,7 +68,17 @@ public class Rule implements IRule {
 
     @Override
     public String getSummary() {
-        return null;
+        StringBuilder summary = new StringBuilder();
+        String opener = "Rule: " + this.getName() + "\n" +
+                "Description: " + this.getDescription() + "\n\n" +
+                "Conditions:\n";
+        summary.append(opener);
+        conditions.stream().peek((ICondition c) -> summary.append(c.toString() + "\n"));
+        summary.append("\nActions:\n");
+        actions.stream().peek(
+                (IAction a) -> summary.append(
+                        a.getActionType().toString() + " " + String.valueOf(a.getQuantity().toString()) + "\n"));
+        return summary.toString() + "\n";
     }
 
     @Override

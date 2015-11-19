@@ -14,11 +14,13 @@ import java.util.*;
  */
 public class SimpleDecisionMaker implements IDecisionMaker {
 
+    private IStrategy strategy;
     private SimpleRule rule;
     private IStock stock;
 
     public SimpleDecisionMaker (SimpleRule rule) {
         this.rule = rule;
+        this.strategy = new SimpleStrategy(); // TODO: THIS IS VERY WRONG MUST CHANGE
         this.stock = null;
     }
 
@@ -50,7 +52,8 @@ public class SimpleDecisionMaker implements IDecisionMaker {
 
         if (condition.getFunction().test(buffer)) {
             IActionQuantity q = action.getQuantity();
-            return new Decision(buffer.getLastEntry().getDate(), action.getActionType(), stock, action.getQuantity());
+            return new Decision(buffer.getLastEntry().getDate(), action.getActionType(), stock, action.getQuantity(),
+                    this.strategy, this.rule);
         }
         else return null;
     }

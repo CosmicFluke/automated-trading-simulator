@@ -161,14 +161,14 @@ public class Experiment implements IExperiment, Serializable {
                         while(itr.hasNext()){
                             decision = (IDecision)itr.next();
                             if(decision.getActionType() == IAction.ActionType.BUY){
-                                shares += decision.getQuantity();
+                                shares += decision.getQuantity(balance);
                                 balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
                             }else if(decision.getActionType() == IAction.ActionType.SELL){
-                                shares -= decision.getQuantity();
+                                shares -= decision.getQuantity(balance);
                                 balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
                             }
 
-                            bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity());
+                            bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity(balance));
                         }
                         bw.newLine();
                         currentDate = currentDate.plusDays(1);
@@ -227,14 +227,14 @@ public class Experiment implements IExperiment, Serializable {
                     while(itr.hasNext()){
                         decision = (IDecision)itr.next();
                         if(decision.getActionType() == IAction.ActionType.BUY){
-                            shares += decision.getQuantity();
+                            shares += decision.getQuantity(balance);
                             balance = balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
                         }else if(decision.getActionType() == IAction.ActionType.SELL){
-                            shares -= decision.getQuantity();
+                            shares -= decision.getQuantity(balance);
                             balance = balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
                         }
 
-                        bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity());
+                        bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity(balance));
                     }
                     bw.newLine();
                     currentDate = currentDate.plusDays(1);

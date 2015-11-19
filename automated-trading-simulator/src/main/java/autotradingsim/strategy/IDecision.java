@@ -1,7 +1,7 @@
 package autotradingsim.strategy;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Calendar;
 
 /**
  * Created by Asher on 2015-10-29.
@@ -14,7 +14,9 @@ public interface IDecision {
 
     LocalDate getDate();
     IAction.ActionType getActionType();
-    int getQuantity();
+    int getQuantity(BigDecimal balance);
     String getStockSymbol();
+    String getStrategySource();
+    String getRuleSource();
 
 }

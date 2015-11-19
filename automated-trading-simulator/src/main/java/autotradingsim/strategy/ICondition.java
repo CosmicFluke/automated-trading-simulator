@@ -41,6 +41,25 @@ public interface ICondition {
         }
     }
 
+    static String compToString(Comparator comp) {
+        switch (comp) {
+            case GT:
+                return ">";
+            case LT:
+                return "<";
+            case GEQ:
+                return ">=";
+            case LEQ:
+                return "<=";
+            case EQ:
+                return "==";
+            case NEQ:
+                return "!=";
+            default:
+                return "(?)";
+        }
+    }
+
     int getBufferSize();
 
     Predicate<IBufferAdapter> getFunction();
