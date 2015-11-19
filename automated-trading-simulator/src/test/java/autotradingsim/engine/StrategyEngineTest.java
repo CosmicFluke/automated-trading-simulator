@@ -21,11 +21,5 @@ public class StrategyEngineTest {
 	public void testviewstrategy(){ //test if viewStrategy returns the right object
 		
 	}
-	
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
 
 }
