@@ -37,12 +37,6 @@ public class SimpleMovingAverage extends Indicator{
     private Stock stock;
 
     /**
-     * The function!
-     */
-    private Function<IBufferAdapter, BigDecimal> function =
-            (IBufferAdapter stockBuffer) -> (this.getValue(stockBuffer.getStream(), stockBuffer.getSize()));
-
-    /**
      * Construct a new SimpleMovingAverage that uses the given number of days to calculate a moving average.
      * @param days
      * @param name

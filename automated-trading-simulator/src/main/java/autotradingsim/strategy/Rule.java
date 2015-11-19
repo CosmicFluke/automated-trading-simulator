@@ -77,7 +77,7 @@ public class Rule implements IRule {
         summary.append("\nActions:\n");
         actions.stream().peek(
                 (IAction a) -> summary.append(
-                        a.getActionType().toString() + " " + String.valueOf(a.getQuantity().getValue()) + "\n"));
+                        a.getActionType().toString() + " " + String.valueOf(a.getQuantity().toString()) + "\n"));
         return summary.toString() + "\n";
     }
 
