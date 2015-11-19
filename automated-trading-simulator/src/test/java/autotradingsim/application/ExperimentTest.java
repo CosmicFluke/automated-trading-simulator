@@ -13,6 +13,8 @@ import org.junit.Test;
 
 import autotradingsim.experiment.Experiment;
 import autotradingsim.experiment.IExperiment;
+import autotradingsim.application.ITradingApplication;
+import autotradingsim.application.TradingApplication;
 
 public class ExperimentTest {
 

@@ -3,6 +3,7 @@ package autotradingsim.strategy.simpleimpl;
 import autotradingsim.strategy.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +13,10 @@ import java.util.List;
  * A SimpleRule is a IRule that has one condition
  *
  */
-public class SimpleRule implements IRule {
+public class SimpleRule implements IRule, Serializable {
 
-    private static String defaultDescription = "a simple rule";
+	private static final long serialVersionUID = -8372277688581923592L;
+	private static String defaultDescription = "a simple rule";
     private static int counter = 0;
     private static String defaultName = String.format("SimpleRule%d", counter);
 

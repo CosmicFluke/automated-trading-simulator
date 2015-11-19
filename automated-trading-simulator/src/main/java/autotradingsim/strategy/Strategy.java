@@ -5,6 +5,7 @@ import autotradingsim.strategy.exceptions.RuleDoesNotExistException;
 import autotradingsim.strategy.simpleimpl.SimpleAction;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -34,6 +35,7 @@ public class Strategy implements IStrategy, Serializable {
     public Strategy (String name, String description) {
         this.name = name;
         this.description = description;
+        this.rules = new HashMap<RuleID, IRule>();
     }
 
     public Strategy(String name) {

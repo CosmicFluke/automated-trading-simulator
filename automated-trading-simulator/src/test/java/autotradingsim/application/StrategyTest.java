@@ -3,6 +3,7 @@ package autotradingsim.application;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +12,11 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
+import autotradingsim.application.ITradingApplication;
+import autotradingsim.application.TradingApplication;
+
 import autotradingsim.strategy.*;
+import autotradingsim.strategy.simpleimpl.SimpleStrategy;
 
 public class StrategyTest {
 
@@ -113,9 +118,22 @@ public class StrategyTest {
 	}
 	
 	@Test
-	public void testSavingStrategy(){
+	public void testSavingEmptyStrategy(){
 		String ExpectedFileExists = PathToStrategies + "TestSaving";
 		ApplicationUnderTest.setStrategy("TestSaving", new Strategy("TestSaving"));
+		File testingFile = new File(ExpectedFileExists);
+		assertTrue(testingFile.exists());
+		testingFile.delete();
+	}
+	
+	@Test
+	public void testSavingStrategyOneRule(){
+		String ExpectedFileExists = PathToStrategies + "TestSingleRule";
+		IStrategy mySimpleStrat = new Strategy("TestSingleRule");
+		IRule myRule = new Rule();
+		mySimpleStrat.addRule(myRule);
+		
+		ApplicationUnderTest.setStrategy("TestSingleRule", mySimpleStrat);
 		File testingFile = new File(ExpectedFileExists);
 		assertTrue(testingFile.exists());
 		testingFile.delete();
