@@ -5,6 +5,7 @@ import autotradingsim.strategy.ICondition;
 import autotradingsim.strategy.IMeasurement;
 import autotradingsim.util.Pair;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.function.Predicate;
 
@@ -17,9 +18,10 @@ import java.util.function.Predicate;
  * </ul></p>
  *
  */
-public class SimpleCondition implements ICondition {
+public class SimpleCondition implements ICondition, Serializable {
 
-    private SimpleStockValue measurement;
+	private static final long serialVersionUID = -5897219926387165114L;
+	private SimpleStockValue measurement;
     private Predicate<IBufferAdapter> compare;
     private Predicate<Pair<BigDecimal,BigDecimal>> comparison;
 

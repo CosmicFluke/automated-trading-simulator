@@ -2,6 +2,7 @@ package autotradingsim.strategy;
 
 import autotradingsim.strategy.simpleimpl.SimpleDecisionMaker;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -13,9 +14,10 @@ import java.util.Set;
  * Basis for general implementation of IRule -- allows for multiple conditions and multiple actions.
  *
  */
-public class Rule implements IRule {
+public class Rule implements IRule, Serializable {
 
-    private static String default_name = "Rule";
+	private static final long serialVersionUID = -8909903863033085129L;
+	private static String default_name = "Rule";
     private static String default_description = "A rule";
 
     private RuleID id;
@@ -26,8 +28,8 @@ public class Rule implements IRule {
 
     public Rule (String name, String description){
         this.id = new RuleID(this);
-        this.conditions = new HashSet<>();
-        this.actions = new HashSet<>();
+        this.conditions = new HashSet<ICondition>();
+        this.actions = new HashSet<IAction>();
         this.name = name;
         this.description = description;
     }
@@ -43,12 +45,12 @@ public class Rule implements IRule {
 
     @Override
     public List<ICondition> getConditions() {
-        return new ArrayList<>(conditions);
+        return new ArrayList<ICondition>(conditions);
     }
 
     @Override
     public List<IAction> getActions() {
-        return new ArrayList<>(actions);
+        return new ArrayList<IAction>(actions);
     }
 
     @Override
