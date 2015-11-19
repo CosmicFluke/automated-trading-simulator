@@ -229,9 +229,6 @@ public class TradingApplication implements ITradingApplication {
 			return;
 		}
 		String path = this.PathToStrategies + newStrat.getName();
-		for(RuleID currRule : newStrat.getRules()){
-			//
-		}
 		ObjectFileSystem.saveObject(path, newStrat);
 		
 	}

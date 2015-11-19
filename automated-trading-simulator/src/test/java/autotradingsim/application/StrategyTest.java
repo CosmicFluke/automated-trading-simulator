@@ -127,7 +127,7 @@ public class StrategyTest {
 	}
 	
 	@Test
-	public void testSavingStrategyOneRule(){
+	public void testSavingStrategyOneEmptyRule(){
 		String ExpectedFileExists = PathToStrategies + "TestSingleRule";
 		IStrategy mySimpleStrat = new Strategy("TestSingleRule");
 		IRule myRule = new Rule();

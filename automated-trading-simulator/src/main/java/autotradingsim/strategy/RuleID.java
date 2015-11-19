@@ -1,14 +1,17 @@
 package autotradingsim.strategy;
 
+import java.io.Serializable;
+
 /**
  * Created by Asher on 2015-10-30.
  *
  * Provides a unique ID value for each rule.  Don't need this for current phase, but potentially useful later.
  *
  */
-public class RuleID {
+public class RuleID implements Serializable {
 
-    private final int id;
+	private static final long serialVersionUID = 4274639475056924299L;
+	private final int id;
 
     /**
      * <p>Create a RuleID for an IRule object.<br><br>
