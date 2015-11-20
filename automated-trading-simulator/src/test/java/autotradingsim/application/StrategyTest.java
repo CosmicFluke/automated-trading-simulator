@@ -32,7 +32,10 @@ public class StrategyTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		TradingApplication.clearFileSystem();
+		File strategies = new File(PathToStrategies);
+		if(strategies.exists() && strategies.isDirectory())
+			for(File strategy : strategies.listFiles())
+				strategy.delete();
 		ApplicationUnderTest = TradingApplication.getInstance();
 	}
 
@@ -192,7 +195,7 @@ public class StrategyTest {
 	public void testAvailableStrategiesEmpty(){
 		assertTrue(ApplicationUnderTest.getAvailableStrategies().isEmpty());
 	}
-	
+
 	@Test
 	public void testAvailableStrategiesSingleStrategy(){
 		IStrategy testStrategy = new Strategy("newStrategy");

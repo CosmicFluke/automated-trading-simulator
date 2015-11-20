@@ -1,6 +1,8 @@
 package autotradingsim.ui;
-
+import autotradingsim.application.*;
+import autotradingsim.engine.*;
 import javax.swing.DefaultListModel;
+import java.util.Iterator;
 
 /**
  *
@@ -13,12 +15,23 @@ public class StockList extends javax.swing.JFrame {
      */
     AutomatedTradingSimulator parent;
     DefaultListModel stockListModel = new DefaultListModel();
+    TradingApplication application = TradingApplication.getInstance();
+
     public StockList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
-        this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
-                         parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
-        //stockList.setModel(defaultListModel);
+        this.setLocation(parent.getX() + parent.getWidth() / 2 - this.getWidth() / 2,
+                parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
+        stockList.setModel(stockListModel);
+        loadStockSymbols();
+    }
+
+    protected void loadStockSymbols(){
+        //application.loadStock();
+        Iterator StockSymbols = application.getStockSymbols();
+        while(StockSymbols.hasNext()){
+            stockListModel.addElement(StockSymbols.next());
+        }
     }
 
     /**
