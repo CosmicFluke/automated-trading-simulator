@@ -21,7 +21,7 @@ public class StockList extends javax.swing.JFrame {
         this.parent = parent;
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth() / 2 - this.getWidth() / 2,
-                parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
+                parent.getY() + parent.getHeight() / 2 - this.getHeight() / 2);
         stockList.setModel(stockListModel);
         loadStockSymbols();
     }
@@ -118,6 +118,10 @@ public class StockList extends javax.swing.JFrame {
             dm.setVisible(true);
         }else{
             StockViewer sv = new StockViewer(this);
+            String stockname= stockListModel.getElementAt(stockList.getSelectedIndex()).toString();
+            stockname = stockname.substring(0, stockname.indexOf(".")); //remove file extension
+            sv.setNameText(stockname);
+            sv.SetDataVectors(stockname);
             this.setVisible(false);
             sv.setVisible(true);
         }

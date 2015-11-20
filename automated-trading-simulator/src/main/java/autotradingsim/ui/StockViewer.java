@@ -1,5 +1,6 @@
 package autotradingsim.ui;
-
+import autotradingsim.application.*;
+import autotradingsim.stocks.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,17 +18,29 @@ public class StockViewer extends javax.swing.JFrame {
     
     StockList parent;
     DefaultTableModel stockTableModel = new DefaultTableModel();
+    TradingApplication application = TradingApplication.getInstance();
     public StockViewer(StockList parent) {
         this.parent = parent;
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
         stockTable.setModel(stockTableModel);
-        Object[][] dataVector = {{"11/12", 1.1,2.1,3.1,4.1,5.1},{"11/13", 1.2,2.2,3.2,4.2,5.2}};
+        //Object[][] dataVector = {{"11/12", 1.1,2.1,3.1,4.1,5.1},{"11/13", 1.2,2.2,3.2,4.2,5.2}};
+       // Object[] columnIdentifiers = {"Date", "Open", "High", "Low", "Close", "Volume"};
+        //stockTableModel.setDataVector(dataVector, columnIdentifiers);
+    }
+
+    protected void setNameText(String filename) {
+        stockName.setText(filename);
+    }
+
+    protected void SetDataVectors(String name){ //currently only displays startday data
+        IStock currStock = application.getStock(name);
+        StockDay stockday = currStock.getDay(currStock.getStartDate());
+        Object[][] dataVector = {{currStock.getStartDate(),stockday.getValue(StockDay.Values.OPEN),stockday.getValue(StockDay.Values.CLOSE),stockday.getValue(StockDay.Values.HIGH),stockday.getValue(StockDay.Values.LOW),stockday.getVolume()}};
         Object[] columnIdentifiers = {"Date", "Open", "High", "Low", "Close", "Volume"};
         stockTableModel.setDataVector(dataVector, columnIdentifiers);
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
