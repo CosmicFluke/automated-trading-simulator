@@ -28,10 +28,7 @@ public class ExperimentTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		File experiments = new File(PathToExperiments);
-		if(experiments.exists() && experiments.isDirectory())
-			for(File experiment : experiments.listFiles())
-				experiment.delete();
+		TradingApplication.clearFileSystem();
 		ApplicationUnderTest = TradingApplication.getInstance();
 	}
 

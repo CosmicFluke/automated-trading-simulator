@@ -23,15 +23,7 @@ public class BasicTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		String PathToExperiments = System.getProperty("user.dir") + "//DATA//EXPERIMENTS";
-		String PathToStrategies = System.getProperty("user.dir") + "//DATA//STRATEGIES";
-		
-		File experiments = new File(PathToExperiments);
-		if(experiments.exists() && experiments.isDirectory())
-			for(File experiment : experiments.listFiles())
-				experiment.delete();
-		
-		new File(PathToStrategies).delete();
+		TradingApplication.clearFileSystem();
 		ApplicationUnderTest = TradingApplication.getInstance();
 	}
 

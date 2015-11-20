@@ -330,4 +330,28 @@ public class TradingApplication implements ITradingApplication {
 		instance.clearMemory();
 		instance = null;
 	}
+
+	/**
+	 * Clear any objects saved by the application.
+	 * Application returns to a "first run" state
+	 */
+	public static void clearFileSystem() {
+		
+		String PathToExperiments = System.getProperty("user.dir") + File.separator + "DATA" +
+				File.separator + "EXPERIMENTS" + File.separator;
+		String PathToStrategies = System.getProperty("user.dir") + File.separator + "DATA" + 
+				File.separator + "STRATEGIES" + File.separator;
+		
+		File experiments = new File(PathToExperiments);
+		if(experiments.exists() && experiments.isDirectory())
+			for(File experiment : experiments.listFiles())
+				experiment.delete();
+		
+		File strategies = new File(PathToStrategies);
+		if(strategies.exists() && strategies.isDirectory())
+			for(File strategy : strategies.listFiles())
+				strategy.delete();
+		
+	}
+	
 }

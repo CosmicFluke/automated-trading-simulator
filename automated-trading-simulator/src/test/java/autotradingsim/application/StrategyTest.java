@@ -32,10 +32,7 @@ public class StrategyTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		File strategies = new File(PathToStrategies);
-		if(strategies.exists() && strategies.isDirectory())
-			for(File strategy : strategies.listFiles())
-				strategy.delete();
+		TradingApplication.clearFileSystem();
 		ApplicationUnderTest = TradingApplication.getInstance();
 	}
 

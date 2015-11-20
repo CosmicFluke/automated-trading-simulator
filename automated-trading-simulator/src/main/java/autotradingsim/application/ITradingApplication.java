@@ -103,5 +103,5 @@ public interface ITradingApplication {
 	 * Clear any objects in Application memory
 	 */
 	void clearMemory();
-	
+
 }
