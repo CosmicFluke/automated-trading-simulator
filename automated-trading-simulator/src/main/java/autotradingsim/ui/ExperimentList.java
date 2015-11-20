@@ -17,6 +17,7 @@ public class ExperimentList extends javax.swing.JFrame {
     DefaultListModel experimentListModel = new DefaultListModel();
     TradingApplication application = TradingApplication.getInstance();
     ExperimentEngine experimentengine = ExperimentEngine.getInstance();
+
     public ExperimentList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
@@ -148,7 +149,7 @@ public class ExperimentList extends javax.swing.JFrame {
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
         dialogInput di = new dialogInput(this, true);
         String name = di.run();
-        if(name.length() > 0){
+        if(name.length() > 0 && !experimentListModel.contains(name)){
             application.setExperiment(name, experimentengine.createExperiment(name));
             experimentListModel.addElement(name);
         }

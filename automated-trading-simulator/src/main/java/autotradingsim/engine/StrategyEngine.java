@@ -24,6 +24,7 @@ public class StrategyEngine {
 		}
 		return engine;
 	}
+
 	/**
 	 * creates a default strategy and stores it in application
 	 * @return
@@ -34,7 +35,10 @@ public class StrategyEngine {
 		//appEngine.saveStrategy(newstrat);
 		return newstrat;
 	}
-	
+
+	public IStrategy createStrategy(String stratname){
+		return new Strategy(stratname, "");
+	}
 	/**
 	 * creates a simplestrategy, saves it to application and returns the strategy if saved properly
 	 * @param stratname
