@@ -23,19 +23,15 @@ public class ExperimentList extends javax.swing.JFrame {
         this.setLocation(parent.getX() + parent.getWidth() / 2 - this.getWidth() / 2,
                 parent.getY() + parent.getHeight() / 2 - this.getHeight() / 2);
         experimentList.setModel(experimentListModel);
-        loadFileNames(experimentListModel);
+        loadexperimentlist(experimentListModel);
 
     }
     //loads filenames of experiments into the list model
-    public void loadFileNames(DefaultListModel experimentListModel){
-        File folder = new File(application.getpathexperiment());
-        File[] listOfFiles = folder.listFiles();
-        for(File f : listOfFiles){
-            experimentListModel.addElement(f.getName());
+    public void loadexperimentlist(DefaultListModel experimentListModel){
+        for(String n: application.getAvailableExperiments()){
+            experimentListModel.addElement(n);
         }
-
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -154,8 +150,7 @@ public class ExperimentList extends javax.swing.JFrame {
         String name = di.run();
         if(name.length() > 0){
             application.setExperiment(name, experimentengine.createExperiment(name));
-
-            //application.setExperiment(String name);
+            experimentListModel.addElement(name);
         }
     }//GEN-LAST:event_createActionPerformed
 
