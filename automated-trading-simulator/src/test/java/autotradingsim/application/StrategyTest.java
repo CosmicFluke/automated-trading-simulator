@@ -192,10 +192,7 @@ public class StrategyTest {
 	public void testAvailableStrategiesEmpty(){
 		assertTrue(ApplicationUnderTest.getAvailableStrategies().isEmpty());
 	}
-	//@Test
-	//public void currentStrategiesFoldertest(){
-	//	assertEquals(ApplicationUnderTest.getAvailableStrategies(),null);
-	//}
+	
 	@Test
 	public void testAvailableStrategiesSingleStrategy(){
 		IStrategy testStrategy = new Strategy("newStrategy");

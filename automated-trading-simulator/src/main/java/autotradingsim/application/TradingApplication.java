@@ -73,7 +73,7 @@ public class TradingApplication implements ITradingApplication {
 	public String getpathstrategies(){
 		return PathToStrategies;
 	}
-
+	
 	@Override
 	public boolean setExperiment(String experimentName, IExperiment experiment){
 		if(experimentName == null || experiment == null ||
@@ -84,7 +84,7 @@ public class TradingApplication implements ITradingApplication {
 	}
 
 	public boolean delExperiment(String experimentName){
-		if(experimentName == null || !experiments.containsKey(experimentName.hashCode()))
+		if(experimentName == null || experiments.containsKey(experimentName.hashCode()))
 			return false;
 		String path = PathToExperiments + experimentName;
 		File expfile = new File(path);
