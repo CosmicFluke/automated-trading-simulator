@@ -152,7 +152,7 @@ public class ExperimentList extends javax.swing.JFrame {
             application.setExperiment(name, experimentengine.createExperiment(name));
             experimentListModel.addElement(name);
         }
-    }//GEN-LAST:event_createActionPerformed
+    }//GEN-LAST:event_createActionPerformed s
 
     private void openActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openActionPerformed
         if(experimentList.getSelectedIndex() == -1){
