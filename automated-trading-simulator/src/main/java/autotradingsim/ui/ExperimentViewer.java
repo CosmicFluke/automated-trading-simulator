@@ -23,7 +23,9 @@ public class ExperimentViewer extends javax.swing.JFrame {
         stockList.setModel(stockListModel);
     }
 
-
+    protected void setNameText(String filename){
+        name.setText(filename);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -193,9 +195,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    protected void setNameText(String filename){
-         name.setText(filename);
-    }
+
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2,
                            this.getY() + this.getHeight()/2 - parent.getHeight()/2);

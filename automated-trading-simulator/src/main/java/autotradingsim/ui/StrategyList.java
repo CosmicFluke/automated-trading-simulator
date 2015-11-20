@@ -1,6 +1,8 @@
 package autotradingsim.ui;
-import autotradingsim.application.TradingApplication;
+import autotradingsim.application.*;
 import autotradingsim.engine.StrategyEngine;
+import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
+
 import javax.swing.DefaultListModel;
 
 /**
@@ -15,14 +17,16 @@ public class StrategyList extends javax.swing.JFrame {
     AutomatedTradingSimulator parent;
     DefaultListModel strategyListModel = new DefaultListModel();
     TradingApplication application = TradingApplication.getInstance();
+
     StrategyEngine strategyengine = StrategyEngine.getInstance();
 
     public StrategyList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
-        this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
-                         parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
+        this.setLocation(parent.getX() + parent.getWidth() / 2 - this.getWidth() / 2,
+                parent.getY() + parent.getHeight() / 2 - this.getHeight() / 2);
         strategyList.setModel(strategyListModel);
+        loadStrategyList(strategyListModel);
     }
 
     /**
@@ -115,9 +119,10 @@ public class StrategyList extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private void loadStrategies(DefaultListModel strategyListModel){
-        for (String n:application.getAvailableStrategies()){
-            strategyListModel.addElement(n);
+
+    private void loadStrategyList(DefaultListModel experimentListModel){
+        for (String n : application.getAvailableStrategies()){
+            experimentListModel.addElement(n);
         }
     }
 
@@ -136,6 +141,7 @@ public class StrategyList extends javax.swing.JFrame {
             dm.setVisible(true);
         }else{
             StrategyViewer sv = new StrategyViewer(this);
+            sv.setNameText(strategyListModel.getElementAt(strategyList.getSelectedIndex()).toString());
             this.setVisible(false);
             sv.setVisible(true);
         }
