@@ -66,14 +66,6 @@ public class TradingApplication implements ITradingApplication {
 	 *
 	 * @return true if experiment added into Application successfully
 	 */
-
-	public String getpathexperiment(){
-		return PathToExperiments;
-	}
-	public String getpathstrategies(){
-		return PathToStrategies;
-	}
-	
 	@Override
 	public boolean setExperiment(String experimentName, IExperiment experiment){
 		if(experimentName == null || experiment == null ||
@@ -83,19 +75,23 @@ public class TradingApplication implements ITradingApplication {
 		return addExperiment(experiment);
 	}
 
+	/**
+	 * Remove experiment from cache and disk
+	 * 
+	 * @param experimentName of experiment to remove
+	 * @return true iff experiment found and removed successfully
+	 */
 	public boolean delExperiment(String experimentName){
-		if(experimentName == null || experiments.containsKey(experimentName.hashCode()))
+		if(this.getExperiment(experimentName) == null)
 			return false;
 		String path = PathToExperiments + experimentName;
-		File expfile = new File(path);
-		if (expfile.isFile()){
-			expfile.delete();
-			experiments.remove(experimentName.hashCode());
-			return true;
-		}else{
+		File expFile = new File(path);
+		if (!expFile.exists() || !expFile.isFile()){
 			return false;
 		}
-
+		expFile.delete();
+		experiments.remove(experimentName.hashCode());
+		return true;
 	}
 	/**
 	 * Add an experiment into the application
