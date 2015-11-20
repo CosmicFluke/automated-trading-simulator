@@ -82,7 +82,21 @@ public class TradingApplication implements ITradingApplication {
 		
 		return addExperiment(experiment);
 	}
-	
+
+	public boolean delExperiment(String experimentName){
+		if(experimentName == null || experiments.containsKey(experimentName.hashCode()))
+			return false;
+		String path = PathToExperiments + experimentName;
+		File expfile = new File(path);
+		if (expfile.isFile()){
+			expfile.delete();
+			experiments.remove(experimentName.hashCode());
+			return true;
+		}else{
+			return false;
+		}
+
+	}
 	/**
 	 * Add an experiment into the application
 	 * Experiment will be stored by name found in from IExperiment.getName

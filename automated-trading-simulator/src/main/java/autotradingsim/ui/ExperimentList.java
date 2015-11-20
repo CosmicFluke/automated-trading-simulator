@@ -181,6 +181,11 @@ public class ExperimentList extends javax.swing.JFrame {
         }else{
             dialogConfirm dc = new dialogConfirm(this, true);
             boolean delete = dc.run();
+            if(delete){
+                String expname = experimentListModel.getElementAt(experimentList.getSelectedIndex()).toString();
+                experimentListModel.removeElementAt(experimentList.getSelectedIndex());
+                application.delExperiment(expname);
+            }
         }
     }//GEN-LAST:event_deleteActionPerformed
 
