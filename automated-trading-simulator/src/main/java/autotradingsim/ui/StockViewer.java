@@ -45,10 +45,10 @@ public class StockViewer extends javax.swing.JFrame {
      */
     protected void setDataVectors(String name) { //currently only displays startday data
         IStock currStock = application.getStock(name);
-        StockDay[] stockdays = currStock.getAllStockDays().toArray();
+        Object[] stockdays = currStock.getAllStockDays().toArray();
         Object[][] dataVector = new Object[stockdays.length][];
         for (int i=0; i<stockdays.length; i++) {
-            StockDay stockday = stockdays[i];
+            StockDay stockday = (StockDay) stockdays[i];
             dataVector[i] = new Object[]{currStock.getStartDate(), stockday.getValue(StockDay.Values.OPEN), stockday.getValue(StockDay.Values.CLOSE), stockday.getValue(StockDay.Values.HIGH), stockday.getValue(StockDay.Values.LOW), stockday.getVolume()};
         }
         stockTableModel.setDataVector(dataVector, columnIdentifiers);
