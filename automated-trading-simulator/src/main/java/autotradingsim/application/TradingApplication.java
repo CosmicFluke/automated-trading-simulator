@@ -313,8 +313,11 @@ public class TradingApplication implements ITradingApplication {
 			FileReader stocksFile = new FileReader(pathToStocks);
 			BufferedReader stocks = new BufferedReader(stocksFile);
 			String stock;
-			while((stock = stocks.readLine()) != null)
+			while((stock = stocks.readLine()) != null){
+				//TODO later on we can get company name too instead of symbol
+				stock = stock.substring(0, stock.indexOf(','));
 				returningSet.add(stock);
+			}
 			stocks.close();
 		} catch (IOException e) {
 			e.printStackTrace();
