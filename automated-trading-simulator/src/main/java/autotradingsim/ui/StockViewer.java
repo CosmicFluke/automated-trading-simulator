@@ -3,6 +3,8 @@ import autotradingsim.application.*;
 import autotradingsim.stocks.*;
 import javax.swing.table.DefaultTableModel;
 
+import java.util.List;
+
 /**
  *
  * @author Bill Feng
@@ -19,11 +21,12 @@ public class StockViewer extends javax.swing.JFrame {
     StockList parent;
     DefaultTableModel stockTableModel = new DefaultTableModel();
     TradingApplication application = TradingApplication.getInstance();
+    Object[] columnIdentifiers = {"Date", "Open", "High", "Low", "Close", "Volume"};
     public StockViewer(StockList parent) {
         this.parent = parent;
         initComponents();
-        this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2,
-                parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
+        this.setLocation(parent.getX() + parent.getWidth() / 2 - this.getWidth() / 2,
+                parent.getY() + parent.getHeight() / 2 - this.getHeight() / 2);
         stockTable.setModel(stockTableModel);
         //Object[][] dataVector = {{"11/12", 1.1,2.1,3.1,4.1,5.1},{"11/13", 1.2,2.2,3.2,4.2,5.2}};
         // Object[] columnIdentifiers = {"Date", "Open", "High", "Low", "Close", "Volume"};
@@ -34,11 +37,20 @@ public class StockViewer extends javax.swing.JFrame {
         stockName.setText(filename);
     }
 
-    protected void SetDataVectors(String name){ //currently only displays startday data
+    /**
+     * construct dataVector by getting stockday information with stock symbol
+     * set stockviewer to display all stockdays for that stock
+     * @param name
+     * @throws java.text.ParseException
+     */
+    protected void setDataVectors(String name) { //currently only displays startday data
         IStock currStock = application.getStock(name);
-        StockDay stockday = currStock.getDay(currStock.getStartDate());
-        Object[][] dataVector = {{currStock.getStartDate(),stockday.getValue(StockDay.Values.OPEN),stockday.getValue(StockDay.Values.CLOSE),stockday.getValue(StockDay.Values.HIGH),stockday.getValue(StockDay.Values.LOW),stockday.getVolume()}};
-        Object[] columnIdentifiers = {"Date", "Open", "High", "Low", "Close", "Volume"};
+        StockDay[] stockdays = currStock.getAllStockDays().toArray();
+        Object[][] dataVector = new Object[stockdays.length][];
+        for (int i=0; i<stockdays.length; i++) {
+            StockDay stockday = stockdays[i];
+            dataVector[i] = new Object[]{currStock.getStartDate(), stockday.getValue(StockDay.Values.OPEN), stockday.getValue(StockDay.Values.CLOSE), stockday.getValue(StockDay.Values.HIGH), stockday.getValue(StockDay.Values.LOW), stockday.getVolume()};
+        }
         stockTableModel.setDataVector(dataVector, columnIdentifiers);
     }
     /**

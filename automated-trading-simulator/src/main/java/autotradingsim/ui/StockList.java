@@ -126,7 +126,7 @@ public class StockList extends javax.swing.JFrame {
             String stockname= stockListModel.getElementAt(stockList.getSelectedIndex()).toString();
             //stockname = stockname.substring(0, stockname.indexOf(".")); //remove file extension
             sv.setNameText(stockname);
-            sv.SetDataVectors(stockname);
+            sv.setDataVectors(stockname);
             this.setVisible(false);
             sv.setVisible(true);
         }
