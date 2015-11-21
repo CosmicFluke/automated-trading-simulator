@@ -18,6 +18,8 @@ public interface IExperiment {
     void addStrategy(String name);
     void addTrial(String id, String symbol);
 
+    Map getStockStartAndEndDates();
+
     IStrategy getStrategy(String name);
     IStock getStock(String symbol);
 

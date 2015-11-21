@@ -47,7 +47,7 @@ public class ResultDay {
     	return this.date;
     }
     
-    public void setClosingBalanceDate(BigDecimal closingBalance){
+    public void setClosingBalance(BigDecimal closingBalance){
     	this.closingBalance = closingBalance;
     }
     

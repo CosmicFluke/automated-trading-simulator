@@ -3,6 +3,7 @@ package autotradingsim.experiment;
 import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.*;
 import autotradingsim.strategy.*;
+import autotradingsim.util.Pair;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -13,7 +14,7 @@ import java.util.*;
  * Created by Asher on 2015-10-25.
  * Contributors: Bill, Shirley, Myung In (Justin)
  *
- * Experiments apply Strategies to particular stocks over a set of time periods.
+ * Experiments apply Strategies to particular stocksToShares over a set of time periods.
  *
  * Public Methods:
  *      addStock(String)
@@ -25,7 +26,16 @@ public class Experiment implements IExperiment, Serializable {
 
     private static final long serialVersionUID = -7533956851982543038L;
     private String name;
-    private HashMap<String, Integer> stocks;                         // Pair of Stock symbol & its shares for user
+    private HashMap<String, Integer> stocksToShares;                // Pair of Stock symbol & its shares for user
+
+    /**
+     * Map<Stock symbol, Pair<startDate, endDate>>
+     * Pair:
+     * startDate is the IPO date. The first date(ie. IPO) for each Stock in the database.
+     * endDate is the last date for each Stock in the database.
+     */
+    private Map<String, Pair<LocalDate, LocalDate>> stocksToFirstAndLastDate;
+
     private Set<String> strategies;
     private HashMap<String, ArrayList<String>> strategyToStocks;    // Map<Strategy, List<Stocks>>. One to many
 
@@ -35,9 +45,10 @@ public class Experiment implements IExperiment, Serializable {
      */
     public Experiment(String name){
         this.name = name;
-        this.stocks = new HashMap<String, Integer>();
+        this.stocksToShares = new HashMap<String, Integer>();
         this.strategies = new HashSet<String>();
         this.strategyToStocks = new HashMap<String, ArrayList<String>>();
+        this.stocksToFirstAndLastDate = new HashMap<String, Pair<LocalDate, LocalDate>>();
     }
 
     @Override
@@ -50,18 +61,25 @@ public class Experiment implements IExperiment, Serializable {
     }
 
     /**
-     * Add Stock symbol to the stocks ArrayList, otherwise throw exception.
+     * Add Stock symbol to the stocksToShares ArrayList, otherwise throw exception.
      *
      * @param symbol the symbol of a stock
      */
     @Override
     public void addStock(String symbol){
         if (TradingApplication.getInstance().stockExists(symbol)) {
-            this.stocks.put(symbol, 0);
+            this.stocksToShares.put(symbol, 0);
+            LocalDate startDate = TradingApplication.getInstance().getStock(symbol).getStartDate();
+            LocalDate endDate = TradingApplication.getInstance().getStock(symbol).getEndDate();
+            this.stocksToFirstAndLastDate.put(symbol, new Pair<LocalDate, LocalDate>(startDate, endDate));
         } else {
             throw new IllegalArgumentException("Stock symbol does not exist in the database!");
         }
 
+    }
+    @Override
+    public Map getStockStartAndEndDates() {
+        return this.stocksToFirstAndLastDate;
     }
 
     /**
@@ -159,9 +177,9 @@ public class Experiment implements IExperiment, Serializable {
                                 shares -= decision.getQuantity(balance);
                                 balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
                             }
-                            this.stocks.put(stock.getSymbol(), this.stocks.get(stock.getSymbol()) + shares);
+                            this.stocksToShares.put(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) + shares);
                         }
-                        resultDay.setClosingBalanceDate(balance);
+                        resultDay.setClosingBalance(balance);
                         result.addResultDay(resultDay);
                     }
 
@@ -179,7 +197,7 @@ public class Experiment implements IExperiment, Serializable {
 //            // Go through all the trials, test each one. Output a chunk of results to file for each trial
 //            for(int i  = 0; i < trials.size(); i++){
 //                strategy = TradingApplication.getInstance().getStrategy(strategies.get(trials.get(i)[0]));
-//                stock = TradingApplication.getInstance().getStock(stocks.get(trials.get(i)[1]));
+//                stock = TradingApplication.getInstance().getStock(stocksToShares.get(trials.get(i)[1]));
 //                st = strategy.getNewTester();
 //                st.setAll(stock);
 //                duration = ts.getDuration();
@@ -249,7 +267,7 @@ public class Experiment implements IExperiment, Serializable {
 //            // Go through all the trials, test each one. Output a chunk of results to file for each trial
 //            for(int[] trial: trials){
 //                strategy = TradingApplication.getInstance().getStrategy(strategies.get(trial[0]));
-//                stock = TradingApplication.getInstance().getStock(stocks.get(trial[1]));
+//                stock = TradingApplication.getInstance().getStock(stocksToShares.get(trial[1]));
 //                st = strategy.getNewTester();
 //                st.setAll(stock);
 //
