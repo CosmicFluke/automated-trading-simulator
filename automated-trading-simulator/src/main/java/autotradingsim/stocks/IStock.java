@@ -2,6 +2,8 @@ package autotradingsim.stocks;
 
 import autotradingsim.strategy.IBufferAdapter;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Created by Asher on 2015-10-30.
@@ -39,4 +41,6 @@ public interface IStock {
     LocalDate getEndDate();
 
     IBufferAdapter getNewBuffer(LocalDate date, int size);
+
+    Stream<StockDay> getAllStockDays();
 }
