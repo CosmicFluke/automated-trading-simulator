@@ -3,6 +3,7 @@ package autotradingsim.experiment;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 
 import autotradingsim.strategy.IDecision;
 
@@ -11,6 +12,16 @@ public class ResultDay {
 	private LocalDate date;
 	private BigDecimal openingBalance;
 	private BigDecimal closingBalance;
+	
+	public ResultDay(LocalDate date,  
+			BigDecimal openingBalance, 
+			BigDecimal closingBalance) {
+		this.decisions = new ArrayList<IDecision>();
+		this.date = date;
+		this.openingBalance = openingBalance;
+		this.closingBalance = closingBalance;
+	}
+	
 	public ResultDay(LocalDate date, 
 					List<IDecision> decisions, 
 					BigDecimal openingBalance, 
