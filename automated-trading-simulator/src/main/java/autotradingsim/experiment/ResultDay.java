@@ -37,6 +37,10 @@ public class ResultDay {
     	return this.decisions;
     }
     
+    public void addDecision(IDecision decision){
+    	this.decisions.add(decision);
+    }
+    
     public BigDecimal getOpeningBalance(){
     	return this.openingBalance;
     }
