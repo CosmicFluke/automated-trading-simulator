@@ -18,7 +18,8 @@ public class Rule implements IRule, Serializable {
 
 	private static final long serialVersionUID = -8909903863033085129L;
 	private static String default_name = "Rule";
-    private static String default_description = "A rule";
+    private static String default_description = "A rule, containing a set of conditions, and a set of actions to take " +
+            "if those conditions are all met.";
 
     private RuleID id;
     private Set<ICondition> conditions;

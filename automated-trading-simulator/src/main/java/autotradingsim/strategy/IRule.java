@@ -36,13 +36,21 @@ public interface IRule {
     List<IAction> getActions();
 
     /**
-     * Provides a user-defined description for this IRule
+     * Provides a user-defined description for this IRule.  If no description was given, returns the default description.
      * @return User-defined description
      */
     String getDescription();
 
+    /**
+     * Returns a name for this rule.  If no name was given, returns a default name.
+     * @return
+     */
     String getName();
 
+    /**
+     * RuleIDs are used to get information about rules from Strategies.  They should be initialized in 
+     * @return
+     */
     RuleID getID();
 
     /**
