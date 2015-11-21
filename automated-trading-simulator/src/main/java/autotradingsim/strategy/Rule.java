@@ -1,7 +1,5 @@
 package autotradingsim.strategy;
 
-import autotradingsim.strategy.simpleimpl.SimpleDecisionMaker;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,7 +39,7 @@ public class Rule implements IRule, Serializable {
 
     @Override
     public IDecisionMaker getDecisionMaker() {
-        return new DecisionMaker(this.conditions, this.actions, this);
+        return new DecisionMaker(this, );
     }
 
     @Override
