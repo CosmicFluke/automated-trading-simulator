@@ -27,15 +27,17 @@ public class TimeSet implements Iterator<LocalDate> {
         this.duration = trialDuration;
         List<LocalDate> tempDates = new ArrayList<LocalDate>();
         for (int i = 0; i < numTrials; i++){
-        	start = start.plusDays(trialDuration);
         	if (start.isBefore(end)){
         		tempDates.add(start);
-        	} else {
+                start = start.plusDays(trialDuration);
+            } else {
         		break;
         	}
         }
         startDates = tempDates.iterator();
+        System.out.println(tempDates.size());
     }
+
 
     public LocalDate next() {
         return startDates.next();

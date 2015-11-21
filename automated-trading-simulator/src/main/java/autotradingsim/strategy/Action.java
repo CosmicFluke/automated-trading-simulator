@@ -1,5 +1,7 @@
 package autotradingsim.strategy;
 
+import java.math.BigDecimal;
+
 public class Action implements IAction {
 
 	public Action() {

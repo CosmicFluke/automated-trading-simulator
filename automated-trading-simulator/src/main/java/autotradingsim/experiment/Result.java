@@ -28,7 +28,7 @@ public class Result {
     public Result(LocalDate startDate, int durationInDays, 
     						Map<String, ArrayList<String>> strategyToStock,
     						BigDecimal openingBalance){
-    	if (this.openingBalance.intValue()<= 0){
+    	if (openingBalance.compareTo(BigDecimal.ZERO)<= 0){
     		throw new IllegalArgumentException("Opening Balance cannot be 0 or less");
     	}
         this.startDate = startDate;
@@ -39,7 +39,7 @@ public class Result {
     }
 
     public void addResultDay(ResultDay resultDay){
-    	this.addResultDay(resultDay);
+    	this.resultDays.add(resultDay);
     }
     
     public List<ResultDay> getResultDays(){
