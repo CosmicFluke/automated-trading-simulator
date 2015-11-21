@@ -1,5 +1,9 @@
 package autotradingsim.application;
+import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -302,12 +306,19 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	public Iterator<String> getStockSymbols(){
 		String pathToStocks = System.getProperty("user.dir") + File.separator + "DATA" + 
-				File.separator + "STOCKS" + File.separator;
-		File stocks = new File(pathToStocks);
+				File.separator + "S&P-500-symbol-name-list.csv";
+
 		Set<String> returningSet = new HashSet<String>();
-		if(stocks.exists() && stocks.isDirectory()){
-			for(File stock : stocks.listFiles())
-				returningSet.add(stock.getName().substring(0, stock.getName().indexOf('.')));
+		try {
+			FileReader stocksFile = new FileReader(pathToStocks);
+			BufferedReader stocks = new BufferedReader(stocksFile);
+			while(stocks.ready())
+				returningSet.add(stocks.readLine());
+			stocks.close();
+		} catch (EOFException e){
+			return returningSet.iterator();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return returningSet.iterator();
 	}
