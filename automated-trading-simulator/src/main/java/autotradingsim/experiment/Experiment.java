@@ -166,8 +166,9 @@ public class Experiment implements IExperiment, Serializable {
                     }
 
                 }
+                result.setClosingBalance(balance);
                 resultList.add(result);
-                currentDate.plusDays(1);
+                currentDate = currentDate.plusDays(1);
             }
 
         }

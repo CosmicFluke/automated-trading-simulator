@@ -35,7 +35,6 @@ public class TimeSet implements Iterator<LocalDate> {
         	}
         }
         startDates = tempDates.iterator();
-        System.out.println(tempDates.size());
     }
 
 

@@ -88,4 +88,8 @@ public class Result {
     public BigDecimal getClosingBalance(){
     	return this.closingBalance;
     }
+
+    public void setClosingBalance(BigDecimal closingBalance) {
+        this.closingBalance = closingBalance;
+    }
 }

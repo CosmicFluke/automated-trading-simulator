@@ -60,34 +60,22 @@ public class ExperimentTest {
     @Test
     public void testRunExperiment1(){
         test.addStock("AAPL");
-//        test.addStock("MSFT");
-//        test.addStock("DIS");
 
         SimpleStrategy s = new SimpleStrategy();
-//        SimpleStrategy s2 = new SimpleStrategy();
 
         TradingApplication.getInstance().setStrategy(s.getName(), s);
-//        TradingApplication.getInstance().setStrategy(s2.getName(), s2);
 
         String id = s.getName();
-//        String id2 = s2.getName();
-//      TradingApplication.getInstance().saveStrategy(s);
 
         test.addStrategy(id);
-//        test.addStrategy(id2);
 
         test.addTrial(id, "AAPL");
-//        test.addTrial(id, "MSFT");
 
         TimeSet ts1 = new TimeSet(1, 2, LocalDate.of(2015, 10, 15), LocalDate.of(2015, 10, 16));
 
         List<Result> resultList = test.runExperiment(ts1);
 
-        BigDecimal ans = resultList.get(0).getBalanceRelativeChange();
-        int ans1 = resultList.get(0).getBalanceRelativeChange().compareTo(new BigDecimal(0.8));
-        System.out.println(ans.toString());
-        System.out.println(ans1);
-        assertEquals(resultList.get(0).getBalanceRelativeChange().compareTo(new BigDecimal(0.8)), 0);
+        assertEquals(resultList.get(0).getBalanceRelativeChange().compareTo(new BigDecimal(0.8)), -1);
         //TODO fix run experiment
         //test7.runExperiment();
     }
