@@ -1,6 +1,8 @@
 package autotradingsim.ui;
-
+import autotradingsim.application.*;
+import autotradingsim.engine.*;
 import javax.swing.DefaultListModel;
+import java.util.Iterator;
 
 /**
  *
@@ -13,12 +15,23 @@ public class StockList extends javax.swing.JFrame {
      */
     AutomatedTradingSimulator parent;
     DefaultListModel stockListModel = new DefaultListModel();
+    TradingApplication application = TradingApplication.getInstance();
+
     public StockList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
-        this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
-                         parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
-        //stockList.setModel(defaultListModel);
+        this.setLocation(parent.getX() + parent.getWidth() / 2 - this.getWidth() / 2,
+                parent.getY() + parent.getHeight() / 2 - this.getHeight() / 2);
+        stockList.setModel(stockListModel);
+        loadStockSymbols();
+    }
+
+    protected void loadStockSymbols(){
+        //application.loadStock();
+        Iterator StockSymbols = application.getStockSymbols();
+        while(StockSymbols.hasNext()){
+            stockListModel.addElement(StockSymbols.next());
+        }
     }
 
     /**
@@ -65,35 +78,40 @@ public class StockList extends javax.swing.JFrame {
         stockList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         stockList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+            public int getSize() {
+                return strings.length;
+            }
+
+            public Object getElementAt(int i) {
+                return strings[i];
+            }
         });
         jScrollPane1.setViewportView(stockList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(view, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(back, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(view, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(back, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(view, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(view, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap())
         );
 
         pack();
@@ -105,6 +123,10 @@ public class StockList extends javax.swing.JFrame {
             dm.setVisible(true);
         }else{
             StockViewer sv = new StockViewer(this);
+            String stockname= stockListModel.getElementAt(stockList.getSelectedIndex()).toString();
+            stockname = stockname.substring(0, stockname.indexOf(".")); //remove file extension
+            sv.setNameText(stockname);
+            sv.SetDataVectors(stockname);
             this.setVisible(false);
             sv.setVisible(true);
         }
@@ -112,15 +134,15 @@ public class StockList extends javax.swing.JFrame {
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         this.setVisible(false);
-        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
-                           this.getY() + this.getHeight()/2 - parent.getHeight()/2);
+        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2,
+                this.getY() + this.getHeight()/2 - parent.getHeight()/2);
         parent.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
-                           this.getY() + this.getHeight()/2 - parent.getHeight()/2);
+        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2,
+                this.getY() + this.getHeight()/2 - parent.getHeight()/2);
         parent.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
