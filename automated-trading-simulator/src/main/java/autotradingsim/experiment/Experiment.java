@@ -78,7 +78,7 @@ public class Experiment implements IExperiment, Serializable {
 
     }
     @Override
-    public Map getStockStartAndEndDates() {
+    public Map<String, Pair<LocalDate, LocalDate>> getStockStartAndEndDates() {
         return this.stocksToFirstAndLastDate;
     }
 
