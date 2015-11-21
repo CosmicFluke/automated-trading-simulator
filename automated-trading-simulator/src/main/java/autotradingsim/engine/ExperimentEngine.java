@@ -57,10 +57,10 @@ public class ExperimentEngine {
 	 * @param expName
 	 * @param stratname
 	 * take experiment name, adds the strategy name to it's list of strategy
-	 * @return boolean
+	 * @throws IllegalArgumentException: If strategyName does not exist in Trading Application
 	 */
-	public boolean addStrategy(String expName, String stratname){
-		return(appEngine.getExperiment(expName).addStrategy(stratname));
+	public void addStrategy(String expName, String stratname){
+		appEngine.getExperiment(expName).addStrategy(stratname);
 	}
 
 	public void addtimeset(String currentExperiment, String string, String string2) {
