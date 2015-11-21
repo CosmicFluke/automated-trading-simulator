@@ -5,6 +5,7 @@ import autotradingsim.strategy.exceptions.RuleDoesNotExistException;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -70,8 +71,9 @@ public class FullStrategyTester extends StrategyTester {
      * @return
      */
     public Stream<RuleID> getUnassignedRules(){
-        Stream<Map.Entry<RuleID, IDecisionMaker>> unassigned = ruleIDtoDecisionMaker.entrySet().stream()
-            .filter(entry -> entry.getValue().hasStockAssigned());
+        Stream<Map.Entry<RuleID, IDecisionMaker>> unassigned =
+                ruleIDtoDecisionMaker.entrySet().stream()
+                        .filter(entry -> entry.getValue().hasStockAssigned());
 
         /*
         for (Map.Entry<RuleID, IDecisionMaker> entry : ruleIDtoDecisionMaker.entrySet()){
@@ -88,10 +90,8 @@ public class FullStrategyTester extends StrategyTester {
     public List<IDecision> testDate(LocalDate date) {
         List<IDecision> decisions = new LinkedList<>();
         for (IDecisionMaker maker : ruleIDtoDecisionMaker.values()) {
-            Iterator<IDecision> decisionIterator = maker.getDecisions(date);
-            while (decisionIterator.hasNext()) {
-                decisions.add(decisionIterator.next());
-            }
+            Stream<IDecision> decisionStream = maker.getDecisions(date);
+            decisions.addAll(decisionStream.collect(Collectors.toList()));
         }
         return decisions;
     }
