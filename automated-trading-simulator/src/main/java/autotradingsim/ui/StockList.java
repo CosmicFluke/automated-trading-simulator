@@ -1,8 +1,6 @@
 package autotradingsim.ui;
-import autotradingsim.application.*;
-import autotradingsim.engine.*;
+
 import javax.swing.DefaultListModel;
-import java.util.Iterator;
 
 /**
  *
@@ -15,23 +13,12 @@ public class StockList extends javax.swing.JFrame {
      */
     AutomatedTradingSimulator parent;
     DefaultListModel stockListModel = new DefaultListModel();
-    TradingApplication application = TradingApplication.getInstance();
-
     public StockList(AutomatedTradingSimulator parent) {
         this.parent = parent;
         initComponents();
-        this.setLocation(parent.getX() + parent.getWidth() / 2 - this.getWidth() / 2,
-                parent.getY() + parent.getHeight() / 2 - this.getHeight() / 2);
-        stockList.setModel(stockListModel);
-        loadStockSymbols();
-    }
-
-    protected void loadStockSymbols(){
-        //application.loadStock();
-        Iterator StockSymbols = application.getStockSymbols();
-        while(StockSymbols.hasNext()){
-            stockListModel.addElement(StockSymbols.next());
-        }
+        this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
+                         parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
+        //stockList.setModel(defaultListModel);
     }
 
     /**
@@ -118,10 +105,6 @@ public class StockList extends javax.swing.JFrame {
             dm.setVisible(true);
         }else{
             StockViewer sv = new StockViewer(this);
-            String stockname= stockListModel.getElementAt(stockList.getSelectedIndex()).toString();
-            stockname = stockname.substring(0, stockname.indexOf(".")); //remove file extension
-            sv.setNameText(stockname);
-            sv.SetDataVectors(stockname);
             this.setVisible(false);
             sv.setVisible(true);
         }
