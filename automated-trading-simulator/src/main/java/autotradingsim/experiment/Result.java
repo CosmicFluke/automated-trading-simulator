@@ -13,13 +13,14 @@ public class Result {
 
     private LocalDate startDate;
     private int duration;
+    // One-to-many relationships. (ie. One strategy for multiple Stock symbol.
     private Map<String, ArrayList<String>> strategyIDtoStockSymbol;
     private BigDecimal openingBalance;
     private BigDecimal closingBalance;
     private List<ResultDay> resultDays;
     
     /**
-     * 
+     * Result is the output from each TimeSet from runExperiment
      * @param startDate
      * @param durationInDays
      * @param strategyToStock: Map<String, ArrayList<String>> of Strategy ID to List of Stock symbols.

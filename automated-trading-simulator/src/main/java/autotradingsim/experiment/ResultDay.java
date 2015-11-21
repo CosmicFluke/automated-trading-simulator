@@ -8,11 +8,18 @@ import java.util.ArrayList;
 import autotradingsim.strategy.IDecision;
 
 public class ResultDay {
+
 	private List<IDecision> decisions;
 	private LocalDate date;
 	private BigDecimal openingBalance;
 	private BigDecimal closingBalance;
-	
+
+	/**
+	 * ResultDay is the output for each eay from runExperiment.
+	 * @param date LocalDate
+	 * @param openingBalance
+	 * @param closingBalance
+	 */
 	public ResultDay(LocalDate date,  
 			BigDecimal openingBalance, 
 			BigDecimal closingBalance) {
@@ -40,7 +47,7 @@ public class ResultDay {
     	return this.date;
     }
     
-    public void setClosingDate(BigDecimal closingBalance){
+    public void setClosingBalanceDate(BigDecimal closingBalance){
     	this.closingBalance = closingBalance;
     }
     

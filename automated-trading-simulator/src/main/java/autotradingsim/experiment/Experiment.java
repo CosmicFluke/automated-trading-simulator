@@ -161,7 +161,7 @@ public class Experiment implements IExperiment, Serializable {
                             }
                             this.stocks.put(stock.getSymbol(), this.stocks.get(stock.getSymbol()) + shares);
                         }
-                        resultDay.setClosingDate(balance);
+                        resultDay.setClosingBalanceDate(balance);
                         result.addResultDay(resultDay);
                     }
 
