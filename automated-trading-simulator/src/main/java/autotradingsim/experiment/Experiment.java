@@ -11,7 +11,7 @@ import java.util.*;
 
 /**
  * Created by Asher on 2015-10-25.
- * Contributors: Bill, Shirley
+ * Contributors: Bill, Shirley, Myung In (Justin)
  *
  * Experiments apply Strategies to particular stocks over a set of time periods.
  *
@@ -25,9 +25,9 @@ public class Experiment implements IExperiment, Serializable {
 
     private static final long serialVersionUID = -7533956851982543038L;
     private String name;
-    private Map<String, Integer> stocks;
-    private ArrayList<String> strategies;
-    private HashMap<String, ArrayList<String>> strategyToStocks;
+    private HashMap<String, Integer> stocks;                         // Pair of Stock symbol & its shares for user
+    private Set<String> strategies;
+    private HashMap<String, ArrayList<String>> strategyToStocks;    // Map<Strategy, List<Stocks>>. One to many
 
     /**
      * Initialize the experiment constructor.
@@ -36,7 +36,7 @@ public class Experiment implements IExperiment, Serializable {
     public Experiment(String name){
         this.name = name;
         this.stocks = new HashMap<String, Integer>();
-        this.strategies = new ArrayList<String>();
+        this.strategies = new HashSet<String>();
         this.strategyToStocks = new HashMap<String, ArrayList<String>>();
     }
 
@@ -50,7 +50,7 @@ public class Experiment implements IExperiment, Serializable {
     }
 
     /**
-     * Use a StockLoader to fetchStockDateRange a stock with the given symbol, if it does not exist in the sample already
+     * Add Stock symbol to the stocks ArrayList, otherwise throw exception.
      *
      * @param symbol the symbol of a stock
      */
@@ -63,6 +63,11 @@ public class Experiment implements IExperiment, Serializable {
         }
 
     }
+
+    /**
+     * Add Strategy id to the strategies List, otherwise throw exception
+     * @param name the identifier id of the strategy
+     */
 
     @Override
     public void addStrategy(String name){
@@ -78,38 +83,28 @@ public class Experiment implements IExperiment, Serializable {
         return TradingApplication.getInstance().getStrategy(name); // return strategy with the id
     }
 
+    @Override
+    public IStock getStock(String symbol){
+        return TradingApplication.getInstance().getStock(symbol);
+    }
+
     public void addTrial(String id, String symbol){
-        int strategySize = strategies.size();
-        int stockSize = stocks.size();
-        for(int i = 0; i < strategySize; i++){
-            if(strategies.get(i).equals(id)){
-                strategySize = i;
-                break;
-            }
-        }
-        if(strategySize == strategies.size()){
+
+        if(!strategyToStocks.containsKey(id)){
             // strategy id does not exist
             this.addStrategy(id);
             this.addStock(symbol);
-            this.strategyToStocks.put(id, new ArrayList<String>());
-        }
-        for(int i = 0; i < stockSize; i++){
-            if(stocks.containsValue(symbol)){
-                stockSize = i;
-                break;
-            }
-        }
-        if(stockSize == stocks.size()){
+            this.strategyToStocks.put(id, new ArrayList<String>(Arrays.<String>asList(symbol)));
+        } else {
             this.addStock(symbol);
             this.strategyToStocks.get(id).add(symbol);
         }
     }
 
-
     /**
-     *
+     * Run the Experiment for the TradingApplication.
      * @param ts a time set
-     * @return whether the experiment was ran successfully
+     * @return ArrayList<Result> for each TimeSet ts. Result is obtained for each TimeSet ts.
      */
     @Override
     public List<Result> runExperiment(TimeSet ts) {
@@ -117,26 +112,32 @@ public class Experiment implements IExperiment, Serializable {
         IStrategy strategy;
         StrategyTester st;
         IStock stock;
+
+        // currentDate is set for each day from startDate in TimeSet for the length of duration
         LocalDate currentDate;
         LocalDate experimentStartDate;
-        List<IDecision> decisions;
         int duration;
+
+        List<IDecision> decisions;
         IDecision decision;
 
         BigDecimal balance;
         int shares;
 
-        while (ts.hasNext()) {
+        while (ts.hasNext()) { // For each TimeSet
             experimentStartDate = ts.next();
             currentDate = experimentStartDate;
             duration = ts.getDuration();
             balance = BigDecimal.valueOf(100);
             Result result = new Result(experimentStartDate, duration, strategyToStocks, balance);
-            while (currentDate.isBefore(experimentStartDate.plusDays(duration))) {
+
+            while (currentDate.isBefore(experimentStartDate.plusDays(duration))) {  // For each Day
                 ResultDay resultDay = new ResultDay(currentDate, balance, balance);
-                for (Map.Entry<String, ArrayList<String>> entry : strategyToStocks.entrySet()) {
+
+                for (Map.Entry<String, ArrayList<String>> entry : strategyToStocks.entrySet()) {    // For each strategy
                     strategy = TradingApplication.getInstance().getStrategy(entry.getKey());
-                    for (int i = 0; i < entry.getValue().size(); i++) {
+
+                    for (int i = 0; i < entry.getValue().size(); i++) {     // For each Stock
                         shares = 0;
                         stock = TradingApplication.getInstance().getStock(entry.getValue().get(i));
                         st = strategy.getNewTester();
@@ -144,12 +145,16 @@ public class Experiment implements IExperiment, Serializable {
 
                         decisions = st.testDate(currentDate);
                         Iterator<IDecision> decisionIter = decisions.iterator();
-                        while (decisionIter.hasNext()) {
+
+                        while (decisionIter.hasNext()) {        // For Each decision
                             decision = decisionIter.next();
                             resultDay.addDecision(decision);
+
                             if (decision.getActionType() == IAction.ActionType.BUY) {
+                                // Buy Stocks for
                                 shares += decision.getQuantity(balance);
                                 balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+
                             } else if (decision.getActionType() == IAction.ActionType.SELL) {
                                 shares -= decision.getQuantity(balance);
                                 balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
@@ -161,8 +166,9 @@ public class Experiment implements IExperiment, Serializable {
                     }
 
                 }
+                result.setClosingBalance(balance);
                 resultList.add(result);
-                currentDate.plusDays(1);
+                currentDate = currentDate.plusDays(1);
             }
 
         }
