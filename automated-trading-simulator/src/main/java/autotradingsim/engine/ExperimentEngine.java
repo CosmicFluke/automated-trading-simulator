@@ -2,16 +2,19 @@ package autotradingsim.engine;
 
 import autotradingsim.application.TradingApplication;
 import autotradingsim.experiment.Experiment;
+import autotradingsim.experiment.IExperiment;
+import autotradingsim.experiment.TimeSet;
+
+import java.time.LocalDate;
 
 public class ExperimentEngine {
 
 	public static TradingApplication appEngine;
-	public static Experiment currExperiment;
 	public static ExperimentEngine engine;
+	public static TimeSet timeSet;
 	
 	/**
-	 * 
-	 * @param none
+	 *
 	 * populate appEngine with instance of application
 	 */
 	private ExperimentEngine() {
@@ -35,10 +38,10 @@ public class ExperimentEngine {
 	 * @return retExp 
 	 * takes an experiment name, returns the new experiment created
 	 */
-	public Experiment createExperiment(String expname){
-		Experiment retExp=null;
-		if(appEngine.setExperiment(expname, new Experiment(expname))){
-			retExp=(Experiment) appEngine.getExperiment(expname);
+	public IExperiment createExperiment(String expname){
+		IExperiment retExp=null;
+		if(appEngine.setExperiment(expname, new Experiment(expname))) {
+			retExp = appEngine.getExperiment(expname);
 		}
 		return retExp;
 	}
@@ -48,10 +51,10 @@ public class ExperimentEngine {
 	 * @return Experiment
 	 * takes experiment name and returns experiment object with that name
 	 */
-	public Experiment getExperiment(String expname) {
-		// TODO Auto-generated method stub
-		return (Experiment) appEngine.getExperiment(expname);
+	public IExperiment getExperiment(String expname) {
+		return appEngine.getExperiment(expname);
 	}
+
 	/**
 	 *
 	 * @param expName
@@ -63,9 +66,34 @@ public class ExperimentEngine {
 		appEngine.getExperiment(expName).addStrategy(stratname);
 	}
 
-	public void addtimeset(String currentExperiment, String string, String string2) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Add Stock symbol to the experiment
+	 * @param expName
+	 * @param stockSymbol
+	 */
+	public void addStock(String expName, String stockSymbol) {
+		appEngine.getExperiment(expName).addStock(stockSymbol);
+	}
+
+	/**
+	 * Add Strategy and stock pair to the trial
+	 * @param expName
+	 * @param strategyId
+	 * @param stockSymbol
+	 */
+	public void addTrial(String expName, String strategyId, String stockSymbol) {
+		appEngine.getExperiment(expName).addTrial(strategyId, stockSymbol);
+	}
+
+//	public void addtimeset(String currentExperiment, String string, String string2) {
+//		// TODO Auto-generated method stub
+//
+//	}
+
+	public void runExperiment(TimeSet timeSet) {
+		ExperimentEngine engine = getInstance();
+
+
 	}
 
 

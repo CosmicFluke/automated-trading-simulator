@@ -16,6 +16,7 @@ public interface IExperiment {
 
     void addStock(String symbol);
     void addStrategy(String name);
+    void addTrial(String id, String symbol);
 
     IStrategy getStrategy(String name);
     IStock getStock(String symbol);
