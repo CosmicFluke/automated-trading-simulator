@@ -312,11 +312,10 @@ public class TradingApplication implements ITradingApplication {
 		try {
 			FileReader stocksFile = new FileReader(pathToStocks);
 			BufferedReader stocks = new BufferedReader(stocksFile);
-			while(stocks.ready())
-				returningSet.add(stocks.readLine());
+			String stock;
+			while((stock = stocks.readLine()) != null)
+				returningSet.add(stock);
 			stocks.close();
-		} catch (EOFException e){
-			return returningSet.iterator();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
