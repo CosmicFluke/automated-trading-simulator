@@ -307,7 +307,7 @@ public class TradingApplication implements ITradingApplication {
 		Set<String> returningSet = new HashSet<String>();
 		if(stocks.exists() && stocks.isDirectory()){
 			for(File stock : stocks.listFiles())
-				returningSet.add(stock.getName());
+				returningSet.add(stock.getName().substring(0, stock.getName().indexOf('.')));
 		}
 		return returningSet.iterator();
 	}
