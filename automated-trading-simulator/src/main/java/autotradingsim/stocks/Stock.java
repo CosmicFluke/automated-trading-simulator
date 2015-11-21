@@ -4,7 +4,8 @@ import autotradingsim.strategy.BufferAdapter;
 import autotradingsim.strategy.IBufferAdapter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -20,9 +21,9 @@ public class Stock implements IStock {
 
     private String symbol;
     private String name;
-    private ArrayList<StockDay> data;
+    private List<StockDay> data;
 
-    public Stock(String symbol, String name, ArrayList<StockDay> data) {
+    public Stock(String symbol, String name, List<StockDay> data) {
         this.symbol = symbol;
         this.name = name;
         this.data = data;
@@ -67,6 +68,11 @@ public class Stock implements IStock {
     @Override
     public IBufferAdapter getNewBuffer(LocalDate date, int size) {
         return new BufferAdapter(this, date, size);
+    }
+
+    @Override
+    public Stream<StockDay> getAllStockDays() {
+        return this.data.stream();
     }
 
 }
