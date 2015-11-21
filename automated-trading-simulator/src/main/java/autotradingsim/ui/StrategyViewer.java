@@ -22,9 +22,7 @@ public class StrategyViewer extends javax.swing.JFrame {
         //conditionList.setModel(conditionListModel);
         //actionList.setModel(actionListModel);
     }
-    protected void setNameText(String filename){
-        name.setText(filename);
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
