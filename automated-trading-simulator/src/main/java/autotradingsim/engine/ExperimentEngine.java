@@ -3,13 +3,14 @@ package autotradingsim.engine;
 import autotradingsim.application.TradingApplication;
 import autotradingsim.experiment.Experiment;
 import autotradingsim.experiment.IExperiment;
+import autotradingsim.experiment.Result;
 import autotradingsim.experiment.TimeSet;
-
+import java.util.*;
 import java.time.LocalDate;
 
 public class ExperimentEngine {
 
-	public static TradingApplication appEngine;
+	public static TradingApplication application;
 	public static ExperimentEngine engine;
 	public static TimeSet timeSet;
 	
@@ -19,7 +20,7 @@ public class ExperimentEngine {
 	 */
 	private ExperimentEngine() {
 		// TODO Auto-generated constructor stub
-		 appEngine = TradingApplication.getInstance();
+		application = TradingApplication.getInstance();
 	}
 	
 
@@ -40,8 +41,8 @@ public class ExperimentEngine {
 	 */
 	public IExperiment createExperiment(String expname){
 		IExperiment retExp=null;
-		if(appEngine.setExperiment(expname, new Experiment(expname))) {
-			retExp = appEngine.getExperiment(expname);
+		if(application.setExperiment(expname, new Experiment(expname))) {
+			retExp = application.getExperiment(expname);
 		}
 		return retExp;
 	}
@@ -52,7 +53,7 @@ public class ExperimentEngine {
 	 * takes experiment name and returns experiment object with that name
 	 */
 	public IExperiment getExperiment(String expname) {
-		return appEngine.getExperiment(expname);
+		return application.getExperiment(expname);
 	}
 
 	/**
@@ -63,7 +64,7 @@ public class ExperimentEngine {
 	 * @throws IllegalArgumentException: If strategyName does not exist in Trading Application
 	 */
 	public void addStrategy(String expName, String stratname){
-		appEngine.getExperiment(expName).addStrategy(stratname);
+		application.getExperiment(expName).addStrategy(stratname);
 	}
 
 	/**
@@ -72,7 +73,7 @@ public class ExperimentEngine {
 	 * @param stockSymbol
 	 */
 	public void addStock(String expName, String stockSymbol) {
-		appEngine.getExperiment(expName).addStock(stockSymbol);
+		application.getExperiment(expName).addStock(stockSymbol);
 	}
 
 	/**
@@ -82,13 +83,17 @@ public class ExperimentEngine {
 	 * @param stockSymbol
 	 */
 	public void addTrial(String expName, String strategyId, String stockSymbol) {
-		appEngine.getExperiment(expName).addTrial(strategyId, stockSymbol);
+		application.getExperiment(expName).addTrial(strategyId, stockSymbol);
 	}
 
 //	public void addtimeset(String currentExperiment, String string, String string2) {
 //		// TODO Auto-generated method stub
 //
 //	}
+	public List<Result> runExperiment(String experimentname, TimeSet timeset){
+		IExperiment experiment = application.getExperiment(experimentname);
+		return experiment.runExperiment(timeset);
+	}
 
 	public void runExperiment(TimeSet timeSet) {
 		ExperimentEngine engine = getInstance();
