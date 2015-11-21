@@ -20,7 +20,7 @@ public class Rule implements IRule, Serializable {
 	private static String default_name = "Rule";
     private static String default_description = "A rule";
 
-    private RuleID id;
+    private transient RuleID id;
     private Set<ICondition> conditions;
     private Set<IAction> actions;
     private String name;
