@@ -1,6 +1,6 @@
 package autotradingsim.experiment;
 
-import autotradingsim.stocks.IStock;
+import java.util.*;
 import autotradingsim.strategy.IStrategy;
 
 /**
@@ -11,10 +11,10 @@ public interface IExperiment {
 
     String getName();
 
-    boolean addStock(String symbol);
-    boolean addStrategy(String name);
+    void addStock(String symbol);
+    void addStrategy(String name);
 
     IStrategy getStrategy(String name);
 
-    boolean runExperiment(TimeSet ts);
+    List<Result> runExperiment(TimeSet ts);
 }
