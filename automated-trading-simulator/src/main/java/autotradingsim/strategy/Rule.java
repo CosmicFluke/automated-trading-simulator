@@ -1,7 +1,5 @@
 package autotradingsim.strategy;
 
-import autotradingsim.strategy.simpleimpl.SimpleDecisionMaker;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,7 +16,8 @@ public class Rule implements IRule, Serializable {
 
 	private static final long serialVersionUID = -8909903863033085129L;
 	private static String default_name = "Rule";
-    private static String default_description = "A rule";
+    private static String default_description = "A rule, containing a set of conditions, and a set of actions to take " +
+            "if those conditions are all met.";
 
     private RuleID id;
     private Set<ICondition> conditions;
@@ -40,17 +39,17 @@ public class Rule implements IRule, Serializable {
 
     @Override
     public IDecisionMaker getDecisionMaker() {
-        return new DecisionMaker(this.conditions, this.actions, this);
+        return new DecisionMaker(this);
     }
 
     @Override
     public List<ICondition> getConditions() {
-        return new ArrayList<ICondition>(conditions);
+        return new ArrayList<>(conditions);
     }
 
     @Override
     public List<IAction> getActions() {
-        return new ArrayList<IAction>(actions);
+        return new ArrayList<>(actions);
     }
 
     @Override
@@ -75,7 +74,8 @@ public class Rule implements IRule, Serializable {
                 "Description: " + this.getDescription() + "\n\n" +
                 "Conditions:\n";
         summary.append(opener);
-        conditions.stream().peek((ICondition c) -> summary.append(c.toString() + "\n"));
+        conditions.stream()
+                .peek((ICondition c) -> summary.append(c.toString() + "\n"));
         summary.append("\nActions:\n");
         actions.stream().peek(
                 (IAction a) -> summary.append(

@@ -13,7 +13,6 @@ import java.time.LocalDate;
  */
 public class Decision implements IDecision {
 
-    public final String strategy;
     public final String rule;
     public final LocalDate date;
     public final IAction.ActionType type;
@@ -21,13 +20,12 @@ public class Decision implements IDecision {
     public final IActionQuantity quantity;
 
 
-    public Decision (LocalDate date, IAction.ActionType type, IStock IStock, IActionQuantity quantity,
-                     IStrategy strategySource, IRule ruleSource) {
+    public Decision(LocalDate date, IAction.ActionType type, IStock IStock, IActionQuantity quantity,
+                    IRule ruleSource) {
         this.date = date;
         this.type = type;
         this.IStock = IStock;
         this.quantity = quantity;
-        this.strategy = strategySource.getName();
         this.rule = ruleSource.getName();
     }
 
@@ -49,11 +47,6 @@ public class Decision implements IDecision {
     @Override
     public String getStockSymbol() {
         return this.IStock.getSymbol();
-    }
-
-    @Override
-    public String getStrategySource() {
-        return this.strategy;
     }
 
     @Override
