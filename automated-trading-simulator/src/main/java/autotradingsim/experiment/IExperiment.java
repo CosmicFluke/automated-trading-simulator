@@ -16,14 +16,24 @@ public interface IExperiment {
     String getName();
     void setName(String name);
 
-    void addStock(String symbol);
-    void addStrategy(String name);
     void addTrial(String id, String symbol);
+
+    /**
+     * Maps strategy IDs to lists of the stocks assigned to each strategy
+     * @return map: strategy to assigned stocks
+     */
+    Map<String, List<String>> getAllTrials();
+
 
     Map<String, Pair<LocalDate, LocalDate>> getStockStartAndEndDates();
 
-    IStrategy getStrategy(String name);
-    IStock getStock(String symbol);
+    Set<IStrategy> getAllStrategies();
+    Set<IStock> getAllStocks();
 
+    /**
+     * Run the experiment specified in this instance on the given {@link TimeSet}.
+     * @param ts
+     * @return
+     */
     List<Result> runExperiment(TimeSet ts);
 }

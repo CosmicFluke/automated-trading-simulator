@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -17,7 +18,7 @@ import java.util.*;
  * Experiments apply Strategies to particular stocksToShares over a set of time periods.
  *
  * Public Methods:
- *      addStock(String)
+ *      ...
  *
  * Modifications on 2015-10-30
  * -changes to experiment constructor to include name
@@ -37,7 +38,7 @@ public class Experiment implements IExperiment, Serializable {
     private Map<String, Pair<LocalDate, LocalDate>> stocksToFirstAndLastDate;
 
     private Set<String> strategies;
-    private HashMap<String, ArrayList<String>> strategyToStocks;    // Map<Strategy, List<Stocks>>. One to many
+    private HashMap<String, List<String>> strategyToStocks;    // Map<Strategy, List<Stocks>>. One to many
 
     /**
      * Initialize the experiment constructor.
@@ -45,10 +46,10 @@ public class Experiment implements IExperiment, Serializable {
      */
     public Experiment(String name){
         this.name = name;
-        this.stocksToShares = new HashMap<String, Integer>();
-        this.strategies = new HashSet<String>();
-        this.strategyToStocks = new HashMap<String, ArrayList<String>>();
-        this.stocksToFirstAndLastDate = new HashMap<String, Pair<LocalDate, LocalDate>>();
+        this.stocksToShares = new HashMap<>();
+        this.strategies = new HashSet<>();
+        this.strategyToStocks = new HashMap<>();
+        this.stocksToFirstAndLastDate = new HashMap<>();
     }
 
     @Override
@@ -65,13 +66,12 @@ public class Experiment implements IExperiment, Serializable {
      *
      * @param symbol the symbol of a stock
      */
-    @Override
-    public void addStock(String symbol){
+    private void addStock(String symbol){
         if (TradingApplication.getInstance().stockExists(symbol)) {
             this.stocksToShares.put(symbol, 0);
             LocalDate startDate = TradingApplication.getInstance().getStock(symbol).getStartDate();
             LocalDate endDate = TradingApplication.getInstance().getStock(symbol).getEndDate();
-            this.stocksToFirstAndLastDate.put(symbol, new Pair<LocalDate, LocalDate>(startDate, endDate));
+            this.stocksToFirstAndLastDate.put(symbol, new Pair<>(startDate, endDate));
         } else {
             throw new IllegalArgumentException("Stock symbol does not exist in the database!");
         }
@@ -87,8 +87,7 @@ public class Experiment implements IExperiment, Serializable {
      * @param name the identifier id of the strategy
      */
 
-    @Override
-    public void addStrategy(String name){
+    private void addStrategy(String name){
         if(TradingApplication.getInstance().getStrategy(name) != null){  //check existing might not be needed if trading application can check first
             strategies.add(name);
         }else{
@@ -97,13 +96,17 @@ public class Experiment implements IExperiment, Serializable {
     }
 
     @Override
-    public IStrategy getStrategy(String name){
-        return TradingApplication.getInstance().getStrategy(name); // return strategy with the id
+    public Set<IStrategy> getAllStrategies(){
+        return this.strategies.stream()     // Return set created from mapped stream of strategy names
+                .map(name -> TradingApplication.getInstance().getStrategy(name))
+                .collect(Collectors.toSet());
     }
 
     @Override
-    public IStock getStock(String symbol){
-        return TradingApplication.getInstance().getStock(symbol);
+    public Set<IStock> getAllStocks(){
+        return this.stocksToShares.keySet().stream()    // Return set created from mapped stream of stock names
+                .map(symbol -> TradingApplication.getInstance().getStock(symbol))
+                .collect(Collectors.toSet());
     }
 
     public void addTrial(String id, String symbol){
@@ -112,11 +115,16 @@ public class Experiment implements IExperiment, Serializable {
             // strategy id does not exist
             this.addStrategy(id);
             this.addStock(symbol);
-            this.strategyToStocks.put(id, new ArrayList<String>(Arrays.<String>asList(symbol)));
+            this.strategyToStocks.put(id, new ArrayList<>(Collections.singletonList(symbol)));
         } else {
             this.addStock(symbol);
             this.strategyToStocks.get(id).add(symbol);
         }
+    }
+
+    @Override
+    public Map<String, List<String>> getAllTrials() {
+        return null;
     }
 
     /**
@@ -126,7 +134,7 @@ public class Experiment implements IExperiment, Serializable {
      */
     @Override
     public List<Result> runExperiment(TimeSet ts) {
-        List<Result> resultList = new ArrayList<Result>();
+        List<Result> resultList = new ArrayList<>();
         IStrategy strategy;
         StrategyTester st;
         IStock stock;
@@ -152,7 +160,7 @@ public class Experiment implements IExperiment, Serializable {
             while (currentDate.isBefore(experimentStartDate.plusDays(duration))) {  // For each Day
                 ResultDay resultDay = new ResultDay(currentDate, balance, balance);
 
-                for (Map.Entry<String, ArrayList<String>> entry : strategyToStocks.entrySet()) {    // For each strategy
+                for (Map.Entry<String, List<String>> entry : strategyToStocks.entrySet()) {    // For each strategy
                     strategy = TradingApplication.getInstance().getStrategy(entry.getKey());
 
                     for (int i = 0; i < entry.getValue().size(); i++) {     // For each Stock

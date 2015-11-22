@@ -14,7 +14,7 @@ public class Result {
     private LocalDate startDate;
     private int duration;
     // One-to-many relationships. (ie. One strategy for multiple Stock symbol.
-    private Map<String, ArrayList<String>> strategyIDtoStockSymbol;
+    private Map<String, List<String>> strategyIDtoStockSymbol;
     private BigDecimal openingBalance;
     private BigDecimal closingBalance;
     private List<ResultDay> resultDays;
@@ -23,12 +23,12 @@ public class Result {
      * Result is the output from each TimeSet from runExperiment
      * @param startDate
      * @param durationInDays
-     * @param strategyToStock: Map<String, ArrayList<String>> of Strategy ID to List of Stock symbols.
+     * @param strategyToStock : Map<String, ArrayList<String>> of Strategy ID to List of Stock symbols.
      * @param openingBalance
      */
-    public Result(LocalDate startDate, int durationInDays, 
-    						Map<String, ArrayList<String>> strategyToStock,
-    						BigDecimal openingBalance){
+    public Result(LocalDate startDate, int durationInDays,
+                  Map<String, List<String>> strategyToStock,
+                  BigDecimal openingBalance){
     	if (openingBalance.compareTo(BigDecimal.ZERO)<= 0){
     		throw new IllegalArgumentException("Opening Balance cannot be 0 or less");
     	}
@@ -78,7 +78,7 @@ public class Result {
      * @throws NullPointerException: If strategyID is null
      * @throws IllegalArgumentException: If strategyID does not exist in Result
      */
-    public ArrayList<String> getStockForStrategy(String strategyID){
+    public List<String> getStockForStrategy(String strategyID){
     	return this.strategyIDtoStockSymbol.get(strategyID);
     }
     
