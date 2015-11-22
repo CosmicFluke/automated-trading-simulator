@@ -25,9 +25,11 @@ public interface IExperiment {
     Map<String, List<String>> getAllTrials();
 
     Map<String, Pair<LocalDate, LocalDate>> getStockStartAndEndDates();
+    Map<String, Integer> getStocksToShares();
 
     Set<IStrategy> getAllStrategies();
     Set<IStock> getAllStocks();
+
 
     /**
      * Run the experiment specified in this instance on the given {@link TimeSet}.

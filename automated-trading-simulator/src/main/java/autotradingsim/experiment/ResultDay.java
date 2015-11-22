@@ -14,6 +14,7 @@ public class ResultDay {
 	private BigDecimal openingBalance;
 	private BigDecimal closingBalance;
 
+
 	/**
 	 * ResultDay is the output for each eay from runExperiment.
 	 * @param date LocalDate
@@ -58,7 +59,7 @@ public class ResultDay {
     public void addDecision(IDecision decision){
     	this.decisions.add(decision);
     }
-    
+
     public BigDecimal getOpeningBalance(){
     	return this.openingBalance;
     }

@@ -18,7 +18,9 @@ public class Result {
     private BigDecimal openingBalance;
     private BigDecimal closingBalance;
     private List<ResultDay> resultDays;
-    
+    private List<Map<String, Integer>> stocksToShares;
+
+
     /**
      * Result is the output from each TimeSet from runExperiment
      * @param startDate
@@ -37,7 +39,11 @@ public class Result {
         this.strategyIDtoStockSymbol = strategyToStock;
         this.openingBalance = openingBalance;
         this.resultDays = new ArrayList<ResultDay>();
+        this.stocksToShares = new ArrayList<Map<String, Integer>>();
+
     }
+
+    public void addStockstoToShares(Map<String, Integer> stocksToShares) { this.stocksToShares.add(stocksToShares); }
 
     public void addResultDay(ResultDay resultDay){
     	this.resultDays.add(resultDay);

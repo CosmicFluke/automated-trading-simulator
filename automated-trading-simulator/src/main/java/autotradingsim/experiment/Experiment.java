@@ -61,6 +61,10 @@ public class Experiment implements IExperiment, Serializable {
         this.name = name;
     }
 
+    public Map<String, Integer> getStocksToShares() {
+        return this.stocksToShares;
+    }
+
     /**
      * Add Stock symbol to the stocksToShares ArrayList, otherwise throw exception.
      *
@@ -191,6 +195,7 @@ public class Experiment implements IExperiment, Serializable {
                         }
                         resultDay.setClosingBalance(balance);
                         result.addResultDay(resultDay);
+                        result.addStockstoToShares(this.stocksToShares);
                     }
 
                 }
