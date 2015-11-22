@@ -1,6 +1,7 @@
 package autotradingsim.strategy;
 
 import autotradingsim.stocks.IStock;
+import autotradingsim.stocks.StockDay;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,16 +17,20 @@ public class Decision implements IDecision {
     public final String rule;
     public final LocalDate date;
     public final IAction.ActionType type;
-    public final IStock IStock;
+    public final IStock stock;
     public final IActionQuantity quantity;
+    public final BigDecimal stockValue;
+    public final IActionQuantity.ConfidenceFactor confidence;
 
 
     public Decision(LocalDate date, IAction.ActionType type, IStock IStock, IActionQuantity quantity,
-                    IRule ruleSource) {
+                    IActionQuantity.ConfidenceFactor confidenceFactor, IRule ruleSource) {
         this.date = date;
         this.type = type;
-        this.IStock = IStock;
+        this.stock = IStock;
+        this.stockValue = stock.getDay(date).getValue(StockDay.Values.CLOSE);
         this.quantity = quantity;
+        this.confidence = confidenceFactor;
         this.rule = ruleSource.getName();
     }
 
@@ -41,12 +46,12 @@ public class Decision implements IDecision {
 
     @Override
     public int getQuantity(BigDecimal balance) {
-        return this.quantity.getValue(balance);
+        return this.quantity.getValue(balance, stockValue, confidence);
     }
 
     @Override
     public String getStockSymbol() {
-        return this.IStock.getSymbol();
+        return this.stock.getSymbol();
     }
 
     @Override

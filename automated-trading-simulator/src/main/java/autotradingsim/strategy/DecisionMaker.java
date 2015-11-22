@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -79,7 +78,7 @@ public class DecisionMaker implements IDecisionMaker {
                         .reduce(Boolean.TRUE, (Boolean a, Boolean b) -> a && b);
         return doActions ? actions.stream()
                 .map((IAction action) ->
-                        new Decision(date, action.getActionType(), stock, action.getQuantity(), rule))
+                        new Decision(date, action.getActionType(), stock, action.getQuantity(), null, rule))
                 : (new ArrayList<IDecision>()).stream();
     }
 }
