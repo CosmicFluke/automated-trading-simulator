@@ -4,6 +4,10 @@ import autotradingsim.strategy.ConstantActionQuantity;
 import autotradingsim.strategy.IAction;
 import autotradingsim.strategy.IActionQuantity;
 
+import java.math.BigDecimal;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+
 /**
  * Created by Asher on 2015-10-30.
  *
@@ -12,6 +16,9 @@ import autotradingsim.strategy.IActionQuantity;
  * <p>Holds a <i>constant</i> quantity function for any given action type.  Future implementations of IAction will
  * <b>not</b> take a constant quantity as a parameter to the constructor.  Consider implementing a
  * "quantity function builder"</p>
+ *
+ * <p>**Deprecated in favour of {@link autotradingsim.strategy.Action}, which has an equivalent constructor option.</p>
+ *
  */
 public class SimpleAction implements IAction {
 

@@ -13,9 +13,12 @@ import java.math.BigDecimal;
 import java.util.function.Function;
 
 /**
- * Created by Asher on 2015-10-30.
+ * <p>Created by Asher on 2015-10-30.</p>
  *
- * IMeasurement implementation which always uses a stock's daily closing value.
+ * <p>Measurement implementation which always uses a stock's daily closing value.</p>
+ *
+ * <p>**Deprecated in favour of {@link autotradingsim.strategy.indicators.SimpleMovingAverage}, which is
+ * equivalent to a <tt>SimpleStockValue</tt> object when instantiated using "<tt>new SimpleMovingAverage(1)</tt>".</p>
  *
  */
 public class SimpleStockValue implements IMeasurement, IFunctionBuilder, Serializable {
