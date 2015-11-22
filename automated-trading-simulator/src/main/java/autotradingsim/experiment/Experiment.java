@@ -181,11 +181,11 @@ public class Experiment implements IExperiment, Serializable {
                             if (decision.getActionType() == IAction.ActionType.BUY) {
                                 // Buy Stocks for
                                 shares += decision.getQuantity(balance);
-                                balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                                balance = balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
 
                             } else if (decision.getActionType() == IAction.ActionType.SELL) {
                                 shares -= decision.getQuantity(balance);
-                                balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                                balance = balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
                             }
                             this.stocksToShares.put(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) + shares);
                         }
