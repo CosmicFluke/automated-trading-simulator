@@ -81,6 +81,16 @@ public class SimpleRule implements IRule, Serializable {
     }
 
     @Override
+    public void setConfidenceThreshold(double thresh) {
+        System.out.println("SimpleRule confidence threshold is not settable.");
+    }
+
+    @Override
+    public double getConfidenceThreshold() {
+        return 0;
+    }
+
+    @Override
     public void setName(String name) {
 
     }

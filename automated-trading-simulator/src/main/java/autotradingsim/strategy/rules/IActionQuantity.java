@@ -15,8 +15,6 @@ import java.math.BigDecimal;
 @FunctionalInterface
 public interface IActionQuantity {
 
-    enum ConfidenceFactor { LOW, MEDIUM, HIGH }
-
     int getValue(BigDecimal balance, BigDecimal stockValue, ConfidenceFactor confidence);
 
 }

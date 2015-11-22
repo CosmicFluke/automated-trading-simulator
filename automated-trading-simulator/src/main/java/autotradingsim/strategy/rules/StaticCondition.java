@@ -55,6 +55,21 @@ public class StaticCondition implements ICondition {
 	}
 
 	@Override
+	public ConfidenceFactor getConfidenceFactor() {
+		return ConfidenceFactor.HIGH;
+	}
+
+	@Override
+	public void setConfidenceFunction(ConfidenceFunction function) {
+		System.out.println("Confidence function cannot be set for a StaticCondition.");
+	}
+
+	@Override
+	public ConfidenceFunction getConfidenceFunction() {
+		return (a, b, c) -> ConfidenceFactor.HIGH;
+	}
+
+	@Override
 	public String toString(){
 
 		return String.join(" ",

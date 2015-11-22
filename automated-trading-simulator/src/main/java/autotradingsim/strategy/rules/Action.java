@@ -15,7 +15,7 @@ import java.util.function.Function;
  *     ResultDay#getClosingBalance()}), such that the quantity bought or sold will be the quotient of the given
  *     fraction divided by the value of the stock</li>
  *     <li>As a {@link IActionQuantity} function, which returns an integer quantity based on three parameters: balance,
- *     stock value, and a confidence factor (see enum {@link IActionQuantity.ConfidenceFactor}</li>
+ *     stock value, and a confidence factor (see enum {@link ConfidenceFactor}</li>
  * </p>
  */
 public class Action implements IAction {
@@ -40,7 +40,7 @@ public class Action implements IAction {
 	 */
 	public Action(ActionType type, Function<BigDecimal, BigDecimal> balanceFunction) {
 		this(type,
-				(BigDecimal balance, BigDecimal value, IActionQuantity.ConfidenceFactor c) ->
+				(BigDecimal balance, BigDecimal value, ConfidenceFactor c) ->
 						balanceFunction.apply(balance).divide(value).intValue());
 	}
 

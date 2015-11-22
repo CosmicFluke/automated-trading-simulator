@@ -1,6 +1,8 @@
 package autotradingsim.deprecated.simpleimpl;
 
 import autotradingsim.stocks.IBufferAdapter;
+import autotradingsim.strategy.rules.ConfidenceFactor;
+import autotradingsim.strategy.rules.ConfidenceFunction;
 import autotradingsim.strategy.rules.ICondition;
 import autotradingsim.strategy.rules.IMeasurement;
 import autotradingsim.util.Pair;
@@ -44,6 +46,21 @@ public class SimpleCondition implements ICondition, Serializable {
     @Override
     public Predicate<IBufferAdapter> getFunction() {
         return this.compare;
+    }
+
+    @Override
+    public ConfidenceFactor getConfidenceFactor() {
+        return ConfidenceFactor.HIGH;
+    }
+
+    @Override
+    public void setConfidenceFunction(ConfidenceFunction function) {
+        System.out.print("Confidence Function in SimpleCondition is not settable.");
+    }
+
+    @Override
+    public ConfidenceFunction getConfidenceFunction() {
+        return (a, b, c) -> ConfidenceFactor.HIGH;
     }
 
 
