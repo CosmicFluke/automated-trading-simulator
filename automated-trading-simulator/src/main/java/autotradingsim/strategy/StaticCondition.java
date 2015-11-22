@@ -2,6 +2,7 @@ package autotradingsim.strategy;
 
 import autotradingsim.util.Pair;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.function.Predicate;
 
@@ -9,11 +10,13 @@ import java.util.function.Predicate;
  * <p>A general StaticCondition that generates a predicate from an IMeasurement, comparator, and comparison value.</P.
  *
  */
-public class StaticCondition implements ICondition {
+public class StaticCondition implements ICondition, Serializable {
 
+	private static final long serialVersionUID = 1940755636843227676L;
 	private IMeasurement measurement;
 	private BigDecimal compareTo;
-	private Predicate<Pair<BigDecimal,BigDecimal>> comparator;
+	private transient Predicate<Pair<BigDecimal,BigDecimal>> comparator;
+	private ICondition.Comparator rawComparitor;
 	private Comparator comp;
 
 	/**
@@ -23,6 +26,7 @@ public class StaticCondition implements ICondition {
 		this.comp = comp;
 		this.compareTo = compareTo;
 		this.measurement = measurement;
+		this.rawComparitor = comp;
 		this.comparator = makeComparator(comp);
 	}
 

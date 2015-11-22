@@ -66,6 +66,13 @@ public class Strategy implements IStrategy, Serializable {
         }
         this.rules.put(rule.getID(), rule);
     }
+    
+	@Override
+	public IRule getRule(RuleID rule) {
+		if(rule == null)
+			return null;
+		return this.rules.get(rule);
+	}
 
     @Override
     public IRule removeRule(RuleID rule) {
@@ -115,5 +122,4 @@ public class Strategy implements IStrategy, Serializable {
     public StrategyTester getNewTester() {
         return new FullStrategyTester(this, new HashSet<>(this.rules.values()));
     }
-
 }
