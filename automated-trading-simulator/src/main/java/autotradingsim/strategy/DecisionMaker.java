@@ -4,8 +4,10 @@ import autotradingsim.stocks.IStock;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -14,12 +16,12 @@ import java.util.stream.Stream;
 public class DecisionMaker implements IDecisionMaker {
 
     private IStock stock;
+    private Map<Integer, IBufferAdapter> stockBuffers;
     private List<ICondition> conditions;
     private List<IAction> actions;
     private IRule rule;
-    private IStrategy strategy;
 
-    public DecisionMaker(Rule rule, IStrategy strategy) {
+    public DecisionMaker(IRule rule) {
         if (conditions == null || actions == null || rule == null) {
             throw new NullPointerException();
         }
@@ -27,7 +29,6 @@ public class DecisionMaker implements IDecisionMaker {
         this.conditions = rule.getConditions();
         this.actions = rule.getActions();
         this.stock = null;
-        this.strategy = null;
     }
 
     @Override
@@ -45,26 +46,40 @@ public class DecisionMaker implements IDecisionMaker {
 
     @Override
     public Stream<IDecision> getDecisions(LocalDate date) {
-        List<IDecision> decisionList = new ArrayList<>();
-        IBufferAdapter buffer = stock.getNewBuffer(date, 1);
-        rule.getConditions();
-        IDecision decision = getDecision(buffer);
-        if (decision != null) {
-            decisionList.add(decision);
+        if (stockBuffers == null) {
+            stockBuffers = new HashMap<>();
         }
-        return decisionList.stream();
-    }
 
-    private IDecision getDecision(IBufferAdapter buffer) {
-        ICondition condition = rule.getConditions().get(0);
-        IAction action = rule.getActions().get(0);
-
-        if (condition.getFunction().test(buffer)) {
-            IActionQuantity q = action.getQuantity();
-            return new Decision(buffer.getLastEntry().getDate(), action.getActionType(), stock, action.getQuantity(),
-                    this.strategy, this.rule);
+        // Update/set the stockBuffers list to the given data
+        for (ICondition cond : conditions) {
+            Integer size = cond.getBufferSize();
+            if (stockBuffers.containsKey(size)) {   // Buffer of correct size exists in stockBuffers
+                // Update existing buffer
+                IBufferAdapter buffer = stockBuffers.get(size);
+                if (stockBuffers.get(size)  // Buffer is one day behind
+                        .getLastDay().plusDays(1)
+                        .equals(date)) {
+                    buffer.updateNext();
+                } else if (stockBuffers.get(size)   // Buffer is on the correct day
+                        .getLastDay().equals(date)) {
+                    // do nothing
+                } else {                    // Buffer is something other than one day behind
+                    buffer.updateTo(date);
+                }
+            } else {    // No buffer of correct size exists in stockBuffers
+                // Get a new buffer and add to stockBuffers map
+                stockBuffers.put(size, stock.getNewBuffer(date, size));
+            }
         }
-        else return null;
-    }
 
+        boolean doActions =
+                conditions.stream()
+                        .map((ICondition c) ->
+                                c.getFunction().test(stockBuffers.get(c.getBufferSize())))
+                        .reduce(Boolean.TRUE, (Boolean a, Boolean b) -> a && b);
+        return doActions ? actions.stream()
+                .map((IAction action) ->
+                        new Decision(date, action.getActionType(), stock, action.getQuantity(), rule))
+                : (new ArrayList<IDecision>()).stream();
+    }
 }
