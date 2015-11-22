@@ -1,7 +1,10 @@
 package autotradingsim.ui;
 import autotradingsim.application.*;
+import autotradingsim.experiment.IExperiment;
+
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 /**
@@ -18,6 +21,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
     DefaultComboBoxModel StrategyComboBoxModel = new DefaultComboBoxModel();
     DefaultComboBoxModel StockComboBoxModel = new DefaultComboBoxModel();
     DefaultListModel pairingListModel = new DefaultListModel();
+    IExperiment experiment;
     public ExperimentViewer(ExperimentList parent) {
         this.parent = parent;
         initComponents();
@@ -26,6 +30,18 @@ public class ExperimentViewer extends javax.swing.JFrame {
         StrategyDropDown.setModel(StrategyComboBoxModel);
         StockDropDown.setModel(StockComboBoxModel);
         stockStrategyPair.setModel(pairingListModel);
+    }
+    protected void setExperiment(IExperiment experiment){
+        this.experiment = experiment;
+    }
+    protected void loadStrategyStockPairs(){
+        HashMap<String, ArrayList<String>> strategyToStocks=null; //= this.experiment.getAllTrials();
+        for(String stratname: strategyToStocks.keySet()){
+            for(String stockname: strategyToStocks.get(stratname)){
+                pairingListModel.addElement(stratname+" applied to: "+stockname);
+            }
+        }
+        
     }
 
     protected void setNameText(String filename){
@@ -155,17 +171,17 @@ public class ExperimentViewer extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(StrategyDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(StockDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(37, 37, 37)
-                        .addComponent(submitPairing, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(StrategyDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(StockDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(37, 37, 37)
+                                .addComponent(submitPairing, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 105, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(235, 235, 235)
@@ -183,21 +199,21 @@ public class ExperimentViewer extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(StrategyDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(7, 7, 7)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(StockDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                        .addComponent(RunExperiment)
-                        .addGap(40, 40, 40))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(StrategyDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(7, 7, 7)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(StockDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(36, 36, 36)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                            .addComponent(RunExperiment)
+                            .addGap(40, 40, 40))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(submitPairing, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(submitPairing, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -235,8 +251,9 @@ public class ExperimentViewer extends javax.swing.JFrame {
     private void submitPairingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitPairingActionPerformed
             String stock = StockComboBoxModel.getElementAt(StockDropDown.getSelectedIndex()).toString();
             String strategy = StrategyComboBoxModel.getElementAt(StrategyDropDown.getSelectedIndex()).toString();
-            pairingListModel.addElement(strategy+" applied to: "+stock);
-        
+            pairingListModel.addElement(strategy + " applied to: " + stock);
+            this.experiment.addTrial(strategy, stock);
+
     }//GEN-LAST:event_submitPairingActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
