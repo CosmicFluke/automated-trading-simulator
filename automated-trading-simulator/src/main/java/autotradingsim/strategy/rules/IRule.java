@@ -78,6 +78,13 @@ public interface IRule {
     String getName();
 
     /**
+     * RuleIDs are used to get information about rules from Strategies.
+     * Generate a new RuleID for this rule 
+     * @return
+     */
+    RuleID generateNewID();
+    
+    /**
      * RuleIDs are used to get information about rules from Strategies.  They should be initialized in 
      * @return
      */

@@ -118,4 +118,10 @@ public class SimpleRule implements IRule, Serializable {
         list.add(this.action);
         return list;
     }
+
+	@Override
+	public RuleID generateNewID() {
+		this.id = new RuleID(this);
+		return this.id;
+	}
 }
