@@ -39,17 +39,17 @@ public class Rule implements IRule, Serializable {
 
     @Override
     public IDecisionMaker getDecisionMaker() {
-        return new DecisionMaker(this, );
+        return new DecisionMaker(this);
     }
 
     @Override
     public List<ICondition> getConditions() {
-        return new ArrayList<ICondition>(conditions);
+        return new ArrayList<>(conditions);
     }
 
     @Override
     public List<IAction> getActions() {
-        return new ArrayList<IAction>(actions);
+        return new ArrayList<>(actions);
     }
 
     @Override
@@ -74,7 +74,8 @@ public class Rule implements IRule, Serializable {
                 "Description: " + this.getDescription() + "\n\n" +
                 "Conditions:\n";
         summary.append(opener);
-        conditions.stream().peek((ICondition c) -> summary.append(c.toString() + "\n"));
+        conditions.stream()
+                .peek((ICondition c) -> summary.append(c.toString() + "\n"));
         summary.append("\nActions:\n");
         actions.stream().peek(
                 (IAction a) -> summary.append(
