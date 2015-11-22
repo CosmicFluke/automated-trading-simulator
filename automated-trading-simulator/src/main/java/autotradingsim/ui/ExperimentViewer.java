@@ -1,5 +1,6 @@
 package autotradingsim.ui;
 import autotradingsim.application.*;
+import autotradingsim.engine.*;
 import autotradingsim.experiment.*;
 import java.time.LocalDate;
 import javax.swing.*;
@@ -16,6 +17,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
      */
     ExperimentList parent;
     TradingApplication application = TradingApplication.getInstance();
+    ExperimentEngine experimentEngine = ExperimentEngine.getInstance();
     DefaultComboBoxModel StrategyComboBoxModel = new DefaultComboBoxModel();
     DefaultComboBoxModel StockComboBoxModel = new DefaultComboBoxModel();
     DefaultListModel pairingListModel = new DefaultListModel();
@@ -233,13 +235,11 @@ public class ExperimentViewer extends javax.swing.JFrame {
                     .addComponent(jLabel6))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(trialField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(durationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(startDateField, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
-                    .addComponent(endDateField))
+                    .addComponent(endDateField)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(durationField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                        .addComponent(trialField, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addGap(52, 52, 52))
         );
         layout.setVerticalGroup(
@@ -333,8 +333,10 @@ public class ExperimentViewer extends javax.swing.JFrame {
 
         //System.out.println(startDateField.getText());
         TimeSet ts = new TimeSet(ntrials, duration,startDate, endDate);
-        List<Result> resultset = this.experiment.runExperiment(ts);
-        System.out.print(resultset.get(0).getClosingBalance());
+        List<String> resultString = experimentEngine.runExperiment(this.experiment, ts);
+        for(String s: resultString){
+            System.out.println(s);
+        }
     }//GEN-LAST:event_RunExperimentActionPerformed
 
     private void startDateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startDateFieldActionPerformed
