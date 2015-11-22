@@ -63,10 +63,12 @@ public class Rule implements IRule, Serializable {
         return this.name;
     }
 
+    
     @Override
     public RuleID getID(){
         return this.id;
     }
+    
 
     @Override
     public String getSummary() {
