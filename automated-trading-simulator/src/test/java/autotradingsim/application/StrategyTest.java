@@ -22,6 +22,8 @@ import org.junit.Test;
 
 import autotradingsim.strategy.*;
 import autotradingsim.strategy.indicators.ExponentialMovingAverage;
+import autotradingsim.strategy.indicators.IndicatorAbsoluteChange;
+import autotradingsim.strategy.indicators.IndicatorRelativeChange;
 import autotradingsim.strategy.indicators.SimpleMovingAverage;
 import autotradingsim.util.ObjectFileSystem;
 
@@ -195,8 +197,20 @@ public class StrategyTest {
         assertTrue(testingFile.exists());
         testingFile.delete();
         
-        IMeasurement ExpoChange = new ExponentialMovingAverage(1);
-        ObjectFileSystem.saveObject(ExpectedFileExists, ExpoChange);
+        IMeasurement expoChange = new ExponentialMovingAverage(1);
+        ObjectFileSystem.saveObject(ExpectedFileExists, expoChange);
+        testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        testingFile.delete();
+        
+        IMeasurement relativeChange = new IndicatorRelativeChange(new SimpleMovingAverage(5), 3);
+        ObjectFileSystem.saveObject(ExpectedFileExists, relativeChange);
+        testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        testingFile.delete();
+        
+        IMeasurement absChange = new IndicatorAbsoluteChange(new SimpleMovingAverage(5), 3);
+        ObjectFileSystem.saveObject(ExpectedFileExists, absChange);
         testingFile = new File(ExpectedFileExists);
         assertTrue(testingFile.exists());
         testingFile.delete();

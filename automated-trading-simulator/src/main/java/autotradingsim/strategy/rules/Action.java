@@ -32,7 +32,7 @@ public class Action implements IAction, Serializable {
 	 */
 	public Action(ActionType type, int quantity) {
 		this.type = type;
-		this.quantity = (a, b, c) -> quantity;
+		this.quantity = (IActionQuantity & Serializable)(a, b, c) -> quantity;
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class Action implements IAction, Serializable {
 	 */
 	public Action(ActionType type, Function<BigDecimal, BigDecimal> balanceFunction) {
 		this(type,
-				(BigDecimal balance, BigDecimal value, ConfidenceFactor c) ->
+				(IActionQuantity & Serializable)(BigDecimal balance, BigDecimal value, ConfidenceFactor c) ->
 						balanceFunction.apply(balance).divide(value).intValue());
 	}
 
@@ -53,7 +53,7 @@ public class Action implements IAction, Serializable {
 	 */
 	public Action(ActionType type, IActionQuantity quantityFunction) {
 		this.type = type;
-		this.quantity = quantityFunction;
+		this.quantity = (IActionQuantity & Serializable)quantityFunction;
 	}
 
 	@Override
