@@ -17,7 +17,7 @@ import autotradingsim.autoTradingSim;
 /**
  * Unit test for simple AppPlaceholder.
  */
-public class TerminalTest
+public class TerminalTestTODO
     extends TestCase
 {
     /**
@@ -25,7 +25,7 @@ public class TerminalTest
      *
      * @param testName name of the test case
      */
-    public TerminalTest( String testName )
+    public TerminalTestTODO( String testName )
     {
         super( testName );
     }
@@ -35,7 +35,7 @@ public class TerminalTest
      */
     public static Test suite()
     {
-        return new TestSuite( TerminalTest.class );
+        return new TestSuite( TerminalTestTODO.class );
     }
 
     
