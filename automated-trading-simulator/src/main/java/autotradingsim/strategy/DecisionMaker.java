@@ -1,5 +1,6 @@
 package autotradingsim.strategy;
 
+import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.IStock;
 
 import java.time.LocalDate;
@@ -20,9 +21,16 @@ public class DecisionMaker implements IDecisionMaker {
     private List<IAction> actions;
     private IRule rule;
 
+    /**
+     * Create a DecisionMaker for a valid IRule.  IRule must provide valid conditions, actions, and ID.
+     * @param rule
+     */
     public DecisionMaker(IRule rule) {
-        if (conditions == null || actions == null || rule == null) {
-            throw new NullPointerException();
+        if (rule == null) {
+            throw new NullPointerException("DecisionMaker constructor was passed a null IRule");
+        }
+        if (rule.getConditions() == null || rule.getActions() == null || rule.getID() == null) {
+            throw new IllegalArgumentException("DecisionMaker constructor was passed an invalid IRule");
         }
         this.rule = rule;
         this.conditions = rule.getConditions();
@@ -33,7 +41,10 @@ public class DecisionMaker implements IDecisionMaker {
     @Override
     public void assignStock(IStock stock) {
         if (stock == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("DecisionMaker::assignStock was passed a null IStock");
+        }
+        if (stock.getAllStockDays().count() < 1) {
+            throw new IllegalArgumentException(String.format("Stock with symbol '%s' does not contain any data", stock));
         }
         this.stock = stock;
     }
@@ -78,7 +89,7 @@ public class DecisionMaker implements IDecisionMaker {
                         .reduce(Boolean.TRUE, (Boolean a, Boolean b) -> a && b);
         return doActions ? actions.stream()
                 .map((IAction action) ->
-                        new Decision(date, action.getActionType(), stock, action.getQuantity(), null, rule))
+                        new Decision(date, action.getActionType(), stock.getSymbol(), action.getQuantity(), null, rule))
                 : (new ArrayList<IDecision>()).stream();
     }
 }

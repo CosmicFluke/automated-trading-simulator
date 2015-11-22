@@ -1,5 +1,6 @@
 package autotradingsim.strategy;
 
+import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.StockDay;
 

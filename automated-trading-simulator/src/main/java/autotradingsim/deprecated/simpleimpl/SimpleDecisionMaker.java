@@ -1,5 +1,6 @@
 package autotradingsim.deprecated.simpleimpl;
 
+import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.IStock;
 import autotradingsim.strategy.*;
 
@@ -15,13 +16,13 @@ import java.util.stream.Stream;
  */
 public class SimpleDecisionMaker implements IDecisionMaker {
 
-    private IStrategy strategy;
+    private String strategyID;
     private SimpleRule rule;
     private IStock stock;
 
     public SimpleDecisionMaker (SimpleRule rule) {
         this.rule = rule;
-        this.strategy = new SimpleStrategy(); // TODO: THIS IS VERY WRONG MUST CHANGE
+        this.strategyID = ""; // TODO: THIS IS VERY WRONG MUST CHANGE
         this.stock = null;
     }
 
@@ -52,7 +53,7 @@ public class SimpleDecisionMaker implements IDecisionMaker {
 
         if (condition.getFunction().test(buffer)) {
             IActionQuantity q = action.getQuantity();
-            return new Decision(buffer.getLastEntry().getDate(), action.getActionType(), stock, action.getQuantity(),
+            return new Decision(buffer.getLastEntry().getDate(), action.getActionType(), stock.getSymbol(), action.getQuantity(),
                     null, this.rule);
         }
         else return null;

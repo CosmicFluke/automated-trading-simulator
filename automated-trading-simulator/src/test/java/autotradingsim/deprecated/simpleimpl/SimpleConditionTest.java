@@ -1,5 +1,6 @@
 package autotradingsim.deprecated.simpleimpl;
 
+import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;

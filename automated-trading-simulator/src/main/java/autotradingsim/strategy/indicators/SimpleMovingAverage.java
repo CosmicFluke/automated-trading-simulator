@@ -32,11 +32,6 @@ public class SimpleMovingAverage extends Indicator{
     private int days;
 
     /**
-     * This is only here because of confusion in the responsibilities/collaborations of the Indicator hierarchy.<br>
-     */
-    private Stock stock;
-
-    /**
      * Construct a new SimpleMovingAverage that uses the given number of days to calculate a moving average.
      * @param days
      * @param name
