@@ -160,8 +160,6 @@ public class TradingApplication implements ITradingApplication {
 		String path = PathToExperiments + name;
 		return (IExperiment) ObjectFileSystem.loadObject(path);
 	}
-
-	
 	
 	/**
 	 * get all available experiment names in application
@@ -242,7 +240,6 @@ public class TradingApplication implements ITradingApplication {
 		}
 		String path = this.PathToStrategies + newStrat.getName();
 		ObjectFileSystem.saveObject(path, newStrat);
-		
 	}
 	
 	private IStrategy loadStrategy(String stratName) {
