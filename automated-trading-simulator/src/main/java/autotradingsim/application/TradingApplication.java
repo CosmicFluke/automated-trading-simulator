@@ -10,7 +10,6 @@ import java.util.Set;
 
 import autotradingsim.experiment.*;
 import autotradingsim.stocks.IStock;
-import autotradingsim.stocks.StockLoader;
 import autotradingsim.strategy.*;
 import autotradingsim.util.ObjectFileSystem;
 

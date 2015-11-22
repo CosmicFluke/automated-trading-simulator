@@ -1,11 +1,9 @@
-package autotradingsim.strategy.simpleimpl;
+package autotradingsim.deprecated.simpleimpl;
 
 import autotradingsim.strategy.IDecisionMaker;
 import autotradingsim.strategy.IStrategy;
 import autotradingsim.strategy.RuleID;
 import autotradingsim.strategy.StrategyTester;
-import autotradingsim.strategy.simpleimpl.SimpleStrategy;
-import autotradingsim.strategy.simpleimpl.SimpleStrategyTester;
 import org.junit.Before;
 import org.junit.Test;
 

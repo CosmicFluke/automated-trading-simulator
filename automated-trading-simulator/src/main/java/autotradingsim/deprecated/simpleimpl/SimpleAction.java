@@ -1,12 +1,8 @@
-package autotradingsim.strategy.simpleimpl;
+package autotradingsim.deprecated.simpleimpl;
 
 import autotradingsim.strategy.ConstantActionQuantity;
 import autotradingsim.strategy.IAction;
 import autotradingsim.strategy.IActionQuantity;
-
-import java.math.BigDecimal;
-import java.util.function.Function;
-import java.util.function.IntFunction;
 
 /**
  * Created by Asher on 2015-10-30.

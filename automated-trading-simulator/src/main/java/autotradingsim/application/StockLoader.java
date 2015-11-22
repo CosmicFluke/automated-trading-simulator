@@ -1,4 +1,8 @@
-package autotradingsim.stocks;
+package autotradingsim.application;
+
+import autotradingsim.stocks.IStock;
+import autotradingsim.stocks.Stock;
+import autotradingsim.stocks.StockDay;
 
 import java.io.*;
 import java.math.BigDecimal;

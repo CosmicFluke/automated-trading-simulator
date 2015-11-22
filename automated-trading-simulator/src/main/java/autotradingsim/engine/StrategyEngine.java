@@ -1,12 +1,11 @@
 package autotradingsim.engine;
 
 import java.math.BigDecimal;
-import java.util.Set;
 
 import autotradingsim.application.TradingApplication;
 import autotradingsim.strategy.IAction;
 import autotradingsim.strategy.IStrategy;
-import autotradingsim.strategy.simpleimpl.*;
+import autotradingsim.deprecated.simpleimpl.*;
 import autotradingsim.strategy.Strategy;
 import autotradingsim.strategy.ICondition.Comparator;
 

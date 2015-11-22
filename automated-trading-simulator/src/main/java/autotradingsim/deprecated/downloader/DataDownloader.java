@@ -1,4 +1,4 @@
-package autotradingsim.dataloader;
+package autotradingsim.deprecated.downloader;
 
 import java.awt.Desktop;
 import java.net.URI;

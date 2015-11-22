@@ -1,4 +1,4 @@
-package autotradingsim.strategy.simpleimpl;
+package autotradingsim.deprecated.simpleimpl;
 
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;

@@ -1,4 +1,4 @@
-package autotradingsim.strategy.simpleimpl;
+package autotradingsim.deprecated.simpleimpl;
 
 import autotradingsim.strategy.IBufferAdapter;
 import autotradingsim.strategy.ICondition;

@@ -1,15 +1,13 @@
-package autotradingsim.strategy.simpleimpl;
+package autotradingsim.deprecated.simpleimpl;
 
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
 import autotradingsim.strategy.*;
-import autotradingsim.strategy.simpleimpl.SimpleStrategy;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
