@@ -10,7 +10,8 @@ import java.math.BigDecimal;
  */
 public class IndicatorRelativeChange extends IndicatorAbsoluteChange {
 
-    static final String default_name = "Relative Change Meta-Indicator";
+	private static final long serialVersionUID = -4431873581367443756L;
+	static final String default_name = "Relative Change Meta-Indicator";
     static final String default_description =
             "This Indicator shows a relative (percentage) change in another indicator, such as a Moving Average, " +
                     "over some specified number of days.";

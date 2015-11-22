@@ -4,6 +4,7 @@ import autotradingsim.experiment.Experiment;
 import autotradingsim.experiment.ResultDay;
 import autotradingsim.experiment.TimeSet;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.function.Function;
 
@@ -18,8 +19,9 @@ import java.util.function.Function;
  *     stock value, and a confidence factor (see enum {@link ConfidenceFactor}</li>
  * </p>
  */
-public class Action implements IAction {
+public class Action implements IAction, Serializable {
 
+	private static final long serialVersionUID = 7261229972405060856L;
 	public final ActionType type;
 	public final IActionQuantity quantity;
 
@@ -30,7 +32,7 @@ public class Action implements IAction {
 	 */
 	public Action(ActionType type, int quantity) {
 		this.type = type;
-		this.quantity = (a, b, c) -> quantity;
+		this.quantity = (IActionQuantity & Serializable)(a, b, c) -> quantity;
 	}
 
 	/**
@@ -40,7 +42,7 @@ public class Action implements IAction {
 	 */
 	public Action(ActionType type, Function<BigDecimal, BigDecimal> balanceFunction) {
 		this(type,
-				(BigDecimal balance, BigDecimal value, ConfidenceFactor c) ->
+				(IActionQuantity & Serializable)(BigDecimal balance, BigDecimal value, ConfidenceFactor c) ->
 						balanceFunction.apply(balance).divide(value).intValue());
 	}
 
@@ -51,7 +53,7 @@ public class Action implements IAction {
 	 */
 	public Action(ActionType type, IActionQuantity quantityFunction) {
 		this.type = type;
-		this.quantity = quantityFunction;
+		this.quantity = (IActionQuantity & Serializable)quantityFunction;
 	}
 
 	@Override

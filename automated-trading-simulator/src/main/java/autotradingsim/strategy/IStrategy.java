@@ -24,6 +24,13 @@ public interface IStrategy {
      * @param rule
      */
     void addRule(IRule rule);
+    
+    /**
+     * returns the rule associated with this ID in the strategy.
+     * @param rule id of rule you want to retrieve
+     * @return rule associated with ID
+     */
+    IRule getRule(RuleID rule);
 
     /**
      * Delete a rule from this strategy

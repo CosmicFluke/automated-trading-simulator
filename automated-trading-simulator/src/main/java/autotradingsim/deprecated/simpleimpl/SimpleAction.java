@@ -1,5 +1,7 @@
 package autotradingsim.deprecated.simpleimpl;
 
+import java.io.Serializable;
+
 import autotradingsim.strategy.rules.Action;
 import autotradingsim.strategy.rules.ConstantActionQuantity;
 import autotradingsim.strategy.rules.IAction;
@@ -17,9 +19,10 @@ import autotradingsim.strategy.rules.IActionQuantity;
  * <p>**Deprecated in favour of {@link Action}, which has an equivalent constructor option.</p>
  *
  */
-public class SimpleAction implements IAction {
+public class SimpleAction implements IAction , Serializable{
 
-    private ActionType type;
+	private static final long serialVersionUID = -4693440206309322616L;
+	private ActionType type;
     private IActionQuantity quantity;
 
     public SimpleAction (ActionType type, int quantity) {

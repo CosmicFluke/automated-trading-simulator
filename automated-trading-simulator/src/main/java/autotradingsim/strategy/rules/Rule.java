@@ -97,12 +97,16 @@ public class Rule implements IRule, Serializable {
         return this.name;
     }
 
-    
+	@Override
+	public RuleID generateNewID() {
+		this.id = new RuleID(this);
+		return this.id;
+	}
+	
     @Override
     public RuleID getID(){
         return this.id;
     }
-    
 
     @Override
     public String getSummary() {
@@ -129,5 +133,7 @@ public class Rule implements IRule, Serializable {
     public void setDescription(String newDescription) {
         description = newDescription;
     }
+
+
 
 }

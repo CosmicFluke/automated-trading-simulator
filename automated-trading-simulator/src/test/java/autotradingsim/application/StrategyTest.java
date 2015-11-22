@@ -3,19 +3,29 @@ package autotradingsim.application;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
 import autotradingsim.strategy.rules.Action;
 import autotradingsim.strategy.rules.IAction;
+import autotradingsim.strategy.rules.ICondition;
+import autotradingsim.strategy.rules.IMeasurement;
 import autotradingsim.strategy.rules.IRule;
 import autotradingsim.strategy.rules.Rule;
+import autotradingsim.strategy.rules.StaticCondition;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
 import autotradingsim.strategy.*;
+import autotradingsim.strategy.indicators.ExponentialMovingAverage;
+import autotradingsim.strategy.indicators.IndicatorAbsoluteChange;
+import autotradingsim.strategy.indicators.IndicatorRelativeChange;
+import autotradingsim.strategy.indicators.SimpleMovingAverage;
+import autotradingsim.util.ObjectFileSystem;
 
 public class StrategyTest {
 
@@ -143,7 +153,6 @@ public class StrategyTest {
         mySimpleStrat.addRule(myRule1);
         IRule myRule2 = new Rule();
         mySimpleStrat.addRule(myRule2);
-
         ApplicationUnderTest.setStrategy("TestSingleRule", mySimpleStrat);
         File testingFile = new File(ExpectedFileExists);
         assertTrue(testingFile.exists());
@@ -151,18 +160,70 @@ public class StrategyTest {
     }
 
     @Test
-    public void testSavingStrategyOneRuleOneCondition(){
+    public void testSavingStrategyOneRuleOneConditionWithSimpleMovingAverage(){
         String ExpectedFileExists = PathToStrategies + "TestSingleRule";
         IStrategy mySimpleStrat = new Strategy("TestSingleRule");
         IRule myRule = new Rule();
-        IAction action = new Action(null, 0);
-        myRule.addAction(action);
-        //ICondition myCondition = new SimpleCondition(ICondition.Comparator.EQ, new BigDecimal(10));
-        //myRule.addCondition(myCondition);
-        //mySimpleStrat.addRule(myRule);
-        // TODO Solidify the serialization of conditions
+        IMeasurement simpleAverage = new SimpleMovingAverage(1);
+        ICondition myCondition = new StaticCondition(simpleAverage, ICondition.Comparator.EQ, new BigDecimal(10));
+        myRule.addCondition(myCondition);
+        mySimpleStrat.addRule(myRule);
         ApplicationUnderTest.setStrategy("TestSingleRule", mySimpleStrat);
         File testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        testingFile.delete();
+    }
+    
+    @Test
+    public void testSavingStrategyByParts(){
+    	File testingFile;
+        String ExpectedFileExists = PathToStrategies + "TestingComponent";
+        
+        IStrategy mySimpleStrat = new Strategy("TestSingleRule");
+        ObjectFileSystem.saveObject(ExpectedFileExists, mySimpleStrat);
+        testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        testingFile.delete();
+        
+        IRule myRule = new Rule();
+        ObjectFileSystem.saveObject(ExpectedFileExists, myRule);
+        testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        testingFile.delete();
+
+        IMeasurement simpleAverage = new SimpleMovingAverage(1);
+        ObjectFileSystem.saveObject(ExpectedFileExists, simpleAverage);
+        testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        testingFile.delete();
+        
+        IMeasurement expoChange = new ExponentialMovingAverage(1);
+        ObjectFileSystem.saveObject(ExpectedFileExists, expoChange);
+        testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        testingFile.delete();
+        
+        IMeasurement relativeChange = new IndicatorRelativeChange(new SimpleMovingAverage(5), 3);
+        ObjectFileSystem.saveObject(ExpectedFileExists, relativeChange);
+        testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        testingFile.delete();
+        
+        IMeasurement absChange = new IndicatorAbsoluteChange(new SimpleMovingAverage(5), 3);
+        ObjectFileSystem.saveObject(ExpectedFileExists, absChange);
+        testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        testingFile.delete();
+        
+        ICondition myCondition = new StaticCondition(simpleAverage, ICondition.Comparator.EQ, new BigDecimal(10));
+        ObjectFileSystem.saveObject(ExpectedFileExists, myCondition);
+        testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        testingFile.delete();
+        
+        IAction myAction = new Action(IAction.ActionType.BUY, 10);
+        ObjectFileSystem.saveObject(ExpectedFileExists, myAction);
+        testingFile = new File(ExpectedFileExists);
         assertTrue(testingFile.exists());
         testingFile.delete();
     }
@@ -209,6 +270,4 @@ public class StrategyTest {
         expectedSet.add("newStrategy");
         assertEquals(ApplicationUnderTest.getAvailableStrategies(), expectedSet);
     }
-
-
 }

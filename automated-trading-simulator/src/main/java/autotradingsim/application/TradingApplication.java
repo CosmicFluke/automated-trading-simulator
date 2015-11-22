@@ -11,6 +11,8 @@ import java.util.Set;
 import autotradingsim.experiment.*;
 import autotradingsim.stocks.IStock;
 import autotradingsim.strategy.*;
+import autotradingsim.strategy.rules.IRule;
+import autotradingsim.strategy.rules.RuleID;
 import autotradingsim.util.ObjectFileSystem;
 
 public class TradingApplication implements ITradingApplication {
@@ -160,8 +162,6 @@ public class TradingApplication implements ITradingApplication {
 		String path = PathToExperiments + name;
 		return (IExperiment) ObjectFileSystem.loadObject(path);
 	}
-
-	
 	
 	/**
 	 * get all available experiment names in application
@@ -242,12 +242,25 @@ public class TradingApplication implements ITradingApplication {
 		}
 		String path = this.PathToStrategies + newStrat.getName();
 		ObjectFileSystem.saveObject(path, newStrat);
-		
 	}
 	
 	private IStrategy loadStrategy(String stratName) {
 		String path = this.PathToStrategies + stratName;
-		return (IStrategy) ObjectFileSystem.loadObject(path);
+		IStrategy returnedObject = (IStrategy) ObjectFileSystem.loadObject(path);
+		if(returnedObject == null)
+			return null;
+		
+		Set<IRule> myRules = new HashSet<IRule>();
+		for(RuleID myRuleId : returnedObject.getRules()){
+			myRules.add(returnedObject.getRule(myRuleId));
+			returnedObject.removeRule(myRuleId);
+		}
+		for(IRule myRule : myRules){
+			myRule.generateNewID();
+			returnedObject.addRule(myRule);
+		}
+		
+		return returnedObject;
 	}
 
 	/**
