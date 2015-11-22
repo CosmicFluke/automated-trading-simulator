@@ -10,34 +10,36 @@ import java.time.LocalDate;
 
 public class ExperimentEngine {
 
-	public static TradingApplication application;
-	public static ExperimentEngine engine;
-	public static TimeSet timeSet;
-	
+	private static ExperimentEngine engine;
+	private static TimeSet timeSet;
+
+	private TradingApplication application;
+
 	/**
+	 * Construct a new ExperimentEngine.<br>
 	 *
-	 * populate appEngine with instance of application
 	 */
 	private ExperimentEngine() {
-		// TODO Auto-generated constructor stub
 		application = TradingApplication.getInstance();
 	}
-	
 
+
+	/**
+	 * Get the instance of this singleton class.
+	 * @return Singular instance of <tt>ExperimentEngine</tt>
+     */
 	public static ExperimentEngine getInstance() {
-		// TODO Auto-generated method stub
-		if (engine==null){
+		if (engine == null){
 			engine = new ExperimentEngine();
 		}
 		return engine;
-		
 	}
 	
 	/**
-	 * 
-	 * @param expname
-	 * @return retExp 
-	 * takes an experiment name, returns the new experiment created
+	 * Takes an experiment name, returns the new experiment created
+	 * @param expname the name of the experiment to create
+	 * @return A new experiment with the given name
+	 *
 	 */
 	public IExperiment createExperiment(String expname){
 		IExperiment retExp=null;
@@ -70,12 +72,13 @@ public class ExperimentEngine {
 //		// TODO Auto-generated method stub
 //
 //	}
-        /**
-         * Returns a primitive experiment result
-         * @param experimentname
-         * @param timeset
-         * @return 
-         */
+
+	/**
+	 * Returns a primitive experiment result
+	 * @param experiment
+	 * @param timeset
+	 * @return
+	 */
 	public List<String> runExperiment(IExperiment experiment, TimeSet timeset){
                 List<String> resultstring = new ArrayList<String>();
 		for (Result r : experiment.runExperiment(timeset)){
