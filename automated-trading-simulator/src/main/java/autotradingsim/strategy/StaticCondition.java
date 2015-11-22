@@ -15,8 +15,6 @@ public class StaticCondition implements ICondition, Serializable {
 	private static final long serialVersionUID = 1940755636843227676L;
 	private IMeasurement measurement;
 	private BigDecimal compareTo;
-	private transient Predicate<Pair<BigDecimal,BigDecimal>> comparator;
-	private ICondition.Comparator rawComparitor;
 	private Comparator comp;
 
 	/**
@@ -26,8 +24,6 @@ public class StaticCondition implements ICondition, Serializable {
 		this.comp = comp;
 		this.compareTo = compareTo;
 		this.measurement = measurement;
-		this.rawComparitor = comp;
-		this.comparator = makeComparator(comp);
 	}
 
 	/**
@@ -53,6 +49,7 @@ public class StaticCondition implements ICondition, Serializable {
 
 	@Override
 	public Predicate<IBufferAdapter> getFunction() {
+		Predicate<Pair<BigDecimal,BigDecimal>> comparator = makeComparator(comp);
 		return (IBufferAdapter buffer) ->
 				(comparator.test(new Pair<>(measurement.getFunction().apply(buffer), compareTo)));
 	}
