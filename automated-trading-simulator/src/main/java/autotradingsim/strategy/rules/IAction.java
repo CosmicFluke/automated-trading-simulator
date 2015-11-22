@@ -1,4 +1,4 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.rules;
 
 /**
  * Created by Asher on 2015-10-30.

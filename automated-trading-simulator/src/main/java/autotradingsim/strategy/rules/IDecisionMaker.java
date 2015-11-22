@@ -1,6 +1,7 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.rules;
 
 import autotradingsim.stocks.IStock;
+import autotradingsim.strategy.IDecision;
 
 import java.time.LocalDate;
 import java.util.stream.Stream;

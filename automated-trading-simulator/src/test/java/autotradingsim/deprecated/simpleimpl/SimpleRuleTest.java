@@ -1,7 +1,7 @@
 package autotradingsim.deprecated.simpleimpl;
 
-import autotradingsim.strategy.IAction;
-import autotradingsim.strategy.ICondition;
+import autotradingsim.strategy.rules.IAction;
+import autotradingsim.strategy.rules.ICondition;
 import junit.framework.TestCase;
 
 /**

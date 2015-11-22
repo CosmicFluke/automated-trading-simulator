@@ -1,4 +1,6 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.rules;
+
+import autotradingsim.strategy.StrategyTester;
 
 import java.util.List;
 

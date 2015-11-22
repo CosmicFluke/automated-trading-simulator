@@ -3,7 +3,7 @@ package autotradingsim.deprecated.simpleimpl;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
-import autotradingsim.strategy.IMeasurement;
+import autotradingsim.strategy.rules.IMeasurement;
 import org.junit.Test;
 
 import java.math.BigDecimal;

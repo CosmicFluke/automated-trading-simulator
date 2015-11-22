@@ -1,5 +1,9 @@
 package autotradingsim.strategy;
 
+import autotradingsim.strategy.rules.IDecisionMaker;
+import autotradingsim.strategy.rules.IRule;
+import autotradingsim.strategy.rules.RuleID;
+
 import java.util.Set;
 
 /**

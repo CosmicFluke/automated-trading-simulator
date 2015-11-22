@@ -1,7 +1,9 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.rules;
 
-import autotradingsim.application.TradingApplication;
+import autotradingsim.stocks.IBufferAdapter;
 import autotradingsim.stocks.IStock;
+import autotradingsim.strategy.Decision;
+import autotradingsim.strategy.IDecision;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.rules;
 
 import autotradingsim.experiment.Experiment;
 import autotradingsim.experiment.ResultDay;
@@ -8,14 +8,14 @@ import java.math.BigDecimal;
 import java.util.function.Function;
 
 /**
- * <p>Actions always specify a type (through enum {@link autotradingsim.strategy.IAction.ActionType}) and a quantity.</p>
+ * <p>Actions always specify a type (through enum {@link IAction.ActionType}) and a quantity.</p>
  * <p>Quantity can be specified in three ways:<br>
  *     <li>As a constant integer value</li>
  *     <li>As a fraction of balance (see {@link Experiment#runExperiment(TimeSet)} and {@link
  *     ResultDay#getClosingBalance()}), such that the quantity bought or sold will be the quotient of the given
  *     fraction divided by the value of the stock</li>
  *     <li>As a {@link IActionQuantity} function, which returns an integer quantity based on three parameters: balance,
- *     stock value, and a confidence factor (see enum {@link autotradingsim.strategy.IActionQuantity.ConfidenceFactor}</li>
+ *     stock value, and a confidence factor (see enum {@link IActionQuantity.ConfidenceFactor}</li>
  * </p>
  */
 public class Action implements IAction {

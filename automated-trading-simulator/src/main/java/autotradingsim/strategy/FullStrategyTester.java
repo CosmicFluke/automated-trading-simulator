@@ -2,6 +2,9 @@ package autotradingsim.strategy;
 
 import autotradingsim.stocks.IStock;
 import autotradingsim.strategy.exceptions.RuleDoesNotExistException;
+import autotradingsim.strategy.rules.IDecisionMaker;
+import autotradingsim.strategy.rules.IRule;
+import autotradingsim.strategy.rules.RuleID;
 
 import java.time.LocalDate;
 import java.util.*;

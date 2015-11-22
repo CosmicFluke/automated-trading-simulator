@@ -1,8 +1,8 @@
 package autotradingsim.deprecated.simpleimpl;
 
-import autotradingsim.strategy.IBufferAdapter;
-import autotradingsim.strategy.ICondition;
-import autotradingsim.strategy.IMeasurement;
+import autotradingsim.stocks.IBufferAdapter;
+import autotradingsim.strategy.rules.ICondition;
+import autotradingsim.strategy.rules.IMeasurement;
 import autotradingsim.util.Pair;
 
 import java.io.Serializable;

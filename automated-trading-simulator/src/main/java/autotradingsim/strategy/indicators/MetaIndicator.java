@@ -1,6 +1,6 @@
 package autotradingsim.strategy.indicators;
 
-import autotradingsim.strategy.IMeasurement;
+import autotradingsim.strategy.rules.IMeasurement;
 
 /**
  * Created by Asher on 2015-11-15.

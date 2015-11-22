@@ -1,8 +1,9 @@
 package autotradingsim.deprecated.simpleimpl;
 
-import autotradingsim.strategy.ConstantActionQuantity;
-import autotradingsim.strategy.IAction;
-import autotradingsim.strategy.IActionQuantity;
+import autotradingsim.strategy.rules.Action;
+import autotradingsim.strategy.rules.ConstantActionQuantity;
+import autotradingsim.strategy.rules.IAction;
+import autotradingsim.strategy.rules.IActionQuantity;
 
 /**
  * Created by Asher on 2015-10-30.
@@ -13,7 +14,7 @@ import autotradingsim.strategy.IActionQuantity;
  * <b>not</b> take a constant quantity as a parameter to the constructor.  Consider implementing a
  * "quantity function builder"</p>
  *
- * <p>**Deprecated in favour of {@link autotradingsim.strategy.Action}, which has an equivalent constructor option.</p>
+ * <p>**Deprecated in favour of {@link Action}, which has an equivalent constructor option.</p>
  *
  */
 public class SimpleAction implements IAction {

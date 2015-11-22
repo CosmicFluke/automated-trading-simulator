@@ -3,11 +3,11 @@ package autotradingsim.engine;
 import java.math.BigDecimal;
 
 import autotradingsim.application.TradingApplication;
-import autotradingsim.strategy.IAction;
+import autotradingsim.strategy.rules.IAction;
 import autotradingsim.strategy.IStrategy;
 import autotradingsim.deprecated.simpleimpl.*;
 import autotradingsim.strategy.Strategy;
-import autotradingsim.strategy.ICondition.Comparator;
+import autotradingsim.strategy.rules.ICondition.Comparator;
 
 public class StrategyEngine {
 	public TradingApplication appEngine;

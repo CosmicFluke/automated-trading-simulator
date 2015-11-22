@@ -1,6 +1,6 @@
 package autotradingsim.deprecated.simpleimpl;
 
-import autotradingsim.strategy.*;
+import autotradingsim.strategy.rules.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.Serializable;

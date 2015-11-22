@@ -1,6 +1,7 @@
 package autotradingsim.deprecated.simpleimpl;
 
 import autotradingsim.strategy.*;
+import autotradingsim.strategy.rules.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

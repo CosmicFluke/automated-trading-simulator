@@ -4,6 +4,9 @@ import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
 import autotradingsim.strategy.*;
+import autotradingsim.strategy.rules.IAction;
+import autotradingsim.strategy.rules.ICondition;
+import autotradingsim.strategy.rules.RuleID;
 import org.junit.Before;
 import org.junit.Test;
 

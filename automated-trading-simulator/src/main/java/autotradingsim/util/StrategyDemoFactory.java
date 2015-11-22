@@ -2,6 +2,7 @@ package autotradingsim.util;
 
 import autotradingsim.strategy.*;
 import autotradingsim.strategy.indicators.SimpleMovingAverage;
+import autotradingsim.strategy.rules.*;
 
 import java.math.BigDecimal;
 
@@ -16,9 +17,9 @@ public class StrategyDemoFactory {
      *     <li>IConditions use {@link SimpleMovingAverage} with <tt>numDays == 1</tt> (equivalent to deprecated {@link
      * autotradingsim.deprecated.simpleimpl.SimpleStockValue})</li>
      *     <li>IActions are {@link Action} constructed with constant <tt>quantity == 10</tt></li>
-     *     <li>The rule with the {@link autotradingsim.strategy.IAction.ActionType#BUY} action will buy when stock
+     *     <li>The rule with the {@link IAction.ActionType#BUY} action will buy when stock
      *     value <= 100</li>
-     *     <li>The rule with the {@link autotradingsim.strategy.IAction.ActionType#SELL} action will sell when stock
+     *     <li>The rule with the {@link IAction.ActionType#SELL} action will sell when stock
      *     value >= 150</li>
      * </ul></p>
      */

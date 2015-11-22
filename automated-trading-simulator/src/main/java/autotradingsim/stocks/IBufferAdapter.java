@@ -1,4 +1,4 @@
-package autotradingsim.strategy;
+package autotradingsim.stocks;
 
 import autotradingsim.stocks.StockDay;
 

@@ -3,6 +3,7 @@ package autotradingsim.experiment;
 import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.*;
 import autotradingsim.strategy.*;
+import autotradingsim.strategy.rules.IAction;
 import autotradingsim.util.Pair;
 
 import java.io.Serializable;

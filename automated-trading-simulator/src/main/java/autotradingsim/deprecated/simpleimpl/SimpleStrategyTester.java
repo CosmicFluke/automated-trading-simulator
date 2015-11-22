@@ -2,6 +2,8 @@ package autotradingsim.deprecated.simpleimpl;
 
 import autotradingsim.stocks.IStock;
 import autotradingsim.strategy.*;
+import autotradingsim.strategy.rules.IDecisionMaker;
+import autotradingsim.strategy.rules.RuleID;
 
 import java.time.LocalDate;
 import java.util.*;

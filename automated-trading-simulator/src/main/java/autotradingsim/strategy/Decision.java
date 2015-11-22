@@ -2,6 +2,9 @@ package autotradingsim.strategy;
 
 import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.StockDay;
+import autotradingsim.strategy.rules.IAction;
+import autotradingsim.strategy.rules.IActionQuantity;
+import autotradingsim.strategy.rules.IRule;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

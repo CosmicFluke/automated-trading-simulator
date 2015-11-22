@@ -1,11 +1,10 @@
 package autotradingsim.deprecated.simpleimpl;
 
-import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
-import autotradingsim.strategy.IBufferAdapter;
-import autotradingsim.strategy.ICondition;
+import autotradingsim.stocks.IBufferAdapter;
+import autotradingsim.strategy.rules.ICondition;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

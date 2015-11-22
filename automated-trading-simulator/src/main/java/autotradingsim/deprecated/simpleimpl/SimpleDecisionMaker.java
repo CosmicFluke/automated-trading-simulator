@@ -1,8 +1,12 @@
 package autotradingsim.deprecated.simpleimpl;
 
-import autotradingsim.application.TradingApplication;
+import autotradingsim.stocks.IBufferAdapter;
 import autotradingsim.stocks.IStock;
 import autotradingsim.strategy.*;
+import autotradingsim.strategy.rules.IAction;
+import autotradingsim.strategy.rules.IActionQuantity;
+import autotradingsim.strategy.rules.ICondition;
+import autotradingsim.strategy.rules.IDecisionMaker;
 
 import java.time.LocalDate;
 import java.util.*;

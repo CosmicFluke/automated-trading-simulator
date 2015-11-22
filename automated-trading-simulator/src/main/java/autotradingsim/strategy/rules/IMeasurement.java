@@ -1,4 +1,6 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.rules;
+
+import autotradingsim.stocks.IBufferAdapter;
 
 import java.math.BigDecimal;
 import java.util.function.Function;

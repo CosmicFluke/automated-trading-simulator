@@ -6,6 +6,10 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
+import autotradingsim.strategy.rules.Action;
+import autotradingsim.strategy.rules.IAction;
+import autotradingsim.strategy.rules.IRule;
+import autotradingsim.strategy.rules.Rule;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

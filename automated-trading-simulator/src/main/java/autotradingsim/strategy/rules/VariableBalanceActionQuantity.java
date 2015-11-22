@@ -1,4 +1,4 @@
-package autotradingsim.strategy;
+package autotradingsim.strategy.rules;
 
 import java.math.BigDecimal;
 import java.util.function.Function;

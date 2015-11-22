@@ -2,8 +2,8 @@ package autotradingsim.deprecated.simpleimpl;
 
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.StockDay;
-import autotradingsim.strategy.IBufferAdapter;
-import autotradingsim.strategy.IMeasurement;
+import autotradingsim.stocks.IBufferAdapter;
+import autotradingsim.strategy.rules.IMeasurement;
 import autotradingsim.strategy.exceptions.DataNotProvidedException;
 
 import java.io.Serializable;
