@@ -118,6 +118,10 @@ public class Experiment implements IExperiment, Serializable {
 
     public void addTrial(String id, String symbol){
 
+        if (TradingApplication.getInstance().getStock(symbol) == null) {
+            throw new IllegalArgumentException("symbol is not in the database!");
+        }
+
         if(!strategyToStocks.containsKey(id)){
             // strategy id does not exist
             this.addStrategy(id);
@@ -161,7 +165,7 @@ public class Experiment implements IExperiment, Serializable {
             experimentStartDate = ts.next();
             currentDate = experimentStartDate;
             duration = ts.getDuration();
-            balance = BigDecimal.valueOf(100);
+            balance = BigDecimal.valueOf(1000000);
             Result result = new Result(experimentStartDate, duration, strategyToStocks, balance);
 
             while (currentDate.isBefore(experimentStartDate.plusDays(duration))) {  // For each Day
@@ -185,12 +189,14 @@ public class Experiment implements IExperiment, Serializable {
 
                             if (decision.getActionType() == IAction.ActionType.BUY) {
                                 // Buy Stocks for
-                                shares += decision.getQuantity(balance);
+                                shares = decision.getQuantity(balance);
                                 balance = balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                                System.out.println("Bought shares : " + shares);
 
                             } else if (decision.getActionType() == IAction.ActionType.SELL) {
-                                shares -= decision.getQuantity(balance);
+                                shares = decision.getQuantity(balance);
                                 balance = balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+                                System.out.println("Sold shares : " + shares);
                             }
                             this.stocksToShares.put(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) + shares);
                         }

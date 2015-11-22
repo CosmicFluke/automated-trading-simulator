@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 public class FullStrategyTester extends StrategyTester {
 
     private Map<RuleID, IRule> ruleIDtoRule;
-    private Map<RuleID, IDecisionMaker> ruleIDtoDecisionMaker;
+    private Map<RuleID, IDecisionMaker> ruleIDtoDecisionMaker = new HashMap<>();
 
     /**
      * <p>Takes in a strategy, and the set of rules contained in that strategy.</p>
