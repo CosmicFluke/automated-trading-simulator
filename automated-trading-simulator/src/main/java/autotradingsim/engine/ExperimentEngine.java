@@ -57,26 +57,6 @@ public class ExperimentEngine {
 	}
 
 	/**
-	 *
-	 * @param expName
-	 * @param stratname
-	 * take experiment name, adds the strategy name to it's list of strategy
-	 * @throws IllegalArgumentException: If strategyName does not exist in Trading Application
-	 */
-	public void addStrategy(String expName, String stratname){
-		application.getExperiment(expName).addStrategy(stratname);
-	}
-
-	/**
-	 * Add Stock symbol to the experiment
-	 * @param expName
-	 * @param stockSymbol
-	 */
-	public void addStock(String expName, String stockSymbol) {
-		application.getExperiment(expName).addStock(stockSymbol);
-	}
-
-	/**
 	 * Add Strategy and stock pair to the trial
 	 * @param expName
 	 * @param strategyId

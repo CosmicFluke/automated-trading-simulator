@@ -1,6 +1,7 @@
 package autotradingsim.experiment;
 import autotradingsim.application.TradingApplication;
 
+import autotradingsim.strategy.Strategy;
 import autotradingsim.strategy.simpleimpl.SimpleStrategy;
 import org.junit.Test;
 import org.junit.Before;
@@ -20,9 +21,11 @@ public class ExperimentTest {
 	
 	@Before
 	public void setUp(){
+        TradingApplication.getInstance()
+                .setStrategy("Empty Strategy", new Strategy("Empty Strategy", "Empty Strategy for testing"));
 		this.test = new Experiment("experiment1");
 	}
-	
+
     @Test
     public void testExperimentName(){
         assertEquals(test.getName(),"experiment1");
@@ -34,40 +37,24 @@ public class ExperimentTest {
         assertEquals(test.getName(), "experiment2");
     }
 
-    @Test
-    public void testExperimentAddStock(){
-        Experiment test3 = new Experiment("experiment3");
-        test3.addStock("AAPL");
+    @Test(expected=IllegalArgumentException.class)
+    public void testAddingTrialNonExistingStock(){
+        test.addTrial("Empty Strategy", "LOL");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void testAddingNonExistingStock(){
-        test.addStock("LOL");
-    }
-
-    @Test
-    public void testExperimentAddStrategy(){
-        SimpleStrategy s = new SimpleStrategy();
-        TradingApplication.getInstance().setStrategy(s.getName(), s);
-        test.addStrategy(s.getName());
-    }
-
-    @Test(expected=IllegalArgumentException.class)
-    public void testAddNonExistingStrategy(){
-        test.addStrategy("nameA");
+    public void testAddTrialNonExistingStrategy(){
+        test.addTrial("nameA", "AAPL");
     }
 
     @Test
     public void testRunExperiment1(){
-        test.addStock("AAPL");
 
         SimpleStrategy s = new SimpleStrategy();
 
         TradingApplication.getInstance().setStrategy(s.getName(), s);
 
         String id = s.getName();
-
-        test.addStrategy(id);
 
         test.addTrial(id, "AAPL");
 
