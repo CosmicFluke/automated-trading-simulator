@@ -146,14 +146,14 @@ public class ExperimentList extends javax.swing.JFrame {
         parent.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
-    private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
+    private void createActionPerformed(java.awt.event.ActionEvent evt) {                                       
         dialogInput di = new dialogInput(this, true);
         String name = di.run();
         if(name.length() > 0 && !experimentListModel.contains(name)){
             application.setExperiment(name, experimentengine.createExperiment(name));
             experimentListModel.addElement(name);
         }
-    }//GEN-LAST:event_createActionPerformed s
+    }                                        
 
     private void openActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openActionPerformed
         if(experimentList.getSelectedIndex() == -1){
@@ -162,6 +162,8 @@ public class ExperimentList extends javax.swing.JFrame {
         }else{
             ExperimentViewer ev = new ExperimentViewer(this);
             ev.setNameText(experimentListModel.getElementAt(experimentList.getSelectedIndex()).toString());
+            ev.setStrategyList();
+            ev.setStockList();
             this.setVisible(false);
             ev.setVisible(true);
         }
