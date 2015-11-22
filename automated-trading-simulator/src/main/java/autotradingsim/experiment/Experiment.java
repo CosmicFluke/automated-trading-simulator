@@ -27,7 +27,7 @@ public class Experiment implements IExperiment, Serializable {
 
     private static final long serialVersionUID = -7533956851982543038L;
     private String name;
-    private HashMap<String, Integer> stocksToShares;                // Pair of Stock symbol & its shares for user
+    private Map<String, Integer> stocksToShares;                // Pair of Stock symbol & its shares for user
 
     /**
      * Map<Stock symbol, Pair<startDate, endDate>>
@@ -38,7 +38,7 @@ public class Experiment implements IExperiment, Serializable {
     private Map<String, Pair<LocalDate, LocalDate>> stocksToFirstAndLastDate;
 
     private Set<String> strategies;
-    private HashMap<String, List<String>> strategyToStocks;    // Map<Strategy, List<Stocks>>. One to many
+    private Map<String, List<String>> strategyToStocks;    // Map<Strategy, List<Stocks>>. One to many
 
     /**
      * Initialize the experiment constructor.
@@ -67,11 +67,13 @@ public class Experiment implements IExperiment, Serializable {
      * @param symbol the symbol of a stock
      */
     private void addStock(String symbol){
-        if (TradingApplication.getInstance().stockExists(symbol)) {
-            this.stocksToShares.put(symbol, 0);
-            LocalDate startDate = TradingApplication.getInstance().getStock(symbol).getStartDate();
-            LocalDate endDate = TradingApplication.getInstance().getStock(symbol).getEndDate();
-            this.stocksToFirstAndLastDate.put(symbol, new Pair<>(startDate, endDate));
+        if (TradingApplication.getInstance().stockExists(symbol)) { // Check for existence of stock in Application
+            if (!this.stocksToShares.containsKey(symbol)) {         // Check for existence of stock in this Experiment
+                this.stocksToShares.put(symbol, 0);
+                LocalDate startDate = TradingApplication.getInstance().getStock(symbol).getStartDate();
+                LocalDate endDate = TradingApplication.getInstance().getStock(symbol).getEndDate();
+                this.stocksToFirstAndLastDate.put(symbol, new Pair<>(startDate, endDate));
+            }
         } else {
             throw new IllegalArgumentException("Stock symbol does not exist in the database!");
         }
@@ -124,7 +126,7 @@ public class Experiment implements IExperiment, Serializable {
 
     @Override
     public Map<String, List<String>> getAllTrials() {
-        return null;
+        return Collections.unmodifiableMap(strategyToStocks);
     }
 
     /**

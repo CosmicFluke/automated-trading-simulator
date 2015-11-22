@@ -19,11 +19,10 @@ public interface IExperiment {
     void addTrial(String id, String symbol);
 
     /**
-     * Maps strategy IDs to lists of the stocks assigned to each strategy
-     * @return map: strategy to assigned stocks
+     * Maps strategy IDs to lists of the stocks assigned to each strategy.
+     * @return unmodifiable (but mutable) wrapper for the map of strategy-stock trial pairings
      */
     Map<String, List<String>> getAllTrials();
-
 
     Map<String, Pair<LocalDate, LocalDate>> getStockStartAndEndDates();
 
