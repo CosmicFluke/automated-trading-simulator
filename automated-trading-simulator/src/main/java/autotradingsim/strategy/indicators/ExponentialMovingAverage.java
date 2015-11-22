@@ -14,7 +14,8 @@ import java.util.function.Function;
  */
 public class ExponentialMovingAverage extends SimpleMovingAverage {
 
-    static final String default_name = "Exponential Moving Average";
+	private static final long serialVersionUID = -5992417227538483226L;
+	static final String default_name = "Exponential Moving Average";
     static final String default_description =
             "The Exponential Moving Average is a type of the moving average study. " +
             "In a simple moving average, all price data has an equal weight in the computation of the average with " +

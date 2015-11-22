@@ -3,6 +3,7 @@ package autotradingsim.strategy.indicators;
 import autotradingsim.stocks.StockDay;
 import autotradingsim.stocks.IBufferAdapter;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -14,9 +15,10 @@ import java.util.stream.Stream;
  *      Calculated by taking the average of the past days, the length of which can be specified.
  *      When updating, add the new data and take the new average.
  */
-public class SimpleMovingAverage extends Indicator{
+public class SimpleMovingAverage extends Indicator implements Serializable{
 
-    static final String default_name = "Simple Moving Average";
+	private static final long serialVersionUID = -2696371208609135157L;
+	static final String default_name = "Simple Moving Average";
     static final String default_description =
             "The Simple Moving Average is calculated by summing the closing prices of the security for a period of " +
                     "time and then dividing this total by the number of time periods. Sometimes called an arithmetic " +

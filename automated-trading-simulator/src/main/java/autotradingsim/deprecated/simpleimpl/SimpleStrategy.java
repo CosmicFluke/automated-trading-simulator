@@ -97,6 +97,14 @@ public class SimpleStrategy implements IStrategy, Serializable {
     public void addRule(IRule rule) {
         throw new InvalidParameterException();
     }
+    
+	@Override
+	public IRule getRule(RuleID rule) {
+		if(rule == this.rule.getID())
+			return this.rule;
+		else
+			return null;
+	}
 
     @Override
     public IRule removeRule(RuleID rule) {
@@ -132,5 +140,4 @@ public class SimpleStrategy implements IStrategy, Serializable {
     public int getID() {
         return this.name.hashCode();
     }
-
 }
