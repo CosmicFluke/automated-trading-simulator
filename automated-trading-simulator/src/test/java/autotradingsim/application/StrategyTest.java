@@ -157,8 +157,8 @@ public class StrategyTest {
         String ExpectedFileExists = PathToStrategies + "TestSingleRule";
         IStrategy mySimpleStrat = new Strategy("TestSingleRule");
         IRule myRule = new Rule();
-        IAction action = new Action();
-        myRule.addAction(action );
+        IAction action = new Action(null, 0);
+        myRule.addAction(action);
         //ICondition myCondition = new SimpleCondition(ICondition.Comparator.EQ, new BigDecimal(10));
         //myRule.addCondition(myCondition);
         //mySimpleStrat.addRule(myRule);

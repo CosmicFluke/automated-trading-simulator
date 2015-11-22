@@ -53,7 +53,7 @@ public class SimpleDecisionMaker implements IDecisionMaker {
         if (condition.getFunction().test(buffer)) {
             IActionQuantity q = action.getQuantity();
             return new Decision(buffer.getLastEntry().getDate(), action.getActionType(), stock, action.getQuantity(),
-                    this.rule);
+                    null, this.rule);
         }
         else return null;
     }
