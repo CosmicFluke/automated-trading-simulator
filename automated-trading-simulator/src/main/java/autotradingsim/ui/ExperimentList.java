@@ -161,7 +161,9 @@ public class ExperimentList extends javax.swing.JFrame {
             dm.setVisible(true);
         }else{
             ExperimentViewer ev = new ExperimentViewer(this);
-            ev.setNameText(experimentListModel.getElementAt(experimentList.getSelectedIndex()).toString());
+            String name=experimentListModel.getElementAt(experimentList.getSelectedIndex()).toString();
+            ev.setNameText(name);
+            ev.setExperiment(application.getExperiment(name));
             ev.setStrategyList();
             ev.setStockList();
             this.setVisible(false);
