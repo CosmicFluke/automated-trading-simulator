@@ -16,7 +16,6 @@ public interface IDecision {
     IAction.ActionType getActionType();
     int getQuantity(BigDecimal balance);
     String getStockSymbol();
-    String getStrategySource();
     String getRuleSource();
 
 }
