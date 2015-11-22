@@ -66,28 +66,37 @@
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace type="separate" pref="83" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace type="separate" pref="83" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="startDateField" pref="59" max="32767" attributes="0"/>
+                                          <Component id="endDateField" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="durationField" alignment="0" pref="59" max="32767" attributes="0"/>
+                                          <Component id="trialField" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="submitPairing" min="-2" pref="118" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="startDateField" pref="59" max="32767" attributes="0"/>
-                                  <Component id="endDateField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="durationField" alignment="0" pref="59" max="32767" attributes="0"/>
-                                  <Component id="trialField" alignment="0" max="32767" attributes="0"/>
-                              </Group>
+                              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                              <Component id="submitPairing" min="-2" pref="118" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="timeSetValidationField" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -142,7 +151,11 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="RunExperiment" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="submitPairing" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="submitPairing" min="-2" pref="32" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="timeSetValidationField" min="-2" pref="25" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="163" max="-2" attributes="0"/>
@@ -355,5 +368,12 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="timeSetValidationField">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="1"/>
+        </Property>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

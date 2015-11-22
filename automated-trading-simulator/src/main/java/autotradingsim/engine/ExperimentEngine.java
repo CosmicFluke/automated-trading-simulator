@@ -82,16 +82,21 @@ public class ExperimentEngine {
 	 */
 
         public Pair<LocalDate, LocalDate> getValidTimeSet(IExperiment experiment){
+            
             Map<String, Pair<LocalDate, LocalDate>>startAndEndDates =experiment.getStockStartAndEndDates();
             //find the maximum startdate, if there are stocks with ends before maximum startdates
                 //return null
             //else: find minimum enddate
+            if(startAndEndDates.isEmpty()){
+                return null;
+            }
             LocalDate maxStartDate = null;
             LocalDate minEndDate = null;
             List<LocalDate> startDates = new ArrayList<>();
             List<LocalDate> endDates =new ArrayList<>();
             Set<String>symbols = startAndEndDates.keySet();
             for(String symbol: symbols){
+                System.out.println(symbol);
                 startDates.add(startAndEndDates.get(symbol).x);
                 endDates.add(startAndEndDates.get(symbol).y);
             }

@@ -5,7 +5,7 @@ import autotradingsim.experiment.*;
 import java.time.LocalDate;
 import javax.swing.*;
 import java.util.*;
-
+import autotradingsim.util.Pair;
 /**
  *
  * @author Bill Feng
@@ -34,10 +34,21 @@ public class ExperimentViewer extends javax.swing.JFrame {
         StockDropDown.setModel(StockComboBoxModel);
         stockStrategyPair.setModel(pairingListModel);
         resultList.setModel(resultListModel);
+        
+    }
+    
+    protected void settimeSetValidationField(){
+        Pair<LocalDate, LocalDate> timeset= experimentEngine.getValidTimeSet(experiment);
+        if(timeset == null){
+            timeSetValidationField.setText("Experiment has no valid timeset");
+        }else{
+            timeSetValidationField.setText("Valid time period: "+timeset.x+"-"+timeset.y);
+        }
     }
     
     protected void setExperiment(IExperiment experiment){
         this.experiment = experiment;
+        settimeSetValidationField();
     }
     protected void loadStrategyStockPairs(){
         Map<String, List<String>> strategyToStocks=this.experiment.getAllTrials();
@@ -98,6 +109,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
         endDateField = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         resultList = new javax.swing.JList();
+        timeSetValidationField = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Experiment");
@@ -202,6 +214,8 @@ public class ExperimentViewer extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(resultList);
 
+        timeSetValidationField.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -223,7 +237,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1)
@@ -237,23 +251,29 @@ public class ExperimentViewer extends javax.swing.JFrame {
                                     .addComponent(StockDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 83, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6))
-                                .addGap(26, 26, 26)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(startDateField, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
-                                    .addComponent(endDateField)
-                                    .addComponent(durationField, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
-                                    .addComponent(trialField)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 83, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel6))
+                                        .addGap(26, 26, 26)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(startDateField, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                                            .addComponent(endDateField)
+                                            .addComponent(durationField, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                                            .addComponent(trialField)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(36, 36, 36)
+                                        .addComponent(submitPairing, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(52, 52, 52))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(submitPairing, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(52, 52, 52))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(timeSetValidationField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -294,7 +314,10 @@ public class ExperimentViewer extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(RunExperiment))
-                    .addComponent(submitPairing, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(submitPairing, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(timeSetValidationField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(23, 23, 23)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
@@ -381,6 +404,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
     private javax.swing.JTextField startDateField;
     private javax.swing.JList stockStrategyPair;
     private javax.swing.JButton submitPairing;
+    private javax.swing.JLabel timeSetValidationField;
     private javax.swing.JSpinner trialField;
     // End of variables declaration//GEN-END:variables
 }
