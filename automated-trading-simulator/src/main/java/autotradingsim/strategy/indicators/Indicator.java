@@ -4,6 +4,7 @@ package autotradingsim.strategy.indicators;
 import autotradingsim.stocks.IBufferAdapter;
 import autotradingsim.strategy.rules.IMeasurement;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.function.Function;
 
@@ -16,9 +17,10 @@ import java.util.function.Function;
  * TODO: Hold off on implementing this for the time being.  I'm not quite sure what to do with it.
  *
  */
-public abstract class Indicator implements IMeasurement {
+public abstract class Indicator implements IMeasurement, Serializable{
 
-    private String name;
+	private static final long serialVersionUID = -389035707512586530L;
+	private String name;
     private String description;
     protected Function<IBufferAdapter, BigDecimal> function;
 
