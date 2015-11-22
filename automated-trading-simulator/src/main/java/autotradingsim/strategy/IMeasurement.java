@@ -11,7 +11,7 @@ import java.util.function.Function;
  * whether it be a stock, a set of stocks, or some other data set.</p>
  *
  */
-public interface IMeasurement extends IFunctionBuilder{
+public interface IMeasurement{
 
     String getName();
     String getDescription();
@@ -34,7 +34,6 @@ public interface IMeasurement extends IFunctionBuilder{
      * The IBufferAdapter must be at least as big as the return value of {@link #getBufferSize()}</p>
      * @return a function that will calculate this IMeasurement's value for a given Buffer
      */
-    @Override
     Function<IBufferAdapter, BigDecimal> getFunction();
 
 }

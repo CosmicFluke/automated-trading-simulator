@@ -1,10 +1,8 @@
 package autotradingsim.strategy.simpleimpl;
 
 import autotradingsim.stocks.IStock;
-import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
 import autotradingsim.strategy.IBufferAdapter;
-import autotradingsim.strategy.IFunctionBuilder;
 import autotradingsim.strategy.IMeasurement;
 import autotradingsim.strategy.exceptions.DataNotProvidedException;
 
@@ -21,7 +19,7 @@ import java.util.function.Function;
  * equivalent to a <tt>SimpleStockValue</tt> object when instantiated using "<tt>new SimpleMovingAverage(1)</tt>".</p>
  *
  */
-public class SimpleStockValue implements IMeasurement, IFunctionBuilder, Serializable {
+public class SimpleStockValue implements IMeasurement, Serializable {
 
 	private static final long serialVersionUID = 7222665412381196992L;
 	private static final String name = "Simple Stock Value";

@@ -8,7 +8,8 @@ import java.util.function.Function;
 /**
  * Created by Bill Feng on 15-10-29.
  *
- * Exponential Moving Average
+ * <p>Exponential Moving Average</p>
+ * TODO: NOT YET IMPLEMENTED
  *
  */
 public class ExponentialMovingAverage extends SimpleMovingAverage {
