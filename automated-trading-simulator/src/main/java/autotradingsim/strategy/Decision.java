@@ -2,6 +2,7 @@ package autotradingsim.strategy;
 
 import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.StockDay;
+import autotradingsim.strategy.rules.ConfidenceFactor;
 import autotradingsim.strategy.rules.IAction;
 import autotradingsim.strategy.rules.IActionQuantity;
 import autotradingsim.strategy.rules.IRule;
@@ -22,11 +23,11 @@ public class Decision implements IDecision {
     public final IAction.ActionType type;
     public final String stockSymbol;
     public final IActionQuantity quantity;
-    public final IActionQuantity.ConfidenceFactor confidence;
+    public final ConfidenceFactor confidence;
 
 
     public Decision(LocalDate date, IAction.ActionType type, String stockSymbol, IActionQuantity quantity,
-                    IActionQuantity.ConfidenceFactor confidenceFactor, IRule ruleSource) {
+                    ConfidenceFactor confidenceFactor, IRule ruleSource) {
         this.date = date;
         this.type = type;
         this.stockSymbol = stockSymbol;

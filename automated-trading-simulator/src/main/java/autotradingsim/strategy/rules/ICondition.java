@@ -65,5 +65,10 @@ public interface ICondition {
 
     Predicate<IBufferAdapter> getFunction();
 
+    ConfidenceFactor getConfidenceFactor();
+
+    void setConfidenceFunction(ConfidenceFunction function);
+
+    ConfidenceFunction getConfidenceFunction();
 
 }

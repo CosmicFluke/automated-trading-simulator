@@ -24,6 +24,7 @@ public class Rule implements IRule, Serializable {
     private Set<IAction> actions;
     private String name;
     private String description;
+    private double confidenceThreshold;
 
     public Rule (String name, String description){
         this.id = new RuleID(this);
@@ -51,6 +52,40 @@ public class Rule implements IRule, Serializable {
     public List<IAction> getActions() {
         return new ArrayList<>(actions);
     }
+
+    @Override
+    public void addAction(IAction action) {
+        actions.add(action);
+    }
+
+    @Override
+    public void addCondition(ICondition condition){
+        conditions.add(condition);
+    }
+
+    @Override
+    public void removeAction(IAction action){
+        actions.remove(action);
+    }
+
+    @Override
+    public void removeCondition(IAction condition){
+        conditions.remove(condition);
+    }
+
+    @Override
+    public void setConfidenceThreshold(double thresh) {
+        if (thresh <= 0 || thresh > 1) {
+            throw new IllegalArgumentException();
+        }
+        confidenceThreshold = thresh;
+    }
+
+    @Override
+    public double getConfidenceThreshold() {
+        return confidenceThreshold;
+    }
+
 
     @Override
     public String getDescription() {
@@ -83,26 +118,6 @@ public class Rule implements IRule, Serializable {
                 (IAction a) -> summary.append(
                         a.getActionType().toString() + " " + String.valueOf(a.getQuantity().toString()) + "\n"));
         return summary.toString() + "\n";
-    }
-
-    @Override
-    public void addAction(IAction action) {
-        actions.add(action);
-    }
-
-    @Override
-    public void addCondition(ICondition condition){
-        conditions.add(condition);
-    }
-
-    @Override
-    public void removeAction(IAction action){
-        actions.remove(action);
-    }
-
-    @Override
-    public void removeCondition(IAction condition){
-        conditions.remove(condition);
     }
 
     @Override
