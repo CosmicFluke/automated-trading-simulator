@@ -49,8 +49,8 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	assertEquals("> > ", OutputText.toString());
     	
@@ -68,8 +68,8 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	assertEquals("> Please enter a valid command.\r\n"
     			+ "Valid commands include:\r\n"
@@ -94,8 +94,8 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	assertEquals("> What do you need help with? Try: help viewstrat, modifystrat, viewexp, modifyexp, run.\r\n> ", OutputText.toString());
     	
@@ -113,8 +113,8 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	assertEquals("> What do you need help with? Try: help viewstrat, modifystrat, viewexp, modifyexp, run.\r\n> ", OutputText.toString());
     	
@@ -132,8 +132,8 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	String expected = "> Please enter a valid command.\r\n"
     			+ "Valid commands include:\r\n"
@@ -161,8 +161,8 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	String expected = "> "
     			+ "Did not understand invalid as a valid input. "
@@ -185,8 +185,8 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	String expected = "> "
     			+ "View an existing trading strategy. If none is specified, "
@@ -209,8 +209,8 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	String expected = "> "
     			+ "viewExp - view an existing experiment. "
@@ -234,8 +234,8 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	String expected = "> "
     			+ "Modify an existing experiment by name. "
@@ -264,8 +264,8 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	String expected = "> "
     			+ "Modify an existing strategy, by name. "
@@ -291,8 +291,8 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	String expected = "> "
     			+ "run - Runs a selected experiment. "
