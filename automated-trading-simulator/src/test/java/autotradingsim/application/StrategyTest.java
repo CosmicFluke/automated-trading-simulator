@@ -23,7 +23,6 @@ import org.junit.Test;
 import autotradingsim.strategy.*;
 import autotradingsim.strategy.indicators.ExponentialMovingAverage;
 import autotradingsim.strategy.indicators.SimpleMovingAverage;
-import autotradingsim.deprecated.simpleimpl.*;
 import autotradingsim.util.ObjectFileSystem;
 
 public class StrategyTest {
