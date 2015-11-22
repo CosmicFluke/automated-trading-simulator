@@ -14,7 +14,7 @@ public class StrategyDemoFactory {
      * <p>Returns a new strategy object built with two rules -- one with a buy action, and one with a sell action.
      * <ul>
      *     <li>IConditions use {@link SimpleMovingAverage} with <tt>numDays == 1</tt> (equivalent to deprecated {@link
-     * autotradingsim.strategy.simpleimpl.SimpleStockValue})</li>
+     * autotradingsim.deprecated.simpleimpl.SimpleStockValue})</li>
      *     <li>IActions are {@link Action} constructed with constant <tt>quantity == 10</tt></li>
      *     <li>The rule with the {@link autotradingsim.strategy.IAction.ActionType#BUY} action will buy when stock
      *     value <= 100</li>
