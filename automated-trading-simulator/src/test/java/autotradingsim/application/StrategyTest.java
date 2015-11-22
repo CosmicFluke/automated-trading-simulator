@@ -207,6 +207,12 @@ public class StrategyTest {
         testingFile = new File(ExpectedFileExists);
         assertTrue(testingFile.exists());
         testingFile.delete();
+        
+        IAction myAction = new Action(IAction.ActionType.BUY, 10);
+        ObjectFileSystem.saveObject(ExpectedFileExists, myAction);
+        testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        testingFile.delete();
     }
 
     @Test
