@@ -71,6 +71,10 @@ public class Result {
     	return this.duration;
     }
     
+    public LocalDate getEndDate(){
+    	return this.startDate.plusDays(this.duration);
+    }
+    
     /**
      * 
      * @param strategyID
