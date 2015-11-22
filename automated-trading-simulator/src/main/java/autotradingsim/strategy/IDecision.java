@@ -1,5 +1,7 @@
 package autotradingsim.strategy;
 
+import autotradingsim.strategy.rules.IAction;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

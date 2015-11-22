@@ -1,10 +1,9 @@
 package autotradingsim.strategy.indicators;
 
 
-import autotradingsim.strategy.IBufferAdapter;
-import autotradingsim.strategy.IMeasurement;
+import autotradingsim.stocks.IBufferAdapter;
+import autotradingsim.strategy.rules.IMeasurement;
 
-import java.time.LocalDate;
 import java.math.BigDecimal;
 import java.util.function.Function;
 

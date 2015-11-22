@@ -2,7 +2,7 @@ package autotradingsim.experiment;
 import autotradingsim.application.TradingApplication;
 
 import autotradingsim.strategy.Strategy;
-import autotradingsim.strategy.simpleimpl.SimpleStrategy;
+import autotradingsim.deprecated.simpleimpl.SimpleStrategy;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;

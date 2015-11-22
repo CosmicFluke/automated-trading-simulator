@@ -1,7 +1,10 @@
 package autotradingsim.strategy;
 
-import autotradingsim.stocks.IStock;
+import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.StockDay;
+import autotradingsim.strategy.rules.IAction;
+import autotradingsim.strategy.rules.IActionQuantity;
+import autotradingsim.strategy.rules.IRule;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,18 +20,16 @@ public class Decision implements IDecision {
     public final String rule;
     public final LocalDate date;
     public final IAction.ActionType type;
-    public final IStock stock;
+    public final String stockSymbol;
     public final IActionQuantity quantity;
-    public final BigDecimal stockValue;
     public final IActionQuantity.ConfidenceFactor confidence;
 
 
-    public Decision(LocalDate date, IAction.ActionType type, IStock IStock, IActionQuantity quantity,
+    public Decision(LocalDate date, IAction.ActionType type, String stockSymbol, IActionQuantity quantity,
                     IActionQuantity.ConfidenceFactor confidenceFactor, IRule ruleSource) {
         this.date = date;
         this.type = type;
-        this.stock = IStock;
-        this.stockValue = stock.getDay(date).getValue(StockDay.Values.CLOSE);
+        this.stockSymbol = stockSymbol;
         this.quantity = quantity;
         this.confidence = confidenceFactor;
         this.rule = ruleSource.getName();
@@ -46,16 +47,25 @@ public class Decision implements IDecision {
 
     @Override
     public int getQuantity(BigDecimal balance) {
-        return this.quantity.getValue(balance, stockValue, confidence);
+        return this.quantity.getValue(balance, getStockValue(), confidence);
     }
 
     @Override
     public String getStockSymbol() {
-        return this.stock.getSymbol();
+        return stockSymbol;
     }
 
     @Override
     public String getRuleSource() {
         return this.rule;
+    }
+
+    private BigDecimal getStockValue() {
+        if (TradingApplication.getInstance().getStock(stockSymbol) == null){
+            throw new NullPointerException(
+                    String.format("Decision was given invalid stock symbol: '%s' not found in Application",
+                            stockSymbol));
+        }
+        return TradingApplication.getInstance().getStock(stockSymbol).getDay(date).getValue(StockDay.Values.CLOSE);
     }
 }

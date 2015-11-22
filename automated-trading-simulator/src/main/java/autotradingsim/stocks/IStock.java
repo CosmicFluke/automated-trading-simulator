@@ -1,8 +1,6 @@
 package autotradingsim.stocks;
 
-import autotradingsim.strategy.IBufferAdapter;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.stream.Stream;
 
 /**

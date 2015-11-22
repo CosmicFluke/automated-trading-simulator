@@ -3,21 +3,19 @@ package autotradingsim.application;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+import autotradingsim.strategy.rules.Action;
+import autotradingsim.strategy.rules.IAction;
+import autotradingsim.strategy.rules.IRule;
+import autotradingsim.strategy.rules.Rule;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
-import autotradingsim.application.ITradingApplication;
-import autotradingsim.application.TradingApplication;
-
 import autotradingsim.strategy.*;
-import autotradingsim.strategy.simpleimpl.SimpleCondition;
-import autotradingsim.strategy.simpleimpl.SimpleStrategy;
 
 public class StrategyTest {
 

@@ -1,12 +1,15 @@
 package autotradingsim.strategy;
 
 import autotradingsim.application.TradingApplication;
+import autotradingsim.stocks.IBufferAdapter;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
 import autotradingsim.strategy.indicators.IndicatorRelativeChange;
 import autotradingsim.strategy.indicators.SimpleMovingAverage;
-import autotradingsim.strategy.simpleimpl.SimpleStockValue;
+import autotradingsim.deprecated.simpleimpl.SimpleStockValue;
+import autotradingsim.strategy.rules.ICondition;
+import autotradingsim.strategy.rules.StaticCondition;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,10 +18,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;

@@ -2,7 +2,9 @@ package autotradingsim.strategy;
 
 import autotradingsim.strategy.exceptions.DuplicateEntryException;
 import autotradingsim.strategy.exceptions.RuleDoesNotExistException;
-import autotradingsim.strategy.simpleimpl.SimpleAction;
+import autotradingsim.strategy.rules.IDecisionMaker;
+import autotradingsim.strategy.rules.IRule;
+import autotradingsim.strategy.rules.RuleID;
 
 import java.io.Serializable;
 import java.util.HashMap;

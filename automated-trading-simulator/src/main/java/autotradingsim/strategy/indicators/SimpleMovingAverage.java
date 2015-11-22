@@ -1,8 +1,7 @@
 package autotradingsim.strategy.indicators;
 
-import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
-import autotradingsim.strategy.IBufferAdapter;
+import autotradingsim.stocks.IBufferAdapter;
 
 import java.math.BigDecimal;
 import java.util.function.Function;
@@ -30,11 +29,6 @@ public class SimpleMovingAverage extends Indicator{
                     "moving averages show shorter-term trends but at the expense of the long-term ones.";
 
     private int days;
-
-    /**
-     * This is only here because of confusion in the responsibilities/collaborations of the Indicator hierarchy.<br>
-     */
-    private Stock stock;
 
     /**
      * Construct a new SimpleMovingAverage that uses the given number of days to calculate a moving average.
