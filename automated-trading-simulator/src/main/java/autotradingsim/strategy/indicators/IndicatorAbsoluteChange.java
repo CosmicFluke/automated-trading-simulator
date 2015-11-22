@@ -12,7 +12,8 @@ import java.util.function.Function;
  */
 public class IndicatorAbsoluteChange extends MetaIndicator {
 
-    static final String default_name = "Absolute Change Meta-Indicator";
+	private static final long serialVersionUID = -2707354216623734844L;
+	static final String default_name = "Absolute Change Meta-Indicator";
     static final String default_description =
             "This Indicator shows an absolute change in another indicator, such as a Moving Average, over some " +
                     "specified number of days.";
