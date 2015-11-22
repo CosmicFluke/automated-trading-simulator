@@ -4,6 +4,7 @@ import autotradingsim.strategy.ConstantActionQuantity;
 import autotradingsim.strategy.IAction;
 import autotradingsim.strategy.IActionQuantity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.function.Function;
 import java.util.function.IntFunction;
@@ -20,9 +21,10 @@ import java.util.function.IntFunction;
  * <p>**Deprecated in favour of {@link autotradingsim.strategy.Action}, which has an equivalent constructor option.</p>
  *
  */
-public class SimpleAction implements IAction {
+public class SimpleAction implements IAction , Serializable{
 
-    private ActionType type;
+	private static final long serialVersionUID = -4693440206309322616L;
+	private ActionType type;
     private IActionQuantity quantity;
 
     public SimpleAction (ActionType type, int quantity) {

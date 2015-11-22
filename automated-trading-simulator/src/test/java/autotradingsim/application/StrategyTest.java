@@ -18,8 +18,6 @@ import autotradingsim.application.TradingApplication;
 import autotradingsim.strategy.*;
 import autotradingsim.strategy.indicators.ExponentialMovingAverage;
 import autotradingsim.strategy.indicators.SimpleMovingAverage;
-import autotradingsim.strategy.simpleimpl.SimpleCondition;
-import autotradingsim.strategy.simpleimpl.SimpleStrategy;
 import autotradingsim.util.ObjectFileSystem;
 
 public class StrategyTest {
@@ -200,6 +198,12 @@ public class StrategyTest {
         
         ICondition myCondition = new StaticCondition(simpleAverage, ICondition.Comparator.EQ, new BigDecimal(10));
         ObjectFileSystem.saveObject(ExpectedFileExists, myCondition);
+        testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        testingFile.delete();
+        
+        IAction myAction = new Action(autotradingsim.strategy.IAction.ActionType.BUY, 10);
+        ObjectFileSystem.saveObject(ExpectedFileExists, myAction);
         testingFile = new File(ExpectedFileExists);
         assertTrue(testingFile.exists());
         testingFile.delete();

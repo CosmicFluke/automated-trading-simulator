@@ -4,6 +4,7 @@ import autotradingsim.experiment.Experiment;
 import autotradingsim.experiment.ResultDay;
 import autotradingsim.experiment.TimeSet;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.function.Function;
 
@@ -18,8 +19,9 @@ import java.util.function.Function;
  *     stock value, and a confidence factor (see enum {@link autotradingsim.strategy.IActionQuantity.ConfidenceFactor}</li>
  * </p>
  */
-public class Action implements IAction {
+public class Action implements IAction, Serializable {
 
+	private static final long serialVersionUID = 7261229972405060856L;
 	public final ActionType type;
 	public final IActionQuantity quantity;
 
