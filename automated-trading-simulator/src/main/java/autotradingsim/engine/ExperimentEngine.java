@@ -70,9 +70,23 @@ public class ExperimentEngine {
 //		// TODO Auto-generated method stub
 //
 //	}
-	public List<Result> runExperiment(String experimentname, TimeSet timeset){
-		IExperiment experiment = application.getExperiment(experimentname);
-		return experiment.runExperiment(timeset);
+        /**
+         * Returns a primitive experiment result
+         * @param experimentname
+         * @param timeset
+         * @return 
+         */
+	public List<String> runExperiment(IExperiment experiment, TimeSet timeset){
+                List<String> resultstring = new ArrayList<String>();
+		for (Result r : experiment.runExperiment(timeset)){
+                    resultstring.add("Start Date: "+r.getStartDate().toString());
+                    resultstring.add("Opening balance: "+ r.getOpeningBalance());
+                    resultstring.add("End Date: "+ r.getStartDate().plusDays(r.getDurationInDays()));
+                    resultstring.add("Closing balance: "+ r.getClosingBalance());
+                    resultstring.add("---------------------------------------------");
+                }
+                
+                return resultstring;
 	}
 
 	public void runExperiment(TimeSet timeSet) {
