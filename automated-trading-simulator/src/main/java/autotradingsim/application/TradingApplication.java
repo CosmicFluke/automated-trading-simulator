@@ -1,10 +1,8 @@
 package autotradingsim.application;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,6 +12,7 @@ import autotradingsim.experiment.*;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.StockLoader;
 import autotradingsim.strategy.*;
+import autotradingsim.util.ObjectFileSystem;
 
 public class TradingApplication implements ITradingApplication {
 	
@@ -21,10 +20,7 @@ public class TradingApplication implements ITradingApplication {
 	private String PathToStrategies;
 	
 	private HashMap<Integer, IStrategy> strategies;
-	private HashSet<String> strategyNames;
-	
 	private HashMap<Integer, IExperiment> experiments;
-	private HashSet<String> experimentNames;
 	
 	private StockLoader loader;
 	private HashMap<String, IStock> stocks;
@@ -35,15 +31,15 @@ public class TradingApplication implements ITradingApplication {
 		this.loader = new StockLoader();
 		
 		this.strategies = new HashMap<Integer, IStrategy>();
-		this.strategyNames = new HashSet<String>();
 		
 		this.experiments = new HashMap<Integer, IExperiment>();
-		this.experimentNames = new HashSet<String>();
 		
 		this.stocks = new HashMap<String, IStock>();
 		
-		PathToExperiments = System.getProperty("user.dir") + "//DATA//EXPERIMENTS//";
-		PathToStrategies = System.getProperty("user.dir") + "//DATA//STRATEGIES//";
+		PathToExperiments = System.getProperty("user.dir") + File.separator + "DATA" +
+							File.separator + "EXPERIMENTS" + File.separator;
+		PathToStrategies = System.getProperty("user.dir") + File.separator + "DATA" + 
+							File.separator + "STRATEGIES" + File.separator;
 		
 		instance = this;
 		
@@ -57,7 +53,7 @@ public class TradingApplication implements ITradingApplication {
 		if(!strategyDir.exists())
 			strategyDir.mkdir();
 	}
-	
+
 	public static TradingApplication getInstance(){
 		if (instance == null){
 			instance = new TradingApplication();
@@ -67,25 +63,55 @@ public class TradingApplication implements ITradingApplication {
 	
 	/**
 	 * Add an experiment by name into the application
-	 * Name given and name found in experiment don't need
-	 * to match, but after being loaded, must use name found
-	 * in IExperiment class
+	 * Name given and name found in experiment need
+	 * to match
 	 * 
-	 * @param experimentName name under which to store experiment
-	 * @param experiment Experiment object which will be stored
+	 *
 	 * @return true if experiment added into Application successfully
 	 */
 	@Override
 	public boolean setExperiment(String experimentName, IExperiment experiment){
-		if(experiment == null || experimentName == null)
+		if(experimentName == null || experiment == null ||
+				!experiment.getName().equals(experimentName))
 			return false;
 		
-		if(experiments.containsKey(experimentName.hashCode())){
-			assert(experimentNames.contains(experimentName));
+		return addExperiment(experiment);
+	}
+
+	/**
+	 * Remove experiment from cache and disk
+	 * 
+	 * @param experimentName of experiment to remove
+	 * @return true iff experiment found and removed successfully
+	 */
+	public boolean delExperiment(String experimentName){
+		if(this.getExperiment(experimentName) == null)
+			return false;
+		String path = PathToExperiments + experimentName;
+		File expFile = new File(path);
+		if (!expFile.exists() || !expFile.isFile()){
 			return false;
 		}
-		experimentNames.add(experimentName);
-		experiments.put(experimentName.hashCode(), experiment);
+		expFile.delete();
+		experiments.remove(experimentName.hashCode());
+		return true;
+	}
+	/**
+	 * Add an experiment into the application
+	 * Experiment will be stored by name found in from IExperiment.getName
+	 * 
+	 * @param experiment Experiment object which will be stored
+	 * @return true if experiment added into Application successfully
+	 */
+	@Override
+	public boolean addExperiment(IExperiment experiment) {
+		if(experiment == null || experiment.getName() == null)
+			return false;
+		
+		if(experiments.containsKey(experiment.getName().hashCode())){
+			return false;
+		}
+		experiments.put(experiment.getName().hashCode(), experiment);
 		
 		this.saveExperiment(experiment);
 		return true;
@@ -100,6 +126,8 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public IExperiment getExperiment(String experimentName){
+		if(experimentName == null)
+			return null;
 		if(experiments.containsKey(experimentName.hashCode())){
 			return experiments.get(experimentName.hashCode());
 		}else{
@@ -110,44 +138,18 @@ public class TradingApplication implements ITradingApplication {
 		}
 	}
 	
+
 	/**
 	 * Save an experiment to file. Experiment is saved by it's given name.
 	 * 
 	 * @param experiment which will be saved to file under EXPERIMENTS dir
 	 */
 	private void saveExperiment(IExperiment experiment){
-		String path = PathToExperiments + experiment.getName() + ".bin";
-		File experimentFileObj = new File(path);
-		ObjectOutputStream serializer = null;
-		FileOutputStream experimentFile = null;
-		try {
-			if(!experimentFileObj.exists())
-				experimentFileObj.createNewFile();
-		} catch (IOException e) {
-			System.err.println("Error in creating file for saving the experiment");
-			e.printStackTrace();
-			return;
-		}
-		try{
-			experimentFile = new FileOutputStream(experimentFileObj);
-			serializer = new ObjectOutputStream(experimentFile);
-			serializer.writeObject(experiment);
-			serializer.close();
-
-		}catch (IOException e) {
-			try {
-				if(serializer != null)
-					serializer.close();
-			} catch (IOException e1) {
-				assert("false" == "this should never happen");
-				e1.printStackTrace();
-			}
-			experimentFileObj.delete();
-			System.err.println("IO Exception occured in saving experiment");
-			e.printStackTrace();
-		}
+		String path = PathToExperiments + experiment.getName();
+		if(!ObjectFileSystem.saveObject(path, experiment))
+			System.err.println("Something went wrong. Check console");
 	}
-	
+
 	/**
 	 * Load experiment from memory with given name. 
 	 * Null on error with error printed to System.err
@@ -156,27 +158,10 @@ public class TradingApplication implements ITradingApplication {
 	 * @return experiment in file or null on error
 	 */
 	private IExperiment loadExperiment(String name){
-		String path = PathToExperiments + name + ".bin";
-		File experimentFileObj = new File(path);
-		ObjectInputStream serializer = null;
-		FileInputStream experimentFile = null;
-		IExperiment result = null;
-		
-		if(!experimentFileObj.exists())
-			return result;
-		
-		try {
-			experimentFile = new FileInputStream(experimentFileObj);
-			serializer = new ObjectInputStream(experimentFile);
-			result = (IExperiment) serializer.readObject();
-			serializer.close();
-		} catch (ClassNotFoundException | IOException e) {
-			System.err.println("Error loading experiment from memory");
-			e.printStackTrace();
-		}
-		
-		return result;
+		String path = PathToExperiments + name;
+		return (IExperiment) ObjectFileSystem.loadObject(path);
 	}
+
 	
 	
 	/**
@@ -197,42 +182,87 @@ public class TradingApplication implements ITradingApplication {
 	 * Add a strategy by name into the application
 	 * StrategyName should match with name found under newStrat object
 	 * 
-	 * @param StrategyName name under to which to store experiment
-	 * @param newStrat IStrategy object which is to be added to application
+	 * @param stratName name under to which to store experiment
+	 * @param strat IStrategy object which is to be added to application
 	 * @return true if strategy added successfully into application
 	 */
 	@Override
 	public boolean setStrategy(String stratName, IStrategy strat){
-		if(strategies.containsKey(stratName.hashCode())) {
-			assert(strategyNames.contains(stratName));
+		if(stratName == null || strat == null ||
+				!strat.getName().equals(stratName))
 			return false;
-		}
-		strategyNames.add(stratName);
-		strategies.put(stratName.hashCode(), strat);
-		return true;
+		return setStrategy(strat);
 	}
 	
+	
+	/**
+	 * Add a strategy into the application
+	 * Strategy stored by using the name resolved under getName
+	 * 
+	 * @param newStrat IStrategy object which is to be added to application
+	 * @return true if strategy added successfully into application
+	 */
+	@Override
+	public boolean setStrategy(IStrategy newStrat) {
+		if(newStrat == null || newStrat.getName() == null)
+			return false;
+		
+		if(strategies.containsKey(newStrat.getName().hashCode()))
+			return false;
+
+		strategies.put(newStrat.getName().hashCode(), newStrat);
+		
+		this.saveStrategy(newStrat);
+		return true;
+	}
 
 	/**
 	 * Retrieves a strategy by it's given name
 	 * 
-	 * @param stratname strategy name which was used to store strategy
+	 * @param stratName strategy name which was used to store strategy
 	 * @return strategy with the associated name or null on none found
 	 */
 	@Override
 	public IStrategy getStrategy(String stratName){
-		return strategies.get(stratName.hashCode());
+		if(stratName == null)
+			return null;
+		if(strategies.containsKey(stratName.hashCode())){
+			return strategies.get(stratName.hashCode());
+		}else{
+			IStrategy result = loadStrategy(stratName);
+			if(result != null)
+				this.setStrategy(stratName, result);
+			return result;
+		}
 	}
 	
+	private void saveStrategy(IStrategy newStrat) {
+		if(newStrat.getName() == null){
+			System.out.println("Warning, not saving strategy. Missing name.");
+			return;
+		}
+		String path = this.PathToStrategies + newStrat.getName();
+		ObjectFileSystem.saveObject(path, newStrat);
+		
+	}
+	
+	private IStrategy loadStrategy(String stratName) {
+		String path = this.PathToStrategies + stratName;
+		return (IStrategy) ObjectFileSystem.loadObject(path);
+	}
+
 	/**
 	 * return a set of available strategies loaded into memory
 	 * @return set of names of strategies
 	 */
 	@Override
 	public Set<String> getAvailableStrategies() {
+		File strategies = new File(this.PathToStrategies);
 		Set<String> returningSet = new HashSet<String>();
-		for(String name : this.strategyNames)
-			returningSet.add(name);
+		if(strategies.exists() && strategies.isDirectory()){
+			for(File strategy : strategies.listFiles())
+				returningSet.add(strategy.getName());
+		}
 		return returningSet;
 	}
 
@@ -254,12 +284,10 @@ public class TradingApplication implements ITradingApplication {
 	 * @return
 	 */
 	public IStock getStock(String symbol) {
-		if (stocks.containsKey(symbol)){
-			return this.stocks.get(symbol);
-		} else {
+		if (!stocks.containsKey(symbol)){
 			this.loadStock(symbol);
-			return this.stocks.get(symbol);
 		}
+		return this.stocks.get(symbol);
     }
 	
 	/**
@@ -276,8 +304,24 @@ public class TradingApplication implements ITradingApplication {
 	 * @return Iterator<String> of stock symbols that are loaded.
 	 */
 	public Iterator<String> getStockSymbols(){
-		// TODO Change this so we can get a list of all possible stocks.
-		return this.stocks.keySet().iterator();
+		String pathToStocks = System.getProperty("user.dir") + File.separator + "DATA" + 
+				File.separator + "S&P-500-symbol-name-list.csv";
+
+		Set<String> returningSet = new HashSet<String>();
+		try {
+			FileReader stocksFile = new FileReader(pathToStocks);
+			BufferedReader stocks = new BufferedReader(stocksFile);
+			String stock;
+			while((stock = stocks.readLine()) != null){
+				//TODO later on we can get company name too instead of symbol
+				stock = stock.substring(0, stock.indexOf(','));
+				returningSet.add(stock);
+			}
+			stocks.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return returningSet.iterator();
 	}
 
 	/**
@@ -286,11 +330,9 @@ public class TradingApplication implements ITradingApplication {
 	@Override
 	public void clearMemory() {
 		strategies.clear();
-		strategyNames.clear();
-		
+				
 		experiments.clear();
-		experimentNames.clear();
-
+		
 		stocks.clear();
 	}
 	
@@ -301,4 +343,28 @@ public class TradingApplication implements ITradingApplication {
 		instance.clearMemory();
 		instance = null;
 	}
+
+	/**
+	 * Clear any objects saved by the application.
+	 * Application returns to a "first run" state
+	 */
+	public static void clearFileSystem() {
+		
+		String PathToExperiments = System.getProperty("user.dir") + File.separator + "DATA" +
+				File.separator + "EXPERIMENTS" + File.separator;
+		String PathToStrategies = System.getProperty("user.dir") + File.separator + "DATA" + 
+				File.separator + "STRATEGIES" + File.separator;
+		
+		File experiments = new File(PathToExperiments);
+		if(experiments.exists() && experiments.isDirectory())
+			for(File experiment : experiments.listFiles())
+				experiment.delete();
+		
+		File strategies = new File(PathToStrategies);
+		if(strategies.exists() && strategies.isDirectory())
+			for(File strategy : strategies.listFiles())
+				strategy.delete();
+		
+	}
+	
 }

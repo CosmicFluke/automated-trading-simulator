@@ -4,7 +4,6 @@ import autotradingsim.stocks.IStock;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Calendar;
 
 /**
  * Created by Asher on 2015-10-30.
@@ -14,17 +13,20 @@ import java.util.Calendar;
  */
 public class Decision implements IDecision {
 
-    private LocalDate date;
-    private IAction.ActionType type;
-    private IStock IStock;
-    private IActionQuantity quantity;
+    public final String rule;
+    public final LocalDate date;
+    public final IAction.ActionType type;
+    public final IStock IStock;
+    public final IActionQuantity quantity;
 
 
-    public Decision (LocalDate date, IAction.ActionType type, IStock IStock, IActionQuantity quantity) {
+    public Decision(LocalDate date, IAction.ActionType type, IStock IStock, IActionQuantity quantity,
+                    IRule ruleSource) {
         this.date = date;
         this.type = type;
         this.IStock = IStock;
         this.quantity = quantity;
+        this.rule = ruleSource.getName();
     }
 
     @Override
@@ -38,10 +40,6 @@ public class Decision implements IDecision {
     }
 
     @Override
-    public int getQuantity() {
-        return this.quantity.getValue();
-    }
-
     public int getQuantity(BigDecimal balance) {
         return this.quantity.getValue(balance);
     }
@@ -49,5 +47,10 @@ public class Decision implements IDecision {
     @Override
     public String getStockSymbol() {
         return this.IStock.getSymbol();
+    }
+
+    @Override
+    public String getRuleSource() {
+        return this.rule;
     }
 }

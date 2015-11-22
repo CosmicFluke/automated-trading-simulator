@@ -10,6 +10,8 @@ import java.math.BigDecimal;
  */
 public class ConstantActionQuantity implements IActionQuantity {
 
+    public static final String default_description = "Constant Quantity";
+
     private final int quantity;
 
     public ConstantActionQuantity (int quantity) {
@@ -24,5 +26,10 @@ public class ConstantActionQuantity implements IActionQuantity {
     @Override
     public int getValue(BigDecimal balance) {
         return getValue();
+    }
+
+    @Override
+    public String toString() {
+        return default_description + " " + String.valueOf(quantity);
     }
 }

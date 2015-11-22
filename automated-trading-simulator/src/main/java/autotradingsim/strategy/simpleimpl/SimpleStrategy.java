@@ -14,9 +14,10 @@ import java.util.Set;
  * <p>A simple IStrategy implementation for testing and MVP.  This is a read-only strategy --
  * attempting to add or remove rules will result in a NotImplementedException being thrown.</p>
  */
-public class SimpleStrategy implements IStrategy {
+public class SimpleStrategy implements IStrategy, Serializable {
 
-    private IRule rule;
+	private static final long serialVersionUID = 8779566290462507945L;
+	private IRule rule;
     private String name;
     private String description;
     private static String defaultName = "BuiltInStrategy1";
@@ -80,6 +81,11 @@ public class SimpleStrategy implements IStrategy {
     }
 
     @Override
+    public String getDescription() {
+        return this.description;
+    }
+
+    @Override
     public Set<RuleID> getRules() {
         Set<RuleID> rules = new HashSet<>();
         rules.add(rule.getID());
@@ -119,6 +125,11 @@ public class SimpleStrategy implements IStrategy {
     @Override
     public StrategyTester getNewTester() {
         return new SimpleStrategyTester((IStrategy) this);
+    }
+
+    @Override
+    public int getID() {
+        return this.name.hashCode();
     }
 
 }

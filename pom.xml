@@ -125,17 +125,24 @@
 
     
     <dependencies>
-    <dependency>
-        <groupId>com.github.csc301-fall-2015</groupId>
-        <artifactId>csc301-java-utils</artifactId>
-        <version>0.0.4</version>
-    </dependency>
+		<dependency>
+			<groupId>com.github.csc301-fall-2015</groupId>
+			<artifactId>csc301-java-utils</artifactId>
+			<version>0.0.4</version>
+		</dependency>
 
-    <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.12</version>
-        <scope>test</scope>
-    </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+	</dependencies>
 </project>

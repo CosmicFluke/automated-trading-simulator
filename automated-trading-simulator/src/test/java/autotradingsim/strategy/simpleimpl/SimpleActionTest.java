@@ -26,7 +26,7 @@ public class SimpleActionTest {
     @Test
     public void testGetQuantity() throws Exception {
         IAction simpleAction = new SimpleAction(IAction.ActionType.BUY, 1);
-        assertEquals(simpleAction.getQuantity().getValue(), 1);
+        assertEquals(simpleAction.getQuantity().getValue(BigDecimal.ONE), 1);
 
         simpleAction = new SimpleAction(IAction.ActionType.SELL, 99999);
         assertEquals(simpleAction.getQuantity().getValue(BigDecimal.TEN), 99999);

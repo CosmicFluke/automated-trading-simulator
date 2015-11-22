@@ -13,11 +13,18 @@ import autotradingsim.strategy.ICondition.Comparator;
 public class StrategyEngine {
 	public TradingApplication appEngine;
 	public IStrategy currentStrategy;
-	
-	public StrategyEngine() {
+	public static StrategyEngine engine;
+	private StrategyEngine() {
 		// TODO Auto-generated constructor stub
 		 appEngine = TradingApplication.getInstance();
 	}
+	public static StrategyEngine getInstance(){
+		if(engine==null){
+			engine = new StrategyEngine();
+		}
+		return engine;
+	}
+
 	/**
 	 * creates a default strategy and stores it in application
 	 * @return
@@ -28,7 +35,10 @@ public class StrategyEngine {
 		//appEngine.saveStrategy(newstrat);
 		return newstrat;
 	}
-	
+
+	public IStrategy createStrategy(String stratname){
+		return new Strategy(stratname, "");
+	}
 	/**
 	 * creates a simplestrategy, saves it to application and returns the strategy if saved properly
 	 * @param stratname

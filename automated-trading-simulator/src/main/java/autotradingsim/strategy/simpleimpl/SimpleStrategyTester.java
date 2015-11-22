@@ -5,6 +5,8 @@ import autotradingsim.strategy.*;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by Asher on 2015-11-01.
@@ -44,10 +46,8 @@ public class SimpleStrategyTester extends StrategyTester {
     public List<IDecision> testDate(LocalDate date) {
         List<IDecision> decisions = new LinkedList<>();
         for (IDecisionMaker maker : ruleIDtoDecisionMaker.values()) {
-            Iterator<IDecision> decisionIter = maker.getDecisions(date);
-            while (decisionIter.hasNext()) {
-                decisions.add(decisionIter.next());
-            }
+            Stream<IDecision> decisionStream = maker.getDecisions(date);
+            decisions.addAll(decisionStream.collect(Collectors.toList()));
         }
         return decisions;
     }

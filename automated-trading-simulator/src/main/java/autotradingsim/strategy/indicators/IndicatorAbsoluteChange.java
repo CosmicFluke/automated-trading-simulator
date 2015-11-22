@@ -12,9 +12,10 @@ import java.util.function.Function;
  */
 public class IndicatorAbsoluteChange extends MetaIndicator {
 
-    static String default_name = "Absolute Change Meta-Indicator";
-    static String default_description =
-            "This Indicator shows an absolute change in another indicator, such as a Moving Average, over some specified number of days.";
+    static final String default_name = "Absolute Change Meta-Indicator";
+    static final String default_description =
+            "This Indicator shows an absolute change in another indicator, such as a Moving Average, over some " +
+                    "specified number of days.";
 
     /**
      * Construct a new IndicatorAbsoluteChange that follows the change in the given indicator over a period of numDays.

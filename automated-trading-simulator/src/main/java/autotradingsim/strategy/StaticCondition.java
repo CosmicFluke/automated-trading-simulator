@@ -14,11 +14,13 @@ public class StaticCondition implements ICondition {
 	private IMeasurement measurement;
 	private BigDecimal compareTo;
 	private Predicate<Pair<BigDecimal,BigDecimal>> comparator;
+	private Comparator comp;
 
 	/**
 	 * Instantiates an new condition
 	 */
 	public StaticCondition(IMeasurement measurement, ICondition.Comparator comp, BigDecimal compareTo) {
+		this.comp = comp;
 		this.compareTo = compareTo;
 		this.measurement = measurement;
 		this.comparator = makeComparator(comp);
@@ -51,6 +53,11 @@ public class StaticCondition implements ICondition {
 				(comparator.test(new Pair<>(measurement.getFunction().apply(buffer), compareTo)));
 	}
 
+	@Override
+	public String toString(){
 
+		return String.join(" ",
+				new String[]{measurement.getName() + ICondition.compToString(comp) + compareTo.toString()});
+	}
 
 }

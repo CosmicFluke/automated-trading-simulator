@@ -9,8 +9,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
- * Created by Bill Feng on 15-10-29.
- * Modified by Asher Minden-Webb on 15-11-14
+ * Created by Asher Minden-Webb on 15-11-14
  *
  * Simple Moving Average
  *      Calculated by taking the average of the past days, the length of which can be specified.
@@ -18,8 +17,8 @@ import java.util.stream.Stream;
  */
 public class SimpleMovingAverage extends Indicator{
 
-    private static final String default_name = "Simple Moving Average";
-    private static final String default_description =
+    static final String default_name = "Simple Moving Average";
+    static final String default_description =
             "The Simple Moving Average is calculated by summing the closing prices of the security for a period of " +
                     "time and then dividing this total by the number of time periods. Sometimes called an arithmetic " +
                     "moving average, the SimpleMovingAverage is basically the average stock price over time. As a " +
@@ -36,12 +35,6 @@ public class SimpleMovingAverage extends Indicator{
      * This is only here because of confusion in the responsibilities/collaborations of the Indicator hierarchy.<br>
      */
     private Stock stock;
-
-    /**
-     * The function!
-     */
-    private Function<IBufferAdapter, BigDecimal> function =
-            (IBufferAdapter stockBuffer) -> (this.getValue(stockBuffer.getStream(), stockBuffer.getSize()));
 
     /**
      * Construct a new SimpleMovingAverage that uses the given number of days to calculate a moving average.

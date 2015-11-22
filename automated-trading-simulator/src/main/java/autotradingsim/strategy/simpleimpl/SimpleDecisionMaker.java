@@ -5,6 +5,7 @@ import autotradingsim.strategy.*;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by Asher on 2015-10-30.
@@ -14,11 +15,13 @@ import java.util.*;
  */
 public class SimpleDecisionMaker implements IDecisionMaker {
 
+    private IStrategy strategy;
     private SimpleRule rule;
     private IStock stock;
 
     public SimpleDecisionMaker (SimpleRule rule) {
         this.rule = rule;
+        this.strategy = new SimpleStrategy(); // TODO: THIS IS VERY WRONG MUST CHANGE
         this.stock = null;
     }
 
@@ -33,24 +36,24 @@ public class SimpleDecisionMaker implements IDecisionMaker {
     }
 
     @Override
-    public Iterator<IDecision> getDecisions(LocalDate date) {
+    public Stream<IDecision> getDecisions(LocalDate date) {
         List<IDecision> decisionList = new ArrayList<>();
-        // TODO: deal with casting -- BAD BAD BAD
-        BufferAdapter buffer = (BufferAdapter) stock.getNewBuffer(date, 1);
+        IBufferAdapter buffer = stock.getNewBuffer(date, 1);
         IDecision decision = getDecision(buffer);
         if (decision != null) {
             decisionList.add(decision);
         }
-        return decisionList.iterator();
+        return decisionList.stream();
     }
 
-    private IDecision getDecision(BufferAdapter buffer) {
+    private IDecision getDecision(IBufferAdapter buffer) {
         ICondition condition = rule.getConditions().get(0);
         IAction action = rule.getActions().get(0);
 
         if (condition.getFunction().test(buffer)) {
             IActionQuantity q = action.getQuantity();
-            return new Decision(buffer.getLastEntry().getDate(), action.getActionType(), stock, action.getQuantity());
+            return new Decision(buffer.getLastEntry().getDate(), action.getActionType(), stock, action.getQuantity(),
+                    this.rule);
         }
         else return null;
     }
