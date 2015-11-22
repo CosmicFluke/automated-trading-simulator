@@ -19,7 +19,7 @@ public class Rule implements IRule, Serializable {
     private static String default_description = "A rule, containing a set of conditions, and a set of actions to take " +
             "if those conditions are all met.";
 
-    private RuleID id;
+    private transient RuleID id;
     private Set<ICondition> conditions;
     private Set<IAction> actions;
     private String name;
@@ -62,10 +62,12 @@ public class Rule implements IRule, Serializable {
         return this.name;
     }
 
+    
     @Override
     public RuleID getID(){
         return this.id;
     }
+    
 
     @Override
     public String getSummary() {

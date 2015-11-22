@@ -17,7 +17,7 @@ import autotradingsim.autoTradingSim;
 /**
  * Unit test for simple AppPlaceholder.
  */
-public class TerminalTestCases
+public class TerminalTestTODO
     extends TestCase
 {
     /**
@@ -25,7 +25,7 @@ public class TerminalTestCases
      *
      * @param testName name of the test case
      */
-    public TerminalTestCases( String testName )
+    public TerminalTestTODO( String testName )
     {
         super( testName );
     }
@@ -35,7 +35,7 @@ public class TerminalTestCases
      */
     public static Test suite()
     {
-        return new TestSuite( TerminalTestCases.class );
+        return new TestSuite( TerminalTestTODO.class );
     }
 
     
@@ -49,8 +49,8 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	assertEquals("> > ", OutputText.toString());
     	
@@ -68,17 +68,19 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
-    	assertEquals("> Please enter a valid command.\r\n"
-    			+ "Valid commands include:\r\n"
-    			+ "help [<command>]\r\n"
-    			+ "viewStrat <name>\r\n"
-    			+ "modifyStrat <name>\r\n"
-    			+ "viewExp <name>\r\n"
-    			+ "modifyExp <name>\r\n"
-    			+ "run <experiment_name>\r\n> ", OutputText.toString());
+    	assertEquals("> Please enter a valid command." +  System.getProperty("line.separator")
+    			+ "Valid commands include:" +  System.getProperty("line.separator") 
+    			+ "help [<command>]" +  System.getProperty("line.separator") 
+    			+ "viewStrat <name>" +  System.getProperty("line.separator")
+    			+ "modifyStrat <name>" +  System.getProperty("line.separator")
+    			+ "viewExp <name>" +  System.getProperty("line.separator")
+    			+ "modifyExp <name>" +  System.getProperty("line.separator")
+    			+ "run <experiment_name>" +  System.getProperty("line.separator")
+    			+ "> "
+    			, OutputText.toString());
     	
     	System.setIn(null);
     	System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
@@ -94,10 +96,10 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
-    	assertEquals("> What do you need help with? Try: help viewstrat, modifystrat, viewexp, modifyexp, run.\r\n> ", OutputText.toString());
+    	assertEquals("> What do you need help with? Try: help viewstrat, modifystrat, viewexp, modifyexp, run." +  System.getProperty("line.separator") + "> ", OutputText.toString());
     	
     	System.setIn(null);
     	System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
@@ -113,10 +115,10 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
-    	assertEquals("> What do you need help with? Try: help viewstrat, modifystrat, viewexp, modifyexp, run.\r\n> ", OutputText.toString());
+    	assertEquals("> What do you need help with? Try: help viewstrat, modifystrat, viewexp, modifyexp, run." + System.getProperty("line.separator") + "> ", OutputText.toString());
     	
     	System.setIn(null);
     	System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
@@ -132,17 +134,17 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
-    	String expected = "> Please enter a valid command.\r\n"
-    			+ "Valid commands include:\r\n"
-    			+ "help [<command>]\r\n"
-    			+ "viewStrat <name>\r\n"
-    			+ "modifyStrat <name>\r\n"
-    			+ "viewExp <name>\r\n"
-    			+ "modifyExp <name>\r\n"
-    			+ "run <experiment_name>\r\n"
+    	String expected = "> Please enter a valid command."  +  System.getProperty("line.separator")
+    			+ "Valid commands include:"  +  System.getProperty("line.separator")
+    			+ "help [<command>]"  +  System.getProperty("line.separator")
+    			+ "viewStrat <name>"  +  System.getProperty("line.separator")
+    			+ "modifyStrat <name>"  +  System.getProperty("line.separator")
+    			+ "viewExp <name>" +  System.getProperty("line.separator")
+    			+ "modifyExp <name>" +  System.getProperty("line.separator")
+    			+ "run <experiment_name>"  +  System.getProperty("line.separator")
     			+ "> ";
     	
     	assertEquals(expected, OutputText.toString());
@@ -161,12 +163,12 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	String expected = "> "
     			+ "Did not understand invalid as a valid input. "
-    			+ "Needs to be one of viewstrat, modifystrat, viewexp, modifyex, run\r\n"
+    			+ "Needs to be one of viewstrat, modifystrat, viewexp, modifyex, run"  +  System.getProperty("line.separator")
     			+ "> ";
     	
     	assertEquals(expected, OutputText.toString());
@@ -185,12 +187,12 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	String expected = "> "
     			+ "View an existing trading strategy. If none is specified, "
-    			+ "displays a list of available strategies. Usage: viewStrat [name]\r\n"
+    			+ "displays a list of available strategies. Usage: viewStrat [name]"  +  System.getProperty("line.separator")
     			+ "> ";
     	
     	assertEquals(expected, OutputText.toString());
@@ -209,13 +211,13 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	String expected = "> "
     			+ "viewExp - view an existing experiment. "
     			+ "If none is specified, displays a list of available experiments. "
-    			+ "Usage: viewExp [name]\r\n"
+    			+ "Usage: viewExp [name]"  +  System.getProperty("line.separator")
     			+ "> ";
     	
     	assertEquals(expected, OutputText.toString());
@@ -234,16 +236,16 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	String expected = "> "
     			+ "Modify an existing experiment by name. "
     			+ "If that experiment doesn't exist, create one under given name. "
     			+ "After specifying a experiment to be modified, the prompt will "
     			+ "change to Experiment [name] >. "
-    			+ "See help experimentModification for sub-commands.\r\n"
-    			+ "Usage: modifyExp [name]\r\n"
+    			+ "See help experimentModification for sub-commands." +  System.getProperty("line.separator")
+    			+ "Usage: modifyExp [name]" +  System.getProperty("line.separator")
     			+ "> ";
     	
     	//assertEquals(expected, OutputText.toString());
@@ -264,15 +266,15 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	String expected = "> "
     			+ "Modify an existing strategy, by name. "
     			+ "If strategy doesn't exist, one is created by that name. "
     			+ "After specifying an strategy to be modified, the prompt will change to Strat [name] >. "
-    			+ "See help strategyModification for sub-commands.\r\n"
-    			+ "Usage: modifyStrat [name]\r\n"
+    			+ "See help strategyModification for sub-commands."  +  System.getProperty("line.separator")
+    			+ "Usage: modifyStrat [name]"  +  System.getProperty("line.separator")
     			+ "> ";
     	
     	assertEquals(expected, OutputText.toString());
@@ -291,12 +293,12 @@ public class TerminalTestCases
     	InputStream stringStream = new ByteArrayInputStream(Input.getBytes());
     	System.setIn(stringStream);
     	
-    	String[] input = null;
-    	autoTradingSim.main(input);
+    	TerminalUI newTerm = new TerminalUI();
+    	newTerm.run();
     	
     	String expected = "> "
     			+ "run - Runs a selected experiment. "
-    			+ "Usage: run [experiment_name]\r\n"
+    			+ "Usage: run [experiment_name]" +  System.getProperty("line.separator")
     			+ "> ";
     	
     	assertEquals(expected, OutputText.toString());

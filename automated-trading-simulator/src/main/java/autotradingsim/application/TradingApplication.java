@@ -1,5 +1,8 @@
 package autotradingsim.application;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -302,12 +305,21 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	public Iterator<String> getStockSymbols(){
 		String pathToStocks = System.getProperty("user.dir") + File.separator + "DATA" + 
-				File.separator + "STOCKS" + File.separator;
-		File stocks = new File(pathToStocks);
+				File.separator + "S&P-500-symbol-name-list.csv";
+
 		Set<String> returningSet = new HashSet<String>();
-		if(stocks.exists() && stocks.isDirectory()){
-			for(File stock : stocks.listFiles())
-				returningSet.add(stock.getName().substring(0, stock.getName().indexOf('.')));
+		try {
+			FileReader stocksFile = new FileReader(pathToStocks);
+			BufferedReader stocks = new BufferedReader(stocksFile);
+			String stock;
+			while((stock = stocks.readLine()) != null){
+				//TODO later on we can get company name too instead of symbol
+				stock = stock.substring(0, stock.indexOf(','));
+				returningSet.add(stock);
+			}
+			stocks.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return returningSet.iterator();
 	}
