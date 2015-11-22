@@ -99,7 +99,7 @@ public class TerminalTest
     	TerminalUI newTerm = new TerminalUI();
     	newTerm.run();
     	
-    	assertEquals("> What do you need help with? Try: help viewstrat, modifystrat, viewexp, modifyexp, run.\r\n> ", OutputText.toString());
+    	assertEquals("> What do you need help with? Try: help viewstrat, modifystrat, viewexp, modifyexp, run." +  System.getProperty("line.separator") + "> ", OutputText.toString());
     	
     	System.setIn(null);
     	System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
