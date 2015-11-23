@@ -160,6 +160,7 @@ public class Experiment implements IExperiment, Serializable {
 
         BigDecimal balance;
         int shares;
+        int a = 0;
 
         while (ts.hasNext()) { // For each TimeSet
             experimentStartDate = ts.next();
@@ -167,6 +168,8 @@ public class Experiment implements IExperiment, Serializable {
             duration = ts.getDuration();
             balance = BigDecimal.valueOf(1000000);
             Result result = new Result(experimentStartDate, duration, strategyToStocks, balance);
+//            System.out.println("trial: " + a);
+            a += 1;
 
             while (currentDate.isBefore(experimentStartDate.plusDays(duration))) {  // For each Day
                 ResultDay resultDay = new ResultDay(currentDate, balance, balance);
@@ -182,7 +185,7 @@ public class Experiment implements IExperiment, Serializable {
 
                         decisions = st.testDate(currentDate);
                         Iterator<IDecision> decisionIter = decisions.iterator();
-
+//                        System.out.println("Stock price " + stock.getDay(currentDate).getValue().toString() + " on " + currentDate.toString());
                         while (decisionIter.hasNext()) {        // For Each decision
                             decision = decisionIter.next();
                             resultDay.addDecision(decision);
@@ -191,12 +194,12 @@ public class Experiment implements IExperiment, Serializable {
                                 // Buy Stocks for
                                 shares = decision.getQuantity(balance);
                                 balance = balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
-                                System.out.println("Bought shares : " + shares);
+//                                System.out.println("Bought shares : " + shares);
 
                             } else if (decision.getActionType() == IAction.ActionType.SELL) {
                                 shares = decision.getQuantity(balance);
                                 balance = balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
-                                System.out.println("Sold shares : " + shares);
+//                                System.out.println("Sold shares : " + shares);
                             }
                             this.stocksToShares.put(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) + shares);
                         }
@@ -204,13 +207,11 @@ public class Experiment implements IExperiment, Serializable {
                         result.addResultDay(resultDay);
                         result.addStockstoToShares(this.stocksToShares);
                     }
-
                 }
-                result.setClosingBalance(balance);
-                resultList.add(result);
                 currentDate = currentDate.plusDays(1);
             }
-
+            result.setClosingBalance(balance);
+            resultList.add(result);
         }
         return resultList;
     }
