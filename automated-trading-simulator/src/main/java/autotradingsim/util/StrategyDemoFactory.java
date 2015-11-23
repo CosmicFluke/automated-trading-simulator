@@ -60,7 +60,13 @@ public class StrategyDemoFactory {
     }
 
     /**
-     *
+     * <p>Creates an returns a new IStrategy with the following rules:<ul>
+     *     <li>Buy half of my balance worth of a stock if its 5-day moving average increases by at least 2% over 3 days</li>
+     *     <li>Sell up to 1000 shares of a stock if<ul>
+     *         <li>The 30-day simple moving average decreases by at least 2% (relative) over 3 days, and</li>
+     *         <li>The 5-day simple moving average drops by at least 2 currency units (absolute) over 2 days</li>
+     *     </ul></li>
+     * </ul>
      * @return new strategy
      */
     public static IStrategy newAdvancedStrategy() {
