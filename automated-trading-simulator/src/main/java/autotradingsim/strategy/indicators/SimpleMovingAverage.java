@@ -65,7 +65,7 @@ public class SimpleMovingAverage extends Indicator implements Serializable{
 
 
     public Function<IBufferAdapter, BigDecimal> getFunction() {
-        return (IBufferAdapter buffer) -> (this.getValue(buffer.getStream(), buffer.getSize()));
+        return (IBufferAdapter buffer) -> ((buffer.getSize() > 0) ? this.getValue(buffer.getStream(), buffer.getSize()) : null);
     }
 
     /**
