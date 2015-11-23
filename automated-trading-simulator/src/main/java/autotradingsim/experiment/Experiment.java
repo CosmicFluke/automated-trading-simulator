@@ -182,7 +182,7 @@ public class Experiment implements IExperiment, Serializable {
 
                         decisions = st.testDate(currentDate);
                         Iterator<IDecision> decisionIter = decisions.iterator();
-
+                        System.out.println("Stock price " + stock.getDay(currentDate).getValue().toString() + " on " + currentDate.toString());
                         while (decisionIter.hasNext()) {        // For Each decision
                             decision = decisionIter.next();
                             resultDay.addDecision(decision);
@@ -204,13 +204,11 @@ public class Experiment implements IExperiment, Serializable {
                         result.addResultDay(resultDay);
                         result.addStockstoToShares(this.stocksToShares);
                     }
-
                 }
-                result.setClosingBalance(balance);
-                resultList.add(result);
                 currentDate = currentDate.plusDays(1);
             }
-
+            result.setClosingBalance(balance);
+            resultList.add(result);
         }
         return resultList;
     }
