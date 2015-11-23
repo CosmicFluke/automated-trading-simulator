@@ -62,7 +62,7 @@ public class DecisionMaker implements IDecisionMaker {
             stockBuffers = new HashMap<>();
         }
 
-        // Update/set the stockBuffers list to the given data
+        // Update/set the stockBuffers list to the given date
         for (ICondition cond : conditions) {
             Integer size = cond.getBufferSize();
             if (stockBuffers.containsKey(size)) {   // Buffer of correct size exists in stockBuffers

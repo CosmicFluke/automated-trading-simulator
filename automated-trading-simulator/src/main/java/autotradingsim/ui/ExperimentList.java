@@ -24,11 +24,11 @@ public class ExperimentList extends javax.swing.JFrame {
         this.setLocation(parent.getX() + parent.getWidth() / 2 - this.getWidth() / 2,
                 parent.getY() + parent.getHeight() / 2 - this.getHeight() / 2);
         experimentList.setModel(experimentListModel);
-        loadexperimentlist(experimentListModel);
+        loadExperiments(experimentListModel);
 
     }
     //loads filenames of experiments into the list model
-    public void loadexperimentlist(DefaultListModel experimentListModel){
+    private void loadExperiments(DefaultListModel experimentListModel){
         for(String n: application.getAvailableExperiments()){
             experimentListModel.addElement(n);
         }
