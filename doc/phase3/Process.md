@@ -15,7 +15,12 @@ Originally we intended to split the group into 3 pairs, with each pair working t
 I find that on the occasion that we were able to meet in person, we were highly productive. During face-to-face meetings, there'd no lag in communication and any issue or difficulty faced by weaker programmers can immediately be resolved by members with higher expertise.
  
 * Talk about prioritizing tasks and rationale behind decisions
-	-
+	* we prioritized tasks based on how crucial it is towards the MVP and deliverables and how close we are to the deadline
+	* we separated tasks into low-priority, medium-priority, high-priority and critical
+		* Low-priority tasks: 
+		* Medium-priority tasks: 
+		* High-priority tasks:
+		* Critical tasks:
 
 ##Burn Down Charts
 
