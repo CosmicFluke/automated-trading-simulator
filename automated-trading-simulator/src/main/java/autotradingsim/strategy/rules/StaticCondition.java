@@ -52,7 +52,7 @@ public class StaticCondition implements ICondition, Serializable {
 	public Predicate<IBufferAdapter> getFunction() {
 		Predicate<Pair<BigDecimal,BigDecimal>> comparator = makeComparator(comp);
 		return (IBufferAdapter buffer) ->
-				(comparator.test(new Pair<>(measurement.getFunction().apply(buffer), compareTo)));
+				((buffer.getSize() > 0) && comparator.test(new Pair<>(measurement.getFunction().apply(buffer), compareTo)));
 	}
 
 	@Override
