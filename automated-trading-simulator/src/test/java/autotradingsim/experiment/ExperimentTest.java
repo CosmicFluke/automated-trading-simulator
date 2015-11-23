@@ -78,7 +78,7 @@ public class ExperimentTest {
 
         test.addTrial(id, "AAPL");
 
-        TimeSet ts1 = new TimeSet(1, 2, LocalDate.of(2015, 9, 3), LocalDate.of(2015, 9, 15));
+        TimeSet ts1 = new TimeSet(2, 2, LocalDate.of(2015, 10, 6), LocalDate.of(2015, 10, 9));
 
         List<Result> resultList = test.runExperiment(ts1);
 
