@@ -31,6 +31,10 @@ public class IndicatorRelativeChange extends IndicatorAbsoluteChange {
         BigDecimal[] firstAndSecond = getFirstAndSecond(adapter);
         BigDecimal first = firstAndSecond[0];
         BigDecimal second = firstAndSecond[1];
-        return second.subtract(first).divide(first);
+        if (first == null || second == null || first.equals(BigDecimal.ZERO)) {
+            System.out.println("One or more values required for IndicatorRelativeChange::getValue were invalid.");
+            return null;
+        }
+        return second.subtract(first).divide(first, BigDecimal.ROUND_HALF_EVEN);
     }
 }
