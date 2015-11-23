@@ -1,5 +1,6 @@
 package autotradingsim.strategy.rules;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
  * may be useful, and the explicit class may be clearer than a lambda.</p>
  *
  */
-public class ConstantActionQuantity implements IActionQuantity {
+public class ConstantActionQuantity implements IActionQuantity, Serializable {
 
     public static final String default_description = "Constant Quantity";
 
