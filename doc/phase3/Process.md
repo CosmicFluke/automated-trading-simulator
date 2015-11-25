@@ -30,3 +30,8 @@ We decided to switch to a GUI as the workflow using a command line was not intui
 Our persistence method was changed. Originally, we were saving results to a file. We decided this was a bad design as it would lead to unnecessary I/O overhead. Now we save to file only when necessary. The application will use in memory objects if they exist, otherwise load them from file.
 
 ##Burn Down Charts
+Project burn down by issues remaining open and total number of commits to master
+<img src="https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase3/ProjectBurnDown.png">
+
+Individual number of commits by person. This is not a very good indication of work done in this time, but it is a good indication of the level of availability towards the project.
+<img src="https://github.com/csc301-fall-2015/project-team9-L5101/blob/master/doc/phase3/IndividualBurnDown.png">
