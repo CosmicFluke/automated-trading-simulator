@@ -55,16 +55,16 @@ public class ConditionPicker extends javax.swing.JDialog {
             }
         });
 
-        indicator1.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        indicator1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         indicator1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         indicator1.setPreferredSize(new java.awt.Dimension(130, 50));
 
-        indicator2.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        indicator2.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         indicator2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         indicator2.setMinimumSize(new java.awt.Dimension(130, 32));
         indicator2.setPreferredSize(new java.awt.Dimension(130, 50));
 
-        compare.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        compare.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         compare.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<", "<=", "=", ">=", ">" }));
         compare.setPreferredSize(new java.awt.Dimension(94, 50));
 
