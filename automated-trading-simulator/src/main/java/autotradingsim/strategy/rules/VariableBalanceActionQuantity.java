@@ -1,5 +1,6 @@
 package autotradingsim.strategy.rules;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.function.Function;
@@ -9,7 +10,7 @@ import java.util.function.Function;
  *
  * This class is probably not needed (lambdas and method references are sufficient for functional interface)
  */
-public class VariableBalanceActionQuantity implements IActionQuantity {
+public class VariableBalanceActionQuantity implements IActionQuantity, Serializable {
 
     Function<BigDecimal, Integer> function;
 

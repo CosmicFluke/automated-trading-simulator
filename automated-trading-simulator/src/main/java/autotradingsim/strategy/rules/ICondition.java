@@ -14,7 +14,7 @@ import java.util.function.Predicate;
  */
 public interface ICondition {
 
-    public enum Comparator {
+    enum Comparator {
         GT, LT, GEQ, LEQ, EQ, NEQ
     }
 

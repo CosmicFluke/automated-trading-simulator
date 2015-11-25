@@ -43,7 +43,7 @@ public class Action implements IAction, Serializable {
 	public Action(ActionType type, Function<BigDecimal, BigDecimal> balanceFunction) {
 		this(type,
 				(IActionQuantity & Serializable)(BigDecimal balance, BigDecimal value, ConfidenceFactor c) ->
-						balanceFunction.apply(balance).divide(value).intValue());
+						balanceFunction.apply(balance).divide(value, BigDecimal.ROUND_FLOOR).intValue());
 	}
 
 	/**
