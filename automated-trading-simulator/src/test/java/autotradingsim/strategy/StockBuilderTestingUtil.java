@@ -4,7 +4,6 @@ import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
 import autotradingsim.util.StrategyDemoFactory;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
