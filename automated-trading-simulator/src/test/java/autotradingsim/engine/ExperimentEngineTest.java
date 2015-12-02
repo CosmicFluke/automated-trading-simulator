@@ -49,6 +49,6 @@ public class ExperimentEngineTest {
     }
     @After
     public void tearDown(){
-        ExperimentEngine.freeEngine();
+        //ExperimentEngine.freeEngine();
     }
 }
