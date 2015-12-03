@@ -49,7 +49,7 @@ public class StockViewer extends javax.swing.JFrame {
         Object[][] dataVector = new Object[stockdays.length][];
         for (int i=0; i<stockdays.length; i++) {
             StockDay stockday = (StockDay) stockdays[i];
-            dataVector[i] = new Object[]{currStock.getStartDate().plusDays(i), stockday.getValue(StockDay.Values.OPEN), stockday.getValue(StockDay.Values.CLOSE), stockday.getValue(StockDay.Values.HIGH), stockday.getValue(StockDay.Values.LOW), stockday.getVolume()};
+            dataVector[i] = new Object[]{currStock.getStartDate().minusDays(i), stockday.getValue(StockDay.Values.OPEN), stockday.getValue(StockDay.Values.CLOSE), stockday.getValue(StockDay.Values.HIGH), stockday.getValue(StockDay.Values.LOW), stockday.getVolume()};
         }
         stockTableModel.setDataVector(dataVector, columnIdentifiers);
     }
