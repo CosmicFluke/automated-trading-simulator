@@ -109,15 +109,15 @@ public class StrategyDemoFactory {
 
         return strat;
     }
-/*
+
     public static IStrategy newAdvancedTestingStrategy() {
         IStrategy strat = new Strategy("Advanced Testing Strategy",
                 "Another example of a strategy with two rules and non-constant values in Actions and Indicators, for use in testing.");
 
         IRule rule = new Rule("Buy increasing stock, short-term",
-                "Buy half of my balance worth of a stock if its 3-day moving average increases by 2% over 2 days.");
-        rule.addCondition(new StaticCondition(      // 5-day moving average increases by 2% over 3 days
-                new IndicatorRelativeChange(new SimpleMovingAverage(3), 2),
+                "Buy half of my balance worth of a stock if its 1-day moving average increases by 2% over 2 days.");
+        rule.addCondition(new StaticCondition(      // Daily closing value increases by 2% over 2 days
+                new IndicatorRelativeChange(new SimpleMovingAverage(1), 2),
                 ICondition.Comparator.GEQ,
                 BigDecimal.valueOf(0.02)));
         rule.addAction(new Action(
@@ -127,13 +127,14 @@ public class StrategyDemoFactory {
                                 .divide(BigDecimal.valueOf(2))
                                 .intValue())));
         rule = new Rule("Sell decreasing stock, long term",
-                "Sell up to 1000 shares when the 30-day moving average ");
-        rule.addCondition(new StaticCondition(      // 30-day moving average decreases by 2% over 3 days
-                new IndicatorRelativeChange(new SimpleMovingAverage(30), 5),
+                "Sell up to 1000 shares when the 1-day moving average drops by 2% over 2 days and the 2-day simple " +
+                        "moving average drops by 2.00 currency units in 2 days");
+        rule.addCondition(new StaticCondition(      // Daily closing value decreases by 2% over 2 days
+                new IndicatorRelativeChange(new SimpleMovingAverage(1), 2),
                 ICondition.Comparator.LEQ,
                 BigDecimal.valueOf(-0.02)));
-        rule.addCondition(new StaticCondition(      // 5-day simple moving average dropped by at least $2.00 in 2 days
-                new IndicatorAbsoluteChange(new SimpleMovingAverage(5), 2),
+        rule.addCondition(new StaticCondition(      // 2-day simple moving average dropped by at least $2.00 in 2 days
+                new IndicatorAbsoluteChange(new SimpleMovingAverage(2), 2),
                 ICondition.Comparator.GEQ,
                 BigDecimal.valueOf(2)));
         rule.addAction(new Action(                  // SELL SELL SELL (up to 1000 shares, for now)
@@ -142,6 +143,5 @@ public class StrategyDemoFactory {
 
         return strat;
     }
-    */
 
 }
