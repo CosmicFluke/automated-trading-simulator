@@ -1,11 +1,13 @@
 package autotradingsim.strategy.indicators;
 
 import autotradingsim.stocks.IBufferAdapter;
+import autotradingsim.stocks.StockDay;
 import autotradingsim.strategy.rules.IMeasurement;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -47,15 +49,19 @@ public class IndicatorAbsoluteChange extends MetaIndicator {
      * @param numDays Number of days to average for a change in Indicator's value.  Must be at least 1.
      */
     public IndicatorAbsoluteChange(IMeasurement indicator, int numDays) {
-        this(indicator, numDays, true);
+        this(indicator, numDays, CalcMode.NET_CHANGE);
     }
 
     public IndicatorAbsoluteChange(IMeasurement indicator, int numDays, CalcMode calcMode) {
-        super(indicator, numDays, default_name, default_description);
+        this(indicator, numDays, calcMode, default_name, default_description);
+    }
+
+    public IndicatorAbsoluteChange(IMeasurement indicator, int numDays, CalcMode calcMode, String name, String description) {
+        super(indicator, numDays, name, description);
         mode = calcMode;
     }
 
-    public BigDecimal[] getFirstAndSecond(IBufferAdapter adapter) {
+    protected BigDecimal[] getFirstAndSecond (IBufferAdapter adapter) {
         LocalDate lastDate = adapter.getLastDay();
         LocalDate firstDate = lastDate.minusDays(numDays - 1);
         adapter.updateTo(firstDate);
@@ -66,22 +72,35 @@ public class IndicatorAbsoluteChange extends MetaIndicator {
         return new BigDecimal[]{firstVal, secondVal};
     }
 
-    public List<BigDecimal> getAllDays(IBufferAdapter adapter) {
-        List<BigDecimal> allDays = new ArrayList<>();
-        for (int i = 0; i < numDays; i++) {
+    protected BigDecimal getNetChange(BigDecimal[] oldAndNew) {
+        return oldAndNew[1].subtract(oldAndNew[0]);
+    }
 
+    protected BigDecimal getAverageChange(IBufferAdapter adapter) {
+        BigDecimal sum = BigDecimal.ZERO;
+        LocalDate date = adapter.getLastDay().minusDays(numDays - 1);
+        adapter.updateTo(date);
+        for (int i=0; i < numDays; i++) {
+            sum = sum.add(indicator.getValue(adapter));
+            adapter.updateNext();
         }
+        return sum.divide(BigDecimal.valueOf(numDays), BigDecimal.ROUND_HALF_EVEN);
     }
 
     @Override
     public BigDecimal getValue(IBufferAdapter adapter) {
-        BigDecimal[] firstAndSecond = getFirstAndSecond(adapter);
-
-        return firstAndSecond[1].subtract(firstAndSecond[0]);
+        switch (mode) {
+            case DAILY_AVERAGE_CHANGE:
+                return getAverageChange(adapter);
+            case NET_CHANGE:
+                return getNetChange(getFirstAndSecond(adapter));
+            default:
+                return null;
+        }
     }
 
     @Override
     public Function<IBufferAdapter, BigDecimal> getFunction() {
-        return (e) -> (this.getValue(e));
+        return this::getValue;
     }
 }
