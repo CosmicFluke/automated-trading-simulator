@@ -41,7 +41,7 @@ public class IndicatorAbsoluteChange extends MetaIndicator {
     @Override
     public BigDecimal getValue(IBufferAdapter adapter) {
         BigDecimal[] firstAndSecond = getFirstAndSecond(adapter);
-        return firstAndSecond[2].subtract(firstAndSecond[1]);
+        return firstAndSecond[1].subtract(firstAndSecond[0]);
     }
 
     @Override

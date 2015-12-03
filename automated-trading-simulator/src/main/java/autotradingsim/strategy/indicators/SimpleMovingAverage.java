@@ -5,6 +5,7 @@ import autotradingsim.stocks.IBufferAdapter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -30,7 +31,7 @@ public class SimpleMovingAverage extends Indicator implements Serializable{
                     "averages smooth out all the minor fluctuations showing only longer-term trends. Shorter-term " +
                     "moving averages show shorter-term trends but at the expense of the long-term ones.";
 
-    private int days;
+    private int numDays;
 
     /**
      * Construct a new SimpleMovingAverage that uses the given number of days to calculate a moving average.
@@ -40,7 +41,7 @@ public class SimpleMovingAverage extends Indicator implements Serializable{
      */
     public SimpleMovingAverage(int days, String name, String description) {
         super(name, description);
-        this.days = days;
+        this.numDays = days;
     }
 
     public SimpleMovingAverage(int days){
@@ -52,37 +53,36 @@ public class SimpleMovingAverage extends Indicator implements Serializable{
      * @return Number of days
      */
     public int getNumDays() {
-        return this.days;
+        return this.numDays;
     }
 
     public BigDecimal getValue(IBufferAdapter adapter) {
-        return this.getValue(adapter.getStream(), adapter.getSize());
+        return this.getValue(adapter, adapter.getSize());
     }
 
     public int getBufferSize() {
-        return this.days;
+        return this.numDays;
     }
 
 
     public Function<IBufferAdapter, BigDecimal> getFunction() {
-        return (IBufferAdapter buffer) -> ((buffer.getSize() > 0) ? this.getValue(buffer.getStream(), buffer.getSize()) : null);
+        return (IBufferAdapter buffer) -> ((buffer.getSize() > 0) ? this.getValue(buffer, buffer.getSize()) : null);
     }
 
     /**
      * Computes the average of a stream of StockDays.
-     * @param days A stream of StockDay objects.  Must satisfy condition that <br>
+     * @param buffer A stream of StockDay objects.  Must satisfy condition that <br>
      *      {@link Stream#count() stream.count()} ==  {@link #getBufferSize()}
      * @param size The size of the stream being passed in.
      * @return
      */
-    private BigDecimal getValue (Stream<StockDay> days, int size) {
-        if (size > this.days) {
-            System.out.println("SimpleMovingAverage method getValue was passed buffer of incorrect size");
-            throw new RuntimeException("Buffer exceeded expected size for SimpleMovingAverage");
-        }
-        BigDecimal sum =
-                (days.map((StockDay day) -> (day.getValue(StockDay.Values.CLOSE)))
-                        .reduce(new BigDecimal(0), (BigDecimal identity, BigDecimal addend) -> (identity.add(addend))));
+    private BigDecimal getValue (IBufferAdapter buffer, int size) {
+        LocalDate firstDay = buffer.getLastDay().minusDays(size);
+
+        BigDecimal sum = (buffer.getStream()
+                .filter((day) -> day.getDate().isAfter(firstDay.minusDays(1)))
+                .map((StockDay day) -> (day.getValue(StockDay.Values.CLOSE)))
+                .reduce(new BigDecimal(0), (BigDecimal identity, BigDecimal addend) -> (identity.add(addend))));
 
         return sum.divide(BigDecimal.valueOf(size));
     }

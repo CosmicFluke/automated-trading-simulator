@@ -23,7 +23,7 @@ public abstract class MetaIndicator extends Indicator {
     }
     @Override
     public int getBufferSize() {
-        return indicator.getBufferSize();
+        return numDays - 1 + indicator.getBufferSize();
     }
 
     public IMeasurement getIndicator(){
