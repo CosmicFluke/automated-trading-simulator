@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 /**
  * Created by Asher on 2015-11-10.
  */
-public class FullStrategyTester extends StrategyTester {
+public class FullStrategyTester extends AbstractStrategyTester {
 
     private Map<RuleID, IRule> ruleIDtoRule;
     private Map<RuleID, IDecisionMaker> ruleIDtoDecisionMaker;
@@ -74,29 +74,26 @@ public class FullStrategyTester extends StrategyTester {
      * Produces a list of all rules which do not have an assigned stock
      * @return
      */
-    public Stream<RuleID> getUnassignedRules(){
-        Stream<Map.Entry<RuleID, IDecisionMaker>> unassigned =
-                ruleIDtoDecisionMaker.entrySet().stream()
-                        .filter(entry -> entry.getValue().hasStockAssigned());
+    public List<RuleID> getUnassignedRules(){
+        Stream<RuleID> unassignedRules =
+                ruleIDtoDecisionMaker
+                        .entrySet()     // K,V pairs of <RuleID, IDecisionMaker>
+                        .stream()
+                        // Select only entries without a stock assigned
+                        .filter(entry -> !(entry.getValue().hasStockAssigned()))
+                        // Map the K,V pairs to only their RuleID keys
+                        .map(Map.Entry::getKey);
 
-        /*
-        for (Map.Entry<RuleID, IDecisionMaker> entry : ruleIDtoDecisionMaker.entrySet()){
-
-            if (!entry.getValue().hasStockAssigned()) {
-                unassigned.add(entry.getKey());
-            }
-        }
-        */
-        return unassigned.map(entry -> entry.getKey());
+        return unassignedRules.collect(Collectors.toList());    // Return collected list of RuleID keys
     }
 
     @Override
     public List<IDecision> testDate(LocalDate date) {
-        List<IDecision> decisions = new LinkedList<>();
-        for (IDecisionMaker maker : ruleIDtoDecisionMaker.values()) {
-            Stream<IDecision> decisionStream = maker.getDecisions(date);
-            decisions.addAll(decisionStream.collect(Collectors.toList()));
-        }
-        return decisions;
+        List<IDecision> decisionsForDate = new LinkedList<>();
+        ruleIDtoDecisionMaker.values()
+                .stream()
+                .map(maker -> maker.getDecisions(date).collect(Collectors.toList()))
+                .forEach(decisionsForDate::addAll);   // Add all of the IDecisionMaker's decisions to the decisions list
+        return decisionsForDate;
     }
 }
