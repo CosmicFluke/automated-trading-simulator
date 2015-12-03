@@ -30,19 +30,23 @@ public class ExperimentEngineTest {
     public void setUp(){
         testEngine = ExperimentEngine.getInstance();
         application = TradingApplication.getInstance();
+        experiment = testEngine.createExperiment("test");
+        application.setExperiment(experiment.getName(), experiment);
+        assertEquals(application.getExperiment("test"), experiment);
+        IStrategy testStrat = new Strategy("teststrat");
+        application.setStrategy(testStrat);
     }
 
     @Test
     public void testCreateExperiment(){
-        experiment = testEngine.createExperiment("test");
-        assertEquals(application.getExperiment("test"), experiment);
+        experiment = testEngine.createExperiment("test2");
+        application.setExperiment(experiment.getName(), experiment);
+        assertEquals(application.getExperiment("test2"), experiment);
     }
 
     @Test
     public void testExperimentAddTrial(){
         experiment = application.getExperiment("test");
-        IStrategy testStrat = new Strategy("teststrat");
-        application.setStrategy(testStrat);
         experiment.addTrial("teststrat", "AAPL");
         assert(experiment.getAllTrials().get("teststrat").contains("AAPL"));
     }
