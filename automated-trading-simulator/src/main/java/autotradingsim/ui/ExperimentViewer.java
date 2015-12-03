@@ -38,7 +38,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
     }
     
     protected void settimeSetValidationField(){
-        Pair<LocalDate, LocalDate> timeset= experimentEngine.getValidTimeSet(experiment);
+        Pair<LocalDate, LocalDate> timeset= experimentEngine.generateTimeSet(experiment);
         if(timeset == null){
             timeSetValidationField.setText("Experiment has no valid timeset");
         }else{

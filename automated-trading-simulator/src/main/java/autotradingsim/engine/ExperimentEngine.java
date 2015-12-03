@@ -77,11 +77,10 @@ public class ExperimentEngine {
 	/**
 	 * Returns a primitive experiment result
 	 * @param experiment
-	 * @param timeset
 	 * @return
 	 */
 
-        public Pair<LocalDate, LocalDate> getValidTimeSet(IExperiment experiment){
+        public Pair<LocalDate, LocalDate> generateTimeSet(IExperiment experiment){
             
             Map<String, Pair<LocalDate, LocalDate>>startAndEndDates = experiment.getStockStartAndEndDates();
             //find the maximum startdate, if there are stocks with ends before maximum startdates
@@ -90,26 +89,21 @@ public class ExperimentEngine {
             if(startAndEndDates.isEmpty()){
                 return null;
             }
-            LocalDate maxStartDate = null;
-            LocalDate minEndDate = null;
+            LocalDate StartDate = null;
+            LocalDate EndDate = null;
             List<LocalDate> startDates = new ArrayList<>();
-            List<LocalDate> endDates =new ArrayList<>();
+            List<LocalDate> endDates = new ArrayList<>();
             Set<String>symbols = startAndEndDates.keySet();
             for(String symbol: symbols){
-                System.out.println(symbol);
-                startDates.add(startAndEndDates.get(symbol).x);
-                endDates.add(startAndEndDates.get(symbol).y);
+                startDates.add(startAndEndDates.get(symbol).y);
+                endDates.add(startAndEndDates.get(symbol).x);
             }
-            maxStartDate = Collections.max(startDates);
-            minEndDate = Collections.min(endDates);
-            if(minEndDate.compareTo(maxStartDate)>0){
-                return new Pair(maxStartDate, minEndDate);
-            }
-            return null;
+            StartDate = Collections.max(startDates);
+            EndDate = Collections.min(endDates);
+			return new Pair(StartDate, EndDate);
         }
         /**
          * Returns a primitive experiment result
-         * @param experimentname
          * @param timeset
          * @return 
          */

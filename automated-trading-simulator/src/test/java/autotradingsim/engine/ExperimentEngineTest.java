@@ -5,6 +5,8 @@ import autotradingsim.experiment.*;
 import autotradingsim.strategy.IStrategy;
 import autotradingsim.strategy.Strategy;
 import autotradingsim.deprecated.simpleimpl.SimpleStrategy;
+import autotradingsim.strategy.StrategyTester;
+import autotradingsim.util.Pair;
 import autotradingsim.util.StrategyDemoFactory;
 import org.junit.Test;
 import org.junit.Before;
@@ -23,32 +25,46 @@ import static org.junit.Assert.*;
 public class ExperimentEngineTest {
     ExperimentEngine testEngine;
     TradingApplication application;
-
+    IExperiment experiment;
     @Before
     public void setUp(){
         testEngine = ExperimentEngine.getInstance();
         application = TradingApplication.getInstance();
+        experiment = testEngine.createExperiment("test");
+        application.setExperiment(experiment.getName(), experiment);
+        assertEquals(application.getExperiment("test"), experiment);
+        IStrategy testStrat = new Strategy("teststrat");
+        application.setStrategy(testStrat);
     }
 
     @Test
     public void testCreateExperiment(){
-        IExperiment experiment = testEngine.createExperiment("test");
-        assertEquals(application.getExperiment("test"), experiment);
+        experiment = testEngine.createExperiment("test2");
+        application.setExperiment(experiment.getName(), experiment);
+        assertEquals(application.getExperiment("test2"), experiment);
     }
-    @Test
-    public void testSaveExperiment(){
 
-    }
     @Test
-    public void testGetExperiment(){
-
+    public void testExperimentAddTrial(){
+        experiment = application.getExperiment("test");
+        experiment.addTrial("teststrat", "AAPL");
+        assert(experiment.getAllTrials().get("teststrat").contains("AAPL"));
     }
+
     @Test
     public void testGenerateTimeSet(){
-
+        experiment = application.getExperiment("test");
+        experiment.addTrial("teststrat", "IPG");
+        experiment.addTrial("teststrat", "AAPL");
+        LocalDate expectedStartDate = LocalDate.of(1987,11,05);
+        LocalDate expectedEndDate = LocalDate.of(2015,10,16);
+        Pair<LocalDate, LocalDate> expectedTimeSet = new Pair<> (expectedStartDate, expectedEndDate);
+        assertEquals(expectedTimeSet.x,testEngine.generateTimeSet(experiment).x);
+        assertEquals(expectedTimeSet.y, testEngine.generateTimeSet(experiment).y);
     }
+
     @After
     public void tearDown(){
-        //ExperimentEngine.freeEngine();
+        application.clearMemory();
     }
 }
