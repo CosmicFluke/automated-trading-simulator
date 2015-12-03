@@ -113,13 +113,84 @@ public class FullStrategyTesterTest {
 
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @Test
+    public void testSetAll() throws Exception {
+        // Use basic demo strategy to get a tester
+        tester = stratBasic.getNewTester();
+        tester.setAll(stock);
+
+        // Count the number of decisions with the wrong stock symbol
+        long wrongStockSymbolCount = tester.testDate(startDate).stream()
+                .map((d) -> d.getStockSymbol())
+                .filter((s) -> s != stock.getSymbol())
+                .count();
+
+        assertEquals("All stocks in tester have correct symbol.", 0, wrongStockSymbolCount);
+    }
+
+    @Test
+    public void testSetAllUnset() throws Exception {
+        // TODO: Not yet implemented
+    }
+
+    @Test
+    public void testSetStockForRule() throws Exception {
+        // TODO: Not yet implemented
+    }
+
+    @Test
+    public void testGetUnassignedRules() throws Exception {
+        // TODO: Not yet implemented
+    }
+
+    @Test
+    public void testTestDateBasicOneDayOneDecision() throws Exception {
+
+        tester = stratBasic.getNewTester();
+        tester.setAll(stock);
+
+        // Test startDate (2014-07-01, 93.519997)
+        LocalDate testDate = startDate;
+
+        List<IDecision> decisions = tester.testDate(startDate);
+        assertEquals("Tester produced one decision on startDate", 1, decisions.size());
+        assertEquals("Tester produced buy decision on startDate",
+                IAction.ActionType.BUY, decisions.get(0).getActionType());
 
     }
 
     @Test
-    public void testSetAllBasic() throws Exception {
+    public void testTestDateBasicOneDayNoData() throws Exception {
+        tester = stratBasic.getNewTester();
+        tester.setAll(stock);
+
+        // Test startDate (2014-07-01, 93.519997)
+        LocalDate testDate = startDate;
+
+        // Test startDate + 3 days (**no value** for 2014-07-04)
+        testDate = testDate.plusDays(3);
+        List<IDecision> decisions = tester.testDate(testDate);
+        assertEquals("Tester produced no decisions on startDate + 3", 0, decisions.size());
+
+    }
+
+    @Test
+    public void testTestDateBasicOneDayNoDecisions() throws Exception {
+
+        tester = stratBasic.getNewTester();
+
+        tester.setAll(stock);
+
+        // Test 2014-08-26, value == 100.889999
+        LocalDate testDate = LocalDate.of(2014, Month.AUGUST, 26);
+        List<IDecision> decisions = tester.testDate(testDate);
+        assertEquals("Tester produced no decisions on 2014-08-26", 0, decisions.size());
+
+    }
+
+    @Test
+    public void testTestDateBasicSequence() throws Exception {
+
         tester = stratBasic.getNewTester();
 
         tester.setAll(stock);
@@ -163,35 +234,15 @@ public class FullStrategyTesterTest {
         assertEquals("Tester produced one decision on 2014-08-27", 1, decisions.size());
         assertEquals("Tester produced sell decision on startDate",
                 IAction.ActionType.SELL, decisions.get(0).getActionType());
-
     }
 
     @Test
-    public void testSetAllAdvanced() throws Exception {
+    public void testTestDateAdvanced() throws Exception {
+        // TODO: Not yet implemented
         tester = stratAdvanced.getNewTester();
         tester.setAll(stock);
 
         // Advanced strategy
         List<IDecision> decisions = tester.testDate(startDate);
-    }
-
-    @Test
-    public void testSetAllUnset() throws Exception {
-
-    }
-
-    @Test
-    public void testSetStockForRule() throws Exception {
-
-    }
-
-    @Test
-    public void testGetUnassignedRules() throws Exception {
-
-    }
-
-    @Test
-    public void testTestDate() throws Exception {
-
     }
 }

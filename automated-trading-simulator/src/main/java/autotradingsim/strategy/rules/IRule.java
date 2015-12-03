@@ -1,6 +1,6 @@
 package autotradingsim.strategy.rules;
 
-import autotradingsim.strategy.StrategyTester;
+import autotradingsim.strategy.AbstractStrategyTester;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface IRule {
     
     /**
      * Produces a decision-making object for this rule.<br>
-     * (The {@link StrategyTester} should use this to get decisions for specific stocks on specific dates)<br>
+     * (The {@link AbstractStrategyTester} should use this to get decisions for specific stocks on specific dates)<br>
      * @return A decision maker.
      */
     IDecisionMaker getDecisionMaker();

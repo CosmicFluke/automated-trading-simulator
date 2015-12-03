@@ -61,7 +61,7 @@ public interface IStrategy {
     IDecisionMaker getRuleDecisionMaker(RuleID rule);
 
     /**
-     * Provides a new {@link StrategyTester} instance linked to this strategy. (Use this to run experiments with this strategy)
+     * Provides a new {@link AbstractStrategyTester} instance linked to this strategy. (Use this to run experiments with this strategy)
      * @return
      */
     StrategyTester getNewTester();
