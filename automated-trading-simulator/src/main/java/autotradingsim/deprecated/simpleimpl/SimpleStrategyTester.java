@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  * Created by Asher on 2015-11-01.
  *
  */
-public class SimpleStrategyTester extends StrategyTester {
+public class SimpleStrategyTester extends AbstractStrategyTester {
 
     private Map<RuleID, IDecisionMaker> ruleIDtoDecisionMaker;
 
@@ -42,6 +42,23 @@ public class SimpleStrategyTester extends StrategyTester {
         for (IDecisionMaker maker : ruleIDtoDecisionMaker.values()) {
             maker.assignStock(stock);
         }
+    }
+
+    @Override
+    public void setAllUnset(IStock stock) {
+        // NOT IMPLEMENTED
+        throw new RuntimeException("Deprecated class.  Method not implemented in SimpleStrategyTester.");
+    }
+
+    @Override
+    public void setStockForRule(RuleID ruleID, IStock stock) {
+        // NOT IMPLEMENTED
+        throw new RuntimeException("Deprecated class.  Method not implemented in SimpleStrategyTester.");
+    }
+
+    @Override
+    public List<RuleID> getUnassignedRules() {
+        throw new RuntimeException("Deprecated class.  Method not implemented in SimpleStrategyTester.");
     }
 
     @Override

@@ -79,7 +79,7 @@ public class SimpleStrategyTest {
         StrategyTester tester = stratDefault.getNewTester();
         tester.setAll(stock);
 
-        assertEquals(stratDefault, tester.getStrategy());
+        assertEquals(stratDefault.getName(), tester.getStrategy());
 
         // First day
         List<IDecision> decisions = tester.testDate(testDate);
