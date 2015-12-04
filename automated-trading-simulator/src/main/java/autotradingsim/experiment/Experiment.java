@@ -147,7 +147,7 @@ public class Experiment implements IExperiment, Serializable {
     public List<Result> runExperiment(TimeSet ts) {
         List<Result> resultList = new ArrayList<>();
         IStrategy strategy;
-        StrategyTester st;
+        IStrategyTester st;
         IStock stock;
 
         // currentDate is set for each day from startDate in TimeSet for the length of duration
@@ -293,7 +293,7 @@ public void resetStockQuantity(){
 //            BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/" + name + ".txt"));
 //
 //            IStrategy strategy;
-//            StrategyTester st;
+//            IStrategyTester st;
 //            IStock stock;
 //            LocalDate currentDate;
 //            List<IDecision> decisions;

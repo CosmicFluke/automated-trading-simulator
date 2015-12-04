@@ -76,7 +76,7 @@ public class SimpleStrategyTest {
     public void testGetNewTester() throws Exception {
         LocalDate testDate = startDate;
 
-        StrategyTester tester = stratDefault.getNewTester();
+        IStrategyTester tester = stratDefault.getNewTester();
         tester.setAll(stock);
 
         assertEquals(stratDefault.getName(), tester.getStrategy());

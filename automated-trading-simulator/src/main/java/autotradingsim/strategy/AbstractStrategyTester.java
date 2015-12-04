@@ -3,7 +3,7 @@ package autotradingsim.strategy;
 /**
  * Created by Asher on 2015-11-01.
  */
-public abstract class AbstractStrategyTester implements StrategyTester {
+public abstract class AbstractStrategyTester implements IStrategyTester {
 
     protected final IStrategy strategy;
 

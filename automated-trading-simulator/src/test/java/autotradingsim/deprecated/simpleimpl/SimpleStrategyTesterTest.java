@@ -3,7 +3,7 @@ package autotradingsim.deprecated.simpleimpl;
 import autotradingsim.strategy.rules.IDecisionMaker;
 import autotradingsim.strategy.IStrategy;
 import autotradingsim.strategy.rules.RuleID;
-import autotradingsim.strategy.StrategyTester;
+import autotradingsim.strategy.IStrategyTester;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 public class SimpleStrategyTesterTest {
 
     private IStrategy strat;
-    private StrategyTester tester;
+    private IStrategyTester tester;
 
     @Before
     public void setUp() throws Exception {
