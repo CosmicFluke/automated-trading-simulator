@@ -22,7 +22,7 @@ public class ConstantActionQuantity implements IActionQuantity, Serializable {
     }
 
     @Override
-    public int getValue(BigDecimal balance, BigDecimal stockValue, ConfidenceFactor confidence) {
+    public int getValue(BigDecimal balance, BigDecimal stockValue, int numSharesOwned, ConfidenceFactor confidence) {
         return quantity;
     }
 

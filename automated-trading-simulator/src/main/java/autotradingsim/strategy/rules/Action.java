@@ -6,7 +6,6 @@ import autotradingsim.experiment.TimeSet;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.function.Function;
 
 /**
  * <p>Actions always specify a type (through enum {@link IAction.ActionType}) and a quantity.</p>
@@ -32,18 +31,19 @@ public class Action implements IAction, Serializable {
 	 */
 	public Action(ActionType type, int quantity) {
 		this.type = type;
-		this.quantity = (IActionQuantity & Serializable)(a, b, c) -> quantity;
+		this.quantity = (IActionQuantity & Serializable)(a, b, c, d) -> quantity;
 	}
 
 	/**
-	 * Create a new Action instance with the given type and a function specifying what fraction of the balance to use to buy or sell
+	 * Create a new Action instance with the given type and a multiplier of the balance to use to buy or sell
 	 * @param type Action type
-	 * @param balanceFunction Function that produces a quantity based on a balance
+	 * @param balanceMultiplier specifies how much of the remaining balance to spend buying stock or to gain by selling stock
 	 */
-	public Action(ActionType type, Function<BigDecimal, BigDecimal> balanceFunction) {
+	public Action(ActionType type, BigDecimal balanceMultiplier) {
 		this(type,
-				(IActionQuantity & Serializable)(BigDecimal balance, BigDecimal value, ConfidenceFactor c) ->
-						balanceFunction.apply(balance).divide(value, BigDecimal.ROUND_FLOOR).intValue());
+				(IActionQuantity & Serializable)
+						(BigDecimal balance, BigDecimal stockValue, int numSharesOwned, ConfidenceFactor c) ->
+						balance.multiply(balanceMultiplier).divide(stockValue, BigDecimal.ROUND_FLOOR).intValue());
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class Action implements IAction, Serializable {
 	 */
 	public Action(ActionType type, IActionQuantity quantityFunction) {
 		this.type = type;
-		this.quantity = (IActionQuantity & Serializable)quantityFunction;
+		this.quantity = (IActionQuantity & Serializable) quantityFunction;
 	}
 
 	@Override

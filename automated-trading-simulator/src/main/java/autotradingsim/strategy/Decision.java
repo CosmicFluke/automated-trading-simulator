@@ -48,7 +48,7 @@ public class Decision implements IDecision {
 
     @Override
     public int getQuantity(BigDecimal balance) {
-        return this.quantity.getValue(balance, getStockValue(), confidence);
+        return this.quantity.getValue(balance, getStockValue(), 0, confidence);
     }
 
     @Override

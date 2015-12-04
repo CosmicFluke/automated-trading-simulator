@@ -2,7 +2,6 @@ package autotradingsim.strategy.rules;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.function.Function;
 
 /**
@@ -23,7 +22,7 @@ public class VariableBalanceActionQuantity implements IActionQuantity, Serializa
     }
 
     @Override
-    public int getValue(BigDecimal balance, BigDecimal stockValue, ConfidenceFactor confidence) {
+    public int getValue(BigDecimal balance, BigDecimal stockValue, int numSharesOwned, ConfidenceFactor confidence) {
         return function.apply(balance.divideAndRemainder(stockValue)[0]);
     }
 }
