@@ -59,13 +59,17 @@ public class ExperimentViewer extends javax.swing.JFrame {
     }
     /**
      * populates stock drop down with list of stock symbols
-     */
+    
     protected void setStockList(){
         Iterator symbols = application.getStockSymbols();
         while(symbols.hasNext()){
             stockListModel.addElement(symbols.next());
         }
     }
+    * 
+    * 
+    */
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
