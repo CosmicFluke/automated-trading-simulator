@@ -3,9 +3,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import autotradingsim.experiment.*;
@@ -319,11 +321,12 @@ public class TradingApplication implements ITradingApplication {
 		String pathToStocks = System.getProperty("user.dir") + File.separator + "DATA" + 
 				File.separator + "S&P-500-symbol-name-list.csv";
 
-		Set<String> returningSet = new HashSet<String>();
+		List<String> returningSet = new ArrayList<String>();
 		try {
 			FileReader stocksFile = new FileReader(pathToStocks);
 			BufferedReader stocks = new BufferedReader(stocksFile);
 			String stock;
+			stocks.readLine(); // Skip first line detailing columns
 			while((stock = stocks.readLine()) != null){
 				//TODO later on we can get company name too instead of symbol
 				stock = stock.substring(0, stock.indexOf(','));
