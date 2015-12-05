@@ -28,6 +28,7 @@ public class Experiment implements IExperiment, Serializable {
 
     private static final long serialVersionUID = -7533956851982543038L;
     private String name;
+    private BigDecimal cashBalance;
     private Map<String, Integer> stocksToShares;                // Pair of Stock symbol & its shares for user
 
     /**
@@ -51,9 +52,18 @@ public class Experiment implements IExperiment, Serializable {
         this.strategies = new HashSet<>();
         this.strategyToStocks = new HashMap<>();
         this.stocksToFirstAndLastDate = new HashMap<>();
+        this.cashBalance = new BigDecimal(100000);
     }
 
-    @Override
+    public BigDecimal getCashBalance() {
+		return cashBalance;
+	}
+
+	public void setCashBalance(BigDecimal cashBalance) {
+		this.cashBalance = cashBalance;
+	}
+
+	@Override
     public String getName(){
         return this.name;
     }
@@ -160,17 +170,12 @@ public class Experiment implements IExperiment, Serializable {
 
         BigDecimal balance;
         int shares;
-        int a = 0;
-
         while (ts.hasNext()) { // For each TimeSet
             experimentStartDate = ts.next();
             currentDate = experimentStartDate;
             duration = ts.getDuration();
-            balance = BigDecimal.valueOf(100000);
+            balance = this.cashBalance;
             Result result = new Result(experimentStartDate, duration, strategyToStocks, balance);
-//            System.out.println("trial: " + a);
-            a += 1;
-
             while (currentDate.isBefore(experimentStartDate.plusDays(duration))) {  // For each Day
                 ResultDay resultDay = new ResultDay(currentDate, balance, balance);
 
@@ -178,41 +183,14 @@ public class Experiment implements IExperiment, Serializable {
                     strategy = TradingApplication.getInstance().getStrategy(entry.getKey());
 
                     for (int i = 0; i < entry.getValue().size(); i++) {     // For each Stock
-                        shares = 0;
+                        
+                    	shares = 0;
                         stock = TradingApplication.getInstance().getStock(entry.getValue().get(i));
                         st = strategy.getNewTester();
                         st.setAll(stock);
-//                        stock.getDay(currentDate);
-//                        if (stock == null) {
                         decisions = st.testDate(currentDate);
-                        Iterator<IDecision> decisionIter = decisions.iterator();
-//                        System.out.println("Stock price " + stock.getDay(currentDate).getValue().toString() + " on " + currentDate.toString());
-                        while (decisionIter.hasNext()) {        // For Each decision
-                            decision = decisionIter.next();
-                            resultDay.addDecision(decision);
-
-                            if (decision.getActionType() == IAction.ActionType.BUY) {
-                                // Buy Stocks for
-                                shares = decision.getQuantity(balance, 0);
-                                balance = balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
-                                this.stocksToShares.put(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) + shares);
-                                resultDay.setNumShares(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) + shares);
-//                                System.out.println("Bought shares : " + shares);
-                            } else if (decision.getActionType() == IAction.ActionType.SELL) {
-                                shares = decision.getQuantity(balance, 0);
-                                if (shares > this.stocksToShares.get(stock.getSymbol())){
-                                	shares = this.stocksToShares.get(stock.getSymbol());
-                                	
-                                }
-                                this.stocksToShares.put(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) - shares);
-                                resultDay.setNumShares(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) - shares);
-                                balance = balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
-
-//                                System.out.println("Sold shares : " + shares);
-                            }
-                            
-                        }
-                        resultDay.setClosingBalance(balance);
+                        applyDecisions(decisions, resultDay);
+                        
                         result.addResultDay(resultDay);
                         result.addStockstoToShares(this.stocksToShares);
                     }
@@ -220,11 +198,52 @@ public class Experiment implements IExperiment, Serializable {
                 currentDate = currentDate.plusDays(1);
             }
             result.setClosingBalance(balance);
+            
             resultList.add(result);
             this.resetStockQuantity();
         }
         return resultList;
     }
+
+	private void applyDecisions(List<IDecision> decisions, ResultDay resultDay) {
+		for (IDecision decision : decisions) { // For Each decision
+			resultDay.addDecision(decision);
+
+			shares = decision.getQuantity(this.cashBalance);
+			switch(decision.getActionType())
+			{
+			case BUY:
+				break;
+			
+			case SELL:
+				break;
+				
+				default:
+					
+			}
+			
+				BUY
+				// Buy Stocks for
+				shares = decision.getQuantity(balance);
+				balance = balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+				this.stocksToShares.put(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) + shares);
+				resultDay.setNumShares(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) + shares);
+			
+			
+				SELL
+				shares = decision.getQuantity(balance);
+				if (shares > this.stocksToShares.get(stock.getSymbol())) {
+					shares = this.stocksToShares.get(stock.getSymbol());
+				}
+				
+				balance = balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
+			}
+			this.stocksToShares.put(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) - shares);
+			resultDay.setNumShares(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) - shares);
+		}
+		resultDay.setClosingBalance(balance);
+
+	}
 
 public void resetStockQuantity(){
 	for (String key: this.stocksToShares.keySet()){
