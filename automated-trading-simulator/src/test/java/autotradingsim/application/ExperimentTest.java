@@ -81,11 +81,6 @@ public class ExperimentTest {
     }
 
     @Test
-    public void testGetExperimentInValidExperiment(){
-        assertEquals(ApplicationUnderTest.getExperiment("Invalid"), null);
-    }
-
-    @Test
     public void testGetExperimentNullExperimentName(){
         assertEquals(ApplicationUnderTest.getExperiment(null), null);
     }
@@ -162,5 +157,34 @@ public class ExperimentTest {
         assertEquals(ApplicationUnderTest.getAvailableExperiments(), expectedSet);
     }
 
-
+    @Test
+    public void testDeleteExperimentNull(){
+        assertFalse(ApplicationUnderTest.delExperiment(null));
+    }
+    
+    @Test
+    public void testDeleteExperiment(){
+        String ExpectedFileExists = PathToExperiments + "TestSaving";
+        ApplicationUnderTest.setExperiment("TestSaving", new Experiment("TestSaving"));
+        File testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        
+        assertTrue(ApplicationUnderTest.delExperiment("TestSaving"));
+        assertFalse(testingFile.exists());
+        assertTrue(ApplicationUnderTest.getExperiment("TestSaving") == null);
+    }
+    
+    @Test
+    public void testDeleteExperimentClearMem(){
+        String ExpectedFileExists = PathToExperiments + "TestSaving";
+        ApplicationUnderTest.setExperiment("TestSaving", new Experiment("TestSaving"));
+        File testingFile = new File(ExpectedFileExists);
+        assertTrue(testingFile.exists());
+        
+        ApplicationUnderTest.clearMemory();
+        
+        assertTrue(ApplicationUnderTest.delExperiment("TestSaving"));
+        assertFalse(testingFile.exists());
+        assertTrue(ApplicationUnderTest.getExperiment("TestSaving") == null);
+    }
 }

@@ -7,7 +7,6 @@ import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
 import autotradingsim.strategy.indicators.IndicatorRelativeChange;
 import autotradingsim.strategy.indicators.SimpleMovingAverage;
-import autotradingsim.deprecated.simpleimpl.SimpleStockValue;
 import autotradingsim.strategy.rules.ICondition;
 import autotradingsim.strategy.rules.StaticCondition;
 import org.junit.Before;
@@ -74,11 +73,6 @@ public class StaticConditionTest {
         stock = new Stock("TEST", "Test Stock", dayList);
 
         // Set up indicators/IMeasurements
-        simpleValueCondition =                      // Stock Value > 299
-                new StaticCondition(                // True for last 4 days
-                        new SimpleStockValue(),
-                        ICondition.Comparator.GT,
-                        BigDecimal.valueOf(299));
         movingAvgConditionOne =                     // 1-day average (stock value) > 299
                 new StaticCondition(                // True for last 4 days
                         new SimpleMovingAverage(1),

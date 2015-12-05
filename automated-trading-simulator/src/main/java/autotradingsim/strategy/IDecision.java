@@ -16,7 +16,7 @@ public interface IDecision {
 
     LocalDate getDate();
     IAction.ActionType getActionType();
-    int getQuantity(BigDecimal balance);
+    int getQuantity(BigDecimal cashBalance, int numShares);
     String getStockSymbol();
     String getRuleSource();
 

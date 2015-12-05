@@ -132,7 +132,7 @@ public class SimpleStrategy implements IStrategy, Serializable {
     }
 
     @Override
-    public StrategyTester getNewTester() {
+    public IStrategyTester getNewTester() {
         return new SimpleStrategyTester((IStrategy) this);
     }
 

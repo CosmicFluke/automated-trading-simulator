@@ -6,6 +6,7 @@ import java.util.Set;
 import autotradingsim.experiment.IExperiment;
 import autotradingsim.stocks.IStock;
 import autotradingsim.strategy.IStrategy;
+import autotradingsim.util.Pair;
 
 public interface ITradingApplication {
 
@@ -43,6 +44,13 @@ public interface ITradingApplication {
 	 */
 	Set<String> getAvailableExperiments();
 
+	/**
+	 * Delete experiment from memory and file system
+	 * @param experimentName to which remove
+	 * @return true iff successful
+	 */
+	public boolean delExperiment(String experimentName);
+	
 	/**
 	 * Add a strategy by name into the application
 	 * StrategyName should match with name found under newStrat object
@@ -97,7 +105,7 @@ public interface ITradingApplication {
 	 * 
 	 * @return Iterator<String> of stock symbols available.
 	 */
-	Iterator<String> getStockSymbols();
+	Iterator<Pair<String, String>> getStockSymbols();
 	
 	/**
 	 * Clear any objects in Application memory

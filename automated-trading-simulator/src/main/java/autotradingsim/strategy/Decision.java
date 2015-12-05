@@ -47,8 +47,8 @@ public class Decision implements IDecision {
     }
 
     @Override
-    public int getQuantity(BigDecimal balance) {
-        return this.quantity.getValue(balance, getStockValue(), confidence);
+    public int getQuantity(BigDecimal cashBalance, int numShares) {
+        return this.quantity.getValue(cashBalance, getStockValue(), numShares, confidence);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Decision implements IDecision {
         return this.rule;
     }
 
-    private BigDecimal getStockValue() {
+    public BigDecimal getStockValue() {
         if (TradingApplication.getInstance().getStock(stockSymbol) == null){
             throw new NullPointerException(
                     String.format("Decision was given invalid stock symbol: '%s' not found in Application",

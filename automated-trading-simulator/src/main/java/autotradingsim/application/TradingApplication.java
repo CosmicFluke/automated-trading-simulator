@@ -3,9 +3,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import autotradingsim.experiment.*;
@@ -14,6 +16,7 @@ import autotradingsim.strategy.*;
 import autotradingsim.strategy.rules.IRule;
 import autotradingsim.strategy.rules.RuleID;
 import autotradingsim.util.ObjectFileSystem;
+import autotradingsim.util.Pair;
 
 public class TradingApplication implements ITradingApplication {
 	
@@ -315,19 +318,21 @@ public class TradingApplication implements ITradingApplication {
 	 * Get an iterator of loaded stock symbols.
 	 * @return Iterator<String> of stock symbols that are loaded.
 	 */
-	public Iterator<String> getStockSymbols(){
+	public Iterator<Pair<String, String>> getStockSymbols(){
 		String pathToStocks = System.getProperty("user.dir") + File.separator + "DATA" + 
 				File.separator + "S&P-500-symbol-name-list.csv";
 
-		Set<String> returningSet = new HashSet<String>();
+		List<Pair<String, String>> returningSet = new ArrayList<Pair<String, String>>();
 		try {
 			FileReader stocksFile = new FileReader(pathToStocks);
 			BufferedReader stocks = new BufferedReader(stocksFile);
-			String stock;
-			while((stock = stocks.readLine()) != null){
-				//TODO later on we can get company name too instead of symbol
-				stock = stock.substring(0, stock.indexOf(','));
-				returningSet.add(stock);
+			String stockID, stockName;
+			String stockString;
+			stocks.readLine(); // Skip first line detailing columns
+			while((stockString = stocks.readLine()) != null){
+				stockID = stockString.substring(0, stockString.indexOf(','));
+				stockName = stockString.substring(stockString.indexOf(','));
+				returningSet.add(new Pair<String, String>(stockID, stockName));
 			}
 			stocks.close();
 		} catch (IOException e) {
