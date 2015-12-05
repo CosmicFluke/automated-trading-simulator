@@ -81,11 +81,6 @@ public class ExperimentTest {
     }
 
     @Test
-    public void testGetExperimentInValidExperiment(){
-        assertEquals(ApplicationUnderTest.getExperiment("Invalid"), null);
-    }
-
-    @Test
     public void testGetExperimentNullExperimentName(){
         assertEquals(ApplicationUnderTest.getExperiment(null), null);
     }

@@ -94,11 +94,6 @@ public class StrategyTest {
     }
 
     @Test
-    public void testGetStrategyInValidStrategy(){
-        assertEquals(ApplicationUnderTest.getStrategy("Invalid"), null);
-    }
-
-    @Test
     public void testGetStrategyNullStrategyName(){
         assertEquals(ApplicationUnderTest.getStrategy(null), null);
     }
