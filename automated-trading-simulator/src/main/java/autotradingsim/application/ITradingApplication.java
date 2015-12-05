@@ -6,6 +6,7 @@ import java.util.Set;
 import autotradingsim.experiment.IExperiment;
 import autotradingsim.stocks.IStock;
 import autotradingsim.strategy.IStrategy;
+import autotradingsim.util.Pair;
 
 public interface ITradingApplication {
 
@@ -97,7 +98,7 @@ public interface ITradingApplication {
 	 * 
 	 * @return Iterator<String> of stock symbols available.
 	 */
-	Iterator<String> getStockSymbols();
+	Iterator<Pair<String, String>> getStockSymbols();
 	
 	/**
 	 * Clear any objects in Application memory

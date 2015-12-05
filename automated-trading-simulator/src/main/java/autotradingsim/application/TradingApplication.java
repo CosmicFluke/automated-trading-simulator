@@ -16,6 +16,7 @@ import autotradingsim.strategy.*;
 import autotradingsim.strategy.rules.IRule;
 import autotradingsim.strategy.rules.RuleID;
 import autotradingsim.util.ObjectFileSystem;
+import autotradingsim.util.Pair;
 
 public class TradingApplication implements ITradingApplication {
 	
@@ -317,20 +318,21 @@ public class TradingApplication implements ITradingApplication {
 	 * Get an iterator of loaded stock symbols.
 	 * @return Iterator<String> of stock symbols that are loaded.
 	 */
-	public Iterator<String> getStockSymbols(){
+	public Iterator<Pair<String, String>> getStockSymbols(){
 		String pathToStocks = System.getProperty("user.dir") + File.separator + "DATA" + 
 				File.separator + "S&P-500-symbol-name-list.csv";
 
-		List<String> returningSet = new ArrayList<String>();
+		List<Pair<String, String>> returningSet = new ArrayList<Pair<String, String>>();
 		try {
 			FileReader stocksFile = new FileReader(pathToStocks);
 			BufferedReader stocks = new BufferedReader(stocksFile);
-			String stock;
+			String stockID, stockName;
+			String stockString;
 			stocks.readLine(); // Skip first line detailing columns
-			while((stock = stocks.readLine()) != null){
-				//TODO later on we can get company name too instead of symbol
-				stock = stock.substring(0, stock.indexOf(','));
-				returningSet.add(stock);
+			while((stockString = stocks.readLine()) != null){
+				stockID = stockString.substring(0, stockString.indexOf(','));
+				stockName = stockString.substring(stockString.indexOf(','));
+				returningSet.add(new Pair<String, String>(stockID, stockName));
 			}
 			stocks.close();
 		} catch (IOException e) {
