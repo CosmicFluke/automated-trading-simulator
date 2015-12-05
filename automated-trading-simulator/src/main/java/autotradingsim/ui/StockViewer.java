@@ -33,8 +33,8 @@ public class StockViewer extends javax.swing.JFrame {
         //stockTableModel.setDataVector(dataVector, columnIdentifiers);
     }
 
-    protected void setNameText(String filename) {
-        stockName.setText(filename);
+    protected void setNameText(String symbol) {
+        stockName.setText(symbol);
     }
 
     /**
