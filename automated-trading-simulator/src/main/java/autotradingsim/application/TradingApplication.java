@@ -163,7 +163,9 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	private IExperiment loadExperiment(String name){
 		String path = PathToExperiments + name;
-		return (IExperiment) ObjectFileSystem.loadObject(path);
+		Experiment exp = (Experiment) ObjectFileSystem.loadObject(path);
+		exp.afterDeserialization();
+		return exp;
 	}
 	
 	/**
