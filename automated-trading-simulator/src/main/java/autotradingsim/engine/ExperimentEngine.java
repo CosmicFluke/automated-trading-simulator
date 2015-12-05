@@ -105,18 +105,18 @@ public class ExperimentEngine {
         /**
          * Returns a primitive experiment result
          * @param timeset
-         * @return 
+         * @return
          */
 
 	public List<String> runExperiment(IExperiment experiment, TimeSet timeset){
-                List<String> resultstring = new ArrayList<String>();
-		while (experiment.runExperiment(timeset).getExperimentResults().hasNext()){
-			Result result = experiment.runExperiment(timeset).getExperimentResults().next();
-				resultstring.add("Start Date: " + result.getStartDate().toString());
-				resultstring.add("Opening balance: " + result.getOpeningBalance());
-				resultstring.add("End Date: " + result.getStartDate().plusDays(result.getDurationInDays()));
-				resultstring.add("Closing balance: "+ result.getClosingBalance());
-				resultstring.add("---------------------------------------------");
+		List<String> resultstring = new ArrayList<String>();
+		while (experiment.runExperiment(timeset).getExperimentResultsIterator().hasNext()){
+			Result result = experiment.runExperiment(timeset).getExperimentResultsIterator().next();
+			resultstring.add("Start Date: " + result.getStartDate().toString());
+			resultstring.add("Opening balance: " + result.getOpeningBalance());
+			resultstring.add("End Date: " + result.getStartDate().plusDays(result.getDurationInDays()));
+			resultstring.add("Closing balance: "+ result.getClosingBalance());
+			resultstring.add("---------------------------------------------");
 			}
 
 			return resultstring;

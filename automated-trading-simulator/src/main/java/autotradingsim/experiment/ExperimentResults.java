@@ -70,7 +70,9 @@ public class ExperimentResults {
         return avgSellActions;
     }
 
-    public Iterator<Result> getExperimentResults() {
+    public List<Result> getResults() { return this.results; }
+
+    public Iterator<Result> getExperimentResultsIterator() {
         return results.iterator();
     }
 
@@ -82,7 +84,7 @@ public class ExperimentResults {
         return results.size();
     }
 
-    public Result getResult(int index) {
+    public Result getResultAt(int index) {
         return results.get(index);
     }
 
