@@ -90,7 +90,7 @@ public class StrategyDemoFactory {
                 IAction.ActionType.BUY,
                 new VariableBalanceActionQuantity(
                         (num_stocks) -> num_stocks
-                                .divide(BigDecimal.valueOf(2))
+                                .divideAndRemainder(BigDecimal.valueOf(2))[0]
                                 .intValue())));
         rule = new Rule("Sell decreasing stock, long term",
                 "Sell up to 1000 shares when the 30-day moving average ");
@@ -102,9 +102,9 @@ public class StrategyDemoFactory {
                 new IndicatorAbsoluteChange(new SimpleMovingAverage(5), 2),
                 ICondition.Comparator.GEQ,
                 BigDecimal.valueOf(2)));
-        rule.addAction(new Action(                  // SELL SELL SELL (up to 1000 shares, for now)
+        rule.addAction(new Action(                  // SELL SELL SELL (half of owned shares, or all if less than 21)
                 IAction.ActionType.SELL,
-                new ConstantActionQuantity(1000))); // TODO: Needs to be fixed once shares-based quantities are implemented
+                (cash, stockValue, numShares, cf) -> (numShares > 20) ? Math.floorDiv(numShares, 2) : numShares));
 
         return strat;
     }
@@ -136,9 +136,9 @@ public class StrategyDemoFactory {
                 new IndicatorAbsoluteChange(new SimpleMovingAverage(2), 2),
                 ICondition.Comparator.GEQ,
                 BigDecimal.valueOf(2)));
-        rule.addAction(new Action(                  // SELL SELL SELL (up to 1000 shares, for now)
+        rule.addAction(new Action(                  // SELL SELL SELL (half of owned shares, or all if less than 11)
                 IAction.ActionType.SELL,
-                new ConstantActionQuantity(1000))); // TODO: Needs to be fixed once shares-based quantities are implemented
+                (cash, stockValue, numShares, cf) -> (numShares > 10) ? Math.floorDiv(numShares, 2) : numShares));
 
         return strat;
     }

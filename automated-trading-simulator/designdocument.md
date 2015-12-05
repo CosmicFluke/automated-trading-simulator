@@ -47,5 +47,5 @@ stocks (called "trials").  Running an experiment requires a `TimeSet`, which is 
 of time distributed pseudo-randomly throughout a given time period.  The experiment runs its set of trials on each time
 period in the time set, and generates results for each time period.  Through random sampling of historical data,
 statistics can be collected which will point to the effectiveness of the strategies used.  Running an experiment produces
-results in a data structure encapsulated in `ExperimentResults` (not yet implemented), which holds collections for each
-period in the time set of `ResultDay` instances, which store the results for each day of each trial.
+results in a data structure encapsulated in `ExperimentResults`, which holds collections for each period in the time
+set of `ResultDay` instances, which store the results for each day of each trial.
