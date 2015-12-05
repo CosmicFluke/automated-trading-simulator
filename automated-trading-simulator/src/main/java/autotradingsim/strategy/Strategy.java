@@ -122,6 +122,6 @@ public class Strategy implements IStrategy, Serializable {
 
     @Override
     public IStrategyTester getNewTester() {
-        return new StrategyTester(this, new HashSet<>(this.rules.values()));
+        return new StrategyTester(this);
     }
 }

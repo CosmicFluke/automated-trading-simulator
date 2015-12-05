@@ -23,15 +23,16 @@ public interface IStrategyTester {
     void setAll(IStock stock);
 
     /**
-     * Set only the rules without a stock assigned to evaluate using the given stock.
-     * @param stock
+     * Assigns the given stock to only the rules in the strategy associated with this tester
+     * <i>which do not currently have a stock assigned.</i>
+     * @param stock The stock to be assigned to each available rule
      */
     void setAllUnset(IStock stock);
 
     /**
-     * Set only the specified rule to evaluate using the given stock.
-     * @param ruleID
-     * @param stock
+     * Assigns a stock to only the specified rule.
+     * @param ruleID ID of the rule to assign a stock to
+     * @param stock Stock to assign to the given rule
      */
     void setStockForRule(RuleID ruleID, IStock stock);
 
