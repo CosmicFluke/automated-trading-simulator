@@ -1,9 +1,11 @@
 package autotradingsim.experiment;
 import autotradingsim.application.TradingApplication;
 import autotradingsim.strategy.IDecision;
+import autotradingsim.strategy.Decision;
 import autotradingsim.strategy.IStrategy;
 import autotradingsim.strategy.Strategy;
 import autotradingsim.deprecated.simpleimpl.SimpleStrategy;
+import autotradingsim.util.Pair;
 import autotradingsim.util.StrategyDemoFactory;
 import org.junit.Test;
 import org.junit.Before;
@@ -69,7 +71,7 @@ public class ExperimentTest {
 
     @Test
     public void testRunExperiment1(){
-
+        System.out.println("running Test 1===================");
         IStrategy strategy =  StrategyDemoFactory.newBasicStrategy(new BigDecimal(110), new BigDecimal(115), 3, 300);
 //        IStrategy strategy1 = TradingApplication.getInstance().getStrategy("Basic strategy");
 
@@ -84,6 +86,7 @@ public class ExperimentTest {
         ResultDay result;
         TimeSet ts1 = new TimeSet(2, 30, LocalDate.of(2015, 8, 15), LocalDate.of(2015, 10, 15));
         List<Result> resultList = test.runExperiment(ts1);
+
         for (int i = 0; i < resultList.size(); i++){
         	System.out.println("Results for timeset from: " 
         			+ resultList.get(i).getStartDate().toString() 
@@ -95,11 +98,15 @@ public class ExperimentTest {
 	        		System.out.println("Result for: " + result.getDate().toString());
 	        		System.out.println("\t\t\t" + result.getClosingBalance());
 	        		for (IDecision decision: result.getDecisions()){
-	        			System.out.println("\t\t\t" + decision.getActionType().toString());
+	        			System.out.println("\t\t\t" + decision.getActionType().toString() + " " + decision.getStockSymbol());
+                        for(Pair<String, Integer> share:(List<Pair<String, Integer>>) result.getNumShares()){
+                            System.out.println(share.x+": "+share.y);
+                        }
+
 	        		}
 	        	}
     		}
-        	
+
         	System.out.println("Opening balance: " + resultList.get(i).getOpeningBalance());
         	System.out.println("Closing balance: " + resultList.get(i).getClosingBalance());
         	detailLevel = Detail.MINIMUM;
@@ -109,7 +116,7 @@ public class ExperimentTest {
     
     @Test
     public void testRunExperiment2(){
-
+        System.out.println("Running Test 2====================");
         IStrategy strategy =  StrategyDemoFactory.newBasicStrategy(new BigDecimal(110), new BigDecimal(115), 3, 300);
 //        IStrategy strategy1 = TradingApplication.getInstance().getStrategy("Basic strategy");
 
