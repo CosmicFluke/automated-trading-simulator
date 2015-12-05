@@ -193,13 +193,13 @@ public class Experiment implements IExperiment, Serializable {
 
                             if (decision.getActionType() == IAction.ActionType.BUY) {
                                 // Buy Stocks for
-                                shares = decision.getQuantity(balance);
+                                shares = decision.getQuantity(balance, 0);
                                 balance = balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
                                 this.stocksToShares.put(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) + shares);
                                 resultDay.setNumShares(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) + shares);
 //                                System.out.println("Bought shares : " + shares);
                             } else if (decision.getActionType() == IAction.ActionType.SELL) {
-                                shares = decision.getQuantity(balance);
+                                shares = decision.getQuantity(balance, 0);
                                 if (shares > this.stocksToShares.get(stock.getSymbol())){
                                 	shares = this.stocksToShares.get(stock.getSymbol());
                                 	
