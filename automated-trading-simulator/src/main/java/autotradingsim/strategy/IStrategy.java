@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  *  <p>A data type that stores a collection of rules.<br>
  *  Each Strategy instance represents a well-defined strategy.  Collaborators that want to *apply* strategies must use
- *  the getNewTester() method to get a StrategyTester object.</p>
+ *  the getNewTester() method to get an IStrategyTester object.</p>
  */
 public interface IStrategy {
 
@@ -64,7 +64,7 @@ public interface IStrategy {
      * Provides a new {@link AbstractStrategyTester} instance linked to this strategy. (Use this to run experiments with this strategy)
      * @return
      */
-    StrategyTester getNewTester();
+    IStrategyTester getNewTester();
 
     /**
      * Get an integer identifier for this strategy.  Strategies with the same name will have the same ID.

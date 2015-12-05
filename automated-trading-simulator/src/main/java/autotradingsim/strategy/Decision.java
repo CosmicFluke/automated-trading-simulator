@@ -47,8 +47,8 @@ public class Decision implements IDecision {
     }
 
     @Override
-    public int getQuantity(BigDecimal balance) {
-        return this.quantity.getValue(balance, getStockValue(), confidence);
+    public int getQuantity(BigDecimal cashBalance, int numShares) {
+        return this.quantity.getValue(cashBalance, getStockValue(), numShares, confidence);
     }
 
     @Override

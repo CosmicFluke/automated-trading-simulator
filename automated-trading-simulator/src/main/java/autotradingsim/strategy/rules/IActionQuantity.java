@@ -1,5 +1,6 @@
 package autotradingsim.strategy.rules;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -13,8 +14,8 @@ import java.math.BigDecimal;
  *
  */
 @FunctionalInterface
-public interface IActionQuantity {
+public interface IActionQuantity extends Serializable {
 
-    int getValue(BigDecimal balance, BigDecimal stockValue, ConfidenceFactor confidence);
+    int getValue(BigDecimal balance, BigDecimal stockValue, int numSharesOwned, ConfidenceFactor confidence);
 
 }

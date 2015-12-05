@@ -147,7 +147,7 @@ public class Experiment implements IExperiment, Serializable {
     public List<Result> runExperiment(TimeSet ts) {
         List<Result> resultList = new ArrayList<>();
         IStrategy strategy;
-        StrategyTester st;
+        IStrategyTester st;
         IStock stock;
 
         // currentDate is set for each day from startDate in TimeSet for the length of duration
@@ -193,13 +193,13 @@ public class Experiment implements IExperiment, Serializable {
 
                             if (decision.getActionType() == IAction.ActionType.BUY) {
                                 // Buy Stocks for
-                                shares = decision.getQuantity(balance);
+                                shares = decision.getQuantity(balance, 0);
                                 balance = balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
                                 this.stocksToShares.put(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) + shares);
                                 resultDay.setNumShares(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) + shares);
 //                                System.out.println("Bought shares : " + shares);
                             } else if (decision.getActionType() == IAction.ActionType.SELL) {
-                                shares = decision.getQuantity(balance);
+                                shares = decision.getQuantity(balance, 0);
                                 if (shares > this.stocksToShares.get(stock.getSymbol())){
                                 	shares = this.stocksToShares.get(stock.getSymbol());
                                 	
@@ -293,7 +293,7 @@ public void resetStockQuantity(){
 //            BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/" + name + ".txt"));
 //
 //            IStrategy strategy;
-//            StrategyTester st;
+//            IStrategyTester st;
 //            IStock stock;
 //            LocalDate currentDate;
 //            List<IDecision> decisions;

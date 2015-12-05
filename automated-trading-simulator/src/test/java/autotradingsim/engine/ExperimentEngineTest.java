@@ -1,21 +1,14 @@
 package autotradingsim.engine;
 import autotradingsim.application.TradingApplication;
-import autotradingsim.engine.ExperimentEngine;
 import autotradingsim.experiment.*;
 import autotradingsim.strategy.IStrategy;
 import autotradingsim.strategy.Strategy;
-import autotradingsim.deprecated.simpleimpl.SimpleStrategy;
-import autotradingsim.strategy.StrategyTester;
 import autotradingsim.util.Pair;
-import autotradingsim.util.StrategyDemoFactory;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
-import org.omg.CORBA.FREE_MEM;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
 
 import static org.junit.Assert.*;
 /**

@@ -19,7 +19,7 @@ public class SimpleStrategyTester extends AbstractStrategyTester {
     private Map<RuleID, IDecisionMaker> ruleIDtoDecisionMaker;
 
     public SimpleStrategyTester(IStrategy strategy) {
-        super(strategy);
+        super(strategy, null);
 
         // Load and store a decision maker for each rule in the strategy
         ruleIDtoDecisionMaker = new HashMap<>();

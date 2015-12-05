@@ -3,7 +3,7 @@ package autotradingsim.terminal;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import autotradingsim.deprecated.Engine;
+
 /** 12
  * DEPRECATED CLASS
  * Experiments apply Strategies to particular stocks over a set of time periods.

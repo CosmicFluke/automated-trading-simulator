@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Asher on 2015-11-02.
  */
-public class SimpleStrategyTest {
+public class SimpleStrategyTestDEPRECATED {
 
     private IStrategy stratDefault;
     private IStrategy stratCustom;
@@ -76,7 +76,7 @@ public class SimpleStrategyTest {
     public void testGetNewTester() throws Exception {
         LocalDate testDate = startDate;
 
-        StrategyTester tester = stratDefault.getNewTester();
+        IStrategyTester tester = stratDefault.getNewTester();
         tester.setAll(stock);
 
         assertEquals(stratDefault.getName(), tester.getStrategy());

@@ -1,10 +1,8 @@
 package autotradingsim.experiment;
 import autotradingsim.application.TradingApplication;
 import autotradingsim.strategy.IDecision;
-import autotradingsim.strategy.Decision;
 import autotradingsim.strategy.IStrategy;
 import autotradingsim.strategy.Strategy;
-import autotradingsim.deprecated.simpleimpl.SimpleStrategy;
 import autotradingsim.util.Pair;
 import autotradingsim.util.StrategyDemoFactory;
 import org.junit.Test;

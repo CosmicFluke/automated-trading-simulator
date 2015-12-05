@@ -6,13 +6,12 @@ import autotradingsim.experiment.TimeSet;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.function.Function;
 
 /**
  * <p>Actions always specify a type (through enum {@link IAction.ActionType}) and a quantity.</p>
  * <p>Quantity can be specified in three ways:<br>
  *     <li>As a constant integer value</li>
- *     <li>As a fraction of balance (see {@link Experiment#runExperiment(TimeSet)} and {@link
+ *     <li>As a fraction of cash balance (see {@link Experiment#runExperiment(TimeSet)} and {@link
  *     ResultDay#getClosingBalance()}), such that the quantity bought or sold will be the quotient of the given
  *     fraction divided by the value of the stock</li>
  *     <li>As a {@link IActionQuantity} function, which returns an integer quantity based on three parameters: balance,
@@ -32,28 +31,29 @@ public class Action implements IAction, Serializable {
 	 */
 	public Action(ActionType type, int quantity) {
 		this.type = type;
-		this.quantity = (IActionQuantity & Serializable)(a, b, c) -> quantity;
+		this.quantity = (IActionQuantity & Serializable)(a, b, c, d) -> quantity;
 	}
 
 	/**
-	 * Create a new Action instance with the given type and a function specifying what fraction of the balance to use to buy or sell
+	 * Create a new Action instance with the given type and a multiplier of the cash balance to use to buy or sell
 	 * @param type Action type
-	 * @param balanceFunction Function that produces a quantity based on a balance
+	 * @param balanceMultiplier specifies how much of the remaining cash balance to spend buying stock or to gain by selling stock
 	 */
-	public Action(ActionType type, Function<BigDecimal, BigDecimal> balanceFunction) {
+	public Action(ActionType type, BigDecimal balanceMultiplier) {
 		this(type,
-				(IActionQuantity & Serializable)(BigDecimal balance, BigDecimal value, ConfidenceFactor c) ->
-						balanceFunction.apply(balance).divide(value, BigDecimal.ROUND_FLOOR).intValue());
+				(IActionQuantity & Serializable)
+						(BigDecimal balance, BigDecimal stockValue, int numSharesOwned, ConfidenceFactor c) ->
+						balance.multiply(balanceMultiplier).divide(stockValue, BigDecimal.ROUND_FLOOR).intValue());
 	}
 
 	/**
 	 * Create a new Action instance with the given type and complete quantity function
 	 * @param type Action type
-	 * @param quantityFunction Function that produces a quantity based on a balance, stock price, and confidence factor
+	 * @param quantityFunction Function that produces a quantity based on a cash balance, stock price, and confidence factor
 	 */
 	public Action(ActionType type, IActionQuantity quantityFunction) {
 		this.type = type;
-		this.quantity = (IActionQuantity & Serializable)quantityFunction;
+		this.quantity = (IActionQuantity & Serializable) quantityFunction;
 	}
 
 	@Override
