@@ -1,5 +1,7 @@
 package autotradingsim.ui;
 
+import autotradingsim.stocks.IStock;
+import java.util.Set;
 import javax.swing.DefaultListModel;
 
 /**
@@ -18,7 +20,7 @@ public class StockPicker extends javax.swing.JDialog {
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
-        //stockList.setModel(stockListModel);
+        stockList.setModel(stockListModel);
         name = "";
     }
 
@@ -106,7 +108,10 @@ public class StockPicker extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_cancelActionPerformed
 
-    public String run(){
+    public String run(Set<IStock> list){
+        for(IStock s : list){
+            stockListModel.addElement(s);
+        }
         this.setVisible(true);
         return name;
     }
