@@ -20,6 +20,7 @@ public class Result {
     private List<ResultDay> resultDays;
     private List<Map<String, Integer>> stocksToShares;
 
+    private ExperimentResults observer;
 
     /**
      * Result is the output from each TimeSet from runExperiment
@@ -45,8 +46,16 @@ public class Result {
 
     public void addStockstoToShares(Map<String, Integer> stocksToShares) { this.stocksToShares.add(stocksToShares); }
 
+    public void addObserver(ExperimentResults experimentResults) {
+        this.observer = experimentResults;
+    }
+
     public void addResultDay(ResultDay resultDay){
-    	this.resultDays.add(resultDay);
+
+        this.resultDays.add(resultDay);
+        // Notify the ExperimentResults Class whenever ResultDay is added to Result
+        // (i.e. When there are potential changes in # of stocks, ending cash balance, # of buy/sell actions
+        this.observer.onUpdate(this, resultDay);
     }
     
     public List<ResultDay> getResultDays(){

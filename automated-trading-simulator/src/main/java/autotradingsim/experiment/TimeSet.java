@@ -49,4 +49,13 @@ public class TimeSet implements Iterator<LocalDate> {
     public int getDuration(){
         return this.duration;
     }
+
+    public int getNumTimePeriod() {
+        int numTimePeriods = 0;
+        while (startDates.hasNext()) {
+            numTimePeriods += 1;
+            startDates.next();
+        }
+        return numTimePeriods;
+    }
 }

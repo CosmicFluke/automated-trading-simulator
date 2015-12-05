@@ -145,7 +145,7 @@ public class Experiment implements IExperiment, Serializable {
      */
     @Override
     public ExperimentResults runExperiment(TimeSet ts) {
-        ExperimentResults experimentResults = new ExperimentResults();
+        ExperimentResults experimentResults = new ExperimentResults(ts);
         IStrategy strategy;
         IStrategyTester st;
         IStock stock;
@@ -167,7 +167,7 @@ public class Experiment implements IExperiment, Serializable {
             duration = ts.getDuration();
             balance = BigDecimal.valueOf(100000);
             Result result = new Result(experimentStartDate, duration, strategyToStocks, balance);
-//            System.out.println("trial: " + a);
+            result.addObserver(experimentResults);
 
             while (currentDate.isBefore(experimentStartDate.plusDays(duration))) {  // For each Day
                 ResultDay resultDay = new ResultDay(currentDate, balance, balance);
