@@ -127,7 +127,7 @@ public class StockList extends javax.swing.JFrame {
             StockViewer sv = new StockViewer(this);
             String stockname= stockListModel.getElementAt(stockList.getSelectedIndex()).toString();
             //stockname = stockname.substring(0, stockname.indexOf(".")); //remove file extension
-            sv.setNameText(stockname);
+            sv.setNameText(stockname, application.getStock(stockname).getName());
             sv.setDataVectors(stockname);
             this.setVisible(false);
             sv.setVisible(true);
