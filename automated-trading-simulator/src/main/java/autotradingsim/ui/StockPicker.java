@@ -1,6 +1,8 @@
 package autotradingsim.ui;
-
+import java.util.Iterator;
 import autotradingsim.stocks.IStock;
+import autotradingsim.application.*;
+import autotradingsim.util.Pair;
 import java.util.Set;
 import javax.swing.DefaultListModel;
 
@@ -15,14 +17,25 @@ public class StockPicker extends javax.swing.JDialog {
      */
     String name;
     DefaultListModel stockListModel = new DefaultListModel();
+    protected TradingApplication application = TradingApplication.getInstance();
     public StockPicker(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
         stockList.setModel(stockListModel);
+        loadStockSymbols();
         name = "";
     }
+
+    public void loadStockSymbols(){
+        Iterator<Pair<String, String>> StockSymbols = application.getStockSymbols();
+        while(StockSymbols.hasNext()){
+            Pair<String, String> stock = StockSymbols.next();
+            stockListModel.addElement(stock.x +":\t  " +stock.y);
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.

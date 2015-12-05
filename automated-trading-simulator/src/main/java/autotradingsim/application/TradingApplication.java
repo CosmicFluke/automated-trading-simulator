@@ -331,7 +331,7 @@ public class TradingApplication implements ITradingApplication {
 			stocks.readLine(); // Skip first line detailing columns
 			while((stockString = stocks.readLine()) != null){
 				stockID = stockString.substring(0, stockString.indexOf(','));
-				stockName = stockString.substring(stockString.indexOf(','));
+				stockName = stockString.substring(stockString.indexOf(',')+1);
 				returningSet.add(new Pair<String, String>(stockID, stockName));
 			}
 			stocks.close();
