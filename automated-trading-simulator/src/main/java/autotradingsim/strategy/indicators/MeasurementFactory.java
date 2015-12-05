@@ -4,7 +4,11 @@ import autotradingsim.strategy.rules.IMeasurement;
 
 
 /**
- * Created by Asher on 2015-12-05.
+ * <p>Factory class that produces Indicators and MetaIndicators.  This is a useful way to get new instances of these
+ * classes if you dont want to go digging around to see which Indicator classes exist, and also provides some prefabricated
+ * Indicators for quick use (in testing, demoing, or default behaviour).</p>
+ * TODO: Periodically update this class with new methods whenever new Indicator classes are defined.
+ * <p>Created by Asher on 2015-12-05.</p>
  */
 public class MeasurementFactory {
 
