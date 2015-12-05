@@ -2,6 +2,7 @@ package autotradingsim.experiment;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,8 +21,20 @@ public class ExperimentResults {
         this.results = new ArrayList<>();
     }
 
+    public Iterator<Result> getExperimentResults() {
+        return results.iterator();
+    }
+
     public void addResults(Result result) {
         this.results.add(result);
+    }
+
+    public int size() {
+        return results.size();
+    }
+
+    public Result getResult(int index) {
+        return results.get(index);
     }
 
     public int getNumStocksForEachTimePeriodForEachStock() {

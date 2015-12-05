@@ -36,5 +36,5 @@ public interface IExperiment {
      * @param ts
      * @return
      */
-    List<Result> runExperiment(TimeSet ts);
+    ExperimentResults runExperiment(TimeSet ts);
 }

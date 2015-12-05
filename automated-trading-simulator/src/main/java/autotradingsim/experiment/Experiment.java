@@ -144,8 +144,8 @@ public class Experiment implements IExperiment, Serializable {
      * @return ArrayList<Result> for each TimeSet ts. Result is obtained for each TimeSet ts.
      */
     @Override
-    public List<Result> runExperiment(TimeSet ts) {
-        List<Result> resultList = new ArrayList<>();
+    public ExperimentResults runExperiment(TimeSet ts) {
+        ExperimentResults experimentResults = new ExperimentResults();
         IStrategy strategy;
         IStrategyTester st;
         IStock stock;
@@ -218,10 +218,10 @@ public class Experiment implements IExperiment, Serializable {
                 currentDate = currentDate.plusDays(1);
             }
             result.setClosingBalance(balance);
-            resultList.add(result);
+            experimentResults.addResults(result);
             this.resetStockQuantity();
         }
-        return resultList;
+        return experimentResults;
     }
 
 public void resetStockQuantity(){

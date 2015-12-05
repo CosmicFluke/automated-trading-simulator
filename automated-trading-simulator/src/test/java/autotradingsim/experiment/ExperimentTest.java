@@ -70,6 +70,7 @@ public class ExperimentTest {
     @Test
     public void testRunExperiment1(){
         System.out.println("running Test 1===================");
+        ExperimentResults experimentResults;
         IStrategy strategy =  StrategyDemoFactory.newBasicStrategy(new BigDecimal(110), new BigDecimal(115), 3, 300);
 //        IStrategy strategy1 = TradingApplication.getInstance().getStrategy("Basic strategy");
 
@@ -83,14 +84,14 @@ public class ExperimentTest {
         Iterator<ResultDay> results;
         ResultDay result;
         TimeSet ts1 = new TimeSet(2, 30, LocalDate.of(2015, 8, 15), LocalDate.of(2015, 10, 15));
-        List<Result> resultList = test.runExperiment(ts1);
+        experimentResults = test.runExperiment(ts1);
 
-        for (int i = 0; i < resultList.size(); i++){
+        for (int i = 0; i < experimentResults.size(); i++){
         	System.out.println("Results for timeset from: "
-        			+ resultList.get(i).getStartDate().toString()
-        			+ " to " + resultList.get(i).getEndDate().toString());
+        			+ experimentResults.getResult(i).getStartDate().toString()
+        			+ " to " + experimentResults.getResult(i).getEndDate().toString());
         	if (detailLevel == Detail.DAILY){
-        		results = resultList.get(i).getResultDays().iterator();
+        		results = experimentResults.getResult(i).getResultDays().iterator();
 	        	while (results.hasNext()){
 	        		result = results.next();
 	        		System.out.println("Result for: " + result.getDate().toString());
@@ -105,8 +106,8 @@ public class ExperimentTest {
 	        	}
     		}
 
-        	System.out.println("Opening balance: " + resultList.get(i).getOpeningBalance());
-        	System.out.println("Closing balance: " + resultList.get(i).getClosingBalance());
+        	System.out.println("Opening balance: " + experimentResults.getResult(i).getOpeningBalance());
+        	System.out.println("Closing balance: " + experimentResults.getResult(i).getClosingBalance());
         	detailLevel = Detail.MINIMUM;
         }
 //        assertEquals(resultList.get(0).getBalanceRelativeChange().compareTo(new BigDecimal(0.8)), -1);
@@ -115,6 +116,7 @@ public class ExperimentTest {
     @Test
     public void testRunExperiment2(){
         System.out.println("Running Test 2====================");
+        ExperimentResults experimentResults;
         IStrategy strategy =  StrategyDemoFactory.newBasicStrategy(new BigDecimal(110), new BigDecimal(115), 3, 300);
 //        IStrategy strategy1 = TradingApplication.getInstance().getStrategy("Basic strategy");
 
@@ -128,21 +130,21 @@ public class ExperimentTest {
         Iterator<ResultDay> results;
         ResultDay result;
         TimeSet ts1 = new TimeSet(1, 365, LocalDate.of(2014, 1, 1), LocalDate.of(2015, 1, 1));
-        List<Result> resultList = test.runExperiment(ts1);
-        for (int i = 0; i < resultList.size(); i++){
+        experimentResults = test.runExperiment(ts1);
+        for (int i = 0; i < experimentResults.size(); i++){
         	System.out.println("Results for timeset from: "
-        			+ resultList.get(i).getStartDate().toString()
-        			+ " to " + resultList.get(i).getEndDate().toString());
+        			+ experimentResults.getResult(i).getStartDate().toString()
+        			+ " to " + experimentResults.getResult(i).getEndDate().toString());
         	if (detailLevel == Detail.DAILY){
-        		results = resultList.get(i).getResultDays().iterator();
+        		results = experimentResults.getResult(i).getResultDays().iterator();
 	        	while (results.hasNext()){
 	        		result = results.next();
 	        		System.out.println("Result for: " + result.getDate().toString());
 	        	}
     		}
 
-        	System.out.println("Opening balance: " + resultList.get(i).getOpeningBalance());
-        	System.out.println("Closing balance: " + resultList.get(i).getClosingBalance());
+        	System.out.println("Opening balance: " + experimentResults.getResult(i).getOpeningBalance());
+        	System.out.println("Closing balance: " + experimentResults.getResult(i).getClosingBalance());
         	detailLevel = Detail.MINIMUM;
         }
 //        assertEquals(resultList.get(0).getBalanceRelativeChange().compareTo(new BigDecimal(0.8)), -1);
