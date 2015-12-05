@@ -283,14 +283,14 @@ public class ExperimentViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void strategyListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_strategyListMouseClicked
-        Map<String, List<String>> strategyToStocks = this.experiment.getAllTrials();
+        /**Map<String, List<String>> strategyToStocks = this.experiment.getAllTrials();
         String strategy = (String)strategyListModel.get(strategyList.getSelectedIndex());
         for(Object s : strategyToStocks.keySet()){
             System.out.println(s.toString());
         }
         for(String stockname: strategyToStocks.get(strategy)){
             stockListModel.addElement(stockname);
-        }
+        }**/
     }//GEN-LAST:event_strategyListMouseClicked
 
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
