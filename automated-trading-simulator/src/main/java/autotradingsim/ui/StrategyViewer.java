@@ -13,7 +13,8 @@ import javax.swing.DefaultListModel;
  * @author Bill Feng
  */
 public class StrategyViewer extends javax.swing.JFrame {
-
+    
+        
     /**
      * Creates new form StrategyViewer
      */
@@ -21,15 +22,27 @@ public class StrategyViewer extends javax.swing.JFrame {
     DefaultListModel conditionListModel = new DefaultListModel();
     DefaultListModel actionListModel = new DefaultListModel();
     DefaultComboBoxModel actionBoxModel = new DefaultComboBoxModel();
-    public StrategyViewer(StrategyList parent) {
+    public StrategyViewer(StrategyList parent, String strategyName) {
         this.parent = parent;
         initComponents();
+        name.setText(strategyName);
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2,
                 parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
         ruleComboBox.setModel(actionBoxModel);
         conditionList.setModel(conditionListModel);
         //actionList.setModel(actionListModel);
+        
+        setRuleComboBox();
     }
+    
+    protected void setRuleComboBox(){
+        Set<RuleID> rules = TradingApplication.getInstance().getStrategy(name.getText()).getRules();
+        actionBoxModel.removeAllElements();
+        rules.stream().forEach((ruleID) -> {
+            actionBoxModel.addElement(TradingApplication.getInstance().getStrategy(name.getText()).getRuleName(ruleID));
+        });
+    }
+        
     protected void setNameText(String filename){
         name.setText(filename);
     }
@@ -39,12 +52,7 @@ public class StrategyViewer extends javax.swing.JFrame {
       
     }
     
-    protected void setRuleComboBox(){
-        Set<RuleID> rules = TradingApplication.getInstance().getStrategy(name.getText()).getRules();
-        actionBoxModel.removeAllElements();
-        for(RuleID ruleID : rules)
-            actionBoxModel.addElement(TradingApplication.getInstance().getStrategy(name.getText()).getRuleName(ruleID));
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
