@@ -160,7 +160,6 @@ public class Experiment implements IExperiment, Serializable {
 
         BigDecimal balance;
         int shares;
-        int a = 0;
 
         while (ts.hasNext()) { // For each TimeSet
             experimentStartDate = ts.next();
@@ -169,7 +168,6 @@ public class Experiment implements IExperiment, Serializable {
             balance = BigDecimal.valueOf(100000);
             Result result = new Result(experimentStartDate, duration, strategyToStocks, balance);
 //            System.out.println("trial: " + a);
-            a += 1;
 
             while (currentDate.isBefore(experimentStartDate.plusDays(duration))) {  // For each Day
                 ResultDay resultDay = new ResultDay(currentDate, balance, balance);
