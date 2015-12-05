@@ -110,15 +110,16 @@ public class ExperimentEngine {
 
 	public List<String> runExperiment(IExperiment experiment, TimeSet timeset){
                 List<String> resultstring = new ArrayList<String>();
-		for (Result r : experiment.runExperiment(timeset)){
-                    resultstring.add("Start Date: "+r.getStartDate().toString());
-                    resultstring.add("Opening balance: "+ r.getOpeningBalance());
-                    resultstring.add("End Date: "+ r.getStartDate().plusDays(r.getDurationInDays()));
-                    resultstring.add("Closing balance: "+ r.getClosingBalance());
-                    resultstring.add("---------------------------------------------");
-                }
-                
-                return resultstring;
+		while (experiment.runExperiment(timeset).getExperimentResults().hasNext()){
+			Result result = experiment.runExperiment(timeset).getExperimentResults().next();
+				resultstring.add("Start Date: " + result.getStartDate().toString());
+				resultstring.add("Opening balance: " + result.getOpeningBalance());
+				resultstring.add("End Date: " + result.getStartDate().plusDays(result.getDurationInDays()));
+				resultstring.add("Closing balance: "+ result.getClosingBalance());
+				resultstring.add("---------------------------------------------");
+			}
+
+			return resultstring;
 	}
 
 	public void runExperiment(TimeSet timeSet) {

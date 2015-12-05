@@ -165,8 +165,9 @@ public class Experiment implements IExperiment, Serializable {
      * @return ArrayList<Result> for each TimeSet ts. Result is obtained for each TimeSet ts.
      */
     @Override
-    public List<Result> runExperiment(TimeSet ts) {
+    public ExperimentResults runExperiment(TimeSet ts) {
         List<Result> resultList = new ArrayList<>();
+        ExperimentResults experimentResults = new ExperimentResults(ts);
         
         // Save for restoring later
         BigDecimal startingBalance = getCashBalance();
@@ -176,6 +177,7 @@ public class Experiment implements IExperiment, Serializable {
             LocalDate endDate = startDate.plusDays(ts.getDuration());
             
             Result result = new Result(startDate, ts.getDuration(), strategyToStocks, getCashBalance());
+            result.addObserver(experimentResults);
             
             for(LocalDate currDate = startDate ; currDate.isBefore(endDate) ; currDate = currDate.plusDays(1)){
                 ResultDay resultDay = new ResultDay(currDate, getCashBalance());
@@ -196,15 +198,15 @@ public class Experiment implements IExperiment, Serializable {
                 result.addResultDay(resultDay);
                 result.addStockstoToShares(stocksToShares);
             }
-            
-            resultList.add(result);
+            result.setClosingBalance(getCashBalance());
+            experimentResults.addResults(result);
             
             // Reset to give next result a fresh start
             this.resetStockQuantity();
             setCashBalance(startingBalance);
             
         }
-        return resultList;
+        return experimentResults;
     }
 
 	private void applyDecisions(List<IDecision> decisions, ResultDay resultDay) {
