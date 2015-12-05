@@ -2,6 +2,7 @@ package autotradingsim.ui;
 import autotradingsim.application.*;
 import autotradingsim.engine.*;
 import autotradingsim.experiment.*;
+import autotradingsim.stocks.*;
 import java.time.LocalDate;
 import javax.swing.*;
 import java.util.*;
@@ -30,6 +31,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
         endDate.setText("2015-10-17");
         strategyList.setModel(strategyListModel);
         stockList.setModel(stockListModel);
+        //setStockList();
     }
     
     protected void settimeSetValidationField(){
@@ -59,17 +61,15 @@ public class ExperimentViewer extends javax.swing.JFrame {
     }
     /**
      * populates stock drop down with list of stock symbols
-    
+    */
     protected void setStockList(){
-        Iterator symbols = application.getStockSymbols();
+       // Iterator symbols = application.getStockSymbols();
+        Iterator<IStock> symbols = experiment.getAllStocks().iterator();
         while(symbols.hasNext()){
-            stockListModel.addElement(symbols.next());
+            stockListModel.addElement(symbols.next().getName());
         }
     }
-    * 
-    * 
-    */
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -157,6 +157,11 @@ public class ExperimentViewer extends javax.swing.JFrame {
 
         run.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         run.setText("Run");
+        run.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runActionPerformed(evt);
+            }
+        });
 
         addStrategy.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         addStrategy.setText("Add");
@@ -342,11 +347,16 @@ public class ExperimentViewer extends javax.swing.JFrame {
     private void addStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStockActionPerformed
         StockPicker sp = new StockPicker(this, true);
         stockListModel.addElement(sp.run(experiment.getAllStocks()));
+        sp.loadStockSymbols();
     }//GEN-LAST:event_addStockActionPerformed
 
     private void deleteStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStockActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteStockActionPerformed
+
+    private void runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_runActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addStock;

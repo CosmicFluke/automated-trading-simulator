@@ -13,6 +13,7 @@ public class TimeSet implements Iterator<LocalDate> {
 	
     private Iterator<LocalDate> startDates;
     private int duration;
+    private int numTrials;
 
     /**
      *
@@ -35,6 +36,7 @@ public class TimeSet implements Iterator<LocalDate> {
         	}
         }
         startDates = tempDates.iterator();
+        this.numTrials = numTrials;
     }
 
 
@@ -50,12 +52,7 @@ public class TimeSet implements Iterator<LocalDate> {
         return this.duration;
     }
 
-    public int getNumTimePeriod() {
-        int numTimePeriods = 0;
-        while (startDates.hasNext()) {
-            numTimePeriods += 1;
-            startDates.next();
-        }
-        return numTimePeriods;
+    public int getNumTrials() {
+        return this.numTrials;
     }
 }

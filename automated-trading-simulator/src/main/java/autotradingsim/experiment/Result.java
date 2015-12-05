@@ -1,5 +1,6 @@
 package autotradingsim.experiment;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,9 +10,10 @@ import java.util.Map;
 /**
  * Created by Asher on 2015-11-18.
  */
-public class Result {
+public class Result implements Serializable{
 
-    private LocalDate startDate;
+	private static final long serialVersionUID = -6024793813081336526L;
+	private LocalDate startDate;
     private int duration;
     // One-to-many relationships. (ie. One strategy for multiple Stock symbol.
     private Map<String, List<String>> strategyIDtoStockSymbol;
@@ -44,7 +46,9 @@ public class Result {
 
     }
 
-    public void addStockstoToShares(Map<String, Integer> stocksToShares) { this.stocksToShares.add(stocksToShares); }
+    public void addStockstoToShares(Map<String, Integer> stocksToShares) {
+    	this.stocksToShares.add(stocksToShares); 
+    }
 
     public void addObserver(ExperimentResults experimentResults) {
         this.observer = experimentResults;

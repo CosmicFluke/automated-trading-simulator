@@ -49,8 +49,8 @@ public class ExperimentResults {
                     break;
             }
         }
-        avgBuyActions = (numBuyActionsForAllTimePeriods / timeSet.getNumTimePeriod());
-        avgSellActions = (numSellActionsForAllTimePeriods / timeSet.getNumTimePeriod());
+        avgBuyActions = (numBuyActionsForAllTimePeriods / timeSet.getNumTrials());
+        avgSellActions = (numSellActionsForAllTimePeriods / timeSet.getNumTrials());
 
     }
 

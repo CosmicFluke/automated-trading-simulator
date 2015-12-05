@@ -165,6 +165,7 @@ public class ExperimentList extends javax.swing.JFrame {
             ev.setNameText(name);
             ev.setExperiment(application.getExperiment(name));
             ev.setStrategyList();
+            ev.setStockList();
             this.setVisible(false);
             ev.setVisible(true);
         }

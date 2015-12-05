@@ -24,27 +24,32 @@ public class ResultDay {
 	 * @param closingBalance
 	 */
 	public ResultDay(LocalDate date,  
-			BigDecimal openingBalance, 
-			BigDecimal closingBalance) {
+			BigDecimal openingBalance) {
+		
 		this.decisions = new ArrayList<IDecision>();
 		this.date = date;
 		this.openingBalance = openingBalance;
-		this.closingBalance = closingBalance;
+		//Start by assuming no changes are going to happen
+		this.closingBalance = openingBalance;
 	}
 	
 	public ResultDay(LocalDate date, 
 					List<IDecision> decisions, 
 					BigDecimal openingBalance, 
 					BigDecimal closingBalance) {
+		
+		this(date, openingBalance);
 		this.decisions = decisions;
-		this.date = date;
-		this.openingBalance = openingBalance;
-		this.closingBalance = closingBalance;
 	}
 
 
-	public void setNumShares(String symbol, int numShares){this.numShares.add(new Pair(symbol, numShares));}
-	public List getNumShares(){return this.numShares;}
+	public void setNumShares(String symbol, int numShares){
+		this.numShares.add(new Pair<String, Integer>(symbol, numShares));	
+	}
+	
+	public List<Pair<String, Integer>> getNumShares(){
+		return this.numShares;
+	}
 
 	public BigDecimal getBalanceRelativeChange(){
     	return this.getOpeningBalance().subtract(this.getClosingBalance());

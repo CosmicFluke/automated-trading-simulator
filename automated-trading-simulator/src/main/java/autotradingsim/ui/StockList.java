@@ -29,10 +29,10 @@ public class StockList extends javax.swing.JFrame {
     }
 
     protected void loadStockSymbols(){
-        //application.loadStock();
         Iterator<Pair<String, String>> StockSymbols = application.getStockSymbols();
         while(StockSymbols.hasNext()){
-            stockListModel.addElement(StockSymbols.next().x);
+            Pair<String, String> stock = StockSymbols.next();
+            stockListModel.addElement(stock.x +":\t  "+ stock.y);
         }
     }
 
@@ -125,10 +125,9 @@ public class StockList extends javax.swing.JFrame {
             dm.setVisible(true);
         }else{
             StockViewer sv = new StockViewer(this);
-            String stockname= stockListModel.getElementAt(stockList.getSelectedIndex()).toString();
-            //stockname = stockname.substring(0, stockname.indexOf(".")); //remove file extension
+            String stockname = stockListModel.getElementAt(stockList.getSelectedIndex()).toString();
             sv.setNameText(stockname);
-            sv.setDataVectors(stockname);
+            sv.setDataVectors(stockname.substring(0,stockname.indexOf(",")));
             this.setVisible(false);
             sv.setVisible(true);
         }
