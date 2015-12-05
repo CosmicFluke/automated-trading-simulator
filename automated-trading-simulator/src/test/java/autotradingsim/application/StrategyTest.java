@@ -166,6 +166,8 @@ public class StrategyTest {
         ApplicationUnderTest.setStrategy("TestSingleRule", mySimpleStrat);
         File testingFile = new File(ExpectedFileExists);
         assertTrue(testingFile.exists());
+        
+        
         testingFile.delete();
     }
     
