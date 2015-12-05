@@ -157,6 +157,9 @@
           <Dimension value="[150, 50]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="name">
       <Properties>
@@ -251,6 +254,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addStrategyActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="deleteStrategy">
       <Properties>
@@ -259,6 +265,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Delete"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteStrategyActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="addStock">
       <Properties>
@@ -267,6 +276,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addStockActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="deleteStock">
       <Properties>
@@ -275,6 +287,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Delete"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteStockActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>

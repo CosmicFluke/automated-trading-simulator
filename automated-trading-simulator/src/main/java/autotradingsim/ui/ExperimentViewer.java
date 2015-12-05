@@ -118,6 +118,11 @@ public class ExperimentViewer extends javax.swing.JFrame {
         back.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         back.setText("Back");
         back.setPreferredSize(new java.awt.Dimension(150, 50));
+        back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backActionPerformed(evt);
+            }
+        });
 
         name.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         name.setText("Name: NAME_OF_EXPERIMENT");
@@ -155,15 +160,35 @@ public class ExperimentViewer extends javax.swing.JFrame {
 
         addStrategy.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         addStrategy.setText("Add");
+        addStrategy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStrategyActionPerformed(evt);
+            }
+        });
 
         deleteStrategy.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         deleteStrategy.setText("Delete");
+        deleteStrategy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteStrategyActionPerformed(evt);
+            }
+        });
 
         addStock.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         addStock.setText("Add");
+        addStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStockActionPerformed(evt);
+            }
+        });
 
         deleteStock.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         deleteStock.setText("Delete");
+        deleteStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteStockActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jLabel4.setText("Start Date:");
@@ -288,11 +313,40 @@ public class ExperimentViewer extends javax.swing.JFrame {
 
     private void strategyListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_strategyListMouseClicked
         Map<String, List<String>> strategyToStocks = this.experiment.getAllTrials();
-        String strategy = strategyListModel.get(strategyList.getSelectedIndex()).toString();
+        String strategy = (String)strategyListModel.get(strategyList.getSelectedIndex());
+        for(Object s : strategyToStocks.keySet()){
+            System.out.println(s.toString());
+        }
         for(String stockname: strategyToStocks.get(strategy)){
             stockListModel.addElement(stockname);
         }
     }//GEN-LAST:event_strategyListMouseClicked
+
+    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
+                           this.getY() + this.getHeight()/2 - parent.getHeight()/2);
+        this.setVisible(false);
+        parent.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backActionPerformed
+
+    private void addStrategyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStrategyActionPerformed
+        StrategyPicker sp = new StrategyPicker(this, true);
+        strategyListModel.addElement(sp.run(experiment.getAllStrategies()));
+    }//GEN-LAST:event_addStrategyActionPerformed
+
+    private void deleteStrategyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStrategyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteStrategyActionPerformed
+
+    private void addStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStockActionPerformed
+        StockPicker sp = new StockPicker(this, true);
+        stockListModel.addElement(sp.run(experiment.getAllStocks()));
+    }//GEN-LAST:event_addStockActionPerformed
+
+    private void deleteStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStockActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteStockActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addStock;
