@@ -127,7 +127,7 @@ public class StockList extends javax.swing.JFrame {
             StockViewer sv = new StockViewer(this);
             String stockname = stockListModel.getElementAt(stockList.getSelectedIndex()).toString();
             sv.setNameText(stockname);
-            sv.setDataVectors(stockname.substring(0,stockname.indexOf(",")));
+            sv.setDataVectors(stockname.substring(0,stockname.indexOf(":")));
             this.setVisible(false);
             sv.setVisible(true);
         }
