@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Asher on 2015-11-02.
  */
-public class SimpleStrategyTesterTest {
+public class SimpleStrategyTesterTestDEPRECATED {
 
     private IStrategy strat;
     private IStrategyTester tester;
