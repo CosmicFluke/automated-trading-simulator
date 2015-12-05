@@ -197,7 +197,9 @@ public class Experiment implements IExperiment, Serializable {
                 result.addStockstoToShares(stocksToShares);
             }
             
+            result.setClosingBalance(getCashBalance());
             resultList.add(result);
+            
             
             // Reset to give next result a fresh start
             this.resetStockQuantity();
