@@ -1,6 +1,8 @@
 package autotradingsim.ui;
 import autotradingsim.application.*;
 import autotradingsim.engine.*;
+import autotradingsim.util.Pair;
+
 import javax.swing.DefaultListModel;
 import java.util.Iterator;
 
@@ -28,9 +30,9 @@ public class StockList extends javax.swing.JFrame {
 
     protected void loadStockSymbols(){
         //application.loadStock();
-        Iterator StockSymbols = application.getStockSymbols();
+        Iterator<Pair<String, String>> StockSymbols = application.getStockSymbols();
         while(StockSymbols.hasNext()){
-            stockListModel.addElement(StockSymbols.next());
+            stockListModel.addElement(StockSymbols.next().x);
         }
     }
 
