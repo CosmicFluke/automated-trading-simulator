@@ -58,6 +58,10 @@ public class Experiment implements IExperiment, Serializable {
         this.application = TradingApplication.getInstance();
     }
 
+    public void afterDeserialization() {
+        this.application = TradingApplication.getInstance();
+    }
+
     public BigDecimal getCashBalance() {
 		return cashBalance;
 	}
