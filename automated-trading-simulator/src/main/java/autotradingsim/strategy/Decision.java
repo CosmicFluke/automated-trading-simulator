@@ -61,7 +61,7 @@ public class Decision implements IDecision {
         return this.rule;
     }
 
-    private BigDecimal getStockValue() {
+    public BigDecimal getStockValue() {
         if (TradingApplication.getInstance().getStock(stockSymbol) == null){
             throw new NullPointerException(
                     String.format("Decision was given invalid stock symbol: '%s' not found in Application",

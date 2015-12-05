@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import autotradingsim.strategy.IDecision;
+import autotradingsim.util.Pair;
 
 public class ResultDay {
 
@@ -13,6 +14,7 @@ public class ResultDay {
 	private LocalDate date;
 	private BigDecimal openingBalance;
 	private BigDecimal closingBalance;
+	private List<Pair<String, Integer>> numShares = new ArrayList<>();
 
 
 	/**
@@ -39,7 +41,11 @@ public class ResultDay {
 		this.openingBalance = openingBalance;
 		this.closingBalance = closingBalance;
 	}
-	
+
+
+	public void setNumShares(String symbol, int numShares){this.numShares.add(new Pair(symbol, numShares));}
+	public List getNumShares(){return this.numShares;}
+
 	public BigDecimal getBalanceRelativeChange(){
     	return this.getOpeningBalance().subtract(this.getClosingBalance());
     }
