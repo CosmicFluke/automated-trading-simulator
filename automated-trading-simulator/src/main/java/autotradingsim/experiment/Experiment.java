@@ -205,6 +205,7 @@ public class Experiment implements IExperiment, Serializable {
             result.setClosingBalance(getCashBalance());
             experimentResults.addResults(result);            
             
+            
             // Reset to give next result a fresh start
             this.resetStockQuantity();
             setCashBalance(startingBalance);
