@@ -32,11 +32,11 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" pref="582" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="create" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="open" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="back" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="delete" alignment="1" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="open" alignment="1" max="32767" attributes="0"/>
+                  <Component id="back" alignment="1" max="32767" attributes="0"/>
+                  <Component id="delete" alignment="1" max="32767" attributes="0"/>
+                  <Component id="create" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
