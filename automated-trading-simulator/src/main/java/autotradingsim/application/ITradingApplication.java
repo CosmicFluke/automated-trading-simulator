@@ -45,6 +45,13 @@ public interface ITradingApplication {
 	Set<String> getAvailableExperiments();
 
 	/**
+	 * Delete experiment from memory and file system
+	 * @param experimentName to which remove
+	 * @return true iff successful
+	 */
+	public boolean delExperiment(String experimentName);
+	
+	/**
 	 * Add a strategy by name into the application
 	 * StrategyName should match with name found under newStrat object
 	 * 
