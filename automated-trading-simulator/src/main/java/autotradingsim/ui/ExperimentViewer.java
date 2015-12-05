@@ -18,31 +18,27 @@ public class ExperimentViewer extends javax.swing.JFrame {
     ExperimentList parent;
     TradingApplication application = TradingApplication.getInstance();
     ExperimentEngine experimentEngine = ExperimentEngine.getInstance();
-    DefaultComboBoxModel StrategyComboBoxModel = new DefaultComboBoxModel();
-    DefaultComboBoxModel StockComboBoxModel = new DefaultComboBoxModel();
-    DefaultListModel pairingListModel = new DefaultListModel();
-    DefaultListModel resultListModel = new DefaultListModel();
+    DefaultListModel strategyListModel = new DefaultListModel();
+    DefaultListModel stockListModel = new DefaultListModel();
     IExperiment experiment = null;
     public ExperimentViewer(ExperimentList parent) {
         this.parent = parent;
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2,
                 parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
-        startDateField.setText("2015-10-16");
-        endDateField.setText("2015-10-17");
-        StrategyDropDown.setModel(StrategyComboBoxModel);
-        StockDropDown.setModel(StockComboBoxModel);
-        stockStrategyPair.setModel(pairingListModel);
-        resultList.setModel(resultListModel);
+        startDate.setText("2015-10-16");
+        endDate.setText("2015-10-17");
+        strategyList.setModel(strategyListModel);
+        stockList.setModel(stockListModel);
         
     }
     
     protected void settimeSetValidationField(){
         Pair<LocalDate, LocalDate> timeset= experimentEngine.generateTimeSet(experiment);
         if(timeset == null){
-            timeSetValidationField.setText("Experiment has no valid timeset");
+            //timeSetValidationField.setText("Experiment has no valid timeset");
         }else{
-            timeSetValidationField.setText("Valid time period: "+timeset.x+"-"+timeset.y);
+            //timeSetValidationField.setText("Valid time period: "+timeset.x+"-"+timeset.y);
         }
     }
     
@@ -50,33 +46,25 @@ public class ExperimentViewer extends javax.swing.JFrame {
         this.experiment = experiment;
         settimeSetValidationField();
     }
-    protected void loadStrategyStockPairs(){
-        Map<String, List<String>> strategyToStocks=this.experiment.getAllTrials();
-        for(String stratname: strategyToStocks.keySet()){
-            for(String stockname: strategyToStocks.get(stratname)){
-                pairingListModel.addElement(stratname+" applied to: "+stockname);
-            }
-        }
-    }
 
     protected void setNameText(String filename){
-        name.setText("Name:" + filename);
+        name.setText("Name: " + filename);
     }
     /**
-     * populates strategy dropdown with list of strategy
+     * populates strategy drop down with list of strategy
      */
     protected void setStrategyList(){
         for(String stratname: application.getAvailableStrategies()){
-            StrategyComboBoxModel.addElement(stratname);
+            strategyListModel.addElement(stratname);
         }
     }
     /**
-     * populates stock dropdown with list of stock symbols
+     * populates stock drop down with list of stock symbols
      */
     protected void setStockList(){
         Iterator symbols = application.getStockSymbols();
         while(symbols.hasNext()){
-            StockComboBoxModel.addElement(symbols.next().toString());
+            stockListModel.addElement(symbols.next().toString());
         }
     }
     /**
@@ -88,28 +76,28 @@ public class ExperimentViewer extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        name = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         edit = new javax.swing.JButton();
         back = new javax.swing.JButton();
-        StrategyDropDown = new javax.swing.JComboBox();
-        StockDropDown = new javax.swing.JComboBox();
-        submitPairing = new javax.swing.JButton();
+        name = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        stockStrategyPair = new javax.swing.JList();
-        RunExperiment = new javax.swing.JButton();
-        trialField = new javax.swing.JSpinner();
-        durationField = new javax.swing.JSpinner();
+        strategyList = new javax.swing.JList();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        stockList = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
+        run = new javax.swing.JButton();
+        addStrategy = new javax.swing.JButton();
+        deleteStrategy = new javax.swing.JButton();
+        addStock = new javax.swing.JButton();
+        deleteStock = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        startDate = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        endDate = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        startDateField = new javax.swing.JTextField();
-        endDateField = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        resultList = new javax.swing.JList();
-        timeSetValidationField = new javax.swing.JLabel();
+        trials = new javax.swing.JSpinner();
+        duration = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Experiment Viewer");
@@ -120,108 +108,83 @@ public class ExperimentViewer extends javax.swing.JFrame {
             }
         });
 
-        name.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        name.setText("Name: NAME_OF_EXPERIMENT");
-        name.setPreferredSize(new java.awt.Dimension(350, 30));
-
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
-        jLabel2.setText("Strategies");
-
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
-        jLabel3.setText("Stocks");
-
         edit.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         edit.setText("Edit");
         edit.setPreferredSize(new java.awt.Dimension(150, 50));
-        edit.setSize(new java.awt.Dimension(150, 50));
-        edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editActionPerformed(evt);
-            }
-        });
 
         back.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         back.setText("Back");
         back.setPreferredSize(new java.awt.Dimension(150, 50));
-        back.setSize(new java.awt.Dimension(150, 50));
-        back.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backActionPerformed(evt);
-            }
-        });
 
-        StrategyDropDown.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        StrategyDropDown.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        StrategyDropDown.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StrategyDropDownActionPerformed(evt);
-            }
-        });
+        name.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        name.setText("Name: NAME_OF_EXPERIMENT");
+        name.setToolTipText("");
 
-        StockDropDown.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        StockDropDown.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        StockDropDown.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StockDropDownActionPerformed(evt);
-            }
-        });
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel2.setText("Strategies");
 
-        submitPairing.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
-        submitPairing.setText("Submit Pairing");
-        submitPairing.setPreferredSize(new java.awt.Dimension(190, 50));
-        submitPairing.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitPairingActionPerformed(evt);
-            }
-        });
-
-        stockStrategyPair.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        stockStrategyPair.setModel(new javax.swing.AbstractListModel() {
+        strategyList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        strategyList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        stockStrategyPair.setPreferredSize(new java.awt.Dimension(500, 85));
-        jScrollPane1.setViewportView(stockStrategyPair);
-
-        RunExperiment.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        RunExperiment.setText("Run");
-        RunExperiment.setPreferredSize(new java.awt.Dimension(150, 150));
-        RunExperiment.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RunExperimentActionPerformed(evt);
+        strategyList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                strategyListMouseClicked(evt);
             }
         });
+        jScrollPane1.setViewportView(strategyList);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel1.setText("Start Date");
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setText("End Date");
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel5.setText("# Trials");
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel6.setText("Duration (days)");
-
-        startDateField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startDateFieldActionPerformed(evt);
-            }
-        });
-
-        endDateField.setToolTipText("");
-
-        resultList.setModel(new javax.swing.AbstractListModel() {
+        stockList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        stockList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        resultList.setPreferredSize(new java.awt.Dimension(500, 85));
-        jScrollPane2.setViewportView(resultList);
+        jScrollPane2.setViewportView(stockList);
 
-        timeSetValidationField.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel1.setText("Stocks");
+
+        run.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        run.setText("Run");
+
+        addStrategy.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        addStrategy.setText("Add");
+
+        deleteStrategy.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        deleteStrategy.setText("Delete");
+
+        addStock.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        addStock.setText("Add");
+
+        deleteStock.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        deleteStock.setText("Delete");
+
+        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel4.setText("Start Date:");
+
+        startDate.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        startDate.setPreferredSize(new java.awt.Dimension(140, 40));
+
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("End Date:");
+
+        endDate.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        endDate.setPreferredSize(new java.awt.Dimension(140, 40));
+
+        jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("# of Trials:");
+
+        jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel6.setText("Duration (days):");
+
+        trials.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+
+        duration.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -231,96 +194,85 @@ public class ExperimentViewer extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(StrategyDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(addStrategy, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(deleteStrategy, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(StockDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(22, 22, 22)
-                                .addComponent(timeSetValidationField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(384, 384, 384))))
+                                .addComponent(addStock, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(deleteStock, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(RunExperiment, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(510, 510, 510)
-                                .addComponent(submitPairing, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(trialField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(durationField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(endDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(startDateField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(duration)
+                            .addComponent(trials))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(run, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(back, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(name))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(timeSetValidationField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(StrategyDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(StockDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(submitPairing, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(startDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(endDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(trialField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(durationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(RunExperiment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addStrategy, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteStrategy, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addStock, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteStock, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(trials, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(run, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(duration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -333,65 +285,23 @@ public class ExperimentViewer extends javax.swing.JFrame {
         parent.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
-    private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-        dialogInput di = new dialogInput(this, true);
-        String text = di.run();
-        if(text.length() > 0){
-            name.setText("Name: " + text);
+    private void strategyListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_strategyListMouseClicked
+        Map<String, List<String>> strategyToStocks = this.experiment.getAllTrials();
+        String strategy = strategyListModel.get(strategyList.getSelectedIndex()).toString();
+        for(String stockname: strategyToStocks.get(strategy)){
+            stockListModel.addElement(stockname);
         }
-    }//GEN-LAST:event_editActionPerformed
-    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
-        this.setVisible(false);
-        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2,
-                this.getY() + this.getHeight()/2 - parent.getHeight()/2);
-        parent.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_backActionPerformed
-
-    private void StrategyDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StrategyDropDownActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_StrategyDropDownActionPerformed
-
-    private void StockDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StockDropDownActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_StockDropDownActionPerformed
-
-    private void submitPairingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitPairingActionPerformed
-            String stock = StockComboBoxModel.getElementAt(StockDropDown.getSelectedIndex()).toString();
-            String strategy = StrategyComboBoxModel.getElementAt(StrategyDropDown.getSelectedIndex()).toString();
-            pairingListModel.addElement(strategy + " applied to: " + stock);
-            this.experiment.addTrial(strategy, stock);
-
-    }//GEN-LAST:event_submitPairingActionPerformed
-
-    private void RunExperimentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunExperimentActionPerformed
-        // TODO add your handling code here:
-        LocalDate startDate = LocalDate.parse(startDateField.getText().toString());
-        LocalDate endDate =LocalDate.parse(endDateField.getText().toString());
-        int ntrials = Integer.parseInt(trialField.getValue().toString());
-        int duration = Integer.parseInt(durationField.getValue().toString());
-        resultListModel.removeAllElements();
-        //System.out.println(startDateField.getText());
-        TimeSet ts = new TimeSet(ntrials, duration,startDate, endDate);
-        List<String> resultString = experimentEngine.runExperiment(experiment, ts);
-        for (String line: resultString){
-            resultListModel.addElement(line);
-        }
-    }//GEN-LAST:event_RunExperimentActionPerformed
-
-    private void startDateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startDateFieldActionPerformed
-            // TODO add your handling code here:
-        System.out.println(startDateField.getText());
-    }//GEN-LAST:event_startDateFieldActionPerformed
+    }//GEN-LAST:event_strategyListMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton RunExperiment;
-    private javax.swing.JComboBox StockDropDown;
-    private javax.swing.JComboBox StrategyDropDown;
+    private javax.swing.JButton addStock;
+    private javax.swing.JButton addStrategy;
     private javax.swing.JButton back;
-    private javax.swing.JSpinner durationField;
+    private javax.swing.JButton deleteStock;
+    private javax.swing.JButton deleteStrategy;
+    private javax.swing.JSpinner duration;
     private javax.swing.JButton edit;
-    private javax.swing.JTextField endDateField;
+    private javax.swing.JTextField endDate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -401,11 +311,10 @@ public class ExperimentViewer extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel name;
-    private javax.swing.JList resultList;
-    private javax.swing.JTextField startDateField;
-    private javax.swing.JList stockStrategyPair;
-    private javax.swing.JButton submitPairing;
-    private javax.swing.JLabel timeSetValidationField;
-    private javax.swing.JSpinner trialField;
+    private javax.swing.JButton run;
+    private javax.swing.JTextField startDate;
+    private javax.swing.JList stockList;
+    private javax.swing.JList strategyList;
+    private javax.swing.JSpinner trials;
     // End of variables declaration//GEN-END:variables
 }
