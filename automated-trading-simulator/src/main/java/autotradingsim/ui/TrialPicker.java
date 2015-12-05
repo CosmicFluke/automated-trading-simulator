@@ -3,6 +3,7 @@ import java.util.Iterator;
 import autotradingsim.stocks.IStock;
 import autotradingsim.application.*;
 import autotradingsim.util.Pair;
+import autotradingsim.strategy.*;
 import java.util.Set;
 import javax.swing.DefaultListModel;
 
@@ -10,22 +11,25 @@ import javax.swing.DefaultListModel;
  *
  * @author Bill Feng
  */
-public class StockPicker extends javax.swing.JDialog {
+public class TrialPicker extends javax.swing.JDialog {
 
     /**
      * Creates new form StockPicker
      */
-    String name;
+    Pair<String,String> trial;
     DefaultListModel stockListModel = new DefaultListModel();
+    DefaultListModel strategyListModel = new DefaultListModel();
     protected TradingApplication application = TradingApplication.getInstance();
-    public StockPicker(java.awt.Frame parent, boolean modal) {
+    public TrialPicker(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
         stockList.setModel(stockListModel);
+        strategyList.setModel(strategyListModel);
         loadStockSymbols();
-        name = "";
+        loadStrategies();
+        trial = null;
     }
 
     public void loadStockSymbols(){
@@ -35,7 +39,12 @@ public class StockPicker extends javax.swing.JDialog {
             stockListModel.addElement(stock.x +":\t  " +stock.y);
         }
     }
-
+    public void loadStrategies(){
+       Set<String> Strategies = application.getAvailableStrategies();
+       for (String stratname: Strategies){
+           strategyListModel.addElement(stratname);
+       }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,6 +59,8 @@ public class StockPicker extends javax.swing.JDialog {
         stockList = new javax.swing.JList();
         select = new javax.swing.JButton();
         cancel = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        strategyList = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Stock Picker");
@@ -81,29 +92,40 @@ public class StockPicker extends javax.swing.JDialog {
             }
         });
 
+        strategyList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        strategyList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(strategyList);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(select, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(select, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(select, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(select, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -111,8 +133,10 @@ public class StockPicker extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void selectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectActionPerformed
-        if(stockList.getSelectedIndex() > -1){
-            name = (String)stockListModel.get(stockList.getSelectedIndex());
+        if(stockList.getSelectedIndex() > -1 & strategyList.getSelectedIndex()>-1){
+            String symbol = (String)stockListModel.get(stockList.getSelectedIndex()).toString();
+            symbol = symbol.substring(0, symbol.indexOf(":"));
+            trial = new Pair((String)strategyListModel.get(strategyList.getSelectedIndex()),symbol);
         }
         this.dispose();
     }//GEN-LAST:event_selectActionPerformed
@@ -121,18 +145,19 @@ public class StockPicker extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_cancelActionPerformed
 
-    public String run(Set<IStock> list){
-        for(IStock s : list){
-            stockListModel.addElement(s);
-        }
+    public Pair<String,String> run(){
+       
         this.setVisible(true);
-        return name;
+        this.dispose();
+        return trial;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancel;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton select;
     private javax.swing.JList stockList;
+    private javax.swing.JList strategyList;
     // End of variables declaration//GEN-END:variables
 }
