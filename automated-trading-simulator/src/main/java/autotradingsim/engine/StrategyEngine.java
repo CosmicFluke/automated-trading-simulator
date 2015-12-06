@@ -25,6 +25,14 @@ public class StrategyEngine {
 	}
 
 	/**
+	 *saveStrategy saves given instance of strategy to file system through application, replacing any existing instances
+	 * @param strategy
+	 */
+	public void saveStrategy(IStrategy strategy){
+		TradingApplication.getInstance().saveStrategy(strategy);
+	}
+
+	/**
 	 * creates a default strategy and stores it in application
 	 * @return
 	 */
