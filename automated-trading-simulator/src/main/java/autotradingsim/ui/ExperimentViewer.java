@@ -246,7 +246,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
                         .addComponent(run, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(306, 306, 306)
+                .addGap(292, 292, 292)
                 .addComponent(addTrial, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -320,9 +320,11 @@ public class ExperimentViewer extends javax.swing.JFrame {
         Pair<String, String> trial = tp.run();
         experiment.addTrial(trial.x, trial.y);
         experimentEngine.saveExperiment(experiment);
+        strategyListModel.clear();
+        setStrategyList();
         //application.addExperiment(experiment);
-        strategyListModel.addElement(trial.x);
-        stockListModel.addElement(trial.y);
+        //strategyListModel.addElement(trial.x);
+        //stockListModel.addElement(trial.y);
 
     }//GEN-LAST:event_addTrialActionPerformed
 
