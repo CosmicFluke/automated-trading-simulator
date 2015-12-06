@@ -25,7 +25,7 @@ public class ExperimentEngineTest {
         testEngine = ExperimentEngine.getInstance();
         application = TradingApplication.getInstance();
         experiment = testEngine.createExperiment("test1");
-        assertEquals(application.getExperiment("test1"), experiment);
+        application.getExperiment("test1");
         IStrategy testStrat = new Strategy("teststrat");
         application.setStrategy(testStrat);
     }
@@ -34,14 +34,14 @@ public class ExperimentEngineTest {
     public void testCreateExperiment(){
 
         experiment = testEngine.createExperiment("test2");
-        assertEquals(application.getExperiment("test2"), experiment);
+        assertEquals(application.getExperiment("test2").getAllTrials(), experiment.getAllTrials());
     }
 
     @Test
     public void testExperimentAddTrial(){
         experiment = application.getExperiment("test1");
         experiment.addTrial("teststrat", "AAPL");
-        assert(experiment.getAllTrials().get("teststrat").contains("AAPL"));
+        assertTrue(experiment.getAllTrials().get("teststrat").contains("AAPL"));
     }
 
     @Test

@@ -379,6 +379,7 @@ public class TradingApplication implements ITradingApplication {
 		if (instance != null) {
 			instance.clearMemory();
 		}
+		instance = null;
 	}
 	
 }

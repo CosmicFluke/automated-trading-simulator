@@ -2,6 +2,7 @@ package autotradingsim.engine;
 
 import java.math.BigDecimal;
 
+import autotradingsim.application.ITradingApplication;
 import autotradingsim.application.TradingApplication;
 
 import autotradingsim.strategy.IStrategy;
@@ -9,12 +10,12 @@ import autotradingsim.strategy.Strategy;
 import autotradingsim.util.StrategyDemoFactory;
 
 public class StrategyEngine {
-	public TradingApplication appEngine;
+	//public TradingApplication appEngine;
 	public IStrategy currentStrategy;
 	public static StrategyEngine engine;
 
 	private StrategyEngine() {
-		 appEngine = TradingApplication.getInstance();
+		 //appEngine = TradingApplication.getInstance();
 	}
 	public static StrategyEngine getInstance(){
 		if(engine==null){
@@ -47,9 +48,10 @@ public class StrategyEngine {
 	 * @return basicStrategy that is built in util::StrategyDemoFactory::newBasicStrategy.
 	 */
 	public IStrategy addNewBasicDemoStrategy(BigDecimal buybelow, BigDecimal sellabove, int buyNum, int sellNum) {
+		ITradingApplication app = TradingApplication.getInstance();
 		currentStrategy =  StrategyDemoFactory.newBasicStrategy(buybelow, sellabove, buyNum, sellNum);
-		if (appEngine.setStrategy(currentStrategy.getName(), currentStrategy)) {
-			return appEngine.getStrategy(currentStrategy.getName());
+		if (app.setStrategy(currentStrategy.getName(), currentStrategy)) {
+			return app.getStrategy(currentStrategy.getName());
 		} else {
 			return null;
 		}
@@ -61,9 +63,10 @@ public class StrategyEngine {
 	 * @return
 	 */
 	public IStrategy addAdvancedDemoStrategy(String strategyName) {
+		ITradingApplication app = TradingApplication.getInstance();
 		currentStrategy = StrategyDemoFactory.newAdvancedStrategy();
-		if (appEngine.setStrategy(currentStrategy.getName(), currentStrategy)) {
-			return appEngine.getStrategy(strategyName);
+		if (app.setStrategy(currentStrategy.getName(), currentStrategy)) {
+			return app.getStrategy(strategyName);
 		} else {
 			return null;
 		}
@@ -75,7 +78,7 @@ public class StrategyEngine {
 	 * @return Strategy with @param stratname
 	 */
 	public IStrategy viewStrategy(String stratname) {
-		return appEngine.getStrategy(stratname);
+		return TradingApplication.getInstance().getStrategy(stratname);
 	}
 
 }
