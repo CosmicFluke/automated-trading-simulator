@@ -21,30 +21,32 @@ public class ExperimentEngineTest {
     IExperiment experiment;
     @Before
     public void setUp(){
+        TradingApplication.clearMemoryAndFileSystem();
         testEngine = ExperimentEngine.getInstance();
         application = TradingApplication.getInstance();
-        experiment = testEngine.createExperiment("test");
-        assertEquals(application.getExperiment("test"), experiment);
+        experiment = testEngine.createExperiment("test1");
+        application.getExperiment("test1");
         IStrategy testStrat = new Strategy("teststrat");
         application.setStrategy(testStrat);
     }
 
     @Test
     public void testCreateExperiment(){
+
         experiment = testEngine.createExperiment("test2");
-        assertEquals(application.getExperiment("test2"), experiment);
+        assertEquals(application.getExperiment("test2").getAllTrials(), experiment.getAllTrials());
     }
 
     @Test
     public void testExperimentAddTrial(){
-        experiment = application.getExperiment("test");
+        experiment = application.getExperiment("test1");
         experiment.addTrial("teststrat", "AAPL");
-        assert(experiment.getAllTrials().get("teststrat").contains("AAPL"));
+        assertTrue(experiment.getAllTrials().get("teststrat").contains("AAPL"));
     }
 
     @Test
     public void testGenerateTimeSet(){
-        experiment = application.getExperiment("test");
+        experiment = application.getExperiment("test1");
         experiment.addTrial("teststrat", "IPG");
         experiment.addTrial("teststrat", "AAPL");
         LocalDate expectedStartDate = LocalDate.of(1987,11,5);

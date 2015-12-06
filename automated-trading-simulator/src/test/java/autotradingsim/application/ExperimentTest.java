@@ -102,9 +102,7 @@ public class ExperimentTest {
     @Test
     public void testGetExperimentMultipleGetExperiment(){
         IExperiment savingExperiment1 = new Experiment("TestSaving1");
-        IExperiment savingExperiment2 = new Experiment("TestSaving2");
         ApplicationUnderTest.addExperiment(savingExperiment1);
-        ApplicationUnderTest.addExperiment(savingExperiment2);
         assertEquals(savingExperiment1, ApplicationUnderTest.getExperiment("TestSaving1"));
         assertEquals(savingExperiment1, ApplicationUnderTest.getExperiment("TestSaving1"));
     }

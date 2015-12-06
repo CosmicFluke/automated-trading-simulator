@@ -1,8 +1,5 @@
 package autotradingsim.application;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -71,6 +68,7 @@ public class TradingApplication implements ITradingApplication {
 	 * @return true if experiment added into Application successfully
 	 */
 	@Override
+
 	public boolean addExperiment(IExperiment experiment){
 		if (experiment == null)
 			throw new NullPointerException("addExperiment: IExperiment argument was null");
@@ -121,9 +119,14 @@ public class TradingApplication implements ITradingApplication {
 		if(experiments.containsKey(experimentName.hashCode())){
 			return experiments.get(experimentName.hashCode());
 		}else{
-			IExperiment result = loadExperiment(experimentName);
-			if(result != null)
+			IExperiment result;
+			try {
+				result = loadExperiment(experimentName);
 				this.addExperiment(result);
+			} catch (NullPointerException e) {
+				System.err.println("Experiment does not exist");
+				throw e;
+			}
 			return result;
 		}
 	}
@@ -147,9 +150,12 @@ public class TradingApplication implements ITradingApplication {
 	 * @param name of experiment to load
 	 * @return experiment in file or null on error
 	 */
-	private IExperiment loadExperiment(String name){
+	private IExperiment loadExperiment(String name) {
 		String path = PathToExperiments + name;
 		Experiment exp = (Experiment) ObjectFileSystem.loadObject(path);
+		if (exp == null) {
+			throw new NullPointerException("File for experiment does not exist or contained null object");
+		}
 		exp.afterDeserialization();
 		return exp;
 	}
@@ -373,6 +379,7 @@ public class TradingApplication implements ITradingApplication {
 		if (instance != null) {
 			instance.clearMemory();
 		}
+		instance = null;
 	}
 	
 }

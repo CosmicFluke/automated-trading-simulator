@@ -14,14 +14,14 @@ public class ExperimentEngine {
 	private static ExperimentEngine engine;
 	private static TimeSet timeSet;
 
-	private TradingApplication application;
+	//private TradingApplication application;
 
 	/**
 	 * Construct a new ExperimentEngine.<br>
 	 *
 	 */
 	private ExperimentEngine() {
-		application = TradingApplication.getInstance();
+		//application = TradingApplication.getInstance();
 	}
 
 
@@ -43,10 +43,13 @@ public class ExperimentEngine {
 	 *
 	 */
 	public IExperiment createExperiment(String expname){
-		IExperiment retExp=null;
-		if(application.addExperiment(new Experiment(expname))) {
-			retExp = application.getExperiment(expname);
-		}
+		IExperiment retExp = new Experiment(expname);
+		try {
+            TradingApplication.getInstance().addExperiment(retExp);
+		} catch (IllegalArgumentException e) {
+            System.out.println("Could not add experiment to application");
+            throw e;
+        }
 		return retExp;
 	}
 	/**
@@ -56,7 +59,7 @@ public class ExperimentEngine {
 	 * takes experiment name and returns experiment object with that name
 	 */
 	public IExperiment getExperiment(String expname) {
-		return application.getExperiment(expname);
+		return TradingApplication.getInstance().getExperiment(expname);
 	}
 
 	/**
@@ -66,7 +69,7 @@ public class ExperimentEngine {
 	 * @param stockSymbol
 	 */
 	public void addTrial(String expName, String strategyId, String stockSymbol) {
-		application.getExperiment(expName).addTrial(strategyId, stockSymbol);
+		TradingApplication.getInstance().getExperiment(expName).addTrial(strategyId, stockSymbol);
 	}
 
 //	public void addtimeset(String currentExperiment, String string, String string2) {
