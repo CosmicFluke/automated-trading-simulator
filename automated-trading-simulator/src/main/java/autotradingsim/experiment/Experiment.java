@@ -87,8 +87,13 @@ public class Experiment implements IExperiment, Serializable {
     	return this.stocksToShares.get(stockID);
     }
     
-	private void setShares(String stockID, Integer shares) {
-		this.stocksToShares.put(stockID, shares);
+	public void setShares(String stockID, Integer shares) {
+        if(this.stocksToShares.containsKey(stockID)){
+            this.stocksToShares.put(stockID, shares);
+        }else{
+            throw new IllegalArgumentException("Experiment "+this.getName()+" does not contain this stock");
+        }
+
 	}
 
     /**
