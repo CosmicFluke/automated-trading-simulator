@@ -125,7 +125,6 @@ public class ExperimentTest {
         IExperiment myExperiment = new Experiment("TestSaving");
         
         myExperiment.addTrial(newStrategy.getName(), "AAPL");
-        System.out.println(myExperiment.getAllStocks());
         ApplicationUnderTest.addExperiment(myExperiment);
         File testingFile = new File(ExpectedFileExists);
         assertTrue(testingFile.exists());

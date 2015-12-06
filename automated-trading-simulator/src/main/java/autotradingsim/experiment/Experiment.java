@@ -30,7 +30,6 @@ public class Experiment implements IExperiment, Serializable {
     private String name;
     private BigDecimal cashBalance;
     private Map<String, Integer> stocksToShares;                // Pair of Stock symbol & its shares for user
-    private transient ITradingApplication application;
     
     /**
      * Map<Stock symbol, Pair<startDate, endDate>>
@@ -54,12 +53,6 @@ public class Experiment implements IExperiment, Serializable {
         this.strategyToStocks = new HashMap<>();
         this.stocksToFirstAndLastDate = new HashMap<>();
         this.cashBalance = new BigDecimal(100000);
-        
-        this.application = TradingApplication.getInstance();
-    }
-
-    public void afterDeserialization() {
-        this.application = TradingApplication.getInstance();
     }
 
     public BigDecimal getCashBalance() {
@@ -97,11 +90,12 @@ public class Experiment implements IExperiment, Serializable {
 	}
 
     /**
-     * Add Stock symbol to the stocksToShares ArrayList, otherwise throw exception.
+     * Add Stock symbol to the stocksToShares map, otherwise throw exception.
      *
      * @param symbol the symbol of a stock
      */
     private void addStock(String symbol){
+        ITradingApplication application = TradingApplication.getInstance();
         if (application.stockExists(symbol)) { // Check for existence of stock in Application
             if (!this.stocksToShares.containsKey(symbol)) {         // Check for existence of stock in this Experiment
                 this.stocksToShares.put(symbol, 0);
@@ -125,7 +119,8 @@ public class Experiment implements IExperiment, Serializable {
      */
 
     private void addStrategy(String name){
-        if(application.getStrategy(name) != null){  //check existing might not be needed if trading application can check first
+        // TODO: use strategyExists() method when implemented
+        if(TradingApplication.getInstance().getStrategy(name) != null){  //check existing might not be needed if trading application can check first
             strategies.add(name);
         }else{
             throw new IllegalArgumentException("Strategy name has not been defined!");
@@ -135,24 +130,22 @@ public class Experiment implements IExperiment, Serializable {
     @Override
     public Set<IStrategy> getAllStrategies(){
         return this.strategies.stream()     // Return set created from mapped stream of strategy names
-                .map(name -> application.getStrategy(name))
+                .map(name -> TradingApplication.getInstance().getStrategy(name))
                 .collect(Collectors.toSet());
     }
 
     @Override
-    public Set<IStock> getAllStocks(){
-        return this.stocksToShares.keySet().stream()    // Return set created from mapped stream of stock names
-                .map(symbol -> application.getStock(symbol))
-                .collect(Collectors.toSet());
+    public Set<String> getAllStockSymbols(){
+        return this.stocksToShares.keySet();
     }
 
     public void addTrial(String id, String symbol){
 
-        if (application.getStock(symbol) == null) {
-            throw new IllegalArgumentException("symbol is not in the database!");
+        if (TradingApplication.getInstance().getStock(symbol) == null) {
+            throw new IllegalArgumentException("No stock exists for this symbol");
         }
 
-        if(!strategyToStocks.containsKey(id)){
+        if (!strategyToStocks.containsKey(id)) {
             // strategy id does not exist
             this.addStrategy(id);
             this.addStock(symbol);
@@ -175,6 +168,7 @@ public class Experiment implements IExperiment, Serializable {
      */
     @Override
     public ExperimentResults runExperiment(TimeSet ts) {
+        ITradingApplication application = TradingApplication.getInstance();
         List<Result> resultList = new ArrayList<>();
         ExperimentResults experimentResults = new ExperimentResults(ts);
         
@@ -224,7 +218,7 @@ public class Experiment implements IExperiment, Serializable {
 			
 			String stockID = decision.getStockSymbol();
 			
-			IStock stockObject = application.getStock(stockID);
+			IStock stockObject = TradingApplication.getInstance().getStock(stockID);
 			BigDecimal closingValue = stockObject.getDay(resultDay.getDate()).getValue();
 			
 			BigDecimal deltaShares = new BigDecimal(decision.getQuantity(getCashBalance(), getShares(stockID)));
