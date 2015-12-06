@@ -299,7 +299,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
         Map<String, List<String>> strategyToStocks = this.experiment.getAllTrials();
         String strategy = (String)strategyListModel.get(strategyList.getSelectedIndex());
         strategyToStocks.keySet().stream().forEach((s) -> {
-            System.out.println(s);
+            //System.out.println(s);
         });
         for (Iterator<String> it = strategyToStocks.get(strategy).iterator(); it.hasNext();) {
             String stockname = it.next();
