@@ -29,14 +29,12 @@ public class ObjectFileSystem {
 
 		try {
 			if(!fileObj.exists()) {
-				if (!fileObj.createNewFile()) {
+				if (fileObj.createNewFile()) {
 					fileCreatedSwitch = true;
-					System.out.println("Creating new file: " + path);
 				} else {
 					throw new IOException("Failed to create new file.");
 				}
 			}
-			System.out.print("Overwriting existing file: " + path);
 
 		} catch (IOException e) {
 			System.err.println("Error in creating file for saving object. Path:" + path);
