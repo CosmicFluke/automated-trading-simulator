@@ -32,7 +32,6 @@ public class ExperimentViewer extends javax.swing.JFrame {
         endDate.setText("2015-10-17");
         strategyList.setModel(strategyListModel);
         stockList.setModel(stockListModel);
-        //setStockList();
     }
     
     protected void settimeSetValidationField(){
