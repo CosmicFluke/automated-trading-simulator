@@ -39,14 +39,14 @@ public class ExperimentEngineTest {
 
     @Test
     public void testExperimentAddTrial(){
-        experiment = application.getExperiment("test");
+        experiment = application.getExperiment("test1");
         experiment.addTrial("teststrat", "AAPL");
         assert(experiment.getAllTrials().get("teststrat").contains("AAPL"));
     }
 
     @Test
     public void testGenerateTimeSet(){
-        experiment = application.getExperiment("test");
+        experiment = application.getExperiment("test1");
         experiment.addTrial("teststrat", "IPG");
         experiment.addTrial("teststrat", "AAPL");
         LocalDate expectedStartDate = LocalDate.of(1987,11,5);
