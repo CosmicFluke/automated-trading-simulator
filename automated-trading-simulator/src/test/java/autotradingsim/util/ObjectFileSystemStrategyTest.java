@@ -3,6 +3,8 @@ package autotradingsim.util;
 import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.BufferAdapter;
 import autotradingsim.stocks.IBufferAdapter;
+import autotradingsim.strategy.IStrategy;
+import autotradingsim.strategy.Strategy;
 import autotradingsim.strategy.indicators.*;
 import autotradingsim.strategy.rules.*;
 import org.junit.After;
@@ -146,8 +148,43 @@ public class ObjectFileSystemStrategyTest {
                 ICondition.Comparator.GT,
                 BigDecimal.valueOf(2));
 
+        IBufferAdapter testBuffer = new BufferAdapter(
+                TradingApplication.getInstance().getStock("AAPL"),
+                LocalDate.of(2014, 1, 10),
+                test_obj.getBufferSize());
+
         assertTrue(ObjectFileSystem.saveObject(filename, test_obj));
 
+        ICondition loaded_obj = (ICondition) ObjectFileSystem.loadObject(filename);
+
+        assertTrue(loaded_obj instanceof StaticCondition);
+        assertEquals(test_obj.getFunction().test(testBuffer), loaded_obj.getFunction().test(testBuffer));
+
+    }
+
+    @Test
+    public void testSaveLoadStrategy() throws Exception {
+        IStrategy test_obj_basic =
+                StrategyDemoFactory.newBasicStrategy(BigDecimal.valueOf(10), BigDecimal.valueOf(20), 100, 20);
+        IStrategy test_obj_adv =
+                StrategyDemoFactory.newAdvancedTestingStrategy();
+
+        assertTrue(ObjectFileSystem.saveObject(filename, test_obj_basic));
+        assertTrue(ObjectFileSystem.saveObject(altFilename, test_obj_adv));
+
+        IStrategy loaded_obj_basic = (IStrategy) ObjectFileSystem.loadObject(filename);
+        IStrategy loaded_obj_adv = (IStrategy) ObjectFileSystem.loadObject(altFilename);
+
+        assertTrue(loaded_obj_adv instanceof Strategy);
+        assertTrue(loaded_obj_basic instanceof Strategy);
+
+        // Basic Strategy checks
+        assertEquals(test_obj_basic.getID(), loaded_obj_basic.getID());
+        assertEquals(test_obj_basic.getRules(), loaded_obj_basic.getRules());
+
+        // Adv Strategy checks
+        assertEquals(test_obj_adv.getID(), loaded_obj_adv.getID());
+        assertEquals(test_obj_adv.getRules(), loaded_obj_adv.getRules());
     }
 
     @After
