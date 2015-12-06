@@ -152,8 +152,7 @@ public class StrategyList extends javax.swing.JFrame {
             dialogMessage dm = new dialogMessage(this, true, "Select an item to open!");
             dm.setVisible(true);
         }else{
-            StrategyViewer sv = new StrategyViewer(this);
-            sv.setNameText(strategyListModel.getElementAt(strategyList.getSelectedIndex()).toString());
+            StrategyViewer sv = new StrategyViewer(this, strategyListModel.getElementAt(strategyList.getSelectedIndex()).toString());
             this.setVisible(false);
             sv.setVisible(true);
         }

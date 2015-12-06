@@ -13,6 +13,8 @@ import org.junit.Test;
 
 import autotradingsim.experiment.Experiment;
 import autotradingsim.experiment.IExperiment;
+import autotradingsim.strategy.IStrategy;
+import autotradingsim.strategy.Strategy;
 import autotradingsim.application.ITradingApplication;
 import autotradingsim.application.TradingApplication;
 
@@ -116,8 +118,14 @@ public class ExperimentTest {
 
     @Test
     public void testSavingLoadingExperiment(){
+    	IStrategy newStrategy = new Strategy();
+    	ApplicationUnderTest.setStrategy(newStrategy);
+    	
         String ExpectedFileExists = PathToExperiments + "TestSaving";
         IExperiment myExperiment = new Experiment("TestSaving");
+        
+        myExperiment.addTrial(newStrategy.getName(), "AAPL");
+        System.out.println(myExperiment.getAllStocks());
         ApplicationUnderTest.setExperiment("TestSaving", myExperiment);
         File testingFile = new File(ExpectedFileExists);
         assertTrue(testingFile.exists());
