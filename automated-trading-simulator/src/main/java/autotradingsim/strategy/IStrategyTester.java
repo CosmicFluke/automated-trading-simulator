@@ -43,7 +43,7 @@ public interface IStrategyTester {
     List<RuleID> getUnassignedRules();
 
     /**
-     * Get a set of decisions from this strategy for a given date.
+     * Get a list of decisions from this strategy for a given date.
      * @param currentDate
      * @return
      */
