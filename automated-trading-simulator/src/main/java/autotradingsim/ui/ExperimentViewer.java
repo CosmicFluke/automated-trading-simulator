@@ -22,8 +22,9 @@ public class ExperimentViewer extends javax.swing.JFrame {
     ExperimentEngine experimentEngine = ExperimentEngine.getInstance();
     DefaultListModel strategyListModel = new DefaultListModel();
     DefaultListModel stockListModel = new DefaultListModel();
-    IExperiment experiment = null;
-    public ExperimentViewer(ExperimentList parent) {
+    IExperiment experiment;
+    //IExperiment experiment = application.getExperiment(name.getText());
+    public ExperimentViewer(ExperimentList parent, IExperiment experiment) {
         this.parent = parent;
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2,
@@ -32,6 +33,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
         endDate.setText("2015-10-17");
         strategyList.setModel(strategyListModel);
         stockList.setModel(stockListModel);
+        this.experiment = experiment;
     }
     
     protected void settimeSetValidationField(){
@@ -313,6 +315,30 @@ public class ExperimentViewer extends javax.swing.JFrame {
 
     private void runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runActionPerformed
         // TODO add your handling code here:
+        dialogResult dialogResult = new dialogResult(this, true);
+        dialogResult.setVisible(true);
+
+        // Retrieving All instantiate a TimeSet.
+        int numTrials = (int) duration.getValue();
+        int trialDuration = (int) trials.getValue();
+
+        String[] startDateTokens = startDate.getText().trim().split("-");
+        int startYear = Integer.parseInt(startDateTokens[0]),
+                startMonth = Integer.parseInt(startDateTokens[1]),
+                startDayOfMonth = Integer.parseInt(startDateTokens[2]);
+
+        String[] endDateTokens = endDate.getText().trim().split("-");
+        int endYear = Integer.parseInt(endDateTokens[0]),
+                endMonth = Integer.parseInt(endDateTokens[1]),
+                endDayOfMonth = Integer.parseInt(endDateTokens[2]);
+
+        LocalDate startDate = LocalDate.of(startYear, startMonth, startDayOfMonth);
+        LocalDate endDate = LocalDate.of(endYear, endMonth, endDayOfMonth);
+        TimeSet timeSet = new TimeSet(numTrials, trialDuration, startDate, endDate);
+
+        ExperimentResults experimentResults = this.experiment.runExperiment(timeSet);
+
+
     }//GEN-LAST:event_runActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
