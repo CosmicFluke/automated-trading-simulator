@@ -71,6 +71,7 @@ public class TradingApplication implements ITradingApplication {
 	 * @return true if experiment added into Application successfully
 	 */
 	@Override
+
 	public boolean addExperiment(IExperiment experiment){
 		if (experiment == null)
 			throw new NullPointerException("addExperiment: IExperiment argument was null");
