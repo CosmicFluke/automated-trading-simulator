@@ -31,7 +31,6 @@ public interface IExperiment {
     Set<IStock> getAllStocks();
     void setShares(String id, Integer shares);
     Integer getShares(String id);
-
     /**
      * Run the experiment specified in this instance on the given {@link TimeSet}.
      * @param ts

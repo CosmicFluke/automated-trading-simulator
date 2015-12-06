@@ -87,6 +87,7 @@ public class TradingApplication implements ITradingApplication {
 		return true;
 	}
 
+
 	/**
 	 * Remove experiment from cache and disk
 	 * 
@@ -135,10 +136,10 @@ public class TradingApplication implements ITradingApplication {
 
 	/**
 	 * Save an experiment to file. Experiment is saved by it's given name.
-	 * 
+	 *
 	 * @param experiment which will be saved to file under EXPERIMENTS dir
 	 */
-	private void saveExperiment(IExperiment experiment){
+	public void saveExperiment(IExperiment experiment){
 		String path = PathToExperiments + experiment.getName();
 		if(!ObjectFileSystem.saveObject(path, experiment))
 			System.err.println("Something went wrong. Check console");
@@ -233,7 +234,7 @@ public class TradingApplication implements ITradingApplication {
 		}
 	}
 	
-	private void saveStrategy(IStrategy newStrat) {
+	public void saveStrategy(IStrategy newStrat) {
 		if(newStrat.getName() == null){
 			System.out.println("Warning, not saving strategy. Missing name.");
 			return;

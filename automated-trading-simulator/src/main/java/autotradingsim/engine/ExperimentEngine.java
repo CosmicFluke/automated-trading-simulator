@@ -24,7 +24,14 @@ public class ExperimentEngine {
 		//application = TradingApplication.getInstance();
 	}
 
-
+	/**
+	 * SaveExperiment saves given experiment to the file system, replacing existing instances of the same experiment
+	 * @param experiment
+	 *
+	 */
+	public  void saveExperiment(IExperiment experiment){
+		TradingApplication.getInstance().saveExperiment(experiment);
+	}
 	/**
 	 * Get the instance of this singleton class.
 	 * @return Singular instance of <tt>ExperimentEngine</tt>
