@@ -21,6 +21,7 @@ public class ExperimentEngineTest {
     IExperiment experiment;
     @Before
     public void setUp(){
+        TradingApplication.clearFileSystem();
         testEngine = ExperimentEngine.getInstance();
         application = TradingApplication.getInstance();
         experiment = testEngine.createExperiment("test");
