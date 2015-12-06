@@ -19,6 +19,8 @@ public class TradingApplication implements ITradingApplication {
 	
 	private String PathToExperiments;
 	private String PathToStrategies;
+
+	private Set<String> experimentNameSet;
 	
 	private HashMap<Integer, IStrategy> strategies;
 	private HashMap<Integer, IExperiment> experiments;
@@ -160,6 +162,16 @@ public class TradingApplication implements ITradingApplication {
 		}
 		exp.afterDeserialization();
 		return exp;
+	}
+
+	private void loadExperimentListFromFiles() {
+		File experiments = new File(this.PathToExperiments);
+		Set<String> returningSet = new HashSet<String>();
+		if(experiments.exists() && experiments.isDirectory()){
+			for(File experiment : experiments.listFiles())
+				returningSet.add(experiment.getName());
+		}
+		this.experimentNameSet = returningSet;
 	}
 	
 	/**

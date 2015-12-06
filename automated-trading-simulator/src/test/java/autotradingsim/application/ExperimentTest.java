@@ -18,8 +18,8 @@ import autotradingsim.strategy.Strategy;
 
 public class ExperimentTest {
 
-    private String PathToExperiments = System.getProperty("user.dir") + "//DATA//EXPERIMENTS//";
-    ITradingApplication ApplicationUnderTest = null;
+    private static String PathToExperiments = System.getProperty("user.dir") + "//DATA//EXPERIMENTS//";
+    ITradingApplication ApplicationUnderTest;
 
     @AfterClass
     public static void afterClass() {
