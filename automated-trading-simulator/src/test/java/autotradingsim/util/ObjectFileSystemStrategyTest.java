@@ -182,6 +182,7 @@ public class ObjectFileSystemStrategyTest {
         assertEquals(test_obj_basic.getID(), loaded_obj_basic.getID());
         assertEquals(test_obj_basic.getRules(), loaded_obj_basic.getRules());
 
+
         // Adv Strategy checks
         assertEquals(test_obj_adv.getID(), loaded_obj_adv.getID());
         assertEquals(test_obj_adv.getRules(), loaded_obj_adv.getRules());
@@ -190,10 +191,10 @@ public class ObjectFileSystemStrategyTest {
     @After
     public void tearDown(){
         if (!(new File(filename)).delete()) {
-            System.out.println("File could not be deleted or was not found.");
+            System.out.println("File could not be deleted or does not exist.  Non-critical warning.");
         }
         if (!(new File(altFilename)).delete()) {
-            System.out.println("File could not be deleted or was not found.");
+            System.out.println("File could not be deleted or was not found.  Non-critical warning.");
         }
     }
 }
