@@ -9,6 +9,5 @@ public class autoTradingSim
     	TemporaryTestingStrategies.createStrats();
         AutomatedTradingSimulator.main(args);
         //TemporaryTestingStrategies.clearStrats();
-
     }
 }

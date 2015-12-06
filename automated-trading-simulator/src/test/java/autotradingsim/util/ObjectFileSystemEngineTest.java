@@ -41,7 +41,9 @@ public class ObjectFileSystemEngineTest {
 
     @Test
     public void testSaveExperiment(){
+
         assertTrue(ObjectFileSystem.saveObject(experiment.getName(), experiment));
+
     }
     @Test
     public void testLoadExperiment(){
@@ -58,6 +60,9 @@ public class ObjectFileSystemEngineTest {
     }
     @After
     public void tearDown(){
+        if (!new File("Test Experiment").delete()){
+            System.out.println("File not found or couldn't be deleted.");
+        }
         TradingApplication.clearFileSystem();
     }
 }
