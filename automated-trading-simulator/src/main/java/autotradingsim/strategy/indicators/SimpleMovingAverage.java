@@ -10,11 +10,10 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
- * Created by Asher Minden-Webb on 15-11-14
+ * <p>Created by Asher Minden-Webb on 15-11-14</p>
  *
- * Simple Moving Average
- *      Calculated by taking the average of the past days, the length of which can be specified.
- *      When updating, add the new data and take the new average.
+ * <p>Calculated by taking the average of the past days, the length of which can be specified.
+ * When updating, add the new data and take the new average.</p>
  */
 public class SimpleMovingAverage extends Indicator implements Serializable{
 
