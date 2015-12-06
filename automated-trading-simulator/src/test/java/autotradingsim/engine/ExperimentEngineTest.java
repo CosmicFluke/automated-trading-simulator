@@ -24,8 +24,8 @@ public class ExperimentEngineTest {
         TradingApplication.clearMemoryAndFileSystem();
         testEngine = ExperimentEngine.getInstance();
         application = TradingApplication.getInstance();
-        experiment = testEngine.createExperiment("test");
-        assertEquals(application.getExperiment("test"), experiment);
+        experiment = testEngine.createExperiment("test1");
+        assertEquals(application.getExperiment("test1"), experiment);
         IStrategy testStrat = new Strategy("teststrat");
         application.setStrategy(testStrat);
     }

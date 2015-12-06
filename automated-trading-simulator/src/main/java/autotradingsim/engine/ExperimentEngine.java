@@ -44,11 +44,12 @@ public class ExperimentEngine {
 	 */
 	public IExperiment createExperiment(String expname){
 		IExperiment retExp = new Experiment(expname);
-		if(application.addExperiment(retExp)) {
-			retExp = application.getExperiment(expname);
-		}else{
-			throw new IllegalArgumentException("failed to save");
-		}
+		try {
+            application.addExperiment(retExp);
+		} catch (IllegalArgumentException e) {
+            System.out.println("Could not add experiment to application");
+            throw e;
+        }
 		return retExp;
 	}
 	/**
