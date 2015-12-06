@@ -77,8 +77,9 @@ public class TradingApplication implements ITradingApplication {
 			throw new IllegalArgumentException("addExperiment: IExperiment had a null name");
 
 		if (experiments.containsKey(experiment.getName().hashCode())){
+			//System.out.println(experiments.keySet().toString() +" "+ experiment.getName().hashCode());
 			throw new IllegalArgumentException(
-					"addExperiment: duplicate key -- an experiment with this name is already stored");
+					"addExperiment: duplicate key -- an experiment with "+ experiment.getName() +"is already stored");
 		}
 		experiments.put(experiment.getName().hashCode(), experiment);
 

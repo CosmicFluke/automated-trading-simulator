@@ -44,11 +44,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
             //timeSetValidationField.setText("Valid time period: "+timeset.x+"-"+timeset.y);
         }
     }
-    
-    protected void setExperiment(IExperiment experiment){
-        this.experiment = experiment;
-        settimeSetValidationField();
-    }
+
 
     protected void setNameText(String filename){
         name.setText("Name: " + filename);
