@@ -1,6 +1,7 @@
 package autotradingsim.ui;
 import autotradingsim.application.*;
 import autotradingsim.engine.StrategyEngine;
+import autotradingsim.strategy.IStrategy;
 
 import javax.swing.DefaultListModel;
 
@@ -17,7 +18,7 @@ public class StrategyList extends javax.swing.JFrame {
     DefaultListModel strategyListModel = new DefaultListModel();
     TradingApplication application = TradingApplication.getInstance();
 
-    StrategyEngine strategyengine = StrategyEngine.getInstance();
+    StrategyEngine strategyEngine = StrategyEngine.getInstance();
 
     public StrategyList(AutomatedTradingSimulator parent) {
         this.parent = parent;
@@ -141,10 +142,11 @@ public class StrategyList extends javax.swing.JFrame {
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
         dialogInput di = new dialogInput(this, true);
         String name = di.run();
+        IStrategy strategy = strategyEngine.createStrategy(name);
         if(name.length()>0 && !strategyListModel.contains(name)){
-            application.setStrategy(name, strategyengine.createStrategy(name));
             strategyListModel.addElement(name);
         }
+        StrategyViewer sv = new StrategyViewer(this, strategy);
     }//GEN-LAST:event_createActionPerformed
 
     private void openActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openActionPerformed
@@ -152,7 +154,8 @@ public class StrategyList extends javax.swing.JFrame {
             dialogMessage dm = new dialogMessage(this, true, "Select an item to open!");
             dm.setVisible(true);
         }else{
-            StrategyViewer sv = new StrategyViewer(this, strategyListModel.getElementAt(strategyList.getSelectedIndex()).toString());
+            StrategyViewer sv = new StrategyViewer(this, strategyEngine.getStrategy(strategyList.getSelectedValue().toString()
+            ));
             this.setVisible(false);
             sv.setVisible(true);
         }

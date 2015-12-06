@@ -31,7 +31,9 @@ public class StrategyEngine {
 	public void saveStrategy(IStrategy strategy){
 		TradingApplication.getInstance().saveStrategy(strategy);
 	}
-
+        public IStrategy getStrategy(String name){
+            return TradingApplication.getInstance().getStrategy(name);
+        }
 	/**
 	 * creates a default strategy and stores it in application
 	 * @return
@@ -44,7 +46,10 @@ public class StrategyEngine {
 	}
 
 	public IStrategy createStrategy(String stratname){
-		return new Strategy(stratname, "");
+            IStrategy strategy = new Strategy(stratname, "");
+            TradingApplication.getInstance().saveStrategy(strategy);
+		return strategy;
+                
 	}
 
 	/**
