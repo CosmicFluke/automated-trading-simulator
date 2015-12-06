@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Shirley on 2015-12-05.
  */
-public class ObjectFileSystemTest {
+public class ObjectFileSystemEngineTest {
     TradingApplication application;
     ExperimentEngine engine;
     IExperiment experiment;
