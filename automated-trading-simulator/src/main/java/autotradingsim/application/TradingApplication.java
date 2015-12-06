@@ -248,7 +248,6 @@ public class TradingApplication implements ITradingApplication {
 	public void saveStrategy(IStrategy newStrat) {
 		if(newStrat.getName() == null){
 			System.out.println("Warning, not saving strategy. Missing name.");
-			return;
 		}
 		String path = this.PathToStrategies + newStrat.getName();
 		ObjectFileSystem.saveObject(path, newStrat);
