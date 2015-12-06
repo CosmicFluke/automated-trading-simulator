@@ -302,7 +302,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
         TrialPicker tp = new TrialPicker(this, true);
         Pair<String, String> trial = tp.run();
         experiment.addTrial(trial.x, trial.y);
-        application.addExperiment(experiment);
+        //application.addExperiment(experiment);
         strategyListModel.addElement(trial.x);
         stockListModel.addElement(trial.y);
         
