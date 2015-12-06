@@ -2,7 +2,6 @@ package autotradingsim.ui;
 import autotradingsim.application.TradingApplication;
 import autotradingsim.engine.*;
 import javax.swing.DefaultListModel;
-import java.io.File;
 
 /**
  *
@@ -148,7 +147,7 @@ public class ExperimentList extends javax.swing.JFrame {
         dialogInput di = new dialogInput(this, true);
         String name = di.run();
         if(name.length() > 0 && !experimentListModel.contains(name)){
-            application.setExperiment(name, experimentengine.createExperiment(name));
+            application.addExperiment(experimentengine.createExperiment(name));
             experimentListModel.addElement(name);
             ExperimentViewer ev = new ExperimentViewer(this,application.getExperiment(name));
             ev.setNameText(name);

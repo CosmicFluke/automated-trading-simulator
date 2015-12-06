@@ -24,7 +24,6 @@ public class ExperimentEngineTest {
         testEngine = ExperimentEngine.getInstance();
         application = TradingApplication.getInstance();
         experiment = testEngine.createExperiment("test");
-        application.setExperiment(experiment.getName(), experiment);
         assertEquals(application.getExperiment("test"), experiment);
         IStrategy testStrat = new Strategy("teststrat");
         application.setStrategy(testStrat);
@@ -33,7 +32,6 @@ public class ExperimentEngineTest {
     @Test
     public void testCreateExperiment(){
         experiment = testEngine.createExperiment("test2");
-        application.setExperiment(experiment.getName(), experiment);
         assertEquals(application.getExperiment("test2"), experiment);
     }
 
@@ -49,7 +47,7 @@ public class ExperimentEngineTest {
         experiment = application.getExperiment("test");
         experiment.addTrial("teststrat", "IPG");
         experiment.addTrial("teststrat", "AAPL");
-        LocalDate expectedStartDate = LocalDate.of(1987,11,05);
+        LocalDate expectedStartDate = LocalDate.of(1987,11,5);
         LocalDate expectedEndDate = LocalDate.of(2015,10,16);
         Pair<LocalDate, LocalDate> expectedTimeSet = new Pair<> (expectedStartDate, expectedEndDate);
         assertEquals(expectedTimeSet.x,testEngine.generateTimeSet(experiment).x);
@@ -58,6 +56,6 @@ public class ExperimentEngineTest {
 
     @After
     public void tearDown(){
-        application.clearMemory();
+        TradingApplication.clearMemoryAndFileSystem();
     }
 }

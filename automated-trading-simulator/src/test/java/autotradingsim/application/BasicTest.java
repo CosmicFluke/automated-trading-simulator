@@ -7,9 +7,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
-import autotradingsim.application.ITradingApplication;
-import autotradingsim.application.TradingApplication;
-
 public class BasicTest {
 
     ITradingApplication ApplicationUnderTest = null;
@@ -21,7 +18,7 @@ public class BasicTest {
 
     @Before
     public void setUp() throws Exception {
-        TradingApplication.clearFileSystem();
+        TradingApplication.clearMemoryAndFileSystem();
         ApplicationUnderTest = TradingApplication.getInstance();
     }
 
