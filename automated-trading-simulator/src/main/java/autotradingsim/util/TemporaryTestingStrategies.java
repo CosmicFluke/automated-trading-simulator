@@ -16,6 +16,6 @@ public class TemporaryTestingStrategies {
         application.setStrategy(StrategyDemoFactory.newAdvancedStrategy());
     }
     public static void clearStrats(){
-        TradingApplication.clearFileSystem();
+        TradingApplication.clearMemoryAndFileSystem();
     }
 }

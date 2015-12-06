@@ -24,7 +24,7 @@ public class ObjectFileSystemEngineTest {
 
     @Before
     public void setUp(){
-        TradingApplication.clearFileSystem();
+        TradingApplication.clearMemoryAndFileSystem();
         application = TradingApplication.getInstance();
         engine = ExperimentEngine.getInstance();
         application.setStrategy(StrategyDemoFactory.newAdvancedStrategy());
@@ -63,6 +63,6 @@ public class ObjectFileSystemEngineTest {
         if (!new File("Test Experiment").delete()){
             System.out.println("File not found or couldn't be deleted.");
         }
-        TradingApplication.clearFileSystem();
+        TradingApplication.clearMemoryAndFileSystem();
     }
 }
