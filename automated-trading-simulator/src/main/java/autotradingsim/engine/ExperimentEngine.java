@@ -44,7 +44,7 @@ public class ExperimentEngine {
 	 */
 	public IExperiment createExperiment(String expname){
 		IExperiment retExp=null;
-		if(application.setExperiment(expname, new Experiment(expname))) {
+		if(application.addExperiment(new Experiment(expname))) {
 			retExp = application.getExperiment(expname);
 		}
 		return retExp;

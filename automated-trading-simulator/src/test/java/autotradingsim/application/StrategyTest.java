@@ -40,7 +40,7 @@ public class StrategyTest {
 
     @Before
     public void setUp() throws Exception {
-        TradingApplication.clearFileSystem();
+        TradingApplication.clearMemoryAndFileSystem();
         ApplicationUnderTest = TradingApplication.getInstance();
     }
 

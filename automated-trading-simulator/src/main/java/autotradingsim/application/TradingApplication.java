@@ -29,9 +29,9 @@ public class TradingApplication implements ITradingApplication {
 	private StockLoader loader;
 	private HashMap<String, IStock> stocks;
 
-	private static TradingApplication instance = null;
+	private static TradingApplication instance;
 	
-	protected TradingApplication() {
+	private TradingApplication() {
 		this.loader = new StockLoader();
 		
 		this.strategies = new HashMap<Integer, IStrategy>();
@@ -44,8 +44,6 @@ public class TradingApplication implements ITradingApplication {
 							File.separator + "EXPERIMENTS" + File.separator;
 		PathToStrategies = System.getProperty("user.dir") + File.separator + "DATA" + 
 							File.separator + "STRATEGIES" + File.separator;
-		
-		instance = this;
 		
 		//Initialize Directory for storing experiments
 		File experimentDir = new File(PathToExperiments);
@@ -69,17 +67,25 @@ public class TradingApplication implements ITradingApplication {
 	 * Add an experiment by name into the application
 	 * Name given and name found in experiment need
 	 * to match
-	 * 
 	 *
 	 * @return true if experiment added into Application successfully
 	 */
 	@Override
-	public boolean setExperiment(String experimentName, IExperiment experiment){
-		if(experimentName == null || experiment == null ||
-				!experiment.getName().equals(experimentName))
-			return false;
-		
-		return addExperiment(experiment);
+	public boolean addExperiment(IExperiment experiment){
+		if (experiment == null)
+			throw new NullPointerException("addExperiment: IExperiment argument was null");
+
+		if (experiment.getName() == null)
+			throw new IllegalArgumentException("addExperiment: IExperiment had a null name");
+
+		if (experiments.containsKey(experiment.getName().hashCode())){
+			throw new IllegalArgumentException(
+					"addExperiment: duplicate key -- an experiment with this name is already stored");
+		}
+		experiments.put(experiment.getName().hashCode(), experiment);
+
+		this.saveExperiment(experiment);
+		return true;
 	}
 
 	/**
@@ -100,26 +106,6 @@ public class TradingApplication implements ITradingApplication {
 		experiments.remove(experimentName.hashCode());
 		return true;
 	}
-	/**
-	 * Add an experiment into the application
-	 * Experiment will be stored by name found in from IExperiment.getName
-	 * 
-	 * @param experiment Experiment object which will be stored
-	 * @return true if experiment added into Application successfully
-	 */
-	@Override
-	public boolean addExperiment(IExperiment experiment) {
-		if(experiment == null || experiment.getName() == null)
-			return false;
-		
-		if(experiments.containsKey(experiment.getName().hashCode())){
-			return false;
-		}
-		experiments.put(experiment.getName().hashCode(), experiment);
-		
-		this.saveExperiment(experiment);
-		return true;
-	}
 
 	/**
 	 * Return experiment object associated with given name
@@ -137,7 +123,7 @@ public class TradingApplication implements ITradingApplication {
 		}else{
 			IExperiment result = loadExperiment(experimentName);
 			if(result != null)
-				this.setExperiment(experimentName, result);
+				this.addExperiment(result);
 			return result;
 		}
 	}
@@ -365,9 +351,9 @@ public class TradingApplication implements ITradingApplication {
 
 	/**
 	 * Clear any objects saved by the application.
-	 * Application returns to a "first run" state
+	 *
 	 */
-	public static void clearFileSystem() {
+	public static void clearMemoryAndFileSystem() {
 		
 		String PathToExperiments = System.getProperty("user.dir") + File.separator + "DATA" +
 				File.separator + "EXPERIMENTS" + File.separator;
@@ -383,7 +369,10 @@ public class TradingApplication implements ITradingApplication {
 		if(strategies.exists() && strategies.isDirectory())
 			for(File strategy : strategies.listFiles())
 				strategy.delete();
-		
+
+		if (instance != null) {
+			instance.clearMemory();
+		}
 	}
 	
 }
