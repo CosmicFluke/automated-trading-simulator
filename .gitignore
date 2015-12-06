@@ -11,6 +11,8 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 
+### Netbeans ###
+nb-configuration.xml
 
 ### Eclipse ###
 *.pydevproject
