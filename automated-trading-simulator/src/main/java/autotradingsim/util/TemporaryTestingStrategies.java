@@ -1,7 +1,5 @@
 package autotradingsim.util;
 import autotradingsim.application.*;
-import autotradingsim.strategy.Strategy;
-import autotradingsim.util.StrategyDemoFactory;
 
 import java.math.BigDecimal;
 
@@ -12,9 +10,9 @@ public class TemporaryTestingStrategies {
 
     public static void createStrats(){
         ITradingApplication application = TradingApplication.getInstance();
-        application.setStrategy(StrategyDemoFactory.newBasicStrategy(new BigDecimal(10), new BigDecimal(20), 50,25));
-        application.setStrategy(StrategyDemoFactory.newAdvancedTestingStrategy());
-        application.setStrategy(StrategyDemoFactory.newAdvancedStrategy());
+        application.addStrategy(StrategyDemoFactory.newBasicStrategy(new BigDecimal(10), new BigDecimal(20), 50,25));
+        application.addStrategy(StrategyDemoFactory.newAdvancedTestingStrategy());
+        application.addStrategy(StrategyDemoFactory.newAdvancedStrategy());
     }
     public static void clearStrats(){
         TradingApplication.clearMemoryAndFileSystem();

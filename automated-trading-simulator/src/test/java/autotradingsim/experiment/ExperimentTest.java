@@ -23,8 +23,9 @@ public class ExperimentTest {
 	enum Detail {MINIMUM, DAILY};
     @Before
 	public void setUp(){
+        TradingApplication.clearMemoryAndFileSystem();
         TradingApplication.getInstance()
-                .setStrategy("Empty Strategy", new Strategy("Empty Strategy", "Empty Strategy for testing"));
+                .addStrategy(new Strategy("Empty Strategy", "Empty Strategy for testing"));
 		this.test = new Experiment("experiment1");
 	}
 
@@ -54,7 +55,7 @@ public class ExperimentTest {
 
         IStrategy s = StrategyDemoFactory.newBasicStrategy(BigDecimal.valueOf(95), BigDecimal.valueOf(101), 100, 50);
 
-        TradingApplication.getInstance().setStrategy(s.getName(), s);
+        TradingApplication.getInstance().addStrategy(s);
 
         String id = s.getName();
 
@@ -68,6 +69,23 @@ public class ExperimentTest {
         // assertEquals(resultList.getResultAt(0).getBalanceRelativeChange().compareTo(new BigDecimal(0.8)), -1);
     }
 
+    @Test
+    public void testRunExperimentAdvancedStrategy() {
+        IStrategy testStrat = StrategyDemoFactory.newAdvancedTestingStrategy();
+
+        String id = testStrat.getName();
+
+        TradingApplication.getInstance().addStrategy(testStrat);
+
+        test.addTrial(id, "AAPL");
+
+        TimeSet ts1 = new TimeSet(1, 2, LocalDate.of(2015, 10, 15), LocalDate.of(2015, 10, 16));
+
+        ExperimentResults resultList = test.runExperiment(ts1);
+        assertNotEquals(null, resultList);
+    }
+
+
     /**
      * Test only for demo purposes.
      */
@@ -77,7 +95,7 @@ public class ExperimentTest {
         ExperimentResults experimentResults;
         IStrategy strategy =  StrategyDemoFactory.newBasicStrategy(new BigDecimal(110), new BigDecimal(115), 3, 300);
 
-        TradingApplication.getInstance().setStrategy(strategy.getName(), strategy);
+        TradingApplication.getInstance().addStrategy(strategy);
 
         String id = strategy.getName();
 
@@ -126,7 +144,7 @@ public class ExperimentTest {
         IStrategy strategy =  StrategyDemoFactory.newBasicStrategy(new BigDecimal(110), new BigDecimal(115), 3, 300);
 //        IStrategy strategy1 = TradingApplication.getInstance().getStrategy("Basic strategy");
 
-        TradingApplication.getInstance().setStrategy(strategy.getName(), strategy);
+        TradingApplication.getInstance().addStrategy(strategy);
 
         String id = strategy.getName();
 
@@ -160,7 +178,7 @@ public class ExperimentTest {
 //    public void testRunExperiment3(){
 //
 //        IStrategy advancedStrategy = StrategyDemoFactory.newAdvancedTestingStrategy();
-//        TradingApplication.getInstance().setStrategy(advancedStrategy.getName(), advancedStrategy);
+//        TradingApplication.getInstance().addStrategy(advancedStrategy.getName(), advancedStrategy);
 //
 //        String advancedStrategyName = advancedStrategy.getName();
 //

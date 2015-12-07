@@ -2,43 +2,47 @@ package autotradingsim.application;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 public class ApplicationBasicTest {
 
-    ITradingApplication ApplicationUnderTest = null;
+    ITradingApplication applicationUnderTest;
+
+    @BeforeClass
+    public static void beforeClass() {
+        TradingApplication.clearMemoryAndFileSystem();
+        TradingApplication.destructObject();
+    }
 
     @AfterClass
     public static void afterClass() {
+        TradingApplication.clearMemoryAndFileSystem();
         TradingApplication.destructObject();
     }
 
     @Before
     public void setUp() throws Exception {
         TradingApplication.clearMemoryAndFileSystem();
-        ApplicationUnderTest = TradingApplication.getInstance();
+        TradingApplication.destructObject();
+        applicationUnderTest = TradingApplication.getInstance();
     }
 
     @After
     public void tearDown() throws Exception {
-        ApplicationUnderTest.clearMemory();
     }
 
     @Test
     public void testSingleton() {
-        assertTrue(ApplicationUnderTest == TradingApplication.getInstance());
+        assertEquals(applicationUnderTest, TradingApplication.getInstance());
     }
 
     @Test
     public void testEmptyStrategy(){
-        assertTrue(ApplicationUnderTest.getAvailableStrategies().isEmpty());
+        assertTrue(applicationUnderTest.getAvailableStrategies().isEmpty());
     }
 
     @Test
     public void testEmptyExperiments(){
-        assertTrue(ApplicationUnderTest.getAvailableExperiments().isEmpty());
+        assertTrue(applicationUnderTest.getAvailableExperiments().isEmpty());
     }
 }

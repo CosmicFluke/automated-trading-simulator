@@ -27,7 +27,7 @@ public class ExperimentEngineTest {
         experiment = testEngine.createExperiment("test1");
         application.getExperiment("test1");
         IStrategy testStrat = new Strategy("teststrat");
-        application.setStrategy(testStrat);
+        application.addStrategy(testStrat);
     }
 
     @Test

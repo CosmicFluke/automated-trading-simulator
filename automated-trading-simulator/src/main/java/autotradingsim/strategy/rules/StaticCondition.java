@@ -15,15 +15,15 @@ public class StaticCondition implements ICondition, Serializable {
 
 	private static final long serialVersionUID = 1940755636843227676L;
 	private IMeasurement measurement;
-	private BigDecimal compareTo;
-	private Comparator comp;
+	private BigDecimal comparisonValue;
+	private Comparator comparator;
 
 	/**
 	 * Instantiates an new condition
 	 */
 	public StaticCondition(IMeasurement measurement, ICondition.Comparator comp, BigDecimal compareTo) {
-		this.comp = comp;
-		this.compareTo = compareTo;
+		this.comparator = comp;
+		this.comparisonValue = compareTo;
 		this.measurement = measurement;
 	}
 
@@ -35,12 +35,22 @@ public class StaticCondition implements ICondition, Serializable {
 		return this.measurement;
 	}
 
+	@Override
+	public Comparator getComparator() {
+		return this.comparator;
+	}
+
+	@Override
+	public BigDecimal getComparisonValue() {
+		return this.comparisonValue;
+	}
+
 	/**
 	 * Change the comparison value and update the evaluator function.
 	 * @param compareTo
      */
 	public void changeCompareTo(BigDecimal compareTo) {
-		this.compareTo = compareTo;
+		this.comparisonValue = compareTo;
 	}
 
 	@Override
@@ -50,9 +60,9 @@ public class StaticCondition implements ICondition, Serializable {
 
 	@Override
 	public Predicate<IBufferAdapter> getFunction() {
-		Predicate<Pair<BigDecimal,BigDecimal>> comparator = makeComparator(comp);
+		Predicate<Pair<BigDecimal,BigDecimal>> comparator = makeComparator(this.comparator);
 		return (IBufferAdapter buffer) ->
-				((buffer.getSize() > 0) && comparator.test(new Pair<>(measurement.getFunction().apply(buffer), compareTo)));
+				((buffer.getSize() > 0) && comparator.test(new Pair<>(measurement.getFunction().apply(buffer), comparisonValue)));
 	}
 
 	@Override
@@ -74,7 +84,7 @@ public class StaticCondition implements ICondition, Serializable {
 	public String toString(){
 
 		return String.join(" ",
-				new String[]{measurement.getName() + ICondition.compToString(comp) + compareTo.toString()});
+				new String[]{measurement.getName() + ICondition.compToString(comparator) + comparisonValue.toString()});
 	}
 
 }
