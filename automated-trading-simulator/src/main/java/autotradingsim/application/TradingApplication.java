@@ -239,7 +239,7 @@ public class TradingApplication implements ITradingApplication {
 		}
 
 		if (strategyNameSet.contains(strategy.getName())) {
-			System.err.println("TradingApplication::getStrategy\n\tStrategy with that name already exists");
+			System.err.println("TradingApplication::addStrategy\n\tStrategy with that name already exists");
 			return false;
 		}
 

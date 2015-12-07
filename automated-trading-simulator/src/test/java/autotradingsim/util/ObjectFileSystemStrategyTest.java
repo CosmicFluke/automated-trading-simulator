@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -88,7 +89,7 @@ public class ObjectFileSystemStrategyTest {
     @Test
     public void testSaveLoadIActionQuantity() throws Exception {
         IActionQuantity test_obj =
-                (cashBalance, stockVal, sharesOwned, cf) ->
+                (Serializable & IActionQuantity) (cashBalance, stockVal, sharesOwned, cf) ->
                         (sharesOwned > 100) ? // if true
                                 Math.min(sharesOwned, cashBalance.divideAndRemainder(stockVal)[0].intValue()) : // do this
                                 Math.floorDiv(cashBalance.divideAndRemainder(stockVal)[0].intValue(), 2); // else do this
@@ -112,7 +113,7 @@ public class ObjectFileSystemStrategyTest {
     @Test
     public void testSaveLoadAction() throws Exception {
         IActionQuantity testQuant =
-                (cashBalance, stockVal, sharesOwned, cf) -> (sharesOwned > 100) ?                       // if true
+                (Serializable & IActionQuantity) (cashBalance, stockVal, sharesOwned, cf) -> (sharesOwned > 100) ?                       // if true
                         Math.min(sharesOwned, cashBalance.divideAndRemainder(stockVal)[0].intValue()) : // do this
                         Math.floorDiv(cashBalance.divideAndRemainder(stockVal)[0].intValue(), 2);       // else do this
 

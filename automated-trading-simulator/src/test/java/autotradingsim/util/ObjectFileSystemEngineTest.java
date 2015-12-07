@@ -48,8 +48,8 @@ public class ObjectFileSystemEngineTest {
     }
     @Test
     public void testLoadExperiment(){
-        ObjectFileSystem.saveObject(String.valueOf(experiment.getName().hashCode()), experiment);
-        IExperiment loaded = (IExperiment) ObjectFileSystem.loadObject(String.valueOf(experiment.getName().hashCode()));
+        ObjectFileSystem.saveObject(String.valueOf(experiment.getName()), experiment);
+        IExperiment loaded = (IExperiment) ObjectFileSystem.loadObject(String.valueOf(experiment.getName()));
         assertTrue(loaded instanceof Experiment);
         assertEquals(loaded.getName(), experiment.getName());
         assertEquals(loaded.getAllTrials(), experiment.getAllTrials());
@@ -62,11 +62,11 @@ public class ObjectFileSystemEngineTest {
 
     @After
     public void tearDown(){
-        File f = new File(String.valueOf(experimentName.hashCode()));
+        File f = new File(experimentName);
         if (f.exists() && !f.delete()){
             System.err.println(
                     "ObjectFileSystemEngineTest: File couldn't be deleted: " +
-                            "/\"" + String.valueOf(experimentName.hashCode()) + "\"");
+                            "/\"" + experimentName + "\"");
         }
         TradingApplication.clearMemoryAndFileSystem();
     }
