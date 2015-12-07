@@ -1,5 +1,7 @@
 package autotradingsim.ui;
 
+import java.util.List;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,11 +17,22 @@ public class dialogResult extends javax.swing.JDialog {
     /**
      * Creates new form dialogResult
      */
-    public dialogResult(java.awt.Frame parent, boolean modal) {
+    public dialogResult(java.awt.Frame parent, boolean modal, 
+            String expName) {
         super(parent, modal);
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
+        name.setText(expName.concat(" results"));
+
+        
+    }
+    
+    public void setResultText(List<String> results){
+        result.setText("");
+        for(String resultString : results){
+            result.append(resultString);
+        }
     }
 
     /**
@@ -40,11 +53,14 @@ public class dialogResult extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         name.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         name.setText("Name: NAME_OF_EXPERIMENT");
 
+        result.setEditable(false);
         result.setColumns(20);
         result.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         result.setRows(5);
+        result.setText("Running...");
         jScrollPane1.setViewportView(result);
 
         discard.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N

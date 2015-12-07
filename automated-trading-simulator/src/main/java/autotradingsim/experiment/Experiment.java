@@ -224,9 +224,12 @@ public class Experiment implements IExperiment, Serializable {
 			BigDecimal deltaShares = new BigDecimal(decision.getQuantity(getCashBalance(), getShares(stockID)));
 			BigDecimal transactionValue = closingValue.multiply(deltaShares);
 			
+			String decisionString;
+			
 			switch(decision.getActionType())
 			{
 			case BUY:
+				decisionString = "Buy ";
 				if(transactionValue.compareTo(cashBalance) < 0)
 					deltaShares = transactionValue.remainder(cashBalance); // Clamp value to buying power
 				
@@ -235,16 +238,21 @@ public class Experiment implements IExperiment, Serializable {
 				break;
 			
 			case SELL:
+				decisionString = "Sell ";
 				if(deltaShares.compareTo( new BigDecimal(getShares(stockID))) > 0)
 					deltaShares = new BigDecimal(getShares(stockID)); // Clamp shares
 				
-				setCashBalance(cashBalance.add(transactionValue));
+				setCashBalance(cashBalance.add(closingValue.multiply(deltaShares)));
 				setShares(stockID, getShares(stockID) - deltaShares.intValue());
 				break;
 				
 			default:
 				throw new RuntimeException("Invalid decision action type");	
 			}
+			decisionString += deltaShares + " shares of " + stockID;
+			
+			//TODO should be removed...later
+			resultDay.addDecision(decisionString);
 			
 			resultDay.addDecision(decision);
 			

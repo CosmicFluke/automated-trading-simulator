@@ -10,6 +10,7 @@ import autotradingsim.util.Pair;
 
 public class ResultDay {
 
+	private List<String> decisionStrings;
 	private List<IDecision> decisions;
 	private LocalDate date;
 	private BigDecimal openingBalance;
@@ -31,6 +32,9 @@ public class ResultDay {
 		this.openingBalance = openingBalance;
 		//Start by assuming no changes are going to happen
 		this.closingBalance = openingBalance;
+		
+		//TODO hack string for results
+		this.decisionStrings = new ArrayList<String>();
 	}
 	
 	public ResultDay(LocalDate date, 
@@ -78,5 +82,13 @@ public class ResultDay {
     public BigDecimal getClosingBalance(){
     	return this.closingBalance;
     }
+
+	public void addDecision(String decisionString) {
+		this.decisionStrings.add(decisionString);
+	}
+	
+	public List<String> getDecisionStrings(){
+		return this.decisionStrings;
+	}
 
 }
