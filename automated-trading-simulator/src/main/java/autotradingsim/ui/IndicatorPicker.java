@@ -5,6 +5,7 @@
  */
 package autotradingsim.ui;
 
+import autotradingsim.strategy.indicators.MeasurementFactory;
 import autotradingsim.strategy.rules.IMeasurement;
 import javax.swing.DefaultComboBoxModel;
 
@@ -25,6 +26,8 @@ public class IndicatorPicker extends javax.swing.JDialog {
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
         indicatorType.setModel(indicatorTypes);
         setIndicatorTypes();
+        averageDaysField.setText("1");
+        durationDaysField.setText("1");
     }
     
     private void setIndicatorTypes(){
@@ -33,7 +36,7 @@ public class IndicatorPicker extends javax.swing.JDialog {
         indicatorTypes.addElement("Average absolute change");
         indicatorTypes.addElement("Net relative change");
         indicatorTypes.addElement("Average relative change");
-        indicatorTypes.addElement("Single day value");
+        indicatorTypes.addElement("Single Day Value");
     }
 
     /**
@@ -47,11 +50,11 @@ public class IndicatorPicker extends javax.swing.JDialog {
 
         IndicatorLabel = new javax.swing.JLabel();
         indicatorType = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        durationDaysField = new javax.swing.JTextField();
+        averageDaysField = new javax.swing.JTextField();
+        durationDaysLabel = new javax.swing.JLabel();
+        averageDaysLabel = new javax.swing.JLabel();
+        submit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -60,18 +63,35 @@ public class IndicatorPicker extends javax.swing.JDialog {
 
         indicatorType.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         indicatorType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Duration in Days");
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Average in Days");
-
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jButton1.setText("Submit");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        indicatorType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                indicatorTypeActionPerformed(evt);
+            }
+        });
+
+        durationDaysField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                durationDaysFieldActionPerformed(evt);
+            }
+        });
+
+        averageDaysField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                averageDaysFieldActionPerformed(evt);
+            }
+        });
+
+        durationDaysLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        durationDaysLabel.setText("# Days for MetaIndicator");
+
+        averageDaysLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        averageDaysLabel.setText("# Days for Moving Average");
+
+        submit.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        submit.setText("Submit");
+        submit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitActionPerformed(evt);
             }
         });
 
@@ -80,26 +100,26 @@ public class IndicatorPicker extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(durationDaysLabel)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(averageDaysLabel)
+                        .addComponent(submit)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(averageDaysField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(durationDaysField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(48, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(71, 71, 71)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(indicatorType, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(indicatorType, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(112, 112, 112)
-                        .addComponent(IndicatorLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addComponent(jButton1)))
-                .addContainerGap(88, Short.MAX_VALUE))
+                        .addComponent(IndicatorLabel)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,24 +130,56 @@ public class IndicatorPicker extends javax.swing.JDialog {
                 .addComponent(indicatorType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(durationDaysLabel)
+                    .addComponent(durationDaysField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(averageDaysField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(averageDaysLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(submit)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         // TODO add your handling code here:
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_submitActionPerformed
+
+    private void averageDaysFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_averageDaysFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_averageDaysFieldActionPerformed
+
+    private void indicatorTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_indicatorTypeActionPerformed
+        // TODO add your handling code here:
+
+        if (indicatorType.getSelectedIndex()==0){ //simple moving average
+            averageDaysLabel.setVisible(false);
+            averageDaysField.setVisible(false);
+            durationDaysField.setVisible(true);
+            durationDaysLabel.setVisible(true);
+        }else{
+            if(indicatorType.getSelectedIndex()==5){ //single day value
+                durationDaysField.setVisible(false);
+                durationDaysLabel.setVisible(false);
+                averageDaysLabel.setVisible(false);
+                averageDaysField.setVisible(false);
+            }else{
+                durationDaysField.setVisible(true);
+                durationDaysLabel.setVisible(true);
+                averageDaysLabel.setVisible(true);
+                averageDaysField.setVisible(true);
+            }
+        }
+
+    }//GEN-LAST:event_indicatorTypeActionPerformed
+
+    private void durationDaysFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_durationDaysFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_durationDaysFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -173,15 +225,51 @@ public class IndicatorPicker extends javax.swing.JDialog {
     
     public IMeasurement run(){
         this.setVisible(true);
-        return null;
+        IMeasurement indicator = null;
+        //TODO typeCheck for durationDaysField and averageDaysField
+        if (indicatorType.getSelectedIndex()==5){
+            indicator = MeasurementFactory.newSingleDailyValue();
+        }
+        if(indicatorType.getSelectedIndex()==0){
+            indicator = MeasurementFactory.newSimpleMovingAverage(Integer.parseInt(durationDaysField.getText())); 
+        }
+        if(indicatorType.getSelectedIndex()==1){
+            IMeasurement measurement = MeasurementFactory.newSimpleMovingAverage(Integer.parseInt(averageDaysField.getText()));
+            indicator = MeasurementFactory.
+                            newAbsoluteNetChange(
+                                    Integer.parseInt(durationDaysField.getText()),
+                                    measurement);
+        }
+        if(indicatorType.getSelectedIndex()==2){
+            IMeasurement measurement = MeasurementFactory.
+                    newSimpleMovingAverage(Integer.parseInt(averageDaysField.getText()));
+            indicator = MeasurementFactory.
+                            newAbsoluteAverageChange(Integer.parseInt(durationDaysField.getText())
+                                    , measurement);
+        }
+        if(indicatorType.getSelectedIndex()==3){
+           IMeasurement measurement = MeasurementFactory.
+                    newSimpleMovingAverage(Integer.parseInt(averageDaysField.getText()));
+            indicator = MeasurementFactory.
+                            newRelativeNetChange(Integer.parseInt(durationDaysField.getText()),
+                                    measurement);
+        }
+        if(indicatorType.getSelectedIndex()==4){
+           IMeasurement measurement = MeasurementFactory.
+                    newSimpleMovingAverage(Integer.parseInt(averageDaysField.getText()));
+            indicator = MeasurementFactory.
+                            newRelativeAverageChange(Integer.parseInt(durationDaysField.getText()), 
+                                    measurement);
+        }
+        return indicator;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel IndicatorLabel;
+    private javax.swing.JTextField averageDaysField;
+    private javax.swing.JLabel averageDaysLabel;
+    private javax.swing.JTextField durationDaysField;
+    private javax.swing.JLabel durationDaysLabel;
     private javax.swing.JComboBox<String> indicatorType;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JButton submit;
     // End of variables declaration//GEN-END:variables
 }

@@ -44,12 +44,16 @@ public class SellActionPicker extends javax.swing.JDialog {
         Sell.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         Sell.setText("Sell");
 
-        numShares.setText("# shares");
+        numShares.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        numShares.setText("Fixed Quantity");
 
-        percentShares.setText("% of owned shares");
+        percentShares.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        percentShares.setText("% of share balance");
 
-        worthAmountShares.setText("Sell X$ worth of shares");
+        worthAmountShares.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        worthAmountShares.setText("Sell shares worth X amount");
 
+        submit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         submit.setText("submit");
         submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,22 +68,24 @@ public class SellActionPicker extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(182, 182, 182)
-                        .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(256, 256, 256)
+                        .addComponent(Sell))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(228, 228, 228)
+                        .addGap(251, 251, 251)
                         .addComponent(submit))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(numShares)
-                        .addGap(76, 76, 76)
-                        .addComponent(percentShares)
-                        .addGap(48, 48, 48)
-                        .addComponent(worthAmountShares))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(233, 233, 233)
-                        .addComponent(Sell)))
-                .addContainerGap(70, Short.MAX_VALUE))
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(numShares)
+                                .addGap(76, 76, 76)
+                                .addComponent(percentShares)
+                                .addGap(48, 48, 48)
+                                .addComponent(worthAmountShares))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(178, 178, 178)
+                                .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,7 +100,7 @@ public class SellActionPicker extends javax.swing.JDialog {
                 .addComponent(amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(submit)
-                .addGap(0, 48, Short.MAX_VALUE))
+                .addGap(0, 44, Short.MAX_VALUE))
         );
 
         pack();

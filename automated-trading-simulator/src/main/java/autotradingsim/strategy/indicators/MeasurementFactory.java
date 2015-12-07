@@ -17,7 +17,8 @@ public class MeasurementFactory {
      * @return new Indicator
      */
     public static Indicator newSingleDailyValue() {
-        return new SimpleMovingAverage(1);
+        Indicator sdv = new SimpleMovingAverage(1);
+        return sdv;
     }
 
     /**
