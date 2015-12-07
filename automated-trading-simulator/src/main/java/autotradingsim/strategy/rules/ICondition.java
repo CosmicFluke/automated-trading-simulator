@@ -71,4 +71,10 @@ public interface ICondition {
 
     ConfidenceFunction getConfidenceFunction();
 
+    IMeasurement getMeasurement();
+
+    Comparator getComparator();
+
+    BigDecimal getComparisonValue();
+
 }
