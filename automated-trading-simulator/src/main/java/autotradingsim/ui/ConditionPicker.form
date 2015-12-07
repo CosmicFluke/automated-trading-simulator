@@ -34,9 +34,9 @@
                       <Component id="cancel" min="-2" pref="109" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="indicator1" min="-2" pref="228" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="compare" min="-2" pref="44" max="-2" attributes="0"/>
+                      <Component id="indicator1" min="-2" pref="209" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="compare" min="-2" pref="67" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="compareValue" min="-2" pref="164" max="-2" attributes="0"/>
                   </Group>
