@@ -11,7 +11,8 @@ import java.util.function.Function;
  */
 public class VariableBalanceActionQuantity implements IActionQuantity, Serializable {
 
-    Function<BigDecimal, Integer> function;
+	private static final long serialVersionUID = -1632716857260695363L;
+	Function<BigDecimal, Integer> function;
 
     /**
      * Provide a function that takes in the quotient of (balance divided by stock value), and returns a quantity.
