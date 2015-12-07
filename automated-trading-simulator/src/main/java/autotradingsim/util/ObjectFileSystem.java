@@ -46,14 +46,31 @@ public class ObjectFileSystem {
 
 		try {
 			objectStream = new FileOutputStream(fileObj);
+		} catch (FileNotFoundException e) {
+			System.err.println("Could not serialize object: " + toSave.toString());
+			e.printStackTrace();
+			if (fileCreatedSwitch) {
+				if (!fileObj.delete())
+					System.err.println("Failed to delete unused new file.");
+			}
+			return false;
+		}
+
+		try {
 			serializer = new ObjectOutputStream(objectStream);
 			serializer.writeObject(toSave);
 			serializer.close();
 			return true;
 
 		}catch (NotSerializableException e){
-			String err = "Object " + toSave.getClass() + " not serializable.";
+			String err = "Object \"" + toSave.getClass() + "\" not serializable.";
 			err += " Aborting save.";
+			try {
+				objectStream.close();
+			} catch (IOException ioe) {
+				System.err.println("Could not close object file after NotSerializableException thrown.");
+				ioe.printStackTrace();
+			}
 			if (fileCreatedSwitch) {
 				if (!fileObj.delete())
 					System.err.println("Failed to delete unused new file.");
@@ -64,6 +81,12 @@ public class ObjectFileSystem {
 			String err = "IO Exception occured in saving an object of type " + toSave.getClass();
 			System.err.println(err);
 			e.printStackTrace();
+			try {
+				objectStream.close();
+			} catch (IOException ioe) {
+				System.err.println("Could not close object file after IOException thrown.");
+				ioe.printStackTrace();
+			}
 			if (fileCreatedSwitch) {
 				if (!fileObj.delete())
 					System.err.println("Failed to delete unused new file.");

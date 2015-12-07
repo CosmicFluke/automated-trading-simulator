@@ -10,6 +10,8 @@ public class DemoApplication {
 
     public static void main(String[] args) {
 
+        TradingApplication.clearMemoryAndFileSystem();
+        TradingApplication.destructObject();
         TemporaryTestingStrategies.createStrats();
         AutomatedTradingSimulator.main(args);
         //TemporaryTestingStrategies.clearStrats();

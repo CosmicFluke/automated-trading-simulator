@@ -6,7 +6,9 @@ import autotradingsim.strategy.indicators.IndicatorRelativeChange;
 import autotradingsim.strategy.indicators.SimpleMovingAverage;
 import autotradingsim.strategy.rules.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.function.Function;
 
 /**
  * Created by Asher on 2015-11-22.
@@ -89,9 +91,11 @@ public class StrategyDemoFactory {
         rule.addAction(new Action(
                 IAction.ActionType.BUY,
                 new VariableBalanceActionQuantity(
-                        (num_stocks) -> num_stocks
+                        (Function<BigDecimal, Integer> & Serializable) ((num_stocks) -> num_stocks
                                 .divideAndRemainder(BigDecimal.valueOf(2))[0]
-                                .intValue())));
+                                .intValue()))));
+
+        strat.addRule(rule);
         rule = new Rule("Sell decreasing stock, long term",
                 "Sell up to 1000 shares when the 30-day moving average ");
         rule.addCondition(new StaticCondition(      // 30-day moving average decreases by 2% over 3 days
@@ -104,8 +108,11 @@ public class StrategyDemoFactory {
                 BigDecimal.valueOf(2)));
         rule.addAction(new Action(                  // SELL SELL SELL (half of owned shares, or all if less than 21)
                 IAction.ActionType.SELL,
-                (cash, stockValue, numShares, cf) -> (numShares > 20) ? Math.floorDiv(numShares, 2) : numShares));
+                (Serializable & IActionQuantity)
+                        ((cash, stockValue, numShares, cf) ->
+                                (numShares > 20) ? Math.floorDiv(numShares, 2) : numShares)));
 
+        strat.addRule(rule);
         return strat;
     }
 
@@ -121,10 +128,14 @@ public class StrategyDemoFactory {
                 BigDecimal.valueOf(0.02)));
         rule.addAction(new Action(
                 IAction.ActionType.BUY,
-                new VariableBalanceActionQuantity(
-                        (num_stocks) -> num_stocks
-                                .divide(BigDecimal.valueOf(2))
-                                .intValue())));
+                (Serializable & IActionQuantity)
+                        ((cashBalance, stockValue1, numSharesOwned, confidence) ->
+                                cashBalance
+                                        .divideAndRemainder(BigDecimal.valueOf(2))[0]
+                                        .divideAndRemainder(stockValue1)[0]
+                                        .intValue())));
+
+        strat.addRule(rule);
         rule = new Rule("Sell decreasing stock, long term",
                 "Sell up to 1000 shares when the 1-day moving average drops by 2% over 2 days and the 2-day simple " +
                         "moving average drops by 2.00 currency units in 2 days");
@@ -138,8 +149,11 @@ public class StrategyDemoFactory {
                 BigDecimal.valueOf(2)));
         rule.addAction(new Action(                  // SELL SELL SELL (half of owned shares, or all if less than 11)
                 IAction.ActionType.SELL,
-                (cash, stockValue, numShares, cf) -> (numShares > 10) ? Math.floorDiv(numShares, 2) : numShares));
+                (Serializable & IActionQuantity)
+                        ((cash, stockValue, numShares, cf) ->
+                                (numShares > 10) ? Math.floorDiv(numShares, 2) : numShares)));
 
+        strat.addRule(rule);
         return strat;
     }
 

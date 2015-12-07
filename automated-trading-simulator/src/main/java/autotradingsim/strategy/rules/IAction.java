@@ -1,9 +1,11 @@
 package autotradingsim.strategy.rules;
 
+import java.io.Serializable;
+
 /**
  * Created by Asher on 2015-10-30.
  */
-public interface IAction {
+public interface IAction extends Serializable {
 
 
     /**
