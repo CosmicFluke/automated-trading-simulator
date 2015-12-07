@@ -36,13 +36,14 @@ public class StrategyViewer extends javax.swing.JFrame {
     public StrategyViewer(StrategyList parent, IStrategy strategy) {
         this.parent = parent;
         initComponents();
+        this.strategy = strategy;
         name.setText(strategy.getName());
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2,
                 parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
         ruleComboBox.setModel(actionBoxModel);
         conditionList.setModel(conditionListModel);
         actionList.setModel(actionListModel);
-        this.strategy = strategy;
+
         name.setText(strategy.getName());
         setRuleComboBox();
     }

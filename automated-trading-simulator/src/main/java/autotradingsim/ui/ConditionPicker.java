@@ -18,7 +18,7 @@ public class ConditionPicker extends javax.swing.JDialog {
      */
     String conditionName;
     DefaultComboBoxModel<String> indicatorTypes = new DefaultComboBoxModel();
-    IMeasurement indicator = null;
+    IMeasurement indicator;
     public ConditionPicker(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -157,10 +157,12 @@ public class ConditionPicker extends javax.swing.JDialog {
         // TODO add your handling code here:
         IndicatorPicker ip = new IndicatorPicker(this, true);
         this.indicator = ip.run();
+        if (indicator == null) {
+            throw new NullPointerException("Null indicator");
+        }
         if(indicator.getBufferSize() == 1){
             indicatorNameLabel.setText("Single Day Value");
         }else{
-            indicatorNameLabel.setText("should change");
             indicatorNameLabel.setText(indicator.getName());
         }
         
@@ -194,10 +196,11 @@ public class ConditionPicker extends javax.swing.JDialog {
         return ICondition.Comparator.EQ;
     }
     public ICondition run(){
+        this.setVisible(true);
         BigDecimal amount = BigDecimal.valueOf(Double.valueOf(compareValue.getText()));
         String compStr = compare.getSelectedItem().toString();
         ICondition condition = new StaticCondition(indicator, getComparator(compStr), amount);
-        this.setVisible(true);
+        
         return condition;
     }
 

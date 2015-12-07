@@ -47,7 +47,7 @@ public class StrategyEngine {
 
 	public IStrategy createStrategy(String stratname){
             IStrategy strategy = new Strategy(stratname, "");
-            TradingApplication.getInstance().saveStrategy(strategy);
+            TradingApplication.getInstance().addStrategy(strategy);
 		return strategy;
                 
 	}

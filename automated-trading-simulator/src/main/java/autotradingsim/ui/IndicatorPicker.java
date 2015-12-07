@@ -261,6 +261,9 @@ public class IndicatorPicker extends javax.swing.JDialog {
                             newRelativeAverageChange(Integer.parseInt(durationDaysField.getText()), 
                                     measurement);
         }
+        if (indicator == null) {
+            throw new NullPointerException("Indicator is null before return");
+        }
         return indicator;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

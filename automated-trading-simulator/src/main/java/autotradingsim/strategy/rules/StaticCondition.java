@@ -82,9 +82,10 @@ public class StaticCondition implements ICondition, Serializable {
 
 	@Override
 	public String toString(){
-
 		return String.join(" ",
-				new String[]{measurement.getName() + ICondition.compToString(comparator) + comparisonValue.toString()});
+                        measurement.getName(), 
+                        ICondition.compToString(comparator), 
+                        comparisonValue.toString());
 	}
 
 }
