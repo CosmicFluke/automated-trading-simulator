@@ -29,7 +29,7 @@ import autotradingsim.util.ObjectFileSystem;
 
 public class ApplicationStrategyTest {
 
-    private String PathToStrategies = System.getProperty("user.dir") + File.separator + "DATA" +
+    private static String pathToStrategies = System.getProperty("user.dir") + File.separator + "DATA" +
             File.separator + "STRATEGIES" + File.separator;
     ITradingApplication ApplicationUnderTest = null;
 
@@ -96,9 +96,9 @@ public class ApplicationStrategyTest {
         assertEquals(savingStrategy, ApplicationUnderTest.getStrategy("TestSaving"));
     }
 
-    @Test
+    @Test (expected = NullPointerException.class)
     public void testGetStrategyNullStrategyName(){
-        assertEquals(ApplicationUnderTest.getStrategy(null), null);
+        ApplicationUnderTest.getStrategy(null);
     }
 
     @Test
@@ -123,7 +123,7 @@ public class ApplicationStrategyTest {
 
     @Test
     public void testSavingEmptyStrategy(){
-        String ExpectedFileExists = PathToStrategies + "TestSaving";
+        String ExpectedFileExists = pathToStrategies + "TestSaving";
         ApplicationUnderTest.addStrategy(new Strategy("TestSaving"));
         File testingFile = new File(ExpectedFileExists);
         assertTrue(testingFile.exists());
@@ -132,7 +132,7 @@ public class ApplicationStrategyTest {
 
     @Test
     public void testSavingStrategyOneEmptyRule(){
-        String ExpectedFileExists = PathToStrategies + "TestSingleRule";
+        String ExpectedFileExists = pathToStrategies + "TestSingleRule";
         IStrategy mySimpleStrat = new Strategy("TestSingleRule");
         IRule myRule = new Rule();
         mySimpleStrat.addRule(myRule);
@@ -145,7 +145,7 @@ public class ApplicationStrategyTest {
 
     @Test
     public void testSavingStrategyMultipleEmptyRules(){
-        String ExpectedFileExists = PathToStrategies + "TestSingleRule";
+        String ExpectedFileExists = pathToStrategies + "TestSingleRule";
         IStrategy mySimpleStrat = new Strategy("TestSingleRule");
         IRule myRule1 = new Rule();
         mySimpleStrat.addRule(myRule1);
@@ -159,7 +159,7 @@ public class ApplicationStrategyTest {
 
     @Test
     public void testSavingStrategyOneRuleOneConditionWithSimpleMovingAverage(){
-        String ExpectedFileExists = PathToStrategies + "TestSingleRule";
+        String ExpectedFileExists = pathToStrategies + "TestSingleRule";
         IStrategy mySimpleStrat = new Strategy("TestSingleRule");
         IRule myRule = new Rule();
         IMeasurement simpleAverage = new SimpleMovingAverage(1);
@@ -173,64 +173,10 @@ public class ApplicationStrategyTest {
         
         testingFile.delete();
     }
-    
-    @Test
-    public void testSavingStrategyByParts(){
-    	File testingFile;
-        String ExpectedFileExists = PathToStrategies + "TestingComponent";
-        
-        IStrategy mySimpleStrat = new Strategy("TestSingleRule");
-        ObjectFileSystem.saveObject(ExpectedFileExists, mySimpleStrat);
-        testingFile = new File(ExpectedFileExists);
-        assertTrue(testingFile.exists());
-        testingFile.delete();
-        
-        IRule myRule = new Rule();
-        ObjectFileSystem.saveObject(ExpectedFileExists, myRule);
-        testingFile = new File(ExpectedFileExists);
-        assertTrue(testingFile.exists());
-        testingFile.delete();
-
-        IMeasurement simpleAverage = new SimpleMovingAverage(1);
-        ObjectFileSystem.saveObject(ExpectedFileExists, simpleAverage);
-        testingFile = new File(ExpectedFileExists);
-        assertTrue(testingFile.exists());
-        testingFile.delete();
-        
-        IMeasurement expoChange = new ExponentialMovingAverage(1);
-        ObjectFileSystem.saveObject(ExpectedFileExists, expoChange);
-        testingFile = new File(ExpectedFileExists);
-        assertTrue(testingFile.exists());
-        testingFile.delete();
-        
-        IMeasurement relativeChange = new IndicatorRelativeChange(new SimpleMovingAverage(5), 3);
-        ObjectFileSystem.saveObject(ExpectedFileExists, relativeChange);
-        testingFile = new File(ExpectedFileExists);
-        assertTrue(testingFile.exists());
-        testingFile.delete();
-        
-        IMeasurement absChange = new IndicatorAbsoluteChange(new SimpleMovingAverage(5), 3);
-        ObjectFileSystem.saveObject(ExpectedFileExists, absChange);
-        testingFile = new File(ExpectedFileExists);
-        assertTrue(testingFile.exists());
-        testingFile.delete();
-        
-        ICondition myCondition = new StaticCondition(simpleAverage, ICondition.Comparator.EQ, new BigDecimal(10));
-        ObjectFileSystem.saveObject(ExpectedFileExists, myCondition);
-        testingFile = new File(ExpectedFileExists);
-        assertTrue(testingFile.exists());
-        testingFile.delete();
-        
-        IAction myAction = new Action(IAction.ActionType.BUY, 10);
-        ObjectFileSystem.saveObject(ExpectedFileExists, myAction);
-        testingFile = new File(ExpectedFileExists);
-        assertTrue(testingFile.exists());
-        testingFile.delete();
-    }
 
     @Test
     public void testSavingLoadingStrategy(){
-        String ExpectedFileExists = PathToStrategies + "TestSaving";
+        String ExpectedFileExists = pathToStrategies + "TestSaving";
         IStrategy myStrategy = new Strategy("TestSaving");
         ApplicationUnderTest.addStrategy(myStrategy);
         File testingFile = new File(ExpectedFileExists);

@@ -1,6 +1,7 @@
 package autotradingsim.application;
 import java.io.*;
 import java.util.*;
+import java.util.function.Function;
 
 import autotradingsim.experiment.*;
 import autotradingsim.stocks.IStock;
@@ -12,11 +13,9 @@ import autotradingsim.util.Pair;
 
 public class TradingApplication implements ITradingApplication {
 
-	private static final String pathToData = "DATA" + File.separator;
-	private static final String pathToExperiments = pathToData + "EXPERIMENTS" + File.separator;
-	private static final String pathToStrategies = pathToData + "STRATEGIES" + File.separator;
 
-	private Set<Integer> experimentIDSet;
+	private Set<String> experimentNameSet;
+	private Set<String> strategyNameSet;
 	
 	private HashMap<Integer, IStrategy> strategies;
 	private HashMap<Integer, IExperiment> experiments;
@@ -36,14 +35,22 @@ public class TradingApplication implements ITradingApplication {
 		this.stocks = new HashMap<String, IStock>();
 		
 		//Initialize Directory for storing experiments
-		File experimentDir = new File(pathToExperiments);
+		File experimentDir = new File(rootPath + pathToExperiments);
 		if(!experimentDir.exists())
 			experimentDir.mkdir();
 		
 		//Initialize Directory for storing strategies
-		File strategyDir = new File(pathToStrategies);
+		File strategyDir = new File(rootPath + pathToStrategies);
 		if(!strategyDir.exists())
 			strategyDir.mkdir();
+
+		experimentNameSet =
+				(ObjectFileSystem.checkListFileExists(pathToData + expListFilename)) ?
+						ObjectFileSystem.loadNamesFromListFile(pathToData + expListFilename) : new HashSet<>();
+
+		strategyNameSet =
+				(ObjectFileSystem.checkListFileExists(pathToData + stratListFilename)) ?
+						ObjectFileSystem.loadNamesFromListFile(pathToData + stratListFilename) : new HashSet<>();
 
 	}
 
@@ -69,16 +76,16 @@ public class TradingApplication implements ITradingApplication {
 		if (experiment.getName() == null)
 			throw new IllegalArgumentException("addExperiment: IExperiment had a null name");
 
-		if (experimentIDSet.contains(experiment.getName().hashCode())){
-			//System.out.println(experiments.keySet().toString() +" "+ experiment.getName().hashCode());
+
+		if (experimentNameSet.contains(experiment.getName())){
 			throw new IllegalArgumentException(
 					"addExperiment: duplicate key -- an experiment with "+ experiment.getName() +"is already stored");
 		}
+
 		experiments.put(experiment.getName().hashCode(), experiment);
+		experimentNameSet.add(experiment.getName());
 
-		experimentIDSet.add(experiment.getName().hashCode());
-
-
+		ObjectFileSystem.appendNameToListFile(pathToData + expListFilename, experiment.getName());
 		this.saveExperiment(experiment);
 		return true;
 	}
@@ -90,17 +97,60 @@ public class TradingApplication implements ITradingApplication {
 	 * @param experimentName of experiment to remove
 	 * @return true iff experiment found and removed successfully
 	 */
-	public boolean delExperiment(String experimentName){
-		if(this.getExperiment(experimentName) == null)
-			return false;
-		String path = pathToExperiments + experimentName;
-		File expFile = new File(path);
-		if (!expFile.exists() || !expFile.isFile()){
+	public boolean delExperiment(String experimentName) {
+		if (experimentName == null)
+			throw new NullPointerException("Experiment name was null");
+		IExperiment exp = this.getExperiment(experimentName);
+		if (exp == null) {
+			System.err.println("Experiment with given name \"" + experimentName + "\" does not exist.");
 			return false;
 		}
-		expFile.delete();
+
+		if (!deleteExperimentFromFileSystem(exp)) {
+			System.err.println("Could not delete Experiment \"" + exp.getName() + "\" from filesystem.  " +
+					"Experiment was not deleted.  Check console.  Filesystem may be corrupted.");
+			return false;
+		}
+
+		experimentNameSet.remove(experimentName);
 		experiments.remove(experimentName.hashCode());
+
 		return true;
+	}
+
+	public boolean delStrategy(String strategyName) {
+		IStrategy strategy = this.getStrategy(strategyName);
+		if (strategy == null) {
+			System.err.println("Strategy with given name \"" + strategyName + "\" does not exist.");
+			return false;
+		}
+
+		if (!deleteStrategyFromFileSystem(strategy)) {
+			System.err.println("Could not delete strategy \"" + strategy.getName() + "\" from filesystem.  " +
+					"Strategy was not deleted.  Check console.  Filesystem may be corrupted.");
+			return false;
+		}
+
+		strategyNameSet.remove(strategyName);
+		strategies.remove(strategyName.hashCode());
+
+		return true;
+	}
+
+	private boolean deleteExperimentFromFileSystem(IExperiment experiment) {
+		if (!ObjectFileSystem.deleteNameFromListFile(pathToData + expListFilename, experiment.getName()))
+			return false;
+
+		String pathToFile = pathToExperiments + experiment.getName();
+		return ObjectFileSystem.deleteObjectFile(pathToFile);
+	}
+
+	private boolean deleteStrategyFromFileSystem(IStrategy strategy) {
+		if (!ObjectFileSystem.deleteNameFromListFile(pathToData + stratListFilename, strategy.getName()))
+			return false;
+
+		String pathToFile = pathToStrategies + strategy.getName();
+		return ObjectFileSystem.deleteObjectFile(pathToFile);
 	}
 
 	/**
@@ -114,13 +164,13 @@ public class TradingApplication implements ITradingApplication {
 	public IExperiment getExperiment(String experimentName){
 		if(experimentName == null)
 			return null;
-		if(experiments.containsKey(experimentName.hashCode())){
+		if (experiments.containsKey(experimentName.hashCode())){
 			return experiments.get(experimentName.hashCode());
 		}else{
 			IExperiment result;
 			try {
 				result = loadExperiment(experimentName);
-				this.addExperiment(result);
+				this.experiments.put(experimentName.hashCode(), result);
 			} catch (NullPointerException e) {
 				System.err.println("Experiment does not exist");
 				throw e;
@@ -136,9 +186,12 @@ public class TradingApplication implements ITradingApplication {
 	 * @param experiment which will be saved to file under EXPERIMENTS dir
 	 */
 	public void saveExperiment(IExperiment experiment){
-		if (experiment == null) throw new NullPointerException("IExperiment argument was null");
-		if (experiment.getName() == null) throw new NullPointerException("IExperiment argument has null name");
-		if (experiment.getName().equals("")) throw new IllegalArgumentException("IExperiment argument has empty string as name");
+		if (experiment == null)
+			throw new NullPointerException("IExperiment argument was null");
+		if (experiment.getName() == null)
+			throw new NullPointerException("IExperiment argument has null name");
+		if (experiment.getName().equals(""))
+			throw new IllegalArgumentException("IExperiment argument has empty string as name");
 
 		String path = pathToExperiments + experiment.getName();
 		if (!ObjectFileSystem.saveObject(path, experiment)) {
@@ -156,9 +209,12 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	private IExperiment loadExperiment(String name) {
 		String path = pathToExperiments + name;
-		Experiment exp = (Experiment) ObjectFileSystem.loadObject(path);
+		IExperiment exp = (IExperiment) ObjectFileSystem.loadObject(path);
 		if (exp == null) {
 			throw new NullPointerException("File for experiment does not exist or contained null object");
+		}
+		if (exp.getName() == null) {
+			throw new NullPointerException("loadExperiment: loaded object contains invalid properties");
 		}
 		return exp;
 	}
@@ -168,34 +224,29 @@ public class TradingApplication implements ITradingApplication {
 	 * @return a set of experiment names
 	 */
 	public Set<String> getAvailableExperiments(){
-		File experiments = new File(this.pathToExperiments);
-		Set<String> returningSet = new HashSet<String>();
-		if(experiments.exists() && experiments.isDirectory()){
-			for(File experiment : experiments.listFiles())
-				returningSet.add(experiment.getName());
-		}
-		return returningSet;
+		return Collections.unmodifiableSet(experimentNameSet);
 	}
 
-	public boolean addStrategy(IStrategy strat){
-		if (strat == null) {
+	public boolean addStrategy(IStrategy strategy){
+		if (strategy == null) {
 			throw new NullPointerException("Strategy was null");
 		}
-		if (strat.getName() == null) {
+		if (strategy.getName() == null) {
 			throw new NullPointerException("Strategy name was null");
 		}
-		if (strat.getName().equals("")) {
+		if (strategy.getName().equals("")) {
 			throw new IllegalArgumentException("Strategy name was empty string");
 		}
 
-		if (strategies.containsKey(strat.getName().hashCode())) {
+		if (strategyNameSet.contains(strategy.getName())) {
 			System.err.println("TradingApplication::getStrategy\n\tStrategy with that name already exists");
 			return false;
 		}
 
-		strategies.put(strat.getName().hashCode(), strat);
-
-		this.saveStrategy(strat);
+		strategies.put(strategy.getName().hashCode(), strategy);
+		strategyNameSet.add(strategy.getName());
+		ObjectFileSystem.appendNameToListFile(pathToData + stratListFilename, strategy.getName());
+		this.saveStrategy(strategy);
 
 		return true;
 	}
@@ -203,41 +254,50 @@ public class TradingApplication implements ITradingApplication {
 	/**
 	 * Retrieves a strategy by it's given name
 	 * 
-	 * @param stratName strategy name which was used to store strategy
+	 * @param strategyName strategy name which was used to store strategy
 	 * @return strategy with the associated name or null on none found
 	 */
 	@Override
-	public IStrategy getStrategy(String stratName){
-		if(stratName == null)
+	public IStrategy getStrategy(String strategyName){
+		if (strategyName == null)
+			throw new NullPointerException("getStrategy: strategyName was null");
+		if (!strategyNameSet.contains(strategyName))
 			return null;
-		if(strategies.containsKey(stratName.hashCode())){
-			return strategies.get(stratName.hashCode());
+		if (strategies.containsKey(strategyName.hashCode())) {
+			return strategies.get(strategyName.hashCode());
 		}else{
-			IStrategy result = loadStrategy(stratName);
-			if(result != null)
-				this.addStrategy(result);
+			IStrategy result = loadStrategy(strategyName);
+			if (result != null)
+				this.strategies.put(strategyName.hashCode(), result);
 			return result;
 		}
 	}
 
-	public void saveStrategy(IStrategy newStrat) {
-		if (newStrat == null) throw new NullPointerException("Strategy argument was null");
-		if (newStrat.getName() == null) throw new NullPointerException("IExperiment argument has null name");
-		if (newStrat.getName().equals("")) throw new IllegalArgumentException("IExperiment argument has empty string as name");
+	public void saveStrategy(IStrategy newStrategy) {
+		if (newStrategy == null)
+			throw new NullPointerException("Strategy argument was null");
+		if (newStrategy.getName() == null)
+			throw new NullPointerException("IExperiment argument has null name");
+		if (newStrategy.getName().equals(""))
+			throw new IllegalArgumentException("IExperiment argument has empty string as name");
 
-		String path = this.pathToStrategies + newStrat.getName();
+		String path = pathToStrategies + newStrategy.getName();
 
-		if (!ObjectFileSystem.saveObject(path, newStrat)) {
+		if (!ObjectFileSystem.saveObject(path, newStrategy)) {
 			System.err.println("Error in \"TradingApplication::saveStrategy\"\n\tCould not save object. Check console");
 		}
 	}
 	
 	private IStrategy loadStrategy(String stratName) {
-		String path = this.pathToStrategies + stratName;
+		String path = pathToStrategies + stratName;
 		IStrategy returnedObject = (IStrategy) ObjectFileSystem.loadObject(path);
-		if(returnedObject == null)
-			return null;
-		
+		if (returnedObject == null)
+			throw new NullPointerException("File for strategy does not exist or could not be loaded.");
+		if (returnedObject.getName() == null) {
+			throw new NullPointerException("loadStrategy: loaded object contains invalid properties");
+		}
+
+		// Reset all of the RuleIDs
 		Set<IRule> myRules = new HashSet<IRule>();
 		for(RuleID myRuleId : returnedObject.getRules()){
 			myRules.add(returnedObject.getRule(myRuleId));
@@ -257,13 +317,7 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public Set<String> getAvailableStrategies() {
-		File strategies = new File(this.pathToStrategies);
-		Set<String> returningSet = new HashSet<String>();
-		if(strategies.exists() && strategies.isDirectory()){
-			for(File strategy : strategies.listFiles())
-				returningSet.add(strategy.getName());
-		}
-		return returningSet;
+		return Collections.unmodifiableSet(strategyNameSet);
 	}
 
 	
@@ -327,7 +381,7 @@ public class TradingApplication implements ITradingApplication {
 	}
 
 	/**
-	 * Clear the Applications internal cache
+	 * Clear the Application's internal cache
 	 */
 	@Override
 	public void clearMemory() {
@@ -352,24 +406,40 @@ public class TradingApplication implements ITradingApplication {
 	 *
 	 */
 	public static void clearMemoryAndFileSystem() {
-		
-		String PathToExperiments = System.getProperty("user.dir") + File.separator + "DATA" +
-				File.separator + "EXPERIMENTS" + File.separator;
-		String PathToStrategies = System.getProperty("user.dir") + File.separator + "DATA" + 
-				File.separator + "STRATEGIES" + File.separator;
-		
-		File experiments = new File(PathToExperiments);
-		if(experiments.exists() && experiments.isDirectory())
-			for(File experiment : experiments.listFiles())
-				experiment.delete();
-		
-		File strategies = new File(PathToStrategies);
-		if(strategies.exists() && strategies.isDirectory())
-			for(File strategy : strategies.listFiles())
-				strategy.delete();
 
+		// Define error-message-generating function
+		Function<String[], String> errMessageGen = (String[] typeAndName) ->
+				"Could not delete object file for " + typeAndName[0] + ": \"" + typeAndName[1] + "\"";
+
+		// Delete object files for both experiments and strategies
+		for (String listType : new String[]{"experiment", "strategy"}) {
+			String objectPath = (listType.equals("experiment")) ? pathToExperiments : pathToStrategies;
+			File objectDir = new File(objectPath);
+			if (objectDir.isDirectory()) {
+				File[] files = objectDir.listFiles();
+				if (files == null) {
+					System.err.println("No files found in directory:\n\t\"" + objectPath + "\"");
+					continue;
+				}
+				for (File item : files) {
+					if (!item.delete())
+						System.err.println(
+								"Could not delete file found at path:\n\t\"" + item.getAbsolutePath() + "\"");
+				}
+			}
+		}
+
+		// Delete list files
+		if (ObjectFileSystem.checkListFileExists(pathToData + expListFilename))
+			ObjectFileSystem.deleteListFile(pathToData + expListFilename);
+		if (ObjectFileSystem.checkListFileExists(pathToData + stratListFilename))
+			ObjectFileSystem.deleteListFile(pathToData + stratListFilename);
+
+		// Clear memory and "destroy" instance (via garbage collector)
 		if (instance != null) {
 			instance.clearMemory();
+			instance.experimentNameSet.clear();
+			instance.strategyNameSet.clear();
 		}
 		instance = null;
 	}

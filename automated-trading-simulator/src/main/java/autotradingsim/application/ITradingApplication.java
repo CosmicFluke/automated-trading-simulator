@@ -1,5 +1,6 @@
 package autotradingsim.application;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -9,6 +10,21 @@ import autotradingsim.strategy.IStrategy;
 import autotradingsim.util.Pair;
 
 public interface ITradingApplication {
+
+	String rootPath = System.getProperty("user.dir") + File.separator;
+	String listExtension = ".tsl";
+	String pathToData = "DATA" + File.separator;
+	String pathToStrategies = pathToData + "STRATEGIES" + File.separator;
+	String pathToExperiments = pathToData + "EXPERIMENTS" + File.separator;
+	String expListFilename = "experimentList";
+	String stratListFilename = "strategyList";
+
+	// Unused for now
+	String stockListFilename = "stockList";
+	String experimentExtension = ".tse";
+	String strategyExtension = ".tss";
+	String resultsExtension = ".tsr";
+
 
 	/**
 	 * Add an experiment by name into the application
@@ -39,7 +55,7 @@ public interface ITradingApplication {
 	 * @param experimentName to which remove
 	 * @return true iff successful
 	 */
-	public boolean delExperiment(String experimentName);
+	boolean delExperiment(String experimentName);
 
 	/**
 	 * Add a strategy into the application

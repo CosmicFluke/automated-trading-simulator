@@ -19,7 +19,7 @@ import autotradingsim.strategy.Strategy;
 public class ApplicationExperimentTest {
 
     private static String PathToExperiments = System.getProperty("user.dir") + "//DATA//EXPERIMENTS//";
-    ITradingApplication ApplicationUnderTest;
+    ITradingApplication applicationUnderTest;
 
     @AfterClass
     public static void afterClass() {
@@ -29,89 +29,90 @@ public class ApplicationExperimentTest {
     @Before
     public void setUp() throws Exception {
         TradingApplication.clearMemoryAndFileSystem();
-        ApplicationUnderTest = TradingApplication.getInstance();
+        TradingApplication.destructObject();
+        applicationUnderTest = TradingApplication.getInstance();
     }
 
     @After
     public void tearDown() throws Exception {
-        ApplicationUnderTest.clearMemory();
+        applicationUnderTest.clearMemory();
     }
 
     @Test
     public void testSetExperimentValid(){
-        assertTrue(ApplicationUnderTest.addExperiment(new Experiment("TestSaving")));
+        assertTrue(applicationUnderTest.addExperiment(new Experiment("TestSaving")));
     }
 
     @Test(expected = NullPointerException.class)
     public void testSetExperimentInvalid(){
-        ApplicationUnderTest.addExperiment(null);
+        applicationUnderTest.addExperiment(null);
     }
 
     @Test
     public void testSetExperimentNameInvalid(){
-        ApplicationUnderTest.addExperiment(new Experiment("Test"));
+        applicationUnderTest.addExperiment(new Experiment("Test"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetExperimentTwice(){
         IExperiment savingExperiment = new Experiment("Test");
-        assertTrue(ApplicationUnderTest.addExperiment(savingExperiment));
-        ApplicationUnderTest.addExperiment(savingExperiment);
+        assertTrue(applicationUnderTest.addExperiment(savingExperiment));
+        applicationUnderTest.addExperiment(savingExperiment);
     }
 
     @Test(expected = NullPointerException.class)
     public void testSetExperimentTwiceNullSecond(){
         IExperiment savingExperiment = new Experiment("Test");
-        assertTrue(ApplicationUnderTest.addExperiment(savingExperiment));
-        ApplicationUnderTest.addExperiment(null);
+        assertTrue(applicationUnderTest.addExperiment(savingExperiment));
+        applicationUnderTest.addExperiment(null);
     }
 
     @Test
     public void testSetExperimentTwiceNullFirst(){
         IExperiment savingExperiment = new Experiment("Test");
-        Set<String> firstExpSet = ApplicationUnderTest.getAvailableExperiments();
+        Set<String> firstExpSet = applicationUnderTest.getAvailableExperiments();
         try {
-            ApplicationUnderTest.addExperiment(null);
+            applicationUnderTest.addExperiment(null);
         } catch (NullPointerException e) {
-            assertEquals(firstExpSet, ApplicationUnderTest.getAvailableExperiments());
+            assertEquals(firstExpSet, applicationUnderTest.getAvailableExperiments());
         }
-        assertTrue(ApplicationUnderTest.addExperiment(savingExperiment));
+        assertTrue(applicationUnderTest.addExperiment(savingExperiment));
     }
 
     @Test
     public void testGetExperimentValidExperiment(){
         IExperiment savingExperiment = new Experiment("TestSaving");
-        ApplicationUnderTest.addExperiment(savingExperiment);
-        assertEquals(savingExperiment, ApplicationUnderTest.getExperiment("TestSaving"));
+        applicationUnderTest.addExperiment(savingExperiment);
+        assertEquals(savingExperiment, applicationUnderTest.getExperiment("TestSaving"));
     }
 
     @Test
     public void testGetExperimentNullExperimentName(){
-        assertEquals(ApplicationUnderTest.getExperiment(null), null);
+        assertEquals(applicationUnderTest.getExperiment(null), null);
     }
 
     @Test
     public void testGetExperimentMultipleExperiments(){
         IExperiment savingExperiment1 = new Experiment("TestSaving1");
         IExperiment savingExperiment2 = new Experiment("TestSaving2");
-        ApplicationUnderTest.addExperiment(savingExperiment1);
-        ApplicationUnderTest.addExperiment(savingExperiment2);
-        assertEquals(savingExperiment1, ApplicationUnderTest.getExperiment("TestSaving1"));
-        assertEquals(savingExperiment2, ApplicationUnderTest.getExperiment("TestSaving2"));
+        applicationUnderTest.addExperiment(savingExperiment1);
+        applicationUnderTest.addExperiment(savingExperiment2);
+        assertEquals(savingExperiment1, applicationUnderTest.getExperiment("TestSaving1"));
+        assertEquals(savingExperiment2, applicationUnderTest.getExperiment("TestSaving2"));
     }
 
     @Test
     public void testGetExperimentMultipleGetExperiment(){
         IExperiment savingExperiment1 = new Experiment("TestSaving1");
-        ApplicationUnderTest.addExperiment(savingExperiment1);
-        assertEquals(savingExperiment1, ApplicationUnderTest.getExperiment("TestSaving1"));
-        assertEquals(savingExperiment1, ApplicationUnderTest.getExperiment("TestSaving1"));
+        applicationUnderTest.addExperiment(savingExperiment1);
+        assertEquals(savingExperiment1, applicationUnderTest.getExperiment("TestSaving1"));
+        assertEquals(savingExperiment1, applicationUnderTest.getExperiment("TestSaving1"));
     }
 
     @Test
     public void testSavingExperiment(){
         String ExpectedFileExists = PathToExperiments + "TestSaving";
-        ApplicationUnderTest.addExperiment(new Experiment("TestSaving"));
+        applicationUnderTest.addExperiment(new Experiment("TestSaving"));
         File testingFile = new File(ExpectedFileExists);
         assertTrue(testingFile.exists());
         testingFile.delete();
@@ -120,22 +121,22 @@ public class ApplicationExperimentTest {
     @Test
     public void testSavingLoadingExperiment(){
     	IStrategy newStrategy = new Strategy();
-    	ApplicationUnderTest.addStrategy(newStrategy);
+    	applicationUnderTest.addStrategy(newStrategy);
     	
         String ExpectedFileExists = PathToExperiments + "TestSaving";
         IExperiment myExperiment = new Experiment("TestSaving");
         
         myExperiment.addTrial(newStrategy.getName(), "AAPL");
-        ApplicationUnderTest.addExperiment(myExperiment);
+        applicationUnderTest.addExperiment(myExperiment);
         File testingFile = new File(ExpectedFileExists);
         assertTrue(testingFile.exists());
 
-        IExperiment expectedMyExperiment = ApplicationUnderTest.getExperiment("TestSaving");
+        IExperiment expectedMyExperiment = applicationUnderTest.getExperiment("TestSaving");
         assertEquals(myExperiment, expectedMyExperiment);
 
-        ApplicationUnderTest.clearMemory();
+        applicationUnderTest.clearMemory();
 
-        expectedMyExperiment = ApplicationUnderTest.getExperiment("TestSaving");
+        expectedMyExperiment = applicationUnderTest.getExperiment("TestSaving");
         assertEquals(myExperiment.getName(), expectedMyExperiment.getName());
 
         testingFile.delete();
@@ -143,56 +144,56 @@ public class ApplicationExperimentTest {
 
     @Test
     public void testAvailableExperimentsEmpty(){
-        assertTrue(ApplicationUnderTest.getAvailableExperiments().isEmpty());
+        assertTrue(applicationUnderTest.getAvailableExperiments().isEmpty());
     }
 
     @Test
     public void testAvailableExperimentsSingleExperiment(){
         IExperiment testExperiment = new Experiment("newExperiment");
-        ApplicationUnderTest.addExperiment(testExperiment);
+        applicationUnderTest.addExperiment(testExperiment);
         Set<String> expectedSet = new HashSet<String>();
         expectedSet.add("newExperiment");
-        assertEquals(ApplicationUnderTest.getAvailableExperiments(), expectedSet);
+        assertEquals(applicationUnderTest.getAvailableExperiments(), expectedSet);
     }
 
     @Test
     public void testAvailableExperimentsSingleClearExperiment(){
         IExperiment testExperiment = new Experiment("newExperiment");
-        ApplicationUnderTest.addExperiment(testExperiment);
-        ApplicationUnderTest.clearMemory();
+        applicationUnderTest.addExperiment(testExperiment);
+        applicationUnderTest.clearMemory();
         Set<String> expectedSet = new HashSet<String>();
         expectedSet.add("newExperiment");
-        assertEquals(ApplicationUnderTest.getAvailableExperiments(), expectedSet);
+        assertEquals(applicationUnderTest.getAvailableExperiments(), expectedSet);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testDeleteExperimentNull(){
-        assertFalse(ApplicationUnderTest.delExperiment(null));
+        applicationUnderTest.delExperiment(null);
     }
     
     @Test
     public void testDeleteExperiment(){
         String ExpectedFileExists = PathToExperiments + "TestSaving";
-        ApplicationUnderTest.addExperiment(new Experiment("TestSaving"));
+        applicationUnderTest.addExperiment(new Experiment("TestSaving"));
         File testingFile = new File(ExpectedFileExists);
         assertTrue(testingFile.exists());
         
-        assertTrue(ApplicationUnderTest.delExperiment("TestSaving"));
+        assertTrue(applicationUnderTest.delExperiment("TestSaving"));
         assertFalse(testingFile.exists());
-        //assertTrue(ApplicationUnderTest.getExperiment("TestSaving") == null);
+        //assertTrue(applicationUnderTest.getExperiment("TestSaving") == null);
     }
     
     @Test
     public void testDeleteExperimentClearMem(){
-        String ExpectedFileExists = PathToExperiments + "TestSaving";
-        ApplicationUnderTest.addExperiment(new Experiment("TestSaving"));
-        File testingFile = new File(ExpectedFileExists);
+        String expectedFilePath = PathToExperiments + "TestSaving";
+
+        applicationUnderTest.addExperiment(new Experiment("TestSaving"));
+        File testingFile = new File(expectedFilePath);
         assertTrue(testingFile.exists());
         
-        ApplicationUnderTest.clearMemory();
-        
-        assertTrue(ApplicationUnderTest.delExperiment("TestSaving"));
+        applicationUnderTest.clearMemory();
+        assertTrue(applicationUnderTest.delExperiment("TestSaving"));
         assertFalse(testingFile.exists());
-        //assertTrue(ApplicationUnderTest.getExperiment("TestSaving") == null);
+        //assertTrue(applicationUnderTest.getExperiment("TestSaving") == null);
     }
 }
