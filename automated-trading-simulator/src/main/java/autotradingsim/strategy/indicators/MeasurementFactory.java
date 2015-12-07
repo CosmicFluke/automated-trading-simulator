@@ -85,6 +85,26 @@ public class MeasurementFactory {
         return new IndicatorAbsoluteChange(measurement, numDays, IndicatorAbsoluteChange.CalcMode.DAILY_AVERAGE_CHANGE);
     }
 
+    public static MetaIndicator newRelativeAverageChange(int numDays, IMeasurement measurement) {
+        if (numDays == 0) {
+            throw new IllegalArgumentException("numDays must be at least 1.");
+        }
+        if (measurement == null) {
+            throw new NullPointerException("Null IMeasurement given as parameter.");
+        }
+        return new IndicatorRelativeChange(measurement, numDays, IndicatorRelativeChange.CalcMode.DAILY_AVERAGE_CHANGE);
+    }
+
+    public static MetaIndicator newRelativeNetChange(int numDays, IMeasurement measurement) {
+        if (numDays == 0) {
+            throw new IllegalArgumentException("numDays must be at least 1.");
+        }
+        if (measurement == null) {
+            throw new NullPointerException("Null IMeasurement given as parameter.");
+        }
+        return new IndicatorRelativeChange(measurement, numDays, IndicatorRelativeChange.CalcMode.NET_CHANGE);
+    }
+
     /**
      * <p>NOTE: This function is primarily for testing purposes.<br>
      * Produces a {@link MetaIndicator} that calculates the absolute change over 2 days in a 5-day moving average.</p>
