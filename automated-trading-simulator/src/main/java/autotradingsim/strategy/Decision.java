@@ -69,4 +69,29 @@ public class Decision implements IDecision {
         }
         return TradingApplication.getInstance().getStock(stockSymbol).getDay(date).getValue(StockDay.Values.CLOSE);
     }
+    
+    @Override
+    public String toString(){
+    	String actionType = "";
+    	switch(this.type){
+    	case BUY:
+    		actionType = "BUY";
+    		break;
+    		
+    	case SELL:
+    		actionType = "SELL";
+    		break;
+    	
+    	case SHORT:
+    		actionType = "SHORT";
+    		break;
+    	
+    	case COVER:
+    		actionType = "COVER";
+    		break;
+    	default:
+    		throw new IllegalArgumentException("type unsupported by toString");
+    	}
+    	return actionType + " " + this.stockSymbol;
+    }
 }

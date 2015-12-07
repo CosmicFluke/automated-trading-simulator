@@ -71,7 +71,7 @@ public class Result implements Serializable{
      * @return BigDecimal: Value difference between opening and closing balances for whole set of resultDays.
      */
     public BigDecimal getBalanceRelativeChange(){
-    	return this.getOpeningBalance().subtract(this.getClosingBalance());
+    	return this.getClosingBalance().subtract(getOpeningBalance());
     }
     
     /**

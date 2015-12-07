@@ -2,11 +2,14 @@ package autotradingsim.ui;
 import autotradingsim.application.*;
 import autotradingsim.engine.*;
 import autotradingsim.experiment.*;
+import autotradingsim.strategy.IDecision;
 import autotradingsim.strategy.IStrategy;
 import java.time.LocalDate;
 import javax.swing.*;
 import java.util.*;
 import autotradingsim.util.Pair;
+import java.lang.String;
+import java.util.List;
 /**
  *
  * @author Bill Feng
@@ -327,9 +330,6 @@ public class ExperimentViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_addTrialActionPerformed
 
     private void runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runActionPerformed
-        // TODO add your handling code here:
-        dialogResult dialogResult = new dialogResult(this, true);
-        dialogResult.setVisible(true);
 
         // Retrieving All instantiate a TimeSet.
         int numTrials = (int) duration.getValue();
@@ -349,9 +349,40 @@ public class ExperimentViewer extends javax.swing.JFrame {
         LocalDate endDate = LocalDate.of(endYear, endMonth, endDayOfMonth);
         TimeSet timeSet = new TimeSet(numTrials, trialDuration, startDate, endDate);
 
+        dialogResult dialogResult; 
+        dialogResult = new dialogResult(this, true, 
+                experiment.getName());
+        
+        
         ExperimentResults experimentResults = this.experiment.runExperiment(timeSet);
 
+        List<String> myResults = new ArrayList<String>(); 
+        
+         for (int i = 0; i < experimentResults.size(); i++){
+        	myResults.add("\n\nResults for timeset from: "
+        			+ experimentResults.getResultAt(i).getStartDate().toString()
+        			+ " to " + experimentResults.getResultAt(i).getEndDate().toString());
+        	
+                myResults.add("\nOpening balance: " + experimentResults.getResultAt(i).getOpeningBalance());
+                
+                List<ResultDay> results = experimentResults.getResultAt(i).getResultDays();
+                
+	        for (ResultDay result : results){
+	        	myResults.add("\n\t" + result.getDate().toString());
+                        
+                        for(String decisionString : result.getDecisionStrings())
+                            myResults.add("\n\t" + decisionString);
+                        myResults.add("\n\t relative change: " + result.getClosingBalance().subtract(result.getOpeningBalance()));
+	        }
+                
+                myResults.add("\nClosing balance: " + experimentResults.getResultAt(i).getClosingBalance());
 
+        }
+        
+        System.out.println("setting result text");
+        dialogResult.setResultText(myResults);
+        
+        dialogResult.setVisible(true);
     }//GEN-LAST:event_runActionPerformed
 
     private void viewStocksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewStocksActionPerformed
