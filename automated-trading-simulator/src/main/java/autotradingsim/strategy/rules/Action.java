@@ -66,4 +66,25 @@ public class Action implements IAction, Serializable {
 		return this.quantity;
 	}
 
+    @Override
+    public String toString() {
+    	String action = "";
+    	switch(type){
+    	case BUY:
+    		action = "Buy";
+    		break;
+    	case SELL:
+    		action = "Sell";
+    		break;
+    	case SHORT:
+    		action = "Short";
+    		break;
+    	case COVER:
+    		action = "Cover";
+    		break;
+    	default:
+    		throw new IllegalArgumentException("action type not understood by tostring");
+    	}
+        return "" + action + " " + String.valueOf(quantity);
+    }
 }
