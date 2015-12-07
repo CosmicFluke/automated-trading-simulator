@@ -228,7 +228,6 @@ public class ObjectFileSystem {
 		File listsFile = new File(path);
 
 		boolean exists = listsFile.exists();
-		System.out.println("Lists file (exists=="+ String.valueOf(exists) + ") at path:\n\t\"" + path + "\"");
 
 		return exists;
 	}
