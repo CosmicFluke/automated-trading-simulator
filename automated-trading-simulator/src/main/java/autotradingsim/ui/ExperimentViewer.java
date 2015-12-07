@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.util.*;
 import autotradingsim.util.Pair;
 import java.lang.String;
+import java.math.BigDecimal;
 import java.util.List;
 /**
  *
@@ -352,12 +353,11 @@ public class ExperimentViewer extends javax.swing.JFrame {
         dialogResult dialogResult; 
         dialogResult = new dialogResult(this, true, 
                 experiment.getName());
-        
-        
+
         ExperimentResults experimentResults = this.experiment.runExperiment(timeSet);
 
         List<String> myResults = new ArrayList<String>(); 
-        
+        BigDecimal sumOfAssetsValue = BigDecimal.ZERO;
          for (int i = 0; i < experimentResults.size(); i++){
         	myResults.add("\n\nResults for timeset from: "
         			+ experimentResults.getResultAt(i).getStartDate().toString()
@@ -366,17 +366,34 @@ public class ExperimentViewer extends javax.swing.JFrame {
                 myResults.add("\nOpening balance: " + experimentResults.getResultAt(i).getOpeningBalance());
                 
                 List<ResultDay> results = experimentResults.getResultAt(i).getResultDays();
-                
+                ResultDay endDay = results.get(results.size()-1);
 	        for (ResultDay result : results){
 	        	myResults.add("\n\t" + result.getDate().toString());
                         
                         for(String decisionString : result.getDecisionStrings())
                             myResults.add("\n\t" + decisionString);
                         myResults.add("\n\t relative change: " + result.getClosingBalance().subtract(result.getOpeningBalance()));
-	        }
+                        List<Pair<String, Integer>> StockToShares = result.getNumShares();
+                }
+                BigDecimal assetsValue = BigDecimal.ZERO;
+                for(Pair<String, Integer> StockToShare: endDay.getNumShares()){
+                            BigDecimal sharesTotalValue = TradingApplication.getInstance()
+                                    .getStock(StockToShare.x)
+                                    .getDay(endDay.getDate())
+                                    .getValue()
+                                    .multiply(BigDecimal.valueOf(StockToShare.y));
+                            myResults.add("\n\t"+StockToShare.x+" Number of Shares: "+StockToShare.y 
+                                    + "\nValue of Shares: " + sharesTotalValue.toString());
+                            assetsValue = assetsValue.add(sharesTotalValue);
+                }
                 
                 myResults.add("\nClosing balance: " + experimentResults.getResultAt(i).getClosingBalance());
-
+                myResults.add("\nTotal value of non-cash assets: " + assetsValue.toString());
+                sumOfAssetsValue = sumOfAssetsValue.add(assetsValue);
+        }
+        if (experimentResults.size() != 0) {
+            myResults.add("\n\nAverage value of assets across all trials: $" + sumOfAssetsValue.divide(BigDecimal.valueOf(experimentResults.size()), 
+                    BigDecimal.ROUND_HALF_EVEN).toString());
         }
         
         System.out.println("setting result text");
