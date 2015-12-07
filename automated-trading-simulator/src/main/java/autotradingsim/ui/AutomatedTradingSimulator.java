@@ -1,16 +1,24 @@
 package autotradingsim.ui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 /**
  *
  * @author Bill Feng
  */
 public class AutomatedTradingSimulator extends javax.swing.JFrame {
-
+Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     /**
      * Creates new form Application
      */
     public AutomatedTradingSimulator() {
+
         initComponents();
+        int x = (screenSize.width/2)-(this.getBounds().width/2);
+        int y = (screenSize.height/2)-(this.getBounds().height/2);
+        System.out.println(this.getBounds().width);
+        this.setLocation(x,y);
     }
 
     /**
@@ -89,7 +97,7 @@ public class AutomatedTradingSimulator extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
                     .addComponent(quit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(indicators, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(stocks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

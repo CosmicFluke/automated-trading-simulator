@@ -1,10 +1,16 @@
 package autotradingsim.ui;
 
 import autotradingsim.application.TradingApplication;
+import autotradingsim.engine.StrategyEngine;
 import autotradingsim.strategy.IStrategy;
+import autotradingsim.strategy.rules.IAction;
+import autotradingsim.strategy.rules.ICondition;
 import autotradingsim.strategy.rules.IRule;
 import autotradingsim.strategy.rules.Rule;
 import autotradingsim.strategy.rules.RuleID;
+import autotradingsim.util.Pair;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -24,6 +30,8 @@ public class StrategyViewer extends javax.swing.JFrame {
     DefaultListModel actionListModel = new DefaultListModel();
     DefaultComboBoxModel actionBoxModel = new DefaultComboBoxModel();
     IStrategy strategy;
+    StrategyEngine strategyEngine = StrategyEngine.getInstance();
+    HashMap <String, RuleID> ruleNameToID = new HashMap<>();
     public StrategyViewer(StrategyList parent, IStrategy strategy) {
         this.parent = parent;
         initComponents();
@@ -32,7 +40,7 @@ public class StrategyViewer extends javax.swing.JFrame {
                 parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
         ruleComboBox.setModel(actionBoxModel);
         conditionList.setModel(conditionListModel);
-        //actionList.setModel(actionListModel);
+        actionList.setModel(actionListModel);
         this.strategy = strategy;
         name.setText(strategy.getName());
         setRuleComboBox();
@@ -42,16 +50,14 @@ public class StrategyViewer extends javax.swing.JFrame {
         Set<RuleID> rules = strategy.getRules();
         actionBoxModel.removeAllElements();
         rules.stream().forEach((ruleID) -> {
-            actionBoxModel.addElement(strategy.getRuleName(ruleID));
+            String ruleName = strategy.getRuleName(ruleID);
+            ruleNameToID.put(ruleName, ruleID);
+            actionBoxModel.addElement(ruleName);
         });
     }
     
     protected void setConditionList(){
-        
-      
     }
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -72,11 +78,12 @@ public class StrategyViewer extends javax.swing.JFrame {
         edit = new javax.swing.JButton();
         back = new javax.swing.JButton();
         addCondition = new javax.swing.JButton();
-        addAction = new javax.swing.JButton();
         deleteCondition = new javax.swing.JButton();
         deleteAction = new javax.swing.JButton();
         AddRuleButton = new javax.swing.JButton();
-        NewRuleName = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        addBuy = new javax.swing.JButton();
+        addSell = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Strategy Viewer");
@@ -91,26 +98,22 @@ public class StrategyViewer extends javax.swing.JFrame {
         name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         name.setText("Name: NAME_OF_STRATEGY");
 
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel2.setText("Conditions");
 
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel3.setText("Actions");
 
         conditionList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        conditionList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(conditionList);
 
-        actionList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        actionList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+        ruleComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ruleComboBoxActionPerformed(evt);
+            }
         });
+
+        actionList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jScrollPane2.setViewportView(actionList);
 
         edit.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
@@ -131,8 +134,8 @@ public class StrategyViewer extends javax.swing.JFrame {
             }
         });
 
-        addCondition.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        addCondition.setText("Add");
+        addCondition.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        addCondition.setText("Add New");
         addCondition.setPreferredSize(new java.awt.Dimension(190, 50));
         addCondition.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,16 +143,7 @@ public class StrategyViewer extends javax.swing.JFrame {
             }
         });
 
-        addAction.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        addAction.setText("Add");
-        addAction.setPreferredSize(new java.awt.Dimension(190, 50));
-        addAction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addActionActionPerformed(evt);
-            }
-        });
-
-        deleteCondition.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        deleteCondition.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         deleteCondition.setText("Delete");
         deleteCondition.setPreferredSize(new java.awt.Dimension(190, 50));
         deleteCondition.addActionListener(new java.awt.event.ActionListener() {
@@ -158,7 +152,7 @@ public class StrategyViewer extends javax.swing.JFrame {
             }
         });
 
-        deleteAction.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        deleteAction.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         deleteAction.setText("Delete");
         deleteAction.setPreferredSize(new java.awt.Dimension(190, 50));
         deleteAction.addActionListener(new java.awt.event.ActionListener() {
@@ -167,83 +161,111 @@ public class StrategyViewer extends javax.swing.JFrame {
             }
         });
 
-        AddRuleButton.setText("AddRule");
-        AddRuleButton.setToolTipText("");
+        AddRuleButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        AddRuleButton.setText("Add Rule");
+        AddRuleButton.setToolTipText("Open prompt window to add a new rule");
         AddRuleButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 AddRuleButtonMouseClicked(evt);
             }
         });
+        AddRuleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddRuleButtonActionPerformed(evt);
+            }
+        });
 
-        NewRuleName.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        NewRuleName.setMinimumSize(new java.awt.Dimension(2, 22));
-        NewRuleName.setPreferredSize(new java.awt.Dimension(65, 22));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setText("Viewing Rule:");
+
+        addBuy.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        addBuy.setText("Add Buy");
+        addBuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBuyActionPerformed(evt);
+            }
+        });
+
+        addSell.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        addSell.setText("Add Sell");
+        addSell.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addSellActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(AddRuleButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(NewRuleName, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ruleComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(addCondition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                                .addComponent(deleteCondition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(addAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                                .addComponent(deleteAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                                .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(addBuy)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(addSell)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(deleteCondition, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(ruleComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(addCondition, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(deleteAction, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(AddRuleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(name)
+                    .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(name, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ruleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(AddRuleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(addCondition, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteAction, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ruleComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(AddRuleButton)
-                    .addComponent(NewRuleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(addBuy)
+                    .addComponent(addSell)
+                    .addComponent(jLabel3)
+                    .addComponent(deleteCondition, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addCondition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteCondition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -279,14 +301,6 @@ public class StrategyViewer extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addConditionActionPerformed
 
-    private void addActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionActionPerformed
-        ActionPicker ap = new ActionPicker(this, true);
-        String actionName = ap.run();
-        if(!actionName.equals("") && !actionListModel.contains(actionName)){
-            actionListModel.addElement(actionName);
-        }
-    }//GEN-LAST:event_addActionActionPerformed
-
     private void deleteConditionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteConditionActionPerformed
         if(conditionList.getSelectedIndex() == -1){
             dialogMessage dm = new dialogMessage(this, true, "Select an item to delete!");
@@ -312,26 +326,66 @@ public class StrategyViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteActionActionPerformed
 
     private void AddRuleButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddRuleButtonMouseClicked
-        String ruleName = NewRuleName.getText();
-        System.out.println(ruleName);
+       
+    }//GEN-LAST:event_AddRuleButtonMouseClicked
+
+    private void ruleComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ruleComboBoxActionPerformed
+        // TODO add your handling code here:
+        if(ruleComboBox.getSelectedIndex() != -1){
+            String ruleName = ruleComboBox.getSelectedItem().toString();
+            IRule rule = this.strategy.getRule(ruleNameToID.get(ruleName));
+            for(IAction action:rule.getActions()){
+                actionListModel.clear();
+                String type = action.getActionType().toString();
+                String quant = action.getQuantity().toString();
+                actionListModel.addElement(type + ": " + quant);
+            }
+            for (ICondition condition:rule.getConditions()){
+                conditionListModel.clear();
+                conditionListModel.addElement(condition.toString());
+            }
+        }
+        //this.strategy.getRule(rule)
+    }//GEN-LAST:event_ruleComboBoxActionPerformed
+
+    private void AddRuleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddRuleButtonActionPerformed
+        // TODO add your handling code here:
+        dialogInput di = new dialogInput(this, true);
+        String ruleName = di.run();
+        //System.out.println(ruleName);
         if(!ruleName.isEmpty()){
             IRule newRule = new Rule(ruleName, "");
-            TradingApplication.getInstance().getStrategy(name.getText()).addRule(newRule);
+            strategy.addRule(newRule);
+            strategyEngine.saveStrategy(strategy);
             setRuleComboBox();
         }
-    }//GEN-LAST:event_AddRuleButtonMouseClicked
+    }//GEN-LAST:event_AddRuleButtonActionPerformed
+
+    private void addBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBuyActionPerformed
+        // TODO add your handling code here:
+        BuyActionPicker bap = new BuyActionPicker(this, true);
+        bap.run();
+    }//GEN-LAST:event_addBuyActionPerformed
+
+    private void addSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSellActionPerformed
+        // TODO add your handling code here:
+        SellActionPicker sap = new SellActionPicker(this, true);
+        sap.run();
+        //this.setVisible(false);
+    }//GEN-LAST:event_addSellActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddRuleButton;
-    private javax.swing.JTextField NewRuleName;
     private javax.swing.JList actionList;
-    private javax.swing.JButton addAction;
+    private javax.swing.JButton addBuy;
     private javax.swing.JButton addCondition;
+    private javax.swing.JButton addSell;
     private javax.swing.JButton back;
     private javax.swing.JList conditionList;
     private javax.swing.JButton deleteAction;
     private javax.swing.JButton deleteCondition;
     private javax.swing.JButton edit;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
