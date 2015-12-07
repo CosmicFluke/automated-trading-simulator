@@ -90,10 +90,12 @@ public class StrategyDemoFactory {
                 BigDecimal.valueOf(0.02)));
         rule.addAction(new Action(
                 IAction.ActionType.BUY,
-                new VariableBalanceActionQuantity(
-                        (Function<BigDecimal, Integer> & Serializable) ((num_stocks) -> num_stocks
-                                .divideAndRemainder(BigDecimal.valueOf(2))[0]
-                                .intValue()))));
+                (IActionQuantity & Serializable)
+                        (cashBalance, stockValue, numSharesOwned, confidence) ->
+                                cashBalance
+                                        .divideAndRemainder(BigDecimal.valueOf(2))[0]
+                                        .divideAndRemainder(stockValue)[0]
+                                        .intValue()));
 
         strat.addRule(rule);
         rule = new Rule("Sell decreasing stock, long term",

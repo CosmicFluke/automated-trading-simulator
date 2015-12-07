@@ -175,14 +175,15 @@ public class Experiment implements IExperiment, Serializable {
         // Save for restoring later
         BigDecimal startingBalance = getCashBalance();
 
-        while (ts.hasNext()) { // For each TimeSet
+        while (ts.hasNext()) { // For each time period in TimeSet
         	LocalDate startDate = ts.next();
             LocalDate endDate = startDate.plusDays(ts.getDuration());
             
             Result result = new Result(startDate, ts.getDuration(), strategyToStocks, getCashBalance());
             result.addObserver(experimentResults);
-            
-            for(LocalDate currDate = startDate ; currDate.isBefore(endDate) ; currDate = currDate.plusDays(1)){
+
+            // For each day in the time period
+            for(LocalDate currDate = startDate ; currDate.isBefore(endDate.plusDays(1)) ; currDate = currDate.plusDays(1)){
                 ResultDay resultDay = new ResultDay(currDate, getCashBalance());
 
                 for (Map.Entry<String, List<String>> entry : strategyToStocks.entrySet()) {    // For each strategy
@@ -238,28 +239,29 @@ public class Experiment implements IExperiment, Serializable {
 			
 			String decisionString;
 			
-			switch(decision.getActionType())
-			{
-			case BUY:
-				decisionString = "Buy ";
-				if(transactionValue.compareTo(cashBalance) < 0)
-					deltaShares = transactionValue.remainder(cashBalance); // Clamp value to buying power
-				
-				setCashBalance(cashBalance.subtract(transactionValue));
-				setShares(stockID, getShares(stockID) + deltaShares.intValue());
-				break;
-			
-			case SELL:
-				decisionString = "Sell ";
-				if(deltaShares.compareTo( new BigDecimal(getShares(stockID))) > 0)
-					deltaShares = new BigDecimal(getShares(stockID)); // Clamp shares
-				
-				setCashBalance(cashBalance.add(closingValue.multiply(deltaShares)));
-				setShares(stockID, getShares(stockID) - deltaShares.intValue());
-				break;
-				
-			default:
-				throw new RuntimeException("Invalid decision action type");	
+			switch(decision.getActionType()) {
+                case BUY:
+                    decisionString = "Buy ";
+                    if (transactionValue.compareTo(cashBalance) > 0) {
+                        deltaShares = cashBalance.divideAndRemainder(closingValue)[0]; // Clamp value to buying power
+                        transactionValue = deltaShares.multiply(closingValue);
+                    }
+
+                    setCashBalance(cashBalance.subtract(transactionValue));
+                    setShares(stockID, getShares(stockID) + deltaShares.intValue());
+                    break;
+
+                case SELL:
+                    decisionString = "Sell ";
+                    if (deltaShares.compareTo(BigDecimal.valueOf(getShares(stockID))) > 0)
+                        deltaShares = BigDecimal.valueOf(getShares(stockID)); // Clamp shares
+
+                    setCashBalance(cashBalance.add(closingValue.multiply(deltaShares)));
+                    setShares(stockID, getShares(stockID) - deltaShares.intValue());
+                    break;
+
+                default:
+                    throw new RuntimeException("Invalid decision action type");
 			}
 			decisionString += deltaShares + " shares of " + stockID;
 			
