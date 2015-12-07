@@ -26,6 +26,8 @@ public class IndicatorPicker extends javax.swing.JDialog {
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
         indicatorType.setModel(indicatorTypes);
         setIndicatorTypes();
+        averageDaysField.setText("1");
+        durationDaysField.setText("1");
     }
     
     private void setIndicatorTypes(){
@@ -80,10 +82,10 @@ public class IndicatorPicker extends javax.swing.JDialog {
         });
 
         durationDaysLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        durationDaysLabel.setText("Duration in Days");
+        durationDaysLabel.setText("# Days for MetaIndicator");
 
         averageDaysLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        averageDaysLabel.setText("Average in Days");
+        averageDaysLabel.setText("# Days for Moving Average");
 
         submit.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         submit.setText("Submit");
@@ -98,26 +100,26 @@ public class IndicatorPicker extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(durationDaysLabel)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(averageDaysLabel)
+                        .addComponent(submit)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(averageDaysField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(durationDaysField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(48, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(71, 71, 71)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(durationDaysLabel)
-                                    .addComponent(averageDaysLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(durationDaysField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(averageDaysField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(indicatorType, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(indicatorType, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(112, 112, 112)
-                        .addComponent(IndicatorLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addComponent(submit)))
-                .addContainerGap(88, Short.MAX_VALUE))
+                        .addComponent(IndicatorLabel)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,14 +251,14 @@ public class IndicatorPicker extends javax.swing.JDialog {
            IMeasurement measurement = MeasurementFactory.
                     newSimpleMovingAverage(Integer.parseInt(averageDaysField.getText()));
             indicator = MeasurementFactory.
-                            newNetRelativeChange(Integer.parseInt(durationDaysField.getText()),
+                            newRelativeNetChange(Integer.parseInt(durationDaysField.getText()),
                                     measurement);
         }
         if(indicatorType.getSelectedIndex()==4){
            IMeasurement measurement = MeasurementFactory.
                     newSimpleMovingAverage(Integer.parseInt(averageDaysField.getText()));
             indicator = MeasurementFactory.
-                            newAverageRelativeChange(Integer.parseInt(durationDaysField.getText()), 
+                            newRelativeAverageChange(Integer.parseInt(durationDaysField.getText()), 
                                     measurement);
         }
         return indicator;
