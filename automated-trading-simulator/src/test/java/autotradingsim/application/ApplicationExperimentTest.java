@@ -120,7 +120,7 @@ public class ApplicationExperimentTest {
     @Test
     public void testSavingLoadingExperiment(){
     	IStrategy newStrategy = new Strategy();
-    	ApplicationUnderTest.setStrategy(newStrategy);
+    	ApplicationUnderTest.addStrategy(newStrategy);
     	
         String ExpectedFileExists = PathToExperiments + "TestSaving";
         IExperiment myExperiment = new Experiment("TestSaving");

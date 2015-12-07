@@ -1,11 +1,6 @@
 package autotradingsim.application;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import autotradingsim.experiment.*;
 import autotradingsim.stocks.IStock;
@@ -16,11 +11,12 @@ import autotradingsim.util.ObjectFileSystem;
 import autotradingsim.util.Pair;
 
 public class TradingApplication implements ITradingApplication {
-	
-	private String PathToExperiments;
-	private String PathToStrategies;
 
-	private Set<String> experimentNameSet;
+	private static final String pathToData = "DATA" + File.separator;
+	private static final String pathToExperiments = pathToData + "EXPERIMENTS" + File.separator;
+	private static final String pathToStrategies = pathToData + "STRATEGIES" + File.separator;
+
+	private Set<Integer> experimentIDSet;
 	
 	private HashMap<Integer, IStrategy> strategies;
 	private HashMap<Integer, IExperiment> experiments;
@@ -39,20 +35,16 @@ public class TradingApplication implements ITradingApplication {
 		
 		this.stocks = new HashMap<String, IStock>();
 		
-		PathToExperiments = System.getProperty("user.dir") + File.separator + "DATA" +
-							File.separator + "EXPERIMENTS" + File.separator;
-		PathToStrategies = System.getProperty("user.dir") + File.separator + "DATA" + 
-							File.separator + "STRATEGIES" + File.separator;
-		
 		//Initialize Directory for storing experiments
-		File experimentDir = new File(PathToExperiments);
+		File experimentDir = new File(pathToExperiments);
 		if(!experimentDir.exists())
 			experimentDir.mkdir();
 		
 		//Initialize Directory for storing strategies
-		File strategyDir = new File(PathToStrategies);
+		File strategyDir = new File(pathToStrategies);
 		if(!strategyDir.exists())
 			strategyDir.mkdir();
+
 	}
 
 	public static TradingApplication getInstance(){
@@ -70,7 +62,6 @@ public class TradingApplication implements ITradingApplication {
 	 * @return true if experiment added into Application successfully
 	 */
 	@Override
-
 	public boolean addExperiment(IExperiment experiment){
 		if (experiment == null)
 			throw new NullPointerException("addExperiment: IExperiment argument was null");
@@ -78,12 +69,15 @@ public class TradingApplication implements ITradingApplication {
 		if (experiment.getName() == null)
 			throw new IllegalArgumentException("addExperiment: IExperiment had a null name");
 
-		if (experiments.containsKey(experiment.getName().hashCode())){
+		if (experimentIDSet.contains(experiment.getName().hashCode())){
 			//System.out.println(experiments.keySet().toString() +" "+ experiment.getName().hashCode());
 			throw new IllegalArgumentException(
 					"addExperiment: duplicate key -- an experiment with "+ experiment.getName() +"is already stored");
 		}
 		experiments.put(experiment.getName().hashCode(), experiment);
+
+		experimentIDSet.add(experiment.getName().hashCode());
+
 
 		this.saveExperiment(experiment);
 		return true;
@@ -99,7 +93,7 @@ public class TradingApplication implements ITradingApplication {
 	public boolean delExperiment(String experimentName){
 		if(this.getExperiment(experimentName) == null)
 			return false;
-		String path = PathToExperiments + experimentName;
+		String path = pathToExperiments + experimentName;
 		File expFile = new File(path);
 		if (!expFile.exists() || !expFile.isFile()){
 			return false;
@@ -142,9 +136,15 @@ public class TradingApplication implements ITradingApplication {
 	 * @param experiment which will be saved to file under EXPERIMENTS dir
 	 */
 	public void saveExperiment(IExperiment experiment){
-		String path = PathToExperiments + experiment.getName();
-		if(!ObjectFileSystem.saveObject(path, experiment))
-			System.err.println("Something went wrong. Check console");
+		if (experiment == null) throw new NullPointerException("IExperiment argument was null");
+		if (experiment.getName() == null) throw new NullPointerException("IExperiment argument has null name");
+		if (experiment.getName().equals("")) throw new IllegalArgumentException("IExperiment argument has empty string as name");
+
+		String path = pathToExperiments + experiment.getName();
+		if (!ObjectFileSystem.saveObject(path, experiment)) {
+			System.err.println("Error in \"TradingApplication::saveExperiment\"\n\tCould not save object. Check console");
+		}
+
 	}
 
 	/**
@@ -155,22 +155,12 @@ public class TradingApplication implements ITradingApplication {
 	 * @return experiment in file or null on error
 	 */
 	private IExperiment loadExperiment(String name) {
-		String path = PathToExperiments + name;
+		String path = pathToExperiments + name;
 		Experiment exp = (Experiment) ObjectFileSystem.loadObject(path);
 		if (exp == null) {
 			throw new NullPointerException("File for experiment does not exist or contained null object");
 		}
 		return exp;
-	}
-
-	private void loadExperimentListFromFiles() {
-		File experiments = new File(this.PathToExperiments);
-		Set<String> returningSet = new HashSet<String>();
-		if(experiments.exists() && experiments.isDirectory()){
-			for(File experiment : experiments.listFiles())
-				returningSet.add(experiment.getName());
-		}
-		this.experimentNameSet = returningSet;
 	}
 	
 	/**
@@ -178,7 +168,7 @@ public class TradingApplication implements ITradingApplication {
 	 * @return a set of experiment names
 	 */
 	public Set<String> getAvailableExperiments(){
-		File experiments = new File(this.PathToExperiments);
+		File experiments = new File(this.pathToExperiments);
 		Set<String> returningSet = new HashSet<String>();
 		if(experiments.exists() && experiments.isDirectory()){
 			for(File experiment : experiments.listFiles())
@@ -187,41 +177,26 @@ public class TradingApplication implements ITradingApplication {
 		return returningSet;
 	}
 
-	/**
-	 * Add a strategy by name into the application
-	 * StrategyName should match with name found under newStrat object
-	 * 
-	 * @param stratName name under to which to store experiment
-	 * @param strat IStrategy object which is to be added to application
-	 * @return true if strategy added successfully into application
-	 */
-	@Override
-	public boolean setStrategy(String stratName, IStrategy strat){
-		if(stratName == null || strat == null ||
-				!strat.getName().equals(stratName))
-			return false;
-		return setStrategy(strat);
-	}
-	
-	
-	/**
-	 * Add a strategy into the application
-	 * Strategy stored by using the name resolved under getName
-	 * 
-	 * @param newStrat IStrategy object which is to be added to application
-	 * @return true if strategy added successfully into application
-	 */
-	@Override
-	public boolean setStrategy(IStrategy newStrat) {
-		if(newStrat == null || newStrat.getName() == null)
-			return false;
-		
-		if(strategies.containsKey(newStrat.getName().hashCode()))
-			return false;
+	public boolean addStrategy(IStrategy strat){
+		if (strat == null) {
+			throw new NullPointerException("Strategy was null");
+		}
+		if (strat.getName() == null) {
+			throw new NullPointerException("Strategy name was null");
+		}
+		if (strat.getName().equals("")) {
+			throw new IllegalArgumentException("Strategy name was empty string");
+		}
 
-		strategies.put(newStrat.getName().hashCode(), newStrat);
-		
-		this.saveStrategy(newStrat);
+		if (strategies.containsKey(strat.getName().hashCode())) {
+			System.err.println("TradingApplication::getStrategy\n\tStrategy with that name already exists");
+			return false;
+		}
+
+		strategies.put(strat.getName().hashCode(), strat);
+
+		this.saveStrategy(strat);
+
 		return true;
 	}
 
@@ -240,21 +215,25 @@ public class TradingApplication implements ITradingApplication {
 		}else{
 			IStrategy result = loadStrategy(stratName);
 			if(result != null)
-				this.setStrategy(stratName, result);
+				this.addStrategy(result);
 			return result;
 		}
 	}
-	
+
 	public void saveStrategy(IStrategy newStrat) {
-		if(newStrat.getName() == null){
-			System.out.println("Warning, not saving strategy. Missing name.");
+		if (newStrat == null) throw new NullPointerException("Strategy argument was null");
+		if (newStrat.getName() == null) throw new NullPointerException("IExperiment argument has null name");
+		if (newStrat.getName().equals("")) throw new IllegalArgumentException("IExperiment argument has empty string as name");
+
+		String path = this.pathToStrategies + newStrat.getName();
+
+		if (!ObjectFileSystem.saveObject(path, newStrat)) {
+			System.err.println("Error in \"TradingApplication::saveStrategy\"\n\tCould not save object. Check console");
 		}
-		String path = this.PathToStrategies + newStrat.getName();
-		ObjectFileSystem.saveObject(path, newStrat);
 	}
 	
 	private IStrategy loadStrategy(String stratName) {
-		String path = this.PathToStrategies + stratName;
+		String path = this.pathToStrategies + stratName;
 		IStrategy returnedObject = (IStrategy) ObjectFileSystem.loadObject(path);
 		if(returnedObject == null)
 			return null;
@@ -278,7 +257,7 @@ public class TradingApplication implements ITradingApplication {
 	 */
 	@Override
 	public Set<String> getAvailableStrategies() {
-		File strategies = new File(this.PathToStrategies);
+		File strategies = new File(this.pathToStrategies);
 		Set<String> returningSet = new HashSet<String>();
 		if(strategies.exists() && strategies.isDirectory()){
 			for(File strategy : strategies.listFiles())
@@ -363,7 +342,8 @@ public class TradingApplication implements ITradingApplication {
 	 * Destroy the instance of the object and set it to null
 	 */
 	public static void destructObject() {
-		instance.clearMemory();
+		if (instance != null)
+			instance.clearMemory();
 		instance = null;
 	}
 

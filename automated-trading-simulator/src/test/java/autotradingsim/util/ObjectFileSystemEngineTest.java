@@ -17,20 +17,21 @@ import static org.junit.Assert.*;
  * Created by Shirley on 2015-12-05.
  */
 public class ObjectFileSystemEngineTest {
+    static final String experimentName = "Test Experiment";
     TradingApplication application;
     ExperimentEngine engine;
     IExperiment experiment;
-    String PathToExperiments = System.getProperty("user.dir") + File.separator + "DATA" + File.separator + "EXPERIMENTS" + File.separator;
+
 
     @Before
     public void setUp(){
-        TradingApplication.clearMemoryAndFileSystem();
+        TradingApplication.destructObject();
         application = TradingApplication.getInstance();
         engine = ExperimentEngine.getInstance();
-        application.setStrategy(StrategyDemoFactory.newAdvancedStrategy());
-        application.setStrategy(StrategyDemoFactory.newAdvancedTestingStrategy());
-        application.setStrategy(StrategyDemoFactory.newBasicStrategy(new BigDecimal(20), new BigDecimal(10), 10, 10));
-        experiment = new Experiment("Test Experiment");
+        application.addStrategy(StrategyDemoFactory.newAdvancedStrategy());
+        application.addStrategy(StrategyDemoFactory.newAdvancedTestingStrategy());
+        application.addStrategy(StrategyDemoFactory.newBasicStrategy(new BigDecimal(20), new BigDecimal(10), 10, 10));
+        experiment = new Experiment(experimentName);
         experiment.addTrial("Advanced Strategy 1", "A");
         experiment.addTrial("Basic strategy", "AAPL");
         experiment.addTrial("Advanced Testing Strategy", "AA");
@@ -47,8 +48,8 @@ public class ObjectFileSystemEngineTest {
     }
     @Test
     public void testLoadExperiment(){
-        ObjectFileSystem.saveObject(experiment.getName(), experiment);
-        IExperiment loaded = (IExperiment) ObjectFileSystem.loadObject(experiment.getName());
+        ObjectFileSystem.saveObject(String.valueOf(experiment.getName().hashCode()), experiment);
+        IExperiment loaded = (IExperiment) ObjectFileSystem.loadObject(String.valueOf(experiment.getName().hashCode()));
         assertTrue(loaded instanceof Experiment);
         assertEquals(loaded.getName(), experiment.getName());
         assertEquals(loaded.getAllTrials(), experiment.getAllTrials());
@@ -58,10 +59,14 @@ public class ObjectFileSystemEngineTest {
     public void testSaveLoadExperiment(){
 
     }
+
     @After
     public void tearDown(){
-        if (!new File("Test Experiment").delete()){
-            System.out.println("File not found or couldn't be deleted.");
+        File f = new File(String.valueOf(experimentName.hashCode()));
+        if (f.exists() && !f.delete()){
+            System.err.println(
+                    "ObjectFileSystemEngineTest: File couldn't be deleted: " +
+                            "/\"" + String.valueOf(experimentName.hashCode()) + "\"");
         }
         TradingApplication.clearMemoryAndFileSystem();
     }

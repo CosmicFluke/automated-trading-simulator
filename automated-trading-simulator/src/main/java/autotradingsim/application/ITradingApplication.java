@@ -40,25 +40,14 @@ public interface ITradingApplication {
 	 * @return true iff successful
 	 */
 	public boolean delExperiment(String experimentName);
-	
-	/**
-	 * Add a strategy by name into the application
-	 * StrategyName should match with name found under newStrat object
-	 * 
-	 * @param StrategyName name under to which to store experiment
-	 * @param newStrat IStrategy object which is to be added to application
-	 * @return true if strategy added successfully into application
-	 */
-	boolean setStrategy(String StrategyName, IStrategy newStrat);
-	
+
 	/**
 	 * Add a strategy into the application
 	 * Strategy stored by using the name resolved under getName
-	 * 
-	 * @param newStrat IStrategy object which is to be added to application
+	 * @param newStrat IStrategy object which is to be added to application.  Must not be <tt>null</tt>.
 	 * @return true if strategy added successfully into application
 	 */
-	boolean setStrategy(IStrategy newStrat);
+	boolean addStrategy(IStrategy newStrat);
 	
 	/**
 	 * Retrieves a strategy by it's given name

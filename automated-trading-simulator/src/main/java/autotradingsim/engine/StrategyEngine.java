@@ -63,7 +63,7 @@ public class StrategyEngine {
 	public IStrategy addNewBasicDemoStrategy(BigDecimal buybelow, BigDecimal sellabove, int buyNum, int sellNum) {
 		ITradingApplication app = TradingApplication.getInstance();
 		currentStrategy =  StrategyDemoFactory.newBasicStrategy(buybelow, sellabove, buyNum, sellNum);
-		if (app.setStrategy(currentStrategy.getName(), currentStrategy)) {
+		if (app.addStrategy(currentStrategy)) {
 			return app.getStrategy(currentStrategy.getName());
 		} else {
 			return null;
@@ -78,7 +78,7 @@ public class StrategyEngine {
 	public IStrategy addAdvancedDemoStrategy(String strategyName) {
 		ITradingApplication app = TradingApplication.getInstance();
 		currentStrategy = StrategyDemoFactory.newAdvancedStrategy();
-		if (app.setStrategy(currentStrategy.getName(), currentStrategy)) {
+		if (app.addStrategy(currentStrategy)) {
 			return app.getStrategy(strategyName);
 		} else {
 			return null;
