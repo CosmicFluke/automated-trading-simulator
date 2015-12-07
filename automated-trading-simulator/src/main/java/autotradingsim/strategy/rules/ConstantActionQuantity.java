@@ -13,7 +13,9 @@ import java.math.BigDecimal;
  */
 public class ConstantActionQuantity implements IActionQuantity, Serializable {
 
-    public static final String default_description = "Constant Quantity";
+	private static final long serialVersionUID = 6830586793471616502L;
+
+	public static final String default_description = "Constant Quantity";
 
     private final int quantity;
 
