@@ -1,7 +1,10 @@
 package autotradingsim.ui;
 
 import autotradingsim.strategy.indicators.Indicator;
+import autotradingsim.strategy.rules.ICondition;
 import autotradingsim.strategy.rules.IMeasurement;
+import autotradingsim.strategy.rules.StaticCondition;
+import java.math.BigDecimal;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -15,12 +18,15 @@ public class ConditionPicker extends javax.swing.JDialog {
      */
     String conditionName;
     DefaultComboBoxModel<String> indicatorTypes = new DefaultComboBoxModel();
+    IMeasurement indicator;
     public ConditionPicker(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
         //indicatorType.setModel(indicatorTypes);
+        compareValue.setText("0");
+        
         this.conditionName = "";
     }
     
@@ -68,6 +74,11 @@ public class ConditionPicker extends javax.swing.JDialog {
         compare.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         compare.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<", "<=", "=", ">=", ">" }));
         compare.setPreferredSize(new java.awt.Dimension(94, 50));
+        compare.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compareActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Create Your Condition");
@@ -134,6 +145,7 @@ public class ConditionPicker extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okActionPerformed
+        
         this.dispose();
     }//GEN-LAST:event_okActionPerformed
 
@@ -144,19 +156,52 @@ public class ConditionPicker extends javax.swing.JDialog {
     private void pickIndicatorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pickIndicatorButtonActionPerformed
         // TODO add your handling code here:
         IndicatorPicker ip = new IndicatorPicker(this, true);
-        IMeasurement indicator = ip.run();
+        this.indicator = ip.run();
+        if (indicator == null) {
+            throw new NullPointerException("Null indicator");
+        }
         if(indicator.getBufferSize() == 1){
             indicatorNameLabel.setText("Single Day Value");
         }else{
-            indicatorNameLabel.setText("should change");
             indicatorNameLabel.setText(indicator.getName());
         }
         
     }//GEN-LAST:event_pickIndicatorButtonActionPerformed
 
-    public String run(){
+    private void compareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_compareActionPerformed
+    private ICondition.Comparator getComparator(String compStr){
+        if(compStr.isEmpty()){
+            throw new IllegalArgumentException("empty comparator string in condition picker");
+        }
+        if(compStr.equals("<")){
+            return ICondition.Comparator.LT;
+        }
+        if(compStr.equals("<=")){
+            return ICondition.Comparator.LEQ;
+        }
+        if(compStr.equals(">")){
+            return ICondition.Comparator.GT;
+        }
+        if(compStr.equals(">=")){
+            return ICondition.Comparator.GEQ;
+        }
+        if(compStr.equals("=")){
+            return ICondition.Comparator.EQ;
+        }
+        if(compStr.equals("!=")){
+            return ICondition.Comparator.NEQ;
+        }        
+        return ICondition.Comparator.EQ;
+    }
+    public ICondition run(){
         this.setVisible(true);
-        return conditionName;
+        BigDecimal amount = BigDecimal.valueOf(Double.valueOf(compareValue.getText()));
+        String compStr = compare.getSelectedItem().toString();
+        ICondition condition = new StaticCondition(indicator, getComparator(compStr), amount);
+        
+        return condition;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
