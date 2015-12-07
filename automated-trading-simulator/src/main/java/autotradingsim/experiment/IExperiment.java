@@ -3,7 +3,6 @@ package autotradingsim.experiment;
 import java.time.LocalDate;
 import java.util.*;
 
-import autotradingsim.stocks.IStock;
 import autotradingsim.strategy.IStrategy;
 import autotradingsim.util.Pair;
 
@@ -28,7 +27,7 @@ public interface IExperiment {
     Map<String, Integer> getStocksToShares();
 
     Set<IStrategy> getAllStrategies();
-    Set<IStock> getAllStocks();
+    Set<String> getAllStockSymbols();
     void setShares(String id, Integer shares);
     Integer getShares(String id);
     /**

@@ -83,7 +83,7 @@ public class ObjectFileSystem {
 		Object result;
 
 		if (!fileObj.exists()) {
-			System.err.println("Error. Object at location \"" + path + "\" does not exist.");
+			System.err.println("Error in 'ObjectFileSystem::loadObject'\n\tObject at location \"" + path + "\" does not exist.");
 			return null;
 		}
 		

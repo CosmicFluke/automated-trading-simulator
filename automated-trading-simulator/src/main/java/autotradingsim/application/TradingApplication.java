@@ -160,7 +160,6 @@ public class TradingApplication implements ITradingApplication {
 		if (exp == null) {
 			throw new NullPointerException("File for experiment does not exist or contained null object");
 		}
-		exp.afterDeserialization();
 		return exp;
 	}
 

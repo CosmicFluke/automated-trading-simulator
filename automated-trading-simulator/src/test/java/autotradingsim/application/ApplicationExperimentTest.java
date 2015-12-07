@@ -16,7 +16,7 @@ import autotradingsim.experiment.IExperiment;
 import autotradingsim.strategy.IStrategy;
 import autotradingsim.strategy.Strategy;
 
-public class ExperimentTest {
+public class ApplicationExperimentTest {
 
     private static String PathToExperiments = System.getProperty("user.dir") + "//DATA//EXPERIMENTS//";
     ITradingApplication ApplicationUnderTest;
@@ -69,10 +69,11 @@ public class ExperimentTest {
     @Test
     public void testSetExperimentTwiceNullFirst(){
         IExperiment savingExperiment = new Experiment("Test");
+        Set<String> firstExpSet = ApplicationUnderTest.getAvailableExperiments();
         try {
             ApplicationUnderTest.addExperiment(null);
         } catch (NullPointerException e) {
-            System.out.println("Caught NullPointerException");
+            assertEquals(firstExpSet, ApplicationUnderTest.getAvailableExperiments());
         }
         assertTrue(ApplicationUnderTest.addExperiment(savingExperiment));
     }
@@ -125,7 +126,6 @@ public class ExperimentTest {
         IExperiment myExperiment = new Experiment("TestSaving");
         
         myExperiment.addTrial(newStrategy.getName(), "AAPL");
-        System.out.println(myExperiment.getAllStocks());
         ApplicationUnderTest.addExperiment(myExperiment);
         File testingFile = new File(ExpectedFileExists);
         assertTrue(testingFile.exists());

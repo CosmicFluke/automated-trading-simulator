@@ -2,7 +2,6 @@ package autotradingsim.ui;
 import autotradingsim.application.*;
 import autotradingsim.engine.*;
 import autotradingsim.experiment.*;
-import autotradingsim.stocks.*;
 import autotradingsim.strategy.IStrategy;
 import java.time.LocalDate;
 import javax.swing.*;
@@ -62,9 +61,9 @@ public class ExperimentViewer extends javax.swing.JFrame {
     */
     protected void setStockList(){
        // Iterator symbols = application.getStockSymbols();
-        Iterator<IStock> symbols = experiment.getAllStocks().iterator();
-        while(symbols.hasNext()){
-            stockListModel.addElement(symbols.next().getSymbol());
+        Set<String> stocks = experiment.getAllStockSymbols();
+        for (String symbol : stocks) {
+            stockListModel.addElement(symbol);
         }
     }
     

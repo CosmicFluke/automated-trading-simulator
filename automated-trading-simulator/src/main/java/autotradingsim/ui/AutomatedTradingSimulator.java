@@ -7,7 +7,7 @@ package autotradingsim.ui;
 public class AutomatedTradingSimulator extends javax.swing.JFrame {
 
     /**
-     * Creates new form AutomatedTradingSimulator
+     * Creates new form Application
      */
     public AutomatedTradingSimulator() {
         initComponents();

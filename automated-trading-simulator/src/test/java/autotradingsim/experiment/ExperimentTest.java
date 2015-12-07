@@ -44,35 +44,38 @@ public class ExperimentTest {
         test.addTrial("Empty Strategy", "LOL");
     }
 
-//    @Test(expected=IllegalArgumentException.class)
-//    public void testAddTrialNonExistingStrategy(){
-//        test.addTrial("nameA", "AAPL");
-//    }
-
-//    @Test
-//    public void testRunExperiment1(){
-//
-//        SimpleStrategy s = new SimpleStrategy();
-//
-//        TradingApplication.getInstance().setStrategy(s.getName(), s);
-//
-//        String id = s.getName();
-//
-//        test.addTrial(id, "AAPL");
-//
-//        TimeSet ts1 = new TimeSet(1, 2, LocalDate.of(2015, 10, 15), LocalDate.of(2015, 10, 16));
-//
-//        List<Result> resultList = test.runExperiment(ts1);
-//
-//        assertEquals(resultList.get(0).getBalanceRelativeChange().compareTo(new BigDecimal(0.8)), -1);
-//    }
+    @Test(expected=IllegalArgumentException.class)
+    public void testAddTrialNonExistingStrategy(){
+        test.addTrial("nameA", "AAPL");
+    }
 
     @Test
+    public void testRunExperimentBasicStrategy(){
+
+        IStrategy s = StrategyDemoFactory.newBasicStrategy(BigDecimal.valueOf(95), BigDecimal.valueOf(101), 100, 50);
+
+        TradingApplication.getInstance().setStrategy(s.getName(), s);
+
+        String id = s.getName();
+
+        test.addTrial(id, "AAPL");
+
+        TimeSet ts1 = new TimeSet(1, 2, LocalDate.of(2015, 10, 15), LocalDate.of(2015, 10, 16));
+
+        ExperimentResults resultList = test.runExperiment(ts1);
+        assertNotEquals(null, resultList);
+
+        // assertEquals(resultList.getResultAt(0).getBalanceRelativeChange().compareTo(new BigDecimal(0.8)), -1);
+    }
+
+    /**
+     * Test only for demo purposes.
+     */
+    // @Test
     public void testRunExperiment1(){
         System.out.println("running Test 1===================");
         ExperimentResults experimentResults;
         IStrategy strategy =  StrategyDemoFactory.newBasicStrategy(new BigDecimal(110), new BigDecimal(115), 3, 300);
-//        IStrategy strategy1 = TradingApplication.getInstance().getStrategy("Basic strategy");
 
         TradingApplication.getInstance().setStrategy(strategy.getName(), strategy);
 
@@ -113,7 +116,10 @@ public class ExperimentTest {
 //        assertEquals(resultList.get(0).getBalanceRelativeChange().compareTo(new BigDecimal(0.8)), -1);
     }
 
-    @Test
+    /**
+     * Test only for demo purposes.
+     */
+    // @Test
     public void testRunExperiment2(){
         System.out.println("Running Test 2====================");
         ExperimentResults experimentResults;

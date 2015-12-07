@@ -24,14 +24,21 @@ public class ObjectFileSystemStrategyTest {
 
     static final String filename = "testFilename";
     static final String altFilename = "altTestFilename";
+    boolean usedFilename = false;
+    boolean usedAltFilename = false;
+
+    @Test (expected = NullPointerException.class)
+    public void testSaveNullObject() throws Exception {
+        ObjectFileSystem.saveObject(filename, null);
+    }
 
     @Test
     public void testSaveObjectBasicStrategyNoExceptions() throws Exception {
-        ObjectFileSystem.saveObject(
+        assertTrue(ObjectFileSystem.saveObject(
                 filename,
-                StrategyDemoFactory.newBasicStrategy(BigDecimal.valueOf(10), BigDecimal.valueOf(20), 100, 20));
+                StrategyDemoFactory.newBasicStrategy(BigDecimal.valueOf(10), BigDecimal.valueOf(20), 100, 20)));
 
-        (new File(filename)).delete();
+        usedFilename = true;
     }
 
     @Test
@@ -39,6 +46,7 @@ public class ObjectFileSystemStrategyTest {
         Indicator test_obj = MeasurementFactory.newSimpleMovingAverage(2);
 
         assertTrue(ObjectFileSystem.saveObject(filename, test_obj));
+        usedFilename = true;
         Indicator loaded_obj = (Indicator) ObjectFileSystem.loadObject(filename);
 
         IBufferAdapter testBuffer = new BufferAdapter(
@@ -53,10 +61,6 @@ public class ObjectFileSystemStrategyTest {
         assertEquals("Indicators produce the same values.",
                 test_obj.getValue(testBuffer),
                 loaded_obj.getValue(testBuffer));
-
-        if (!(new File(filename)).delete()) {
-            throw new IOException("Something bad happened");
-        }
     }
 
     @Test
@@ -64,6 +68,7 @@ public class ObjectFileSystemStrategyTest {
         Indicator test_obj = MeasurementFactory.newPrefabAbsoluteChange1();
 
         assertTrue(ObjectFileSystem.saveObject(filename, test_obj));
+        usedFilename = true;
         MetaIndicator loaded_obj = (MetaIndicator) ObjectFileSystem.loadObject(filename);
 
         IBufferAdapter testBuffer = new BufferAdapter(
@@ -78,10 +83,6 @@ public class ObjectFileSystemStrategyTest {
         assertEquals("Indicators produce the same values.",
                 test_obj.getValue(testBuffer),
                 loaded_obj.getValue(testBuffer));
-
-        if (!(new File(filename)).delete()) {
-            throw new IOException("Something bad happened");
-        }
     }
 
     @Test
@@ -94,20 +95,18 @@ public class ObjectFileSystemStrategyTest {
 
 
         assertTrue(ObjectFileSystem.saveObject(filename, test_obj));
+        usedFilename = true;
         IActionQuantity loaded_obj = (IActionQuantity) ObjectFileSystem.loadObject(filename);
+        assertNotEquals("Ensure loaded object is not null", null, loaded_obj);
 
         // Test loaded_obj::getValue with these values
         BigDecimal cashBalance = BigDecimal.valueOf(110);
         BigDecimal stockVal =  BigDecimal.valueOf(8);
         int numShares = 50;
 
-        assertEquals(
+        assertEquals("Compare quantity values of original and deserialized objects",
                 test_obj.getValue(cashBalance, stockVal, numShares, ConfidenceFactor.HIGH),
                 loaded_obj.getValue(cashBalance, stockVal, numShares, ConfidenceFactor.HIGH));
-
-        if (!(new File(filename)).delete()) {
-            throw new IOException("Something bad happened");
-        }
     }
 
     @Test
@@ -121,7 +120,9 @@ public class ObjectFileSystemStrategyTest {
         IAction test_obj_func = new Action(IAction.ActionType.BUY, testQuant);
 
         assertTrue(ObjectFileSystem.saveObject(filename, test_obj_const));
+        usedFilename = true;
         assertTrue(ObjectFileSystem.saveObject(altFilename, test_obj_func));
+        usedAltFilename = true;
 
         IAction loaded_obj_const = (IAction) ObjectFileSystem.loadObject(filename);
         IAction loaded_obj_func = (IAction) ObjectFileSystem.loadObject(altFilename);
@@ -154,6 +155,7 @@ public class ObjectFileSystemStrategyTest {
                 test_obj.getBufferSize());
 
         assertTrue(ObjectFileSystem.saveObject(filename, test_obj));
+        usedFilename = true;
 
         ICondition loaded_obj = (ICondition) ObjectFileSystem.loadObject(filename);
 
@@ -170,7 +172,9 @@ public class ObjectFileSystemStrategyTest {
                 StrategyDemoFactory.newAdvancedTestingStrategy();
 
         assertTrue(ObjectFileSystem.saveObject(filename, test_obj_basic));
+        usedFilename = true;
         assertTrue(ObjectFileSystem.saveObject(altFilename, test_obj_adv));
+        usedAltFilename = true;
 
         IStrategy loaded_obj_basic = (IStrategy) ObjectFileSystem.loadObject(filename);
         IStrategy loaded_obj_adv = (IStrategy) ObjectFileSystem.loadObject(altFilename);
@@ -186,15 +190,18 @@ public class ObjectFileSystemStrategyTest {
         // Adv Strategy checks
         assertEquals(test_obj_adv.getID(), loaded_obj_adv.getID());
         assertEquals(test_obj_adv.getRules(), loaded_obj_adv.getRules());
+
     }
 
     @After
     public void tearDown(){
-        if (!(new File(filename)).delete()) {
-            System.out.println("File could not be deleted or does not exist.  Non-critical warning.");
+        if (usedFilename && !(new File(filename)).delete()) {
+            System.out.println("File could not be deleted.  Non-critical warning.");
         }
-        if (!(new File(altFilename)).delete()) {
-            System.out.println("File could not be deleted or was not found.  Non-critical warning.");
+        if (usedAltFilename && !(new File(altFilename)).delete()) {
+            System.out.println("File could not be deleted.  Non-critical warning.");
         }
+        usedFilename = false;
+        usedAltFilename = false;
     }
 }
