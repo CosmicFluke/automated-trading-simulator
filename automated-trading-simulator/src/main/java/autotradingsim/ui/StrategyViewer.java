@@ -32,6 +32,7 @@ public class StrategyViewer extends javax.swing.JFrame {
     IStrategy strategy;
     StrategyEngine strategyEngine = StrategyEngine.getInstance();
     HashMap <String, RuleID> ruleNameToID = new HashMap<>();
+    IRule rule;
     public StrategyViewer(StrategyList parent, IStrategy strategy) {
         this.parent = parent;
         initComponents();
@@ -56,7 +57,20 @@ public class StrategyViewer extends javax.swing.JFrame {
         });
     }
     
-    protected void setConditionList(){
+    protected void setConditionList(IRule rule){
+        conditionListModel.clear();
+        for(ICondition condition: rule.getConditions()){
+            conditionListModel.addElement(condition.toString());
+        }
+    }
+    protected void setActionList(IRule rule){
+        actionListModel.clear();
+        for(IAction action:rule.getActions()){
+                actionListModel.clear();
+                String type = action.getActionType().toString();
+                String quant = action.getQuantity().toString();
+                actionListModel.addElement(type + ": " + quant);
+            }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -295,9 +309,12 @@ public class StrategyViewer extends javax.swing.JFrame {
 
     private void addConditionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addConditionActionPerformed
         ConditionPicker cp = new ConditionPicker(this, true);
-        String conditionName = cp.run();
-        if(!conditionName.equals("") && !conditionListModel.contains(conditionName)){
-            conditionListModel.addElement(conditionName);
+        ICondition condition = cp.run();
+        rule.addCondition(condition);
+        strategyEngine.saveStrategy(this.strategy);
+        String conditionStr = condition.toString();
+        if(!conditionStr.equals("") && !conditionListModel.contains(conditionStr)){
+            conditionListModel.addElement(conditionStr);
         }
     }//GEN-LAST:event_addConditionActionPerformed
 
@@ -333,16 +350,10 @@ public class StrategyViewer extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(ruleComboBox.getSelectedIndex() != -1){
             String ruleName = ruleComboBox.getSelectedItem().toString();
-            IRule rule = this.strategy.getRule(ruleNameToID.get(ruleName));
-            for(IAction action:rule.getActions()){
-                actionListModel.clear();
-                String type = action.getActionType().toString();
-                String quant = action.getQuantity().toString();
-                actionListModel.addElement(type + ": " + quant);
-            }
-            for (ICondition condition:rule.getConditions()){
-                conditionListModel.clear();
-                conditionListModel.addElement(condition.toString());
+            rule = this.strategy.getRule(ruleNameToID.get(ruleName));
+            if(rule != null){
+                setActionList(rule);
+                setConditionList(rule);
             }
         }
         //this.strategy.getRule(rule)
