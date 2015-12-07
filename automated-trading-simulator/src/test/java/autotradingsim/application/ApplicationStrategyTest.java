@@ -27,7 +27,7 @@ import autotradingsim.strategy.indicators.IndicatorRelativeChange;
 import autotradingsim.strategy.indicators.SimpleMovingAverage;
 import autotradingsim.util.ObjectFileSystem;
 
-public class StrategyTest {
+public class ApplicationStrategyTest {
 
     private String PathToStrategies = System.getProperty("user.dir") + File.separator + "DATA" +
             File.separator + "STRATEGIES" + File.separator;
