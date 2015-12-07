@@ -1,5 +1,7 @@
 package autotradingsim.ui;
 
+import autotradingsim.strategy.indicators.Indicator;
+import autotradingsim.strategy.rules.IMeasurement;
 import javax.swing.DefaultComboBoxModel;
 
 /**
@@ -39,7 +41,7 @@ public class ConditionPicker extends javax.swing.JDialog {
         compareValue = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         pickIndicatorButton = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        indicatorNameLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Condition");
@@ -77,9 +79,9 @@ public class ConditionPicker extends javax.swing.JDialog {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("<INDICATOR NAME...>");
+        indicatorNameLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        indicatorNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        indicatorNameLabel.setText("<INDICATOR NAME...>");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,7 +100,7 @@ public class ConditionPicker extends javax.swing.JDialog {
                         .addContainerGap(30, Short.MAX_VALUE)
                         .addComponent(pickIndicatorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(indicatorNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -117,7 +119,7 @@ public class ConditionPicker extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(pickIndicatorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(indicatorNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(compareValue)
                         .addComponent(compare, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -142,7 +144,13 @@ public class ConditionPicker extends javax.swing.JDialog {
     private void pickIndicatorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pickIndicatorButtonActionPerformed
         // TODO add your handling code here:
         IndicatorPicker ip = new IndicatorPicker(this, true);
-        ip.run();
+        IMeasurement indicator = ip.run();
+        if(indicator.getBufferSize() == 1){
+            indicatorNameLabel.setText("Single Day Value");
+        }else{
+            indicatorNameLabel.setText(indicator.getName());
+        }
+        
     }//GEN-LAST:event_pickIndicatorButtonActionPerformed
 
     public String run(){
@@ -154,8 +162,8 @@ public class ConditionPicker extends javax.swing.JDialog {
     private javax.swing.JButton cancel;
     private javax.swing.JComboBox compare;
     private javax.swing.JTextField compareValue;
+    private javax.swing.JLabel indicatorNameLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JButton ok;
     private javax.swing.JButton pickIndicatorButton;
     // End of variables declaration//GEN-END:variables
