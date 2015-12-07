@@ -214,12 +214,24 @@ public class Experiment implements IExperiment, Serializable {
     }
 
 	private void applyDecisions(List<IDecision> decisions, ResultDay resultDay) {
+        if (decisions == null)
+            throw new NullPointerException("Decisions list was null");
+        if (resultDay == null)
+            throw new NullPointerException("resultDay was null");
+
 		for (IDecision decision : decisions) { // For Each decision
 			
 			String stockID = decision.getStockSymbol();
 			
 			IStock stockObject = TradingApplication.getInstance().getStock(stockID);
-			BigDecimal closingValue = stockObject.getDay(resultDay.getDate()).getValue();
+            StockDay decisionDay = stockObject.getDay(resultDay.getDate());
+            if (decisionDay == null) {
+                System.err.println(
+                        "Experiment::applyDecision for experiment " + resultDay.toString() +
+                                ": StockDay from getDay was null");
+                continue;
+            }
+			BigDecimal closingValue = decisionDay.getValue();
 			
 			BigDecimal deltaShares = new BigDecimal(decision.getQuantity(getCashBalance(), getShares(stockID)));
 			BigDecimal transactionValue = closingValue.multiply(deltaShares);
