@@ -22,7 +22,6 @@ public class ResultDay {
 	 * ResultDay is the output for each eay from runExperiment.
 	 * @param date LocalDate
 	 * @param openingBalance
-	 * @param closingBalance
 	 */
 	public ResultDay(LocalDate date,  
 			BigDecimal openingBalance) {
