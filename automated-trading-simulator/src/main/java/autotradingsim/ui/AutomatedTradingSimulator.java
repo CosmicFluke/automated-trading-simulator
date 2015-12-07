@@ -17,7 +17,7 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         initComponents();
         int x = (screenSize.width/2)-(this.getBounds().width/2);
         int y = (screenSize.height/2)-(this.getBounds().height/2);
-        System.out.println(this.getBounds().width);
+        //System.out.println(this.getBounds().width);
         this.setLocation(x,y);
     }
 
