@@ -10,8 +10,7 @@ public class TemporaryTestingStrategies {
 
     public static void createStrats(){
         ITradingApplication application = TradingApplication.getInstance();
-        application.addStrategy(StrategyDemoFactory.newBasicStrategy(new BigDecimal(10), new BigDecimal(20), 50, 25));
-        application.addStrategy(StrategyDemoFactory.newAdvancedTestingStrategy());
+        application.addStrategy(StrategyDemoFactory.newBasicStrategy(new BigDecimal(105), new BigDecimal(115), 10, 5));
         application.addStrategy(StrategyDemoFactory.newAdvancedStrategy());
     }
     public static void clearStrats(){
