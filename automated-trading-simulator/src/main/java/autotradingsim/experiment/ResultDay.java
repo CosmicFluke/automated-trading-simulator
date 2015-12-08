@@ -2,8 +2,10 @@ package autotradingsim.experiment;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 import autotradingsim.strategy.IDecision;
 import autotradingsim.util.Pair;
@@ -15,7 +17,7 @@ public class ResultDay {
 	private LocalDate date;
 	private BigDecimal openingBalance;
 	private BigDecimal closingBalance;
-	private List<Pair<String, Integer>> numShares = new ArrayList<>();
+	private Map<String, Integer> numShares = new HashMap<>();
 
 
 	/**
@@ -47,10 +49,10 @@ public class ResultDay {
 
 
 	public void setNumShares(String symbol, int numShares){
-		this.numShares.add(new Pair<String, Integer>(symbol, numShares));	
+		this.numShares.put(symbol, numShares);
 	}
 	
-	public List<Pair<String, Integer>> getNumShares(){
+	public Map<String, Integer> getNumShares(){
 		return this.numShares;
 	}
 

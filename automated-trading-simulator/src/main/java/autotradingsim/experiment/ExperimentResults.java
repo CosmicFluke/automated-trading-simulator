@@ -3,9 +3,7 @@ package autotradingsim.experiment;
 import autotradingsim.strategy.IDecision;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by myunginkim on 15-12-05.
@@ -15,7 +13,6 @@ import java.util.List;
  */
 public class ExperimentResults {
     private List<Result> results;
-    private int NumStocksForEachTimePeriodForEachStock;
     private BigDecimal AvgEndingCashBalanceForEachTimePeriod;
 
     private double avgBuyActions, avgSellActions;
@@ -23,12 +20,19 @@ public class ExperimentResults {
     private int numSellActionsForAllTimePeriods;
     private TimeSet timeSet;
 
+    private Map<String, List<String>> strategyNameToStockSymbol;
 
-    public ExperimentResults(TimeSet timeSet) {
+
+    public ExperimentResults(TimeSet timeSet, Map<String, List<String>> trialMappings) {
         this.results = new ArrayList<>();
         this.numBuyActionsForAllTimePeriods = 0;
         this.numSellActionsForAllTimePeriods = 0;
         this.timeSet = timeSet;
+        this.strategyNameToStockSymbol = trialMappings;
+    }
+
+    public Map<String, List<String>> getTrialMappings() {
+        return this.strategyNameToStockSymbol;
     }
 
     public void onUpdate(Result result, ResultDay resultDay) {
@@ -86,14 +90,6 @@ public class ExperimentResults {
 
     public Result getResultAt(int index) {
         return results.get(index);
-    }
-
-    public int getNumStocksForEachTimePeriodForEachStock() {
-        return NumStocksForEachTimePeriodForEachStock;
-    }
-
-    public void setNumStocksForEachTimePeriodForEachStock(int numStocksForEachTimePeriodForEachStock) {
-        NumStocksForEachTimePeriodForEachStock = numStocksForEachTimePeriodForEachStock;
     }
 
     public BigDecimal getAvgEndingCashBalanceForEachTimePeriod() {
