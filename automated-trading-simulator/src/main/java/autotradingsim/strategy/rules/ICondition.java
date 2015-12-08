@@ -26,17 +26,23 @@ public interface ICondition {
     default Predicate<Pair<BigDecimal, BigDecimal>> makeComparator(Comparator comp) {
         switch (comp) {
             case GT:
-                return (Pair<BigDecimal, BigDecimal> pair) -> (pair.x.compareTo(pair.y) > 0);
+                return (Pair<BigDecimal, BigDecimal> pair) ->
+                        (pair.x != null) && (pair.y != null) && (pair.x.compareTo(pair.y) > 0);
             case LT:
-                return (Pair<BigDecimal, BigDecimal> pair) -> (pair.x.compareTo(pair.y) < 0);
+                return (Pair<BigDecimal, BigDecimal> pair) ->
+                        (pair.x != null) && (pair.y != null) && (pair.x.compareTo(pair.y) < 0);
             case GEQ:
-                return (Pair<BigDecimal, BigDecimal> pair) -> (pair.x.compareTo(pair.y) >= 0);
+                return (Pair<BigDecimal, BigDecimal> pair) ->
+                        (pair.x != null) && (pair.y != null) && (pair.x.compareTo(pair.y) >= 0);
             case LEQ:
-                return (Pair<BigDecimal, BigDecimal> pair) -> (pair.x.compareTo(pair.y) <= 0);
+                return (Pair<BigDecimal, BigDecimal> pair) ->
+                        (pair.x != null) && (pair.y != null) && (pair.x.compareTo(pair.y) <= 0);
             case EQ:
-                return (Pair<BigDecimal, BigDecimal> pair) -> (pair.x.equals(pair.y));
+                return (Pair<BigDecimal, BigDecimal> pair) ->
+                        (pair.x != null) && (pair.y != null) && (pair.x.equals(pair.y));
             case NEQ:
-                return (Pair<BigDecimal, BigDecimal> pair) -> (!pair.x.equals(pair.y));
+                return (Pair<BigDecimal, BigDecimal> pair) ->
+                        (pair.x != null) && (pair.y != null) && (!pair.x.equals(pair.y));
             default:
                 return null;
         }

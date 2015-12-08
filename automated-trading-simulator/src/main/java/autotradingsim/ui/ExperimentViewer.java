@@ -2,13 +2,17 @@ package autotradingsim.ui;
 import autotradingsim.application.*;
 import autotradingsim.engine.*;
 import autotradingsim.experiment.*;
-import autotradingsim.strategy.IDecision;
+import autotradingsim.stocks.IStock;
+import autotradingsim.stocks.StockDay;
 import autotradingsim.strategy.IStrategy;
+
+import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import javax.swing.*;
 import java.util.*;
 import autotradingsim.util.Pair;
 import java.lang.String;
+import java.math.BigDecimal;
 import java.util.List;
 /**
  *
@@ -329,7 +333,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
 
     }//GEN-LAST:event_addTrialActionPerformed
 
-    private void runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runActionPerformed
+    private void runActionPerformed(ActionEvent evt) {//GEN-FIRST:event_runActionPerformed
 
         // Retrieving All instantiate a TimeSet.
         int numTrials = (int) duration.getValue();
@@ -350,40 +354,79 @@ public class ExperimentViewer extends javax.swing.JFrame {
         TimeSet timeSet = new TimeSet(numTrials, trialDuration, startDate, endDate);
 
         dialogResult dialogResult; 
-        dialogResult = new dialogResult(this, true, 
-                experiment.getName());
-        
-        
+        dialogResult = new dialogResult(this, true, experiment.getName());
+
         ExperimentResults experimentResults = this.experiment.runExperiment(timeSet);
 
-        List<String> myResults = new ArrayList<String>(); 
-        
-         for (int i = 0; i < experimentResults.size(); i++){
-        	myResults.add("\n\nResults for timeset from: "
-        			+ experimentResults.getResultAt(i).getStartDate().toString()
-        			+ " to " + experimentResults.getResultAt(i).getEndDate().toString());
-        	
-                myResults.add("\nOpening balance: " + experimentResults.getResultAt(i).getOpeningBalance());
-                
-                List<ResultDay> results = experimentResults.getResultAt(i).getResultDays();
-                
-	        for (ResultDay result : results){
-	        	myResults.add("\n\t" + result.getDate().toString());
-                        
-                        for(String decisionString : result.getDecisionStrings())
-                            myResults.add("\n\t" + decisionString);
-                        myResults.add("\n\t relative change: " + result.getClosingBalance().subtract(result.getOpeningBalance()));
-	        }
-                
-                myResults.add("\nClosing balance: " + experimentResults.getResultAt(i).getClosingBalance());
+        BigDecimal sumOfAssetsValue = BigDecimal.ZERO;
 
+        List<String> simplifiedResults = new ArrayList<>();
+
+        Iterator<Result> resultsIterator = experimentResults.getExperimentResultsIterator();
+
+        // Display trial mappings
+        simplifiedResults.add("Running experiment with the following trial mappings: \n");
+        for (Map.Entry<String, List<String>> entry : experimentResults.getTrialMappings().entrySet()) {
+            for (String stock : entry.getValue()) {
+                simplifiedResults.add("\t" + entry.getKey() + " : " + stock);
+            }
         }
-        
+        simplifiedResults.add("\n");
+
+        // Display each time period result
+        while (resultsIterator.hasNext()) {
+            Result r = resultsIterator.next();
+            LocalDate start = r.getStartDate();
+            LocalDate end = r.getEndDate();
+            simplifiedResults.add(String.format(
+                    "For time period: %s to %s:\n", start.toString(), end.toString()));
+            simplifiedResults.add(String.format(
+                    "\n\tOpening balance: %s", r.getOpeningBalance().toString()));
+            simplifiedResults.add("\n\tFinal number of shares owned:\n");
+            BigDecimal sharesTotalValue = BigDecimal.ZERO;
+            for (Map.Entry<String, Integer> numSharesEntry : r.getStocksToShares(r.getEndDate()).entrySet()) {
+
+                simplifiedResults.add(
+                        "\t\t" + numSharesEntry.getKey() + " : " + numSharesEntry.getValue().toString() + "\n");
+
+                BigDecimal valueOfShares =
+                        getLastStockValue(r,numSharesEntry.getKey())
+                                .multiply(BigDecimal.valueOf(numSharesEntry.getValue()));
+
+                sharesTotalValue = sharesTotalValue.add(valueOfShares);
+            }
+            simplifiedResults.add("\tClosing balance: " + r.getClosingBalance().toString() + "\n");
+            simplifiedResults.add("\tTotal value of owned shares: " + sharesTotalValue.toString());
+            BigDecimal assetsTotalValue = sharesTotalValue.add(r.getClosingBalance());
+            simplifiedResults.add(
+                    "\nValue of all assets at end of period: " + assetsTotalValue.toString());
+            simplifiedResults.add("\n\n");
+
+            sumOfAssetsValue = sumOfAssetsValue.add(assetsTotalValue);
+        }
+
+        BigDecimal averageAssets =
+                sumOfAssetsValue.divide(BigDecimal.valueOf(experimentResults.size()), BigDecimal.ROUND_HALF_EVEN);
+
+        simplifiedResults.add("Average final asset value between all time periods:\n" + averageAssets.toString());
+
         System.out.println("setting result text");
-        dialogResult.setResultText(myResults);
+        //dialogResult.setResultText(myResults);
+        dialogResult.setResultText(simplifiedResults);
         
         dialogResult.setVisible(true);
     }//GEN-LAST:event_runActionPerformed
+
+    private BigDecimal getLastStockValue (Result result, String symbol) {
+        IStock stock = TradingApplication.getInstance().getStock(symbol);
+        LocalDate last = result.getEndDate();
+        StockDay day;
+        while ((day = stock.getDay(last)) == null) {
+            last = last.minusDays(1);
+        }
+        BigDecimal value = day.getValue(StockDay.Values.CLOSE);
+        return value;
+    }
 
     private void viewStocksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewStocksActionPerformed
         // TODO add your handling code here:

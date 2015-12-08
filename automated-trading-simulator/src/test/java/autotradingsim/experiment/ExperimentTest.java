@@ -89,7 +89,7 @@ public class ExperimentTest {
     /**
      * Test only for demo purposes.
      */
-    // @Test
+    @Test
     public void testRunExperiment1(){
         System.out.println("running Test 1===================");
         ExperimentResults experimentResults;
@@ -103,7 +103,7 @@ public class ExperimentTest {
         Detail detailLevel;
         detailLevel = Detail.DAILY;
         Iterator<ResultDay> results;
-        ResultDay result;
+        ResultDay currentResultDay;
         TimeSet ts1 = new TimeSet(2, 30, LocalDate.of(2015, 8, 15), LocalDate.of(2015, 10, 15));
         experimentResults = test.runExperiment(ts1);
 
@@ -114,13 +114,13 @@ public class ExperimentTest {
         	if (detailLevel == Detail.DAILY){
         		results = experimentResults.getResultAt(i).getResultDays().iterator();
 	        	while (results.hasNext()){
-	        		result = results.next();
-	        		System.out.println("Result for: " + result.getDate().toString());
-	        		System.out.println("\t\t\t" + result.getClosingBalance());
-	        		for (IDecision decision: result.getDecisions()){
+	        		currentResultDay = results.next();
+	        		System.out.println("Result for: " + currentResultDay.getDate().toString());
+	        		System.out.println("\t\t\t" + currentResultDay.getClosingBalance());
+	        		for (IDecision decision: currentResultDay.getDecisions()){
 	        			System.out.println("\t\t\t" + decision.getActionType().toString() + " " + decision.getStockSymbol());
-                        for(Pair<String, Integer> share:(List<Pair<String, Integer>>) result.getNumShares()){
-                            System.out.println(share.x+": "+share.y);
+                        for (Map.Entry<String, Integer> share : currentResultDay.getNumShares().entrySet()){
+                            System.out.println(share.getKey() + ": " + share.getValue());
                         }
 
 	        		}
@@ -137,7 +137,7 @@ public class ExperimentTest {
     /**
      * Test only for demo purposes.
      */
-    // @Test
+    @Test
     public void testRunExperiment2(){
         System.out.println("Running Test 2====================");
         ExperimentResults experimentResults;

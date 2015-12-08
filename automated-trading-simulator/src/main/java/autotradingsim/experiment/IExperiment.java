@@ -29,7 +29,7 @@ public interface IExperiment {
     Set<IStrategy> getAllStrategies();
     Set<String> getAllStockSymbols();
     void setShares(String id, Integer shares);
-    Integer getShares(String id);
+
     /**
      * Run the experiment specified in this instance on the given {@link TimeSet}.
      * @param ts

@@ -75,12 +75,8 @@ public class Experiment implements IExperiment, Serializable {
     public Map<String, Integer> getStocksToShares() {
         return this.stocksToShares;
     }
-    
-    public Integer getShares(String stockID){
-    	return this.stocksToShares.get(stockID);
-    }
-    
-	public void setShares(String stockID, Integer shares) {
+
+    public void setShares(String stockID, Integer shares) {
         if(this.stocksToShares.containsKey(stockID)){
             this.stocksToShares.put(stockID, shares);
         }else{
@@ -170,7 +166,8 @@ public class Experiment implements IExperiment, Serializable {
     public ExperimentResults runExperiment(TimeSet ts) {
         ITradingApplication application = TradingApplication.getInstance();
         List<Result> resultList = new ArrayList<>();
-        ExperimentResults experimentResults = new ExperimentResults(ts);
+
+        ExperimentResults experimentResults = new ExperimentResults(ts, Collections.unmodifiableMap(strategyToStocks));
         
         // Save for restoring later
         BigDecimal startingBalance = getCashBalance();
@@ -200,7 +197,7 @@ public class Experiment implements IExperiment, Serializable {
                 }
                 
                 result.addResultDay(resultDay);
-                result.addStockstoToShares(stocksToShares);
+                result.addStocksToShares(currDate, new HashMap<>(stocksToShares));
             }
             result.setClosingBalance(getCashBalance());
             experimentResults.addResults(result);            
@@ -226,15 +223,19 @@ public class Experiment implements IExperiment, Serializable {
 			
 			IStock stockObject = TradingApplication.getInstance().getStock(stockID);
             StockDay decisionDay = stockObject.getDay(resultDay.getDate());
+
             if (decisionDay == null) {
                 System.err.println(
                         "Experiment::applyDecision for experiment " + resultDay.toString() +
                                 ": StockDay from getDay was null");
                 continue;
             }
-			BigDecimal closingValue = decisionDay.getValue();
+
+			BigDecimal closingValue = decisionDay.getValue(StockDay.Values.CLOSE);
 			
-			BigDecimal deltaShares = new BigDecimal(decision.getQuantity(getCashBalance(), getShares(stockID)));
+			BigDecimal deltaShares =
+                    new BigDecimal(decision.getQuantity(getCashBalance(), this.stocksToShares.get(stockID)));
+
 			BigDecimal transactionValue = closingValue.multiply(deltaShares);
 			
 			String decisionString;
@@ -248,16 +249,16 @@ public class Experiment implements IExperiment, Serializable {
                     }
 
                     setCashBalance(cashBalance.subtract(transactionValue));
-                    setShares(stockID, getShares(stockID) + deltaShares.intValue());
+                    setShares(stockID, this.stocksToShares.get(stockID) + deltaShares.intValue());
                     break;
 
                 case SELL:
                     decisionString = "Sell ";
-                    if (deltaShares.compareTo(BigDecimal.valueOf(getShares(stockID))) > 0)
-                        deltaShares = BigDecimal.valueOf(getShares(stockID)); // Clamp shares
+                    if (deltaShares.compareTo(BigDecimal.valueOf(this.stocksToShares.get(stockID))) > 0)
+                        deltaShares = BigDecimal.valueOf(this.stocksToShares.get(stockID)); // Clamp shares
 
                     setCashBalance(cashBalance.add(closingValue.multiply(deltaShares)));
-                    setShares(stockID, getShares(stockID) - deltaShares.intValue());
+                    setShares(stockID, this.stocksToShares.get(stockID) - deltaShares.intValue());
                     break;
 
                 default:
@@ -271,7 +272,7 @@ public class Experiment implements IExperiment, Serializable {
 			resultDay.addDecision(decision);
 			
 			// shares based on decision stock ID
-			resultDay.setNumShares(stockID, getShares(stockID));
+			resultDay.setNumShares(stockID, stocksToShares.get(stockID));
 		}
 		// Update the closing balance of the result day
 		resultDay.setClosingBalance(getCashBalance());

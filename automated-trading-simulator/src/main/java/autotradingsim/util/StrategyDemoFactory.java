@@ -30,13 +30,15 @@ public class StrategyDemoFactory {
     public static IStrategy newBasicStrategy(BigDecimal buyBelow, BigDecimal sellAbove, int buyNum, int sellNum) {
         // Create new empty strategy
         IStrategy strat = new Strategy("Basic strategy",
-                "A basic example of a strategy, that buys 10 units of stock whenever the price is under $100 and " +
-                        "sells 10 units of stock whenever the price is over $150.");
+                "A basic example of a strategy, with two rules:\n\tBuy " + String.valueOf(buyNum) + " @ under " +
+                        buyBelow.toString() + "\n\tSell " + String.valueOf(sellNum) + "@ over " +
+                        sellAbove.toString());
 
 
         // Create new rule
-        IRule rule = new Rule("Buy 10 @ under 100",
-                "A basic example of a rule, that buys 10 units of stock whenever the price is at or under $100.");
+        IRule rule = new Rule("Buy " + String.valueOf(buyNum) + " @ under " + buyBelow.toString(),
+                "A basic example of a rule, that buys " + String.valueOf(buyNum) + " units of stock whenever the " +
+                        "price is at or under " + buyBelow.toString());
 
         rule.addCondition(new StaticCondition(      // New Condition (w/ fixed comparison value)
                 new SimpleMovingAverage(1),             // Closing value of stock (one-day simple moving average)
@@ -51,8 +53,9 @@ public class StrategyDemoFactory {
 
 
         // Create new rule
-        rule = new Rule("Sell 10 @ over 150",
-                "A basic example of a rule, that sells 10 units of stock whenever the price is at or over $150");
+        rule = new Rule("Sell " + String.valueOf(sellNum) + " @ over " + sellAbove.toString(),
+                "A basic example of a rule, that sells " + String.valueOf(sellNum) + " units of stock whenever the " +
+                        "price is at or over " + sellAbove.toString());
 
         rule.addCondition(new StaticCondition(      // New Condition (w/ fixed comparison value)
                 new SimpleMovingAverage(1),             // Closing value of stock (one-day simple moving average)
@@ -99,7 +102,7 @@ public class StrategyDemoFactory {
 
         strat.addRule(rule);
         rule = new Rule("Sell decreasing stock, long term",
-                "Sell up to 1000 shares when the 30-day moving average ");
+                "Sell up to half of owned shares when the 30-day moving average decreases..... ");
         rule.addCondition(new StaticCondition(      // 30-day moving average decreases by 2% over 3 days
                 new IndicatorRelativeChange(new SimpleMovingAverage(30), 5),
                 ICondition.Comparator.LEQ,

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class Result implements Serializable{
     private BigDecimal openingBalance;
     private BigDecimal closingBalance;
     private List<ResultDay> resultDays;
-    private List<Map<String, Integer>> stocksToShares;
+    private Map<LocalDate, Map<String, Integer>> stocksToShares;
 
     private ExperimentResults observer;
 
@@ -42,12 +43,16 @@ public class Result implements Serializable{
         this.strategyIDtoStockSymbol = strategyToStock;
         this.openingBalance = openingBalance;
         this.resultDays = new ArrayList<ResultDay>();
-        this.stocksToShares = new ArrayList<Map<String, Integer>>();
+        this.stocksToShares = new HashMap<>();
 
     }
 
-    public void addStockstoToShares(Map<String, Integer> stocksToShares) {
-    	this.stocksToShares.add(stocksToShares); 
+    public void addStocksToShares(LocalDate date, Map<String, Integer> stocksToShares) {
+    	this.stocksToShares.put(date, stocksToShares);
+    }
+
+    public Map<String, Integer> getStocksToShares(LocalDate date) {
+        return this.stocksToShares.get(date);
     }
 
     public void addObserver(ExperimentResults experimentResults) {

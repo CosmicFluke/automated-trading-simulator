@@ -83,6 +83,10 @@ public class SimpleMovingAverage extends Indicator implements Serializable{
                 .map((StockDay day) -> (day.getValue(StockDay.Values.CLOSE)))
                 .reduce(new BigDecimal(0), (BigDecimal identity, BigDecimal addend) -> (identity.add(addend))));
 
+        if (size == 0) {
+            return BigDecimal.ZERO;
+        }
+
         return sum.divide(BigDecimal.valueOf(size), BigDecimal.ROUND_HALF_EVEN);
     }
 }

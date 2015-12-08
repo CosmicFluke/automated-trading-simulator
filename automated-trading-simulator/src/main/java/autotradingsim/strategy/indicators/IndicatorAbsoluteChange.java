@@ -73,6 +73,9 @@ public class IndicatorAbsoluteChange extends MetaIndicator {
     }
 
     protected BigDecimal getNetChange(BigDecimal[] oldAndNew) {
+        if (oldAndNew == null) {
+            return BigDecimal.ZERO;
+        }
         return oldAndNew[1].subtract(oldAndNew[0]);
     }
 
