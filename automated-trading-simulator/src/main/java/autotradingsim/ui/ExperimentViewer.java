@@ -360,8 +360,6 @@ public class ExperimentViewer extends javax.swing.JFrame {
 
         BigDecimal sumOfAssetsValue = BigDecimal.ZERO;
 
-        BigDecimal resultAssetsValue;
-
         List<String> simplifiedResults = new ArrayList<>();
 
         Iterator<Result> resultsIterator = experimentResults.getExperimentResultsIterator();
@@ -411,17 +409,13 @@ public class ExperimentViewer extends javax.swing.JFrame {
                 sumOfAssetsValue.divide(BigDecimal.valueOf(experimentResults.size()), BigDecimal.ROUND_HALF_EVEN);
 
         simplifiedResults.add("Average final asset value between all time periods:\n" + averageAssets.toString());
-        
+
         System.out.println("setting result text");
         //dialogResult.setResultText(myResults);
         dialogResult.setResultText(simplifiedResults);
         
         dialogResult.setVisible(true);
     }//GEN-LAST:event_runActionPerformed
-
-    private Map<String, Integer> getLastResultNumShares(Result result) {
-        return result.getResultDays().get(result.getResultDays().size() - 1).getNumShares();
-    }
 
     private BigDecimal getLastStockValue (Result result, String symbol) {
         IStock stock = TradingApplication.getInstance().getStock(symbol);
