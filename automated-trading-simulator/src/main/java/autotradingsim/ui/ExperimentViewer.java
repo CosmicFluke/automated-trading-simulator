@@ -368,7 +368,7 @@ public class ExperimentViewer extends javax.swing.JFrame {
         simplifiedResults.add("Running experiment with the following trial mappings: \n");
         for (Map.Entry<String, List<String>> entry : experimentResults.getTrialMappings().entrySet()) {
             for (String stock : entry.getValue()) {
-                simplifiedResults.add("\t" + entry.getKey() + " : " + stock);
+                simplifiedResults.add("\t" + entry.getKey() + " : " + stock + "\n");
             }
         }
         simplifiedResults.add("\n");

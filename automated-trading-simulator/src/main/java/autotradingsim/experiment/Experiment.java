@@ -204,7 +204,7 @@ public class Experiment implements IExperiment, Serializable {
             
             
             // Reset to give next result a fresh start
-            this.resetStockQuantity();
+            this.resetStockQuantities();
             setCashBalance(startingBalance);
             
         }
@@ -278,7 +278,7 @@ public class Experiment implements IExperiment, Serializable {
 		resultDay.setClosingBalance(getCashBalance());
 	}
 
-    public void resetStockQuantity(){
+    public void resetStockQuantities(){
         for (String key: this.stocksToShares.keySet()){
             this.stocksToShares.put(key, 0);
         }
