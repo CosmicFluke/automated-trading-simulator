@@ -2,7 +2,9 @@ package autotradingsim.strategy;
 
 import autotradingsim.strategy.exceptions.DuplicateEntryException;
 import autotradingsim.strategy.exceptions.RuleDoesNotExistException;
-import autotradingsim.strategy.simpleimpl.SimpleAction;
+import autotradingsim.strategy.rules.IDecisionMaker;
+import autotradingsim.strategy.rules.IRule;
+import autotradingsim.strategy.rules.RuleID;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -66,6 +68,13 @@ public class Strategy implements IStrategy, Serializable {
         }
         this.rules.put(rule.getID(), rule);
     }
+    
+	@Override
+	public IRule getRule(RuleID rule) {
+		if(rule == null)
+			return null;
+		return this.rules.get(rule);
+	}
 
     @Override
     public IRule removeRule(RuleID rule) {
@@ -112,8 +121,7 @@ public class Strategy implements IStrategy, Serializable {
     }
 
     @Override
-    public StrategyTester getNewTester() {
-        return new FullStrategyTester(this, new HashSet<>(this.rules.values()));
+    public IStrategyTester getNewTester() {
+        return new StrategyTester(this);
     }
-
 }

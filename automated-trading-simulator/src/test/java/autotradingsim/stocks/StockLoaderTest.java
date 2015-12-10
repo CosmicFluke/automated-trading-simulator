@@ -1,5 +1,6 @@
 package autotradingsim.stocks;
 
+import autotradingsim.application.StockLoader;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertFalse;

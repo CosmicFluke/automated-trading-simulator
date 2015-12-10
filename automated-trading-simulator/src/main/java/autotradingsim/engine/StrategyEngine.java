@@ -1,22 +1,21 @@
 package autotradingsim.engine;
 
 import java.math.BigDecimal;
-import java.util.Set;
 
+import autotradingsim.application.ITradingApplication;
 import autotradingsim.application.TradingApplication;
-import autotradingsim.strategy.IAction;
+
 import autotradingsim.strategy.IStrategy;
-import autotradingsim.strategy.simpleimpl.*;
 import autotradingsim.strategy.Strategy;
-import autotradingsim.strategy.ICondition.Comparator;
+import autotradingsim.util.StrategyDemoFactory;
 
 public class StrategyEngine {
-	public TradingApplication appEngine;
+	//public TradingApplication appEngine;
 	public IStrategy currentStrategy;
 	public static StrategyEngine engine;
+
 	private StrategyEngine() {
-		// TODO Auto-generated constructor stub
-		 appEngine = TradingApplication.getInstance();
+		 //appEngine = TradingApplication.getInstance();
 	}
 	public static StrategyEngine getInstance(){
 		if(engine==null){
@@ -26,46 +25,73 @@ public class StrategyEngine {
 	}
 
 	/**
+	 *saveStrategy saves given instance of strategy to file system through application, replacing any existing instances
+	 * @param strategy
+	 */
+	public void saveStrategy(IStrategy strategy){
+		TradingApplication.getInstance().saveStrategy(strategy);
+	}
+        public IStrategy getStrategy(String name){
+            return TradingApplication.getInstance().getStrategy(name);
+        }
+	/**
 	 * creates a default strategy and stores it in application
 	 * @return
 	 */
 	public IStrategy createDefaultStrategy() {
 		// TODO Auto-generated method stub
-		IStrategy newstrat = new Strategy();
+		currentStrategy = new Strategy();
 		//appEngine.saveStrategy(newstrat);
-		return newstrat;
+		return currentStrategy;
 	}
 
 	public IStrategy createStrategy(String stratname){
-		return new Strategy(stratname, "");
+            IStrategy strategy = new Strategy(stratname, "");
+            TradingApplication.getInstance().addStrategy(strategy);
+		return strategy;
+                
 	}
-	/**
-	 * creates a simplestrategy, saves it to application and returns the strategy if saved properly
-	 * @param stratname
-	 * @param cselection
-	 * @param cvalue
-	 * @param aselection
-	 * @param avalue
-	 * @return strategy
-	 */
 
-	public IStrategy addNewSimpleStrategy(String stratname, int cselection, int cvalue, int aselection, int avalue) {
-		if(appEngine.setStrategy(stratname, new SimpleStrategy(stratname, "",(cselection == 1) ? Comparator.GT : Comparator.LT,
-				new BigDecimal(cvalue),(aselection == 1) ? IAction.ActionType.BUY : IAction.ActionType.SELL, avalue))){
-			return appEngine.getStrategy(stratname);
-		}else{
+	/**
+	 *
+	 * @param buybelow Buy shares when the price is below than this.
+	 * @param sellabove Sell shares when the closingPrice of the stock for each day is above than this.
+	 * @param buyNum Buy this much amount of shares
+	 * @param sellNum Sell this much amount of shares
+	 * @return basicStrategy that is built in util::StrategyDemoFactory::newBasicStrategy.
+	 */
+	public IStrategy addNewBasicDemoStrategy(BigDecimal buybelow, BigDecimal sellabove, int buyNum, int sellNum) {
+		ITradingApplication app = TradingApplication.getInstance();
+		currentStrategy =  StrategyDemoFactory.newBasicStrategy(buybelow, sellabove, buyNum, sellNum);
+		if (app.addStrategy(currentStrategy)) {
+			return app.getStrategy(currentStrategy.getName());
+		} else {
 			return null;
-		}	
+		}
+	}
+
+	/**
+	 *
+	 * @param strategyName
+	 * @return
+	 */
+	public IStrategy addAdvancedDemoStrategy(String strategyName) {
+		ITradingApplication app = TradingApplication.getInstance();
+		currentStrategy = StrategyDemoFactory.newAdvancedStrategy();
+		if (app.addStrategy(currentStrategy)) {
+			return app.getStrategy(strategyName);
+		} else {
+			return null;
+		}
 	}
 	
 	/**
 	 * retrieve and return strategy from application with the given name
-	 * @param stratname
-	 * @return Strategy
+	 * @param stratname name of the strategy
+	 * @return Strategy with @param stratname
 	 */
 	public IStrategy viewStrategy(String stratname) {
-		// TODO Auto-generated method stub
-		return(appEngine.getStrategy(stratname));
+		return TradingApplication.getInstance().getStrategy(stratname);
 	}
 
 }

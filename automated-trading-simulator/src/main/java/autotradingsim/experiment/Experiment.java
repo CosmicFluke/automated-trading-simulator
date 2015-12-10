@@ -1,5 +1,6 @@
 package autotradingsim.experiment;
 
+import autotradingsim.application.ITradingApplication;
 import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.*;
 import autotradingsim.strategy.*;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Asher on 2015-10-25.
@@ -17,7 +19,7 @@ import java.util.*;
  * Experiments apply Strategies to particular stocksToShares over a set of time periods.
  *
  * Public Methods:
- *      addStock(String)
+ *      ...
  *
  * Modifications on 2015-10-30
  * -changes to experiment constructor to include name
@@ -26,8 +28,9 @@ public class Experiment implements IExperiment, Serializable {
 
     private static final long serialVersionUID = -7533956851982543038L;
     private String name;
-    private HashMap<String, Integer> stocksToShares;                // Pair of Stock symbol & its shares for user
-
+    private BigDecimal cashBalance;
+    private Map<String, Integer> stocksToShares;                // Pair of Stock symbol & its shares for user
+    
     /**
      * Map<Stock symbol, Pair<startDate, endDate>>
      * Pair:
@@ -37,7 +40,7 @@ public class Experiment implements IExperiment, Serializable {
     private Map<String, Pair<LocalDate, LocalDate>> stocksToFirstAndLastDate;
 
     private Set<String> strategies;
-    private HashMap<String, ArrayList<String>> strategyToStocks;    // Map<Strategy, List<Stocks>>. One to many
+    private Map<String, List<String>> strategyToStocks;    // Map<Strategy, List<Stocks>>. One to many
 
     /**
      * Initialize the experiment constructor.
@@ -45,13 +48,22 @@ public class Experiment implements IExperiment, Serializable {
      */
     public Experiment(String name){
         this.name = name;
-        this.stocksToShares = new HashMap<String, Integer>();
-        this.strategies = new HashSet<String>();
-        this.strategyToStocks = new HashMap<String, ArrayList<String>>();
-        this.stocksToFirstAndLastDate = new HashMap<String, Pair<LocalDate, LocalDate>>();
+        this.stocksToShares = new HashMap<>();
+        this.strategies = new HashSet<>();
+        this.strategyToStocks = new HashMap<>();
+        this.stocksToFirstAndLastDate = new HashMap<>();
+        this.cashBalance = new BigDecimal(100000);
     }
 
-    @Override
+    public BigDecimal getCashBalance() {
+		return cashBalance;
+	}
+
+	public void setCashBalance(BigDecimal cashBalance) {
+		this.cashBalance = cashBalance;
+	}
+
+	@Override
     public String getName(){
         return this.name;
     }
@@ -60,18 +72,33 @@ public class Experiment implements IExperiment, Serializable {
         this.name = name;
     }
 
+    public Map<String, Integer> getStocksToShares() {
+        return this.stocksToShares;
+    }
+
+    public void setShares(String stockID, Integer shares) {
+        if(this.stocksToShares.containsKey(stockID)){
+            this.stocksToShares.put(stockID, shares);
+        }else{
+            throw new IllegalArgumentException("Experiment "+this.getName()+" does not contain this stock");
+        }
+
+	}
+
     /**
-     * Add Stock symbol to the stocksToShares ArrayList, otherwise throw exception.
+     * Add Stock symbol to the stocksToShares map, otherwise throw exception.
      *
      * @param symbol the symbol of a stock
      */
-    @Override
-    public void addStock(String symbol){
-        if (TradingApplication.getInstance().stockExists(symbol)) {
-            this.stocksToShares.put(symbol, 0);
-            LocalDate startDate = TradingApplication.getInstance().getStock(symbol).getStartDate();
-            LocalDate endDate = TradingApplication.getInstance().getStock(symbol).getEndDate();
-            this.stocksToFirstAndLastDate.put(symbol, new Pair<LocalDate, LocalDate>(startDate, endDate));
+    private void addStock(String symbol){
+        ITradingApplication application = TradingApplication.getInstance();
+        if (application.stockExists(symbol)) { // Check for existence of stock in Application
+            if (!this.stocksToShares.containsKey(symbol)) {         // Check for existence of stock in this Experiment
+                this.stocksToShares.put(symbol, 0);
+                LocalDate startDate = application.getStock(symbol).getStartDate();
+                LocalDate endDate = application.getStock(symbol).getEndDate();
+                this.stocksToFirstAndLastDate.put(symbol, new Pair<>(startDate, endDate));
+            }
         } else {
             throw new IllegalArgumentException("Stock symbol does not exist in the database!");
         }
@@ -87,8 +114,8 @@ public class Experiment implements IExperiment, Serializable {
      * @param name the identifier id of the strategy
      */
 
-    @Override
-    public void addStrategy(String name){
+    private void addStrategy(String name){
+        // TODO: use strategyExists() method when implemented
         if(TradingApplication.getInstance().getStrategy(name) != null){  //check existing might not be needed if trading application can check first
             strategies.add(name);
         }else{
@@ -97,26 +124,37 @@ public class Experiment implements IExperiment, Serializable {
     }
 
     @Override
-    public IStrategy getStrategy(String name){
-        return TradingApplication.getInstance().getStrategy(name); // return strategy with the id
+    public Set<IStrategy> getAllStrategies(){
+        return this.strategies.stream()     // Return set created from mapped stream of strategy names
+                .map(name -> TradingApplication.getInstance().getStrategy(name))
+                .collect(Collectors.toSet());
     }
 
     @Override
-    public IStock getStock(String symbol){
-        return TradingApplication.getInstance().getStock(symbol);
+    public Set<String> getAllStockSymbols(){
+        return this.stocksToShares.keySet();
     }
 
     public void addTrial(String id, String symbol){
 
-        if(!strategyToStocks.containsKey(id)){
+        if (TradingApplication.getInstance().getStock(symbol) == null) {
+            throw new IllegalArgumentException("No stock exists for this symbol");
+        }
+
+        if (!strategyToStocks.containsKey(id)) {
             // strategy id does not exist
             this.addStrategy(id);
             this.addStock(symbol);
-            this.strategyToStocks.put(id, new ArrayList<String>(Arrays.<String>asList(symbol)));
+            this.strategyToStocks.put(id, new ArrayList<>(Collections.singletonList(symbol)));
         } else {
             this.addStock(symbol);
             this.strategyToStocks.get(id).add(symbol);
         }
+    }
+
+    @Override
+    public Map<String, List<String>> getAllTrials() {
+        return Collections.unmodifiableMap(strategyToStocks);
     }
 
     /**
@@ -125,191 +163,125 @@ public class Experiment implements IExperiment, Serializable {
      * @return ArrayList<Result> for each TimeSet ts. Result is obtained for each TimeSet ts.
      */
     @Override
-    public List<Result> runExperiment(TimeSet ts) {
-        List<Result> resultList = new ArrayList<Result>();
-        IStrategy strategy;
-        StrategyTester st;
-        IStock stock;
+    public ExperimentResults runExperiment(TimeSet ts) {
+        ITradingApplication application = TradingApplication.getInstance();
+        List<Result> resultList = new ArrayList<>();
 
-        // currentDate is set for each day from startDate in TimeSet for the length of duration
-        LocalDate currentDate;
-        LocalDate experimentStartDate;
-        int duration;
+        ExperimentResults experimentResults = new ExperimentResults(ts, Collections.unmodifiableMap(strategyToStocks));
+        
+        // Save for restoring later
+        BigDecimal startingBalance = getCashBalance();
 
-        List<IDecision> decisions;
-        IDecision decision;
+        while (ts.hasNext()) { // For each time period in TimeSet
+        	LocalDate startDate = ts.next();
+            LocalDate endDate = startDate.plusDays(ts.getDuration());
+            
+            Result result = new Result(startDate, ts.getDuration(), strategyToStocks, getCashBalance());
+            result.addObserver(experimentResults);
 
-        BigDecimal balance;
-        int shares;
+            // For each day in the time period
+            for(LocalDate currDate = startDate ; currDate.isBefore(endDate.plusDays(1)) ; currDate = currDate.plusDays(1)){
+                ResultDay resultDay = new ResultDay(currDate, getCashBalance());
 
-        while (ts.hasNext()) { // For each TimeSet
-            experimentStartDate = ts.next();
-            currentDate = experimentStartDate;
-            duration = ts.getDuration();
-            balance = BigDecimal.valueOf(100);
-            Result result = new Result(experimentStartDate, duration, strategyToStocks, balance);
+                for (Map.Entry<String, List<String>> entry : strategyToStocks.entrySet()) {    // For each strategy
+                	IStrategy strategy = application.getStrategy(entry.getKey());
 
-            while (currentDate.isBefore(experimentStartDate.plusDays(duration))) {  // For each Day
-                ResultDay resultDay = new ResultDay(currentDate, balance, balance);
-
-                for (Map.Entry<String, ArrayList<String>> entry : strategyToStocks.entrySet()) {    // For each strategy
-                    strategy = TradingApplication.getInstance().getStrategy(entry.getKey());
-
-                    for (int i = 0; i < entry.getValue().size(); i++) {     // For each Stock
-                        shares = 0;
-                        stock = TradingApplication.getInstance().getStock(entry.getValue().get(i));
-                        st = strategy.getNewTester();
-                        st.setAll(stock);
-
-                        decisions = st.testDate(currentDate);
-                        Iterator<IDecision> decisionIter = decisions.iterator();
-
-                        while (decisionIter.hasNext()) {        // For Each decision
-                            decision = decisionIter.next();
-                            resultDay.addDecision(decision);
-
-                            if (decision.getActionType() == IAction.ActionType.BUY) {
-                                // Buy Stocks for
-                                shares += decision.getQuantity(balance);
-                                balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
-
-                            } else if (decision.getActionType() == IAction.ActionType.SELL) {
-                                shares -= decision.getQuantity(balance);
-                                balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
-                            }
-                            this.stocksToShares.put(stock.getSymbol(), this.stocksToShares.get(stock.getSymbol()) + shares);
-                        }
-                        resultDay.setClosingBalance(balance);
-                        result.addResultDay(resultDay);
+                    List<String> stocks = entry.getValue();
+                    for (String stockID : stocks) {
+                        
+                    	IStrategyTester st = strategy.getNewTester();
+                        st.setAll(application.getStock(stockID));
+                        List<IDecision> decisions = st.testDate(currDate);
+                        applyDecisions(decisions, resultDay);
                     }
-
                 }
-                result.setClosingBalance(balance);
-                resultList.add(result);
-                currentDate = currentDate.plusDays(1);
+                
+                result.addResultDay(resultDay);
+                result.addStocksToShares(currDate, new HashMap<>(stocksToShares));
             }
-
+            result.setClosingBalance(getCashBalance());
+            experimentResults.addResults(result);            
+            
+            
+            // Reset to give next result a fresh start
+            this.resetStockQuantities();
+            setCashBalance(startingBalance);
+            
         }
-        return resultList;
+        return experimentResults;
     }
 
-//
-//            // Go through all the trials, test each one. Output a chunk of results to file for each trial
-//            for(int i  = 0; i < trials.size(); i++){
-//                strategy = TradingApplication.getInstance().getStrategy(strategies.get(trials.get(i)[0]));
-//                stock = TradingApplication.getInstance().getStock(stocksToShares.get(trials.get(i)[1]));
-//                st = strategy.getNewTester();
-//                st.setAll(stock);
-//                duration = ts.getDuration();
+	private void applyDecisions(List<IDecision> decisions, ResultDay resultDay) {
+        if (decisions == null)
+            throw new NullPointerException("Decisions list was null");
+        if (resultDay == null)
+            throw new NullPointerException("resultDay was null");
 
-                // Run once for every time snippet in the time set
-//                while(ts.hasNext()){
-//                    currentDate = ts.next();
-//
-//                    bw.write(name);
-//                    bw.newLine();
-//                    bw.write(stock.getSymbol());
-//                    bw.newLine();
-//                    bw.write(currentDate.toString());
-//                    bw.newLine();
-//
-//                    balance = new BigDecimal(0);
-//                    shares = 0;
-//
-//                    // Iterate through all the days in the time snippet
-//                    for(int j = 0; j < duration; j++) {
-//                        decisions = st.testDate(currentDate);
-//                        Iterator<IDecision> itr = decisions.iterator();
-//
-//                        bw.write(balance.toString());
-//                        bw.write("," + shares);
-//
-//                        while(itr.hasNext()){
-//                            decision = (IDecision)itr.next();
-//                            if(decision.getActionType() == IAction.ActionType.BUY){
-//                                shares += decision.getQuantity();
-//                                balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
-//                            }else if(decision.getActionType() == IAction.ActionType.SELL){
-//                                shares -= decision.getQuantity();
-//                                balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
-//                            }
-//
-//                            bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity());
-//                        }
-//                        bw.newLine();
-//                        currentDate = currentDate.plusDays(1);
-//                    }
-//                    bw.newLine();
-//                }
-//            }
-//
-//        }catch(IOException e){
-//            System.out.println(e);
-//        }
-//    }
+		for (IDecision decision : decisions) { // For Each decision
+			
+			String stockID = decision.getStockSymbol();
+			
+			IStock stockObject = TradingApplication.getInstance().getStock(stockID);
+            StockDay decisionDay = stockObject.getDay(resultDay.getDate());
 
-//    public boolean runExperiment(){
-//        try{
-//            // Create the file writer with the given file ID as the name
-//            BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/automated-trading-simulator/src/main/resources/DATA/RESULTS/" + name + ".txt"));
-//
-//            IStrategy strategy;
-//            StrategyTester st;
-//            IStock stock;
-//            LocalDate currentDate;
-//            List<IDecision> decisions;
-//            int duration;
-//            IDecision decision;
-//
-//            BigDecimal balance;
-//            int shares;
-//
-//            // Go through all the trials, test each one. Output a chunk of results to file for each trial
-//            for(int[] trial: trials){
-//                strategy = TradingApplication.getInstance().getStrategy(strategies.get(trial[0]));
-//                stock = TradingApplication.getInstance().getStock(stocksToShares.get(trial[1]));
-//                st = strategy.getNewTester();
-//                st.setAll(stock);
-//
-//                currentDate = stock.getStartDate();
-//                bw.write(strategy.getName()); bw.newLine();
-//                bw.write(stock.getSymbol()); bw.newLine();
-//                bw.write(currentDate.toString());
-//                bw.newLine();
-//
-//                balance = new BigDecimal(100000);
-//                shares = 0;
-//
-//                while(currentDate.isBefore(stock.getEndDate())){
-//                    decisions = st.testDate(currentDate);
-//                    Iterator itr = decisions.iterator();
-//
-//                    bw.write(currentDate.toString());
-//                    bw.write("," + balance.toString());
-//                    bw.write("," + shares);
-//
-//                    while(itr.hasNext()){
-//                        decision = (IDecision)itr.next();
-//                        if(decision.getActionType() == IAction.ActionType.BUY){
-//                            shares += decision.getQuantity();
-//                            balance = balance.subtract(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
-//                        }else if(decision.getActionType() == IAction.ActionType.SELL){
-//                            shares -= decision.getQuantity();
-//                            balance = balance.add(stock.getDay(currentDate).getValue().multiply(new BigDecimal(shares)));
-//                        }
-//
-//                        bw.write("," + decision.getActionType().toString() + "-" + decision.getQuantity());
-//                    }
-//                    bw.newLine();
-//                    currentDate = currentDate.plusDays(1);
-//                }
-//                bw.newLine();
-//            }
-//
-//        }catch(IOException e){
-//            System.out.println(e);
-//            return false;
-//        }
-//        return true;
-//    }
+            if (decisionDay == null) {
+                System.err.println(
+                        "Experiment::applyDecision for experiment " + resultDay.toString() +
+                                ": StockDay from getDay was null");
+                continue;
+            }
+
+			BigDecimal closingValue = decisionDay.getValue(StockDay.Values.CLOSE);
+			
+			BigDecimal deltaShares =
+                    new BigDecimal(decision.getQuantity(getCashBalance(), this.stocksToShares.get(stockID)));
+
+			BigDecimal transactionValue = closingValue.multiply(deltaShares);
+			
+			String decisionString;
+			
+			switch(decision.getActionType()) {
+                case BUY:
+                    decisionString = "Buy ";
+                    if (transactionValue.compareTo(cashBalance) > 0) {
+                        deltaShares = cashBalance.divideAndRemainder(closingValue)[0]; // Clamp value to buying power
+                        transactionValue = deltaShares.multiply(closingValue);
+                    }
+
+                    setCashBalance(cashBalance.subtract(transactionValue));
+                    setShares(stockID, this.stocksToShares.get(stockID) + deltaShares.intValue());
+                    break;
+
+                case SELL:
+                    decisionString = "Sell ";
+                    if (deltaShares.compareTo(BigDecimal.valueOf(this.stocksToShares.get(stockID))) > 0)
+                        deltaShares = BigDecimal.valueOf(this.stocksToShares.get(stockID)); // Clamp shares
+
+                    setCashBalance(cashBalance.add(closingValue.multiply(deltaShares)));
+                    setShares(stockID, this.stocksToShares.get(stockID) - deltaShares.intValue());
+                    break;
+
+                default:
+                    throw new RuntimeException("Invalid decision action type");
+			}
+			decisionString += deltaShares + " shares of " + stockID;
+			
+			//TODO should be removed...later
+			resultDay.addDecision(decisionString);
+			
+			resultDay.addDecision(decision);
+			
+			// shares based on decision stock ID
+			resultDay.setNumShares(stockID, stocksToShares.get(stockID));
+		}
+		// Update the closing balance of the result day
+		resultDay.setClosingBalance(getCashBalance());
+	}
+
+    public void resetStockQuantities(){
+        for (String key: this.stocksToShares.keySet()){
+            this.stocksToShares.put(key, 0);
+        }
+    }
+
 }

@@ -5,45 +5,58 @@ import autotradingsim.experiment.Experiment;
 import autotradingsim.experiment.IExperiment;
 import autotradingsim.experiment.Result;
 import autotradingsim.experiment.TimeSet;
+import autotradingsim.util.Pair;
 import java.util.*;
 import java.time.LocalDate;
 
 public class ExperimentEngine {
 
-	public static TradingApplication application;
-	public static ExperimentEngine engine;
-	public static TimeSet timeSet;
-	
+	private static ExperimentEngine engine;
+	private static TimeSet timeSet;
+
+	//private TradingApplication application;
+
 	/**
+	 * Construct a new ExperimentEngine.<br>
 	 *
-	 * populate appEngine with instance of application
 	 */
 	private ExperimentEngine() {
-		// TODO Auto-generated constructor stub
-		application = TradingApplication.getInstance();
+		//application = TradingApplication.getInstance();
 	}
-	
 
+	/**
+	 * SaveExperiment saves given experiment to the file system, replacing existing instances of the same experiment
+	 * @param experiment
+	 *
+	 */
+	public  void saveExperiment(IExperiment experiment){
+		TradingApplication.getInstance().saveExperiment(experiment);
+	}
+	/**
+	 * Get the instance of this singleton class.
+	 * @return Singular instance of <tt>ExperimentEngine</tt>
+     */
 	public static ExperimentEngine getInstance() {
-		// TODO Auto-generated method stub
-		if (engine==null){
+		if (engine == null){
 			engine = new ExperimentEngine();
 		}
 		return engine;
-		
 	}
 	
 	/**
-	 * 
-	 * @param expname
-	 * @return retExp 
-	 * takes an experiment name, returns the new experiment created
+	 * Takes an experiment name, returns the new experiment created
+	 * @param expname the name of the experiment to create
+	 * @return A new experiment with the given name
+	 *
 	 */
 	public IExperiment createExperiment(String expname){
-		IExperiment retExp=null;
-		if(application.setExperiment(expname, new Experiment(expname))) {
-			retExp = application.getExperiment(expname);
-		}
+		IExperiment retExp = new Experiment(expname);
+		try {
+            TradingApplication.getInstance().addExperiment(retExp);
+		} catch (IllegalArgumentException e) {
+            System.out.println("Could not add experiment to application");
+            throw e;
+        }
 		return retExp;
 	}
 	/**
@@ -53,27 +66,7 @@ public class ExperimentEngine {
 	 * takes experiment name and returns experiment object with that name
 	 */
 	public IExperiment getExperiment(String expname) {
-		return application.getExperiment(expname);
-	}
-
-	/**
-	 *
-	 * @param expName
-	 * @param stratname
-	 * take experiment name, adds the strategy name to it's list of strategy
-	 * @throws IllegalArgumentException: If strategyName does not exist in Trading Application
-	 */
-	public void addStrategy(String expName, String stratname){
-		application.getExperiment(expName).addStrategy(stratname);
-	}
-
-	/**
-	 * Add Stock symbol to the experiment
-	 * @param expName
-	 * @param stockSymbol
-	 */
-	public void addStock(String expName, String stockSymbol) {
-		application.getExperiment(expName).addStock(stockSymbol);
+		return TradingApplication.getInstance().getExperiment(expname);
 	}
 
 	/**
@@ -83,23 +76,65 @@ public class ExperimentEngine {
 	 * @param stockSymbol
 	 */
 	public void addTrial(String expName, String strategyId, String stockSymbol) {
-		application.getExperiment(expName).addTrial(strategyId, stockSymbol);
+		TradingApplication.getInstance().getExperiment(expName).addTrial(strategyId, stockSymbol);
 	}
 
 //	public void addtimeset(String currentExperiment, String string, String string2) {
 //		// TODO Auto-generated method stub
 //
 //	}
-	public List<Result> runExperiment(String experimentname, TimeSet timeset){
-		IExperiment experiment = application.getExperiment(experimentname);
-		return experiment.runExperiment(timeset);
+
+	/**
+	 * Returns a primitive experiment result
+	 * @param experiment
+	 * @return
+	 */
+
+        public Pair<LocalDate, LocalDate> generateTimeSet(IExperiment experiment){
+            
+            Map<String, Pair<LocalDate, LocalDate>>startAndEndDates = experiment.getStockStartAndEndDates();
+            //find the maximum startdate, if there are stocks with ends before maximum startdates
+                //return null
+            //else: find minimum enddate
+            if(startAndEndDates.isEmpty()){
+                return null;
+            }
+            LocalDate StartDate = null;
+            LocalDate EndDate = null;
+            List<LocalDate> startDates = new ArrayList<>();
+            List<LocalDate> endDates = new ArrayList<>();
+            Set<String>symbols = startAndEndDates.keySet();
+            for(String symbol: symbols){
+                startDates.add(startAndEndDates.get(symbol).y);
+                endDates.add(startAndEndDates.get(symbol).x);
+            }
+            StartDate = Collections.max(startDates);
+            EndDate = Collections.min(endDates);
+			return new Pair(StartDate, EndDate);
+        }
+        /**
+         * Returns a primitive experiment result
+         * @param timeset
+         * @return
+         */
+
+	public List<String> runExperiment(IExperiment experiment, TimeSet timeset){
+		List<String> resultstring = new ArrayList<String>();
+		while (experiment.runExperiment(timeset).getExperimentResultsIterator().hasNext()){
+			Result result = experiment.runExperiment(timeset).getExperimentResultsIterator().next();
+			resultstring.add("Start Date: " + result.getStartDate().toString());
+			resultstring.add("Opening balance: " + result.getOpeningBalance());
+			resultstring.add("End Date: " + result.getStartDate().plusDays(result.getDurationInDays()));
+			resultstring.add("Closing balance: "+ result.getClosingBalance());
+			resultstring.add("---------------------------------------------");
+			}
+
+			return resultstring;
 	}
 
 	public void runExperiment(TimeSet timeSet) {
 		ExperimentEngine engine = getInstance();
-
-
-	}
+        }
 
 
 }

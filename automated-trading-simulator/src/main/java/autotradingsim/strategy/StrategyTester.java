@@ -1,37 +1,32 @@
 package autotradingsim.strategy;
 
 import autotradingsim.stocks.IStock;
+import autotradingsim.strategy.exceptions.RuleDoesNotExistException;
+import autotradingsim.strategy.rules.IDecisionMaker;
+import autotradingsim.strategy.rules.IRule;
+import autotradingsim.strategy.rules.RuleID;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
- * Created by Asher on 2015-11-01.
+ * Created by Asher on 2015-11-10.
  */
-public abstract class StrategyTester {
+public class StrategyTester extends AbstractStrategyTester {
 
-    protected final IStrategy strategy;
-
-    public StrategyTester(IStrategy strategy){
-        this.strategy = strategy;
+    public StrategyTester(IStrategy strategy) {
+        super(strategy);
     }
 
-    public IStrategy getStrategy() {
-        return this.strategy;
+    @Override
+    public List<IDecision> testDate(LocalDate date) {
+        List<IDecision> decisionsForDate = new LinkedList<>();
+        ruleIDtoDecisionMaker.values()
+                .stream()
+                .map(maker -> maker.getDecisions(date).collect(Collectors.toList()))
+                .forEach(decisionsForDate::addAll);   // Add all of the IDecisionMaker's decisions to the decisions list
+        return decisionsForDate;
     }
-
-    /**
-     * Set all rules to evaluate using the given stock.
-     * @param stock
-     */
-    public abstract void setAll(IStock stock);
-
-    /**
-     * Get a set of decisions from this strategy for a given date.
-     * @param currentDate
-     * @return
-     */
-    public abstract List<IDecision> testDate(LocalDate currentDate);
-
 }

@@ -1,11 +1,15 @@
 package autotradingsim.strategy;
 
+import autotradingsim.strategy.rules.IDecisionMaker;
+import autotradingsim.strategy.rules.IRule;
+import autotradingsim.strategy.rules.RuleID;
+
 import java.util.Set;
 
 /**
  *  <p>A data type that stores a collection of rules.<br>
  *  Each Strategy instance represents a well-defined strategy.  Collaborators that want to *apply* strategies must use
- *  the getNewTester() method to get a StrategyTester object.</p>
+ *  the getNewTester() method to get an IStrategyTester object.</p>
  */
 public interface IStrategy {
 
@@ -20,6 +24,13 @@ public interface IStrategy {
      * @param rule
      */
     void addRule(IRule rule);
+    
+    /**
+     * returns the rule associated with this ID in the strategy.
+     * @param rule id of rule you want to retrieve
+     * @return rule associated with ID
+     */
+    IRule getRule(RuleID rule);
 
     /**
      * Delete a rule from this strategy
@@ -50,10 +61,10 @@ public interface IStrategy {
     IDecisionMaker getRuleDecisionMaker(RuleID rule);
 
     /**
-     * Provides a new {@link StrategyTester} instance linked to this strategy. (Use this to run experiments with this strategy)
+     * Provides a new {@link AbstractStrategyTester} instance linked to this strategy. (Use this to run experiments with this strategy)
      * @return
      */
-    StrategyTester getNewTester();
+    IStrategyTester getNewTester();
 
     /**
      * Get an integer identifier for this strategy.  Strategies with the same name will have the same ID.

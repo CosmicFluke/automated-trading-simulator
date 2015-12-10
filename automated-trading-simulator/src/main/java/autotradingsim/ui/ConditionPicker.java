@@ -1,5 +1,12 @@
 package autotradingsim.ui;
 
+import autotradingsim.strategy.indicators.Indicator;
+import autotradingsim.strategy.rules.ICondition;
+import autotradingsim.strategy.rules.IMeasurement;
+import autotradingsim.strategy.rules.StaticCondition;
+import java.math.BigDecimal;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author Bill Feng
@@ -10,13 +17,20 @@ public class ConditionPicker extends javax.swing.JDialog {
      * Creates new form ConditionPicker
      */
     String conditionName;
+    DefaultComboBoxModel<String> indicatorTypes = new DefaultComboBoxModel();
+    IMeasurement indicator;
     public ConditionPicker(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2, 
                          parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
+        //indicatorType.setModel(indicatorTypes);
+        compareValue.setText("0");
+        
         this.conditionName = "";
     }
+    
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,15 +43,17 @@ public class ConditionPicker extends javax.swing.JDialog {
 
         ok = new javax.swing.JButton();
         cancel = new javax.swing.JButton();
-        indicator1 = new javax.swing.JComboBox();
-        indicator2 = new javax.swing.JComboBox();
         compare = new javax.swing.JComboBox();
+        compareValue = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        pickIndicatorButton = new javax.swing.JButton();
+        indicatorNameLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Condition");
         setResizable(false);
 
-        ok.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        ok.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         ok.setText("OK");
         ok.setPreferredSize(new java.awt.Dimension(150, 50));
         ok.addActionListener(new java.awt.event.ActionListener() {
@@ -46,7 +62,7 @@ public class ConditionPicker extends javax.swing.JDialog {
             }
         });
 
-        cancel.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        cancel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         cancel.setText("Cancel");
         cancel.setPreferredSize(new java.awt.Dimension(150, 50));
         cancel.addActionListener(new java.awt.event.ActionListener() {
@@ -55,18 +71,28 @@ public class ConditionPicker extends javax.swing.JDialog {
             }
         });
 
-        indicator1.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
-        indicator1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        indicator1.setPreferredSize(new java.awt.Dimension(130, 50));
-
-        indicator2.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
-        indicator2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        indicator2.setMinimumSize(new java.awt.Dimension(130, 32));
-        indicator2.setPreferredSize(new java.awt.Dimension(130, 50));
-
-        compare.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        compare.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         compare.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<", "<=", "=", ">=", ">" }));
         compare.setPreferredSize(new java.awt.Dimension(94, 50));
+        compare.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compareActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setText("Create Your Condition");
+
+        pickIndicatorButton.setText("Pick Indicator");
+        pickIndicatorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pickIndicatorButtonActionPerformed(evt);
+            }
+        });
+
+        indicatorNameLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        indicatorNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        indicatorNameLabel.setText("<INDICATOR NAME...>");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -75,40 +101,51 @@ public class ConditionPicker extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(indicator1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(160, 160, 160)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(167, 167, 167)
+                                .addComponent(ok, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                                .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(pickIndicatorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(indicatorNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(compare, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(compare, 0, 76, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(indicator2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addComponent(ok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(compareValue, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(compare, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(indicator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(indicator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(12, 12, 12)
+                .addComponent(jLabel1)
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pickIndicatorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(compareValue)
+                        .addComponent(compare, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(indicatorNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ok, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okActionPerformed
+        
         this.dispose();
     }//GEN-LAST:event_okActionPerformed
 
@@ -116,16 +153,64 @@ public class ConditionPicker extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_cancelActionPerformed
 
-    public String run(){
+    private void pickIndicatorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pickIndicatorButtonActionPerformed
+        // TODO add your handling code here:
+        IndicatorPicker ip = new IndicatorPicker(this, true);
+        this.indicator = ip.run();
+        if (indicator == null) {
+            throw new NullPointerException("Null indicator");
+        }
+        if(indicator.getBufferSize() == 1){
+            indicatorNameLabel.setText("Single Day Value");
+        }else{
+            indicatorNameLabel.setText(indicator.getName());
+        }
+        
+    }//GEN-LAST:event_pickIndicatorButtonActionPerformed
+
+    private void compareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_compareActionPerformed
+    private ICondition.Comparator getComparator(String compStr){
+        if(compStr.isEmpty()){
+            throw new IllegalArgumentException("empty comparator string in condition picker");
+        }
+        if(compStr.equals("<")){
+            return ICondition.Comparator.LT;
+        }
+        if(compStr.equals("<=")){
+            return ICondition.Comparator.LEQ;
+        }
+        if(compStr.equals(">")){
+            return ICondition.Comparator.GT;
+        }
+        if(compStr.equals(">=")){
+            return ICondition.Comparator.GEQ;
+        }
+        if(compStr.equals("=")){
+            return ICondition.Comparator.EQ;
+        }
+        if(compStr.equals("!=")){
+            return ICondition.Comparator.NEQ;
+        }        
+        return ICondition.Comparator.EQ;
+    }
+    public ICondition run(){
         this.setVisible(true);
-        return conditionName;
+        BigDecimal amount = BigDecimal.valueOf(Double.valueOf(compareValue.getText()));
+        String compStr = compare.getSelectedItem().toString();
+        ICondition condition = new StaticCondition(indicator, getComparator(compStr), amount);
+        
+        return condition;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancel;
     private javax.swing.JComboBox compare;
-    private javax.swing.JComboBox indicator1;
-    private javax.swing.JComboBox indicator2;
+    private javax.swing.JTextField compareValue;
+    private javax.swing.JLabel indicatorNameLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JButton ok;
+    private javax.swing.JButton pickIndicatorButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,34 +1,41 @@
 package autotradingsim.application;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.Set;
 
 import autotradingsim.experiment.IExperiment;
 import autotradingsim.stocks.IStock;
 import autotradingsim.strategy.IStrategy;
+import autotradingsim.util.Pair;
 
 public interface ITradingApplication {
+
+	String rootPath = System.getProperty("user.dir") + File.separator;
+	String listExtension = ".tsl";
+	String pathToData = "DATA" + File.separator;
+	String pathToStrategies = pathToData + "STRATEGIES" + File.separator;
+	String pathToExperiments = pathToData + "EXPERIMENTS" + File.separator;
+	String expListFilename = "experimentList";
+	String stratListFilename = "strategyList";
+
+	// Unused for now
+	String stockListFilename = "stockList";
+	String experimentExtension = ".tse";
+	String strategyExtension = ".tss";
+	String resultsExtension = ".tsr";
+
 
 	/**
 	 * Add an experiment by name into the application
 	 * Name given and name found in experiment need
 	 * to match
 	 * 
-	 * @param experimentName name under which to store experiment
-	 * @param experiment Experiment object which will be stored
-	 * @return true if experiment added into Application successfully
-	 */
-	boolean setExperiment(String experimentName, IExperiment experiment);
-	
-	/**
-	 * Add an experiment into the application
-	 * Experiment will be stored by name found in from IExperiment.getName
-	 * 
 	 * @param experiment Experiment object which will be stored
 	 * @return true if experiment added into Application successfully
 	 */
 	boolean addExperiment(IExperiment experiment);
-	
+
 	/**
 	 * Return experiment object associated with given name
 	 * 
@@ -44,23 +51,19 @@ public interface ITradingApplication {
 	Set<String> getAvailableExperiments();
 
 	/**
-	 * Add a strategy by name into the application
-	 * StrategyName should match with name found under newStrat object
-	 * 
-	 * @param StrategyName name under to which to store experiment
-	 * @param newStrat IStrategy object which is to be added to application
-	 * @return true if strategy added successfully into application
+	 * Delete experiment from memory and file system
+	 * @param experimentName to which remove
+	 * @return true iff successful
 	 */
-	boolean setStrategy(String StrategyName, IStrategy newStrat);
-	
+	boolean delExperiment(String experimentName);
+
 	/**
 	 * Add a strategy into the application
 	 * Strategy stored by using the name resolved under getName
-	 * 
-	 * @param newStrat IStrategy object which is to be added to application
+	 * @param newStrat IStrategy object which is to be added to application.  Must not be <tt>null</tt>.
 	 * @return true if strategy added successfully into application
 	 */
-	boolean setStrategy(IStrategy newStrat);
+	boolean addStrategy(IStrategy newStrat);
 	
 	/**
 	 * Retrieves a strategy by it's given name
@@ -97,7 +100,7 @@ public interface ITradingApplication {
 	 * 
 	 * @return Iterator<String> of stock symbols available.
 	 */
-	Iterator<String> getStockSymbols();
+	Iterator<Pair<String, String>> getStockSymbols();
 	
 	/**
 	 * Clear any objects in Application memory

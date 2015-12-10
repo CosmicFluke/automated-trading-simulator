@@ -1,7 +1,19 @@
 package autotradingsim.ui;
+import autotradingsim.application.*;
+import autotradingsim.engine.*;
+import autotradingsim.experiment.*;
+import autotradingsim.stocks.IStock;
+import autotradingsim.stocks.StockDay;
+import autotradingsim.strategy.IStrategy;
 
-import javax.swing.DefaultListModel;
-
+import java.awt.event.ActionEvent;
+import java.time.LocalDate;
+import javax.swing.*;
+import java.util.*;
+import autotradingsim.util.Pair;
+import java.lang.String;
+import java.math.BigDecimal;
+import java.util.List;
 /**
  *
  * @author Bill Feng
@@ -12,20 +24,56 @@ public class ExperimentViewer extends javax.swing.JFrame {
      * Creates new form ExperimentViewer
      */
     ExperimentList parent;
+    TradingApplication application = TradingApplication.getInstance();
+    ExperimentEngine experimentEngine = ExperimentEngine.getInstance();
     DefaultListModel strategyListModel = new DefaultListModel();
     DefaultListModel stockListModel = new DefaultListModel();
-    public ExperimentViewer(ExperimentList parent) {
+    IExperiment experiment;
+    //IExperiment experiment = application.getExperiment(name.getText());
+    public ExperimentViewer(ExperimentList parent, IExperiment experiment) {
         this.parent = parent;
         initComponents();
         this.setLocation(parent.getX() + parent.getWidth()/2 - this.getWidth()/2,
                 parent.getY() + parent.getHeight()/2 - this.getHeight()/2);
+        startDate.setText("2015-10-16");
+        endDate.setText("2015-10-17");
         strategyList.setModel(strategyListModel);
         stockList.setModel(stockListModel);
+        this.experiment = experiment;
+    }
+    
+    protected void settimeSetValidationField(){
+        Pair<LocalDate, LocalDate> timeset= experimentEngine.generateTimeSet(experiment);
+        if(timeset == null){
+            //timeSetValidationField.setText("Experiment has no valid timeset");
+        }else{
+            //timeSetValidationField.setText("Valid time period: "+timeset.x+"-"+timeset.y);
+        }
     }
 
+
     protected void setNameText(String filename){
-        name.setText(filename);
+        name.setText("Name: " + filename);
     }
+    /**
+     * populates strategy drop down with list of strategy
+     */
+    protected void setStrategyList(){
+        for(IStrategy stratname: experiment.getAllStrategies()){
+            strategyListModel.addElement(stratname.getName());
+        }
+    }
+    /**
+     * populates stock drop down with list of stock symbols
+    */
+    protected void setStockList(){
+       // Iterator symbols = application.getStockSymbols();
+        Set<String> stocks = experiment.getAllStockSymbols();
+        for (String symbol : stocks) {
+            stockListModel.addElement(symbol);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,22 +83,29 @@ public class ExperimentViewer extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        edit = new javax.swing.JButton();
+        back = new javax.swing.JButton();
         name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         strategyList = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
         stockList = new javax.swing.JList();
-        edit = new javax.swing.JButton();
-        back = new javax.swing.JButton();
-        addStrategy = new javax.swing.JButton();
-        addStock = new javax.swing.JButton();
-        deleteStrategy = new javax.swing.JButton();
-        deleteStock = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        run = new javax.swing.JButton();
+        addTrial = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        startDate = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        endDate = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        trials = new javax.swing.JSpinner();
+        duration = new javax.swing.JSpinner();
+        viewStocks = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Experiment");
+        setTitle("Experiment Viewer");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -58,20 +113,36 @@ public class ExperimentViewer extends javax.swing.JFrame {
             }
         });
 
+        edit.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        edit.setText("Edit");
+        edit.setPreferredSize(new java.awt.Dimension(150, 50));
+
+        back.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        back.setText("Back");
+        back.setPreferredSize(new java.awt.Dimension(150, 50));
+        back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backActionPerformed(evt);
+            }
+        });
+
         name.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         name.setText("Name: NAME_OF_EXPERIMENT");
+        name.setToolTipText("");
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         jLabel2.setText("Strategies");
-
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        jLabel3.setText("Stocks");
 
         strategyList.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
         strategyList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
+        });
+        strategyList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                strategyListMouseClicked(evt);
+            }
         });
         jScrollPane1.setViewportView(strategyList);
 
@@ -83,114 +154,142 @@ public class ExperimentViewer extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(stockList);
 
-        edit.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        edit.setText("Edit");
-        edit.setPreferredSize(new java.awt.Dimension(100, 50));
-        edit.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel1.setText("Stocks");
+
+        run.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        run.setText("Run");
+        run.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editActionPerformed(evt);
+                runActionPerformed(evt);
             }
         });
 
-        back.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        back.setText("Back");
-        back.setPreferredSize(new java.awt.Dimension(100, 50));
-        back.addActionListener(new java.awt.event.ActionListener() {
+        addTrial.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        addTrial.setText("Add Trial");
+        addTrial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backActionPerformed(evt);
+                addTrialActionPerformed(evt);
             }
         });
 
-        addStrategy.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        addStrategy.setText("Add");
-        addStrategy.setPreferredSize(new java.awt.Dimension(190, 50));
-        addStrategy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addStrategyActionPerformed(evt);
-            }
-        });
+        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel4.setText("Start Date:");
 
-        addStock.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        addStock.setText("Add");
-        addStock.setPreferredSize(new java.awt.Dimension(190, 50));
-        addStock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addStockActionPerformed(evt);
-            }
-        });
+        startDate.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        startDate.setPreferredSize(new java.awt.Dimension(140, 40));
 
-        deleteStrategy.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        deleteStrategy.setText("Delete");
-        deleteStrategy.setPreferredSize(new java.awt.Dimension(190, 50));
-        deleteStrategy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteStrategyActionPerformed(evt);
-            }
-        });
+        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("End Date:");
 
-        deleteStock.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-        deleteStock.setText("Delete");
-        deleteStock.setPreferredSize(new java.awt.Dimension(190, 50));
-        deleteStock.addActionListener(new java.awt.event.ActionListener() {
+        endDate.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        endDate.setPreferredSize(new java.awt.Dimension(140, 40));
+
+        jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("# of Trials:");
+
+        jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+        jLabel6.setText("Duration (days):");
+
+        trials.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+
+        duration.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+
+        viewStocks.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        viewStocks.setText("See All Stocks");
+        viewStocks.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteStockActionPerformed(evt);
+                viewStocksActionPerformed(evt);
             }
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(addStrategy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                                                                .addComponent(deleteStrategy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(addStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                                                                .addComponent(deleteStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addComponent(jScrollPane2)
-                                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                                .addContainerGap())
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                        .addGap(17, 17, 17)
+                        .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1))
+                        .addGap(37, 37, 37)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(viewStocks, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(startDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(endDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(trials, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(duration))
+                        .addGap(26, 26, 26)
+                        .addComponent(run, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(306, 306, 306)
+                .addComponent(addTrial, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(name, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(addStrategy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(addStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(deleteStrategy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(deleteStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap())
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(name))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(viewStocks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(addTrial, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(trials, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(duration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(run, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         pack();
@@ -202,74 +301,159 @@ public class ExperimentViewer extends javax.swing.JFrame {
         parent.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
-    private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-        dialogInput di = new dialogInput(this, true);
-        String text = di.run();
-        if(text.length() > 0){
-            name.setText("Name: " + text);
+    private void strategyListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_strategyListMouseClicked
+        stockListModel.clear();
+        Map<String, List<String>> strategyToStocks = this.experiment.getAllTrials();
+        String strategy = (String)strategyListModel.get(strategyList.getSelectedIndex());
+        strategyToStocks.keySet().stream().forEach((s) -> {
+            //System.out.println(s);
+        });
+        for (Iterator<String> it = strategyToStocks.get(strategy).iterator(); it.hasNext();) {
+            String stockname = it.next();
+            stockListModel.addElement(stockname);
         }
-    }//GEN-LAST:event_editActionPerformed
+    }//GEN-LAST:event_strategyListMouseClicked
+
     private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2, 
+                           this.getY() + this.getHeight()/2 - parent.getHeight()/2);
         this.setVisible(false);
-        parent.setLocation(this.getX() + this.getWidth()/2 - parent.getWidth()/2,
-                this.getY() + this.getHeight()/2 - parent.getHeight()/2);
         parent.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backActionPerformed
 
-    private void addStrategyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStrategyActionPerformed
-        StrategyPicker sp = new StrategyPicker(this, true);
-        String strategyName = sp.run();
-        if(!strategyName.equals("") && !strategyListModel.contains(strategyName)){
-            strategyListModel.addElement(strategyName);
-        }
-    }//GEN-LAST:event_addStrategyActionPerformed
+    private void addTrialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTrialActionPerformed
+        TrialPicker tp = new TrialPicker(this, true);
+        Pair<String, String> trial = tp.run();
+        experiment.addTrial(trial.x, trial.y);
+        experimentEngine.saveExperiment(experiment);
+        //application.addExperiment(experiment);
+        strategyListModel.addElement(trial.x);
+        stockListModel.addElement(trial.y);
 
-    private void deleteStrategyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStrategyActionPerformed
-        if(strategyList.getSelectedIndex() == -1){
-            dialogMessage dm = new dialogMessage(this, true, "Select an item to delete!");
-            dm.setVisible(true);
-        }else{
-            dialogConfirm dc = new dialogConfirm(this, true);
-            if(dc.run()){
-                strategyListModel.remove(strategyList.getSelectedIndex());
+    }//GEN-LAST:event_addTrialActionPerformed
+
+    private void runActionPerformed(ActionEvent evt) {//GEN-FIRST:event_runActionPerformed
+
+        // Retrieving All instantiate a TimeSet.
+        int numTrials = (int) duration.getValue();
+        int trialDuration = (int) trials.getValue();
+
+        String[] startDateTokens = startDate.getText().trim().split("-");
+        int startYear = Integer.parseInt(startDateTokens[0]),
+                startMonth = Integer.parseInt(startDateTokens[1]),
+                startDayOfMonth = Integer.parseInt(startDateTokens[2]);
+
+        String[] endDateTokens = endDate.getText().trim().split("-");
+        int endYear = Integer.parseInt(endDateTokens[0]),
+                endMonth = Integer.parseInt(endDateTokens[1]),
+                endDayOfMonth = Integer.parseInt(endDateTokens[2]);
+
+        LocalDate startDate = LocalDate.of(startYear, startMonth, startDayOfMonth);
+        LocalDate endDate = LocalDate.of(endYear, endMonth, endDayOfMonth);
+        TimeSet timeSet = new TimeSet(numTrials, trialDuration, startDate, endDate);
+
+        dialogResult dialogResult; 
+        dialogResult = new dialogResult(this, true, experiment.getName());
+
+        ExperimentResults experimentResults = this.experiment.runExperiment(timeSet);
+
+        BigDecimal sumOfAssetsValue = BigDecimal.ZERO;
+
+        List<String> simplifiedResults = new ArrayList<>();
+
+        Iterator<Result> resultsIterator = experimentResults.getExperimentResultsIterator();
+
+        // Display trial mappings
+        simplifiedResults.add("Running experiment with the following trial mappings: \n");
+        for (Map.Entry<String, List<String>> entry : experimentResults.getTrialMappings().entrySet()) {
+            for (String stock : entry.getValue()) {
+                simplifiedResults.add("\t" + entry.getKey() + " : " + stock + "\n");
             }
         }
-    }//GEN-LAST:event_deleteStrategyActionPerformed
+        simplifiedResults.add("\n");
 
-    private void addStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStockActionPerformed
-        StockPicker sp = new StockPicker(this, true);
-        String stockName = sp.run();
-        if(!stockName.equals("") && !stockListModel.contains(stockName)){
-            stockListModel.addElement(stockName);
-        }
-    }//GEN-LAST:event_addStockActionPerformed
+        // Display each time period result
+        while (resultsIterator.hasNext()) {
+            Result r = resultsIterator.next();
+            LocalDate start = r.getStartDate();
+            LocalDate end = r.getEndDate();
+            simplifiedResults.add(String.format(
+                    "For time period: %s to %s:\n", start.toString(), end.toString()));
+            simplifiedResults.add(String.format(
+                    "\n\tOpening balance: %s", r.getOpeningBalance().toString()));
+            simplifiedResults.add("\n\tFinal number of shares owned:\n");
+            BigDecimal sharesTotalValue = BigDecimal.ZERO;
+            for (Map.Entry<String, Integer> numSharesEntry : r.getStocksToShares(r.getEndDate()).entrySet()) {
 
-    private void deleteStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStockActionPerformed
-        if(stockList.getSelectedIndex() == -1){
-            dialogMessage dm = new dialogMessage(this, true, "Select an item to delete!");
-            dm.setVisible(true);
-        }else{
-            dialogConfirm dc = new dialogConfirm(this, true);
-            if(dc.run()){
-                stockListModel.remove(stockList.getSelectedIndex());
+                simplifiedResults.add(
+                        "\t\t" + numSharesEntry.getKey() + " : " + numSharesEntry.getValue().toString() + "\n");
+
+                BigDecimal valueOfShares =
+                        getLastStockValue(r,numSharesEntry.getKey())
+                                .multiply(BigDecimal.valueOf(numSharesEntry.getValue()));
+
+                sharesTotalValue = sharesTotalValue.add(valueOfShares);
             }
+            simplifiedResults.add("\tClosing balance: " + r.getClosingBalance().toString() + "\n");
+            simplifiedResults.add("\tTotal value of owned shares: " + sharesTotalValue.toString());
+            BigDecimal assetsTotalValue = sharesTotalValue.add(r.getClosingBalance());
+            simplifiedResults.add(
+                    "\nValue of all assets at end of period: " + assetsTotalValue.toString());
+            simplifiedResults.add("\n\n");
+
+            sumOfAssetsValue = sumOfAssetsValue.add(assetsTotalValue);
         }
-    }//GEN-LAST:event_deleteStockActionPerformed
+
+        BigDecimal averageAssets =
+                sumOfAssetsValue.divide(BigDecimal.valueOf(experimentResults.size()), BigDecimal.ROUND_HALF_EVEN);
+
+        simplifiedResults.add("Average final asset value between all time periods:\n" + averageAssets.toString());
+
+        System.out.println("setting result text");
+        //dialogResult.setResultText(myResults);
+        dialogResult.setResultText(simplifiedResults);
+        
+        dialogResult.setVisible(true);
+    }//GEN-LAST:event_runActionPerformed
+
+    private BigDecimal getLastStockValue (Result result, String symbol) {
+        IStock stock = TradingApplication.getInstance().getStock(symbol);
+        LocalDate last = result.getEndDate();
+        StockDay day;
+        while ((day = stock.getDay(last)) == null) {
+            last = last.minusDays(1);
+        }
+        BigDecimal value = day.getValue(StockDay.Values.CLOSE);
+        return value;
+    }
+
+    private void viewStocksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewStocksActionPerformed
+        // TODO add your handling code here:
+        stockListModel.clear();
+        setStockList();
+    }//GEN-LAST:event_viewStocksActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addStock;
-    private javax.swing.JButton addStrategy;
+    private javax.swing.JButton addTrial;
     private javax.swing.JButton back;
-    private javax.swing.JButton deleteStock;
-    private javax.swing.JButton deleteStrategy;
+    private javax.swing.JSpinner duration;
     private javax.swing.JButton edit;
+    private javax.swing.JTextField endDate;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel name;
+    private javax.swing.JButton run;
+    private javax.swing.JTextField startDate;
     private javax.swing.JList stockList;
     private javax.swing.JList strategyList;
+    private javax.swing.JSpinner trials;
+    private javax.swing.JButton viewStocks;
     // End of variables declaration//GEN-END:variables
 }

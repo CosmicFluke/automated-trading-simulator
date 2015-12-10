@@ -4,17 +4,15 @@ import autotradingsim.application.TradingApplication;
 import autotradingsim.stocks.IStock;
 import autotradingsim.stocks.Stock;
 import autotradingsim.stocks.StockDay;
-import autotradingsim.strategy.IBufferAdapter;
-import autotradingsim.strategy.IMeasurement;
+import autotradingsim.stocks.IBufferAdapter;
+import autotradingsim.strategy.rules.IMeasurement;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.stream.*;
 

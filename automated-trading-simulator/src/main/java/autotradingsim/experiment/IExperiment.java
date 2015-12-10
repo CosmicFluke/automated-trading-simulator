@@ -3,7 +3,6 @@ package autotradingsim.experiment;
 import java.time.LocalDate;
 import java.util.*;
 
-import autotradingsim.stocks.IStock;
 import autotradingsim.strategy.IStrategy;
 import autotradingsim.util.Pair;
 
@@ -16,14 +15,25 @@ public interface IExperiment {
     String getName();
     void setName(String name);
 
-    void addStock(String symbol);
-    void addStrategy(String name);
     void addTrial(String id, String symbol);
 
+    /**
+     * Maps strategy IDs to lists of the stocks assigned to each strategy.
+     * @return unmodifiable (but mutable) wrapper for the map of strategy-stock trial pairings
+     */
+    Map<String, List<String>> getAllTrials();
+
     Map<String, Pair<LocalDate, LocalDate>> getStockStartAndEndDates();
+    Map<String, Integer> getStocksToShares();
 
-    IStrategy getStrategy(String name);
-    IStock getStock(String symbol);
+    Set<IStrategy> getAllStrategies();
+    Set<String> getAllStockSymbols();
+    void setShares(String id, Integer shares);
 
-    List<Result> runExperiment(TimeSet ts);
+    /**
+     * Run the experiment specified in this instance on the given {@link TimeSet}.
+     * @param ts
+     * @return
+     */
+    ExperimentResults runExperiment(TimeSet ts);
 }
