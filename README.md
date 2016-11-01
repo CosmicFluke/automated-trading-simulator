@@ -14,13 +14,5 @@ The application is split into multiple layers, each providing independent core f
 * Help is also located at this level to assist user with providing valid input
 * After the UI has filtered out bad input, it will pass the good input into the CommandHandler by way of API calls to the interface
 
-## CommandHandler
-* In charge of taking commands given to it, from the UI, and making apropriate calls to the application
-
-## Application
-* In charge of running, saving, and loading data to work with.
-* Runs experiments and modifies the structures and objects as instructed by the CommandHandler
-
-#**Add more as we go along**
-
-####
+## Software Design
+See `/automated-trading-simulator/designdocument.md` for details.
