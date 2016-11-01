@@ -1,18 +1,18 @@
 ##Architecture
 
-###Controller
+###Engine
 
 The `engine` package is responsible for handling calls from the UI and delivering information back to it.  The class
 `StrategyEngine` handles calls involving the strategy package, while `ExperimentEngine` handles calls involving the
 Experiment package.  Stocks are handled by both, depending on context (since they will nearly always appear in the
 context of one or the other).
 
-###View
+###UI
 
 The UI is built in Swing using NetBeans Swing GUI Builder.  Efforts were made to avoid dependencies upon several
 packages, so the UI primarily makes calls to the `engine` package.
 
-###Model
+###Data & State
 
 The model component of this software consists of four pillars:
 
